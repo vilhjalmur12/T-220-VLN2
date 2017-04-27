@@ -46,6 +46,6 @@ body, html {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    margin: 0;
-    background-image:url('../images/ele.jpg')
+    background-image:url('../images/ele.jpg');
+    opacity: 0.2;
 }
