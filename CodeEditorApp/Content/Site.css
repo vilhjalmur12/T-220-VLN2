@@ -49,3 +49,8 @@ body, html {
     background-image:url('../images/ele.jpg');
     opacity: 0.2;
 }
+
+#info-front {
+  float:left;
+  margin-top: 50px;
+}
