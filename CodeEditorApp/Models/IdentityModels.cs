@@ -3,6 +3,7 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
+using CodeEditorApp.Data;
 
 namespace CodeEditorApp.Models
 {
@@ -23,6 +24,11 @@ namespace CodeEditorApp.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+            /*      Við getum notað þennan kóðabút til þess að FRUMSTILLA gagnagrunninn
+             *              bara eyða komment stjörnum
+                Database.SetInitializer<DataContext>(
+                new DropCreateDatabaseAlways<DataContext>());
+            */
         }
 
         public static ApplicationDbContext Create()

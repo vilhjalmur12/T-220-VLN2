@@ -30,7 +30,7 @@ textarea {
 body, html {
     height: 100%;
     margin: 0;
-    background-image: url("https://t3.ftcdn.net/jpg/00/73/08/22/240_F_73082224_ay4Tus31QNHNmGSIty53ZE6mBrBc47cV.jpg");
+    background-image: url("../images/ele.jpg");
 
     /* Full height */
     height: 100%; 
@@ -47,4 +47,9 @@ body, html {
     background-repeat: no-repeat;
     background-size: cover;
     background-image:url('../images/ele.jpg');
+}
+
+#info-front {
+  float:left;
+  margin-top: 50px;
 }
