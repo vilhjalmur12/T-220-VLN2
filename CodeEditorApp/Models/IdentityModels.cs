@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using CodeEditorApp.Data;
+using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace CodeEditorApp.Models
 {
@@ -21,19 +22,33 @@ namespace CodeEditorApp.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
+        /* Hér getum við sett lista af INIT klösum fyrir gagnagrunninn
+                Dæmi:
+                public DbSet<Project> Projects { get; set; }
+                    Þetta býr til töflu í gagnagrunn "Projects"
+         */
+
+            // Setja lista hér:
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectType> ProjectTypes { get; set; }
+        public DbSet<Goal> Goals { get; set; }
+        public DbSet<File> Files { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
-            /*      Við getum notað þennan kóðabút til þess að FRUMSTILLA gagnagrunninn
-             *              bara eyða komment stjörnum
-                Database.SetInitializer<DataContext>(
-                new DropCreateDatabaseAlways<DataContext>());
-            */
+            Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseAlways<ApplicationDbContext>());
         }
 
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
+        }
+
+        protected override void OnModelCreating(DbModelBuilder modelBuilder)
+        {
+            modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
     }
 }
