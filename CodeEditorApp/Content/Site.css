@@ -46,7 +46,11 @@ body, html {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    margin: 0;
-    background-color: black;
+    background-image:url('../images/ele.jpg');
     opacity: 0.2;
+}
+
+#info-front {
+  float:left;
+  margin-top: 50px;
 }
