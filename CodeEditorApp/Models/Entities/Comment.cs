@@ -7,7 +7,7 @@ namespace CodeEditorApp.Models
 {
     public class Comment
     {
-        public int ID { get; set; }
+        public int commentID { get; set; }
         public string content { get; set; }
         public int userID { get; set; }
         public int projectID { get; set; }

@@ -7,7 +7,7 @@ namespace CodeEditorApp.Models
 {
     public class File
     {
-        public int ID { get; set; }
+        public int fileID { get; set; }
         public string name { get; set; }
         public string location { get; set; }
         public int projectID { get; set; }
