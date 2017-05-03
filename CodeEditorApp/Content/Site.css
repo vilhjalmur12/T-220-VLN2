@@ -29,11 +29,9 @@ textarea {
 }
 body, html {
     height: 100%;
+    width: 100%;
     margin: 0;
     background-image: url("../images/ele.jpg");
-
-    /* Full height */
-    height: 100%; 
 
     /* Center and scale the image nicely */
     background-position: center;
@@ -53,3 +51,24 @@ body, html {
   float:left;
   margin-top: 50px;
 }
+
+.btn-x1 {
+    padding: 15px 45px;
+    font-size: 11px;
+}
+.btn {
+    border-radius: 300px;
+}
+
+.btn-outline {
+    color: #FFF;
+    border: 1px solid;
+}
+
+.btn, .navbar-default .nav>li>a {
+    font-family: Lato,Helvetica,Arial,sans-serif;
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
+
+

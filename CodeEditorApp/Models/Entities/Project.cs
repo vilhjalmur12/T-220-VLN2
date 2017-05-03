@@ -13,12 +13,12 @@ namespace CodeEditorApp.Models
         public string location { get; set; }
         public string AspNetUserID { get; set; }
         public int ProjectTypeID { get; set; }
-        public virtual AspNetUser user { get; set; }
-        public virtual ProjectType projectType { get; set; }
-        public virtual ICollection<AspNetUser> users { get; set; }
-        public virtual ICollection<File> files { get; set; }
-        public virtual ICollection<Goal> goals { get; set; }
-        public virtual ICollection<Goal> objectives { get; set; }
-        public virtual ICollection<Comment> comments { get; set; }
+   //     public virtual AspNetUser user { get; set; }
+   //     public virtual ProjectType projectType { get; set; }
+   //     public virtual ICollection<AspNetUser> users { get; set; }
+   //     public virtual ICollection<File> files { get; set; }
+   //     public virtual ICollection<Goal> goals { get; set; }
+   //     public virtual ICollection<Goal> objectives { get; set; }
+   //    public virtual ICollection<Comment> comments { get; set; }
     }
 }

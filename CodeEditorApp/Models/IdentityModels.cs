@@ -4,6 +4,7 @@ using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity.ModelConfiguration.Conventions;
+using CodeEditorApp.Migrations;
 
 namespace CodeEditorApp.Models
 {
@@ -21,11 +22,6 @@ namespace CodeEditorApp.Models
 
     public class ApplicationDbContext : IdentityDbContext<ApplicationUser>
     {
-        /* Hér getum við sett lista af INIT klösum fyrir gagnagrunninn
-                Dæmi:
-                public DbSet<Project> Projects { get; set; }
-                    Þetta býr til töflu í gagnagrunn "Projects"
-         */
 
         // Setja lista hér:
         public DbSet<Project> Projects { get; set; }
@@ -37,6 +33,7 @@ namespace CodeEditorApp.Models
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
+           // Database.SetInitializer<ApplicationDbContext>(new MigrateDatabaseToLatestVersion<ApplicationDbContext, Configuration>());
         }
 
         public static ApplicationDbContext Create()
@@ -47,7 +44,7 @@ namespace CodeEditorApp.Models
 
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
-            // base.OnModelCreating(modelBuilder);
+           base.OnModelCreating(modelBuilder);
             // modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
         }

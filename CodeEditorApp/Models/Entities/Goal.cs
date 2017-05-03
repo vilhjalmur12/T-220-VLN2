@@ -21,7 +21,7 @@ namespace CodeEditorApp.Models
         public GoalType goalType { get; set; }
         public string AspNetUserID { get; set; }
         public int ProjectID { get; set; }
-        public virtual AspNetUser user { get; set; }
-        public virtual Project project { get; set; }
+    //    public virtual AspNetUser user { get; set; }
+    //    public virtual Project project { get; set; }
     }
 }
