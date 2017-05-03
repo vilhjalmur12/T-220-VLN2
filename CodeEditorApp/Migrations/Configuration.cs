@@ -9,7 +9,7 @@ namespace CodeEditorApp.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = false;
+            AutomaticMigrationsEnabled = true;
         }
 
         protected override void Seed(CodeEditorApp.Models.ApplicationDbContext context)
