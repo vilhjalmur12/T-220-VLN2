@@ -8,6 +8,6 @@ namespace CodeEditorApp.Models.ViewModels
     public class CommentViewModel
     {
         public string Content { get; set; }
-        public string userID { get; set; }
+        public string AspNetID { get; set; }
     }
 }
