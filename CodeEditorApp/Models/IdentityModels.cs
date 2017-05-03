@@ -28,28 +28,29 @@ namespace CodeEditorApp.Models
          */
 
             // Setja lista hér:
-            /*
+            
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectType> ProjectTypes { get; set; }
         public DbSet<Goal> Goals { get; set; }
         public DbSet<File> Files { get; set; }
         public DbSet<Comment> Comments { get; set; }
-        */
+        
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
-          //  Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseAlways<ApplicationDbContext>());
+            Database.SetInitializer<ApplicationDbContext>(new DropCreateDatabaseAlways<ApplicationDbContext>());
         }
 
         public static ApplicationDbContext Create()
         {
             return new ApplicationDbContext();
         }
-        /*
+        
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
         }
-        */
+        
     }
 }
