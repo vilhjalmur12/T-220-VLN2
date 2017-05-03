@@ -18,8 +18,8 @@ namespace CodeEditorApp.Models
         public string description { get; set; }
         public bool finished { get; set; }
         public GoalType goalType { get; set; }
-        public int userID { get; set; }
-        public int projectID { get; set; }
+        public int UserID { get; set; }
+        public int ProjectID { get; set; }
         public virtual User user { get; set; }
         public virtual Project project { get; set; }
     }

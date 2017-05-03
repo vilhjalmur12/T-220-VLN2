@@ -10,8 +10,8 @@ namespace CodeEditorApp.Models
         public int ID { get; set; }
         public string name { get; set; }
         public string location { get; set; }
-        public int userID { get; set; }
-        public int projectTypeID { get; set; }
+        public int UserID { get; set; }
+        public int ProjectTypeID { get; set; }
         public virtual User user { get; set; }
         public virtual ProjectType projectType { get; set; }
         public virtual ICollection<User> users { get; set; }
