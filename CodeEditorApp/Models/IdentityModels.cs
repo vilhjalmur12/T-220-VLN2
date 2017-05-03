@@ -27,7 +27,13 @@ namespace CodeEditorApp.Models
                     Þetta býr til töflu í gagnagrunn "Projects"
          */
 
-            // Setja lista hér:
+        // Setja lista hér:
+
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectType> ProjectTypes { get; set; }
+        public DbSet<Goal> Goals { get; set; }
+        public DbSet<File> Files { get; set; }
+        public DbSet<Comment> Comments { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -38,13 +44,7 @@ namespace CodeEditorApp.Models
         {
             return new ApplicationDbContext();
         }
-        /*
-        public DbSet<Project> Projects { get; set; }
-        public DbSet<ProjectType> ProjectTypes { get; set; }
-        public DbSet<Goal> Goals { get; set; }
-        public DbSet<File> Files { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        */
+  
         protected override void OnModelCreating(DbModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);
