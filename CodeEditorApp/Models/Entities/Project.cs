@@ -10,14 +10,12 @@ namespace CodeEditorApp.Models
         public int ID { get; set; }
         public string name { get; set; }
         public string location { get; set; }
-        public int ownerID { get; set; }
-        public int projectTypeID { get; set; }
-        public virtual User owner { get; set; }
+        public int UserID { get; set; }
+        public int ProjectTypeID { get; set; }
+        public virtual User user { get; set; }
         public virtual ProjectType projectType { get; set; }
-        public virtual ICollection<User> users { get; set; }
         public virtual ICollection<File> files { get; set; }
-        public virtual ICollection<Goal> ownerGoals { get; set; }
-        public virtual ICollection<Goal> userGoals { get; set; }
+        public virtual ICollection<Goal> goals { get; set; }
         public virtual ICollection<Comment> comments { get; set; }
     }
 }

@@ -10,8 +10,6 @@ namespace CodeEditorApp.Models
         public int ID { get; set; }
         public string name { get; set; }
         public string email { get; set; }
-        public ICollection<Project> myProjects { get; set; }
-        public ICollection<Project> sharedProjects { get; set; }
-
+        public virtual ICollection<Project> myProjects { get; set; }
     }
 }
