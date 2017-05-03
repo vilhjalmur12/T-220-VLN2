@@ -65,4 +65,25 @@ body, html {
     letter-spacing: 2px;
 }
 
+.flex-header {
+    background-color: #006072;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 2px solid red;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    justify-content: space-between;
+}
 
+.flex-header-left {
+    display: flex;
+    align-items: center;
+    padding-right: 900px;
+}
+
+.flex-header-rigth {
+    display: flex;
+    align-items: center;
+    padding-left: 150px;
+}

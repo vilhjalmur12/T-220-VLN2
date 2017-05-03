@@ -1,15 +1,27 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
-<div id="blur">
-    <div class="header-content">
+
+<div class="navbar navbar-inverse navbar-fixed-top flex-header">
+        <div class= "flex-header-left">
+            <img class="logo" src="../images/logo.png" alt="Mountain View" style="width:100px;height:100px;">
+            @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+        </div>
+        <div class="flex-header-right">
+                @Html.ActionLink("About", "About", "Home")
+                @Html.ActionLink("Help", "Contact", "Home")
+        </div>
+</div>
+
+<body id="blur">
+    <div class="header-content col-sm-7">
         <div class="header-content-inner">
             <h1>Build your application in groups</h1>
             <p>Eitthvað sjúklega ógeðslega nice stuff!</p>
             <a href="#" class="btn btn-outline btn-x1 page-scroll">Learn More</a>
         </div>
     </div>
-</div>
     <div>
         @Html.Partial("_LoginPartial")
     </div>
+</body>
