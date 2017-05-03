@@ -17,7 +17,6 @@ namespace CodeEditorApp.Models
         public virtual ICollection<User> users { get; set; }
         public virtual ICollection<File> files { get; set; }
         public virtual ICollection<Goal> goals { get; set; }
-        public virtual ICollection<Goal> objectives { get; set; }
         public virtual ICollection<Comment> comments { get; set; }
     }
 }
