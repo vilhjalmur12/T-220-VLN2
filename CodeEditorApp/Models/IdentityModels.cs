@@ -3,7 +3,6 @@ using System.Security.Claims;
 using System.Threading.Tasks;
 using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
-using CodeEditorApp.Data;
 using System.Data.Entity.ModelConfiguration.Conventions;
 
 namespace CodeEditorApp.Models
@@ -29,12 +28,13 @@ namespace CodeEditorApp.Models
          */
 
             // Setja lista hér:
+            /*
         public DbSet<Project> Projects { get; set; }
         public DbSet<ProjectType> ProjectTypes { get; set; }
         public DbSet<Goal> Goals { get; set; }
         public DbSet<File> Files { get; set; }
         public DbSet<Comment> Comments { get; set; }
-
+        */
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
         {
