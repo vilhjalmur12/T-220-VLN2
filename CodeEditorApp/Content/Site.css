@@ -3,9 +3,16 @@
     background-color: #006072;
 }
 
+/*Override the default bootstrap behavior*/
+.container{
+    padding:0;
+    margin:0;
+    max-width:none;
+}
+
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    margin:50px -15px;
+    margin:50px 0px;
     padding:5px;
 }
 
@@ -42,6 +49,7 @@ body, html {
 .navbar {
     background-color: #006072;
     width:inherit;
+    max-width:none;
 }
 
 

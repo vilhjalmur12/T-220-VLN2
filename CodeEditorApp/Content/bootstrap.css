@@ -923,11 +923,11 @@ pre code {
 .col-xs-12 {
   width: 100%;
 }
-/* Don't know if we need this
+
 @media (min-width: 768px) {
   .container {
     max-width: 750px;
-  }*/
+  }
   .col-sm-1,
   .col-sm-2,
   .col-sm-3,
@@ -1077,12 +1077,12 @@ pre code {
     margin-left: 91.66666666666666%;
   }
 }
-/* Don't know if we need this
+
 @media (min-width: 992px) {
   .container {
     max-width: 970px;
   }
-    */
+    
   .col-md-1,
   .col-md-2,
   .col-md-3,
