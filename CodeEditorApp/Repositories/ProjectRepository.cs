@@ -41,12 +41,22 @@ namespace CodeEditorApp.Repositories
             //TODO
         }
 
-        public void AddUserToProject(string AspNetUserID)
+        public void AddNewObjective(ObjectiveViewModel objective)
         {
             //TODO
         }
 
-        public void RemoveUserFromProject(string AspNetUserID)
+        public void RemoveObjective(int objectiveID)
+        {
+            //TODO
+        }
+
+        public void AddUserToProject(string AspNetUserID, int projectID)
+        {
+            //TODO
+        }
+
+        public void RemoveUserFromProject(string AspNetUserID, int projectID)
         {
             //TODO
         }

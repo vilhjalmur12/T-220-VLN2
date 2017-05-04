@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using CodeEditorApp.Repositories;
 using Microsoft.AspNet.Identity;
+using CodeEditorApp.Models.Entities;
 
 namespace CodeEditorApp.Controllers
 {
@@ -15,6 +16,7 @@ namespace CodeEditorApp.Controllers
         private ProjectRepository project = new ProjectRepository();
 
         private int projectID;
+        private int solutionFolderID;
         private List<GoalViewModel> projectGoals = new List<GoalViewModel>();
         private List<CommentViewModel> projectComments = new List<CommentViewModel>();
         private List<UserViewModel> projectUsers = new List<UserViewModel>();
@@ -24,6 +26,7 @@ namespace CodeEditorApp.Controllers
             if (id.HasValue)
             {
                 projectID = id.Value;
+               // solutionFolderID = solutionFolderid.Value;
                 updateComments();
                 updateGoals();
                 updateUsers();
@@ -76,15 +79,16 @@ namespace CodeEditorApp.Controllers
 
         public ActionResult AddMember(string AspNetUserID)
         {
-            project.AddUserToProject(AspNetUserID);
+            project.AddUserToProject(AspNetUserID, projectID);
             updateUsers();
-            return null;
+            return RedirectToAction("ShowGroup", "Project");
         }
 
         public ActionResult RemoveMember(string AspNetUserID)
         {
-            project.RemoveUserFromProject(AspNetUserID);
-            return null;
+            project.RemoveUserFromProject(AspNetUserID, projectID);
+            updateUsers();
+            return RedirectToAction("ShowGroup", "Project");
         }
 
         public ActionResult AddGoal(FormCollection collection)
@@ -101,9 +105,7 @@ namespace CodeEditorApp.Controllers
                 return RedirectToAction("Index", "Project", new { id = projectID });
             }
 
-            string username = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-
-            GoalViewModel thisGoal = new GoalViewModel() { name = goalName, description = goalDescription, ProjectID = projectID, AspNetUserID = User.Identity.GetUserName(), finished = false, goalType = 0 };
+            GoalViewModel thisGoal = new GoalViewModel() { name = goalName, description = goalDescription, ProjectID = projectID, AspNetUserID = User.Identity.GetUserName(), finished = false, goalType = GoalType.Goal };
             project.AddNewGoal(thisGoal);
             updateGoals();
             return RedirectToAction("ShowGoals", "project");
@@ -112,19 +114,35 @@ namespace CodeEditorApp.Controllers
         public ActionResult RemoveGoal(int goalID)
         {
             project.RemoveGoal(goalID);
+            updateGoals();
             return RedirectToAction("ShowGoals", "project");
         }
 
-        public ActionResult AddObjective(int goalID)
+        public ActionResult AddObjective(int goalID, string userID, FormCollection collection)
         {
-            //TODO
-            return null;
+            string objectiveName = collection["objectiveName"];
+            string objectiveDescription = collection["objectiveDescription"];
+
+            if (String.IsNullOrEmpty(objectiveName))
+            {
+                return View("Error");
+            }
+            if (String.IsNullOrEmpty(objectiveDescription))
+            {
+                return RedirectToAction("Index", "Project", new { id = projectID });
+            }
+
+            ObjectiveViewModel thisObjective = new ObjectiveViewModel() { name = objectiveName, description = objectiveDescription, ProjectID = projectID, AspNetUserID = userID, finished = false, goalType = GoalType.Objective };
+            project.AddNewObjective(thisObjective);
+            updateGoals();
+            return RedirectToAction("ShowGoals", "project");
         }
 
         public ActionResult RemoveObjective(int objectiveID)
         {
-            //TODO
-            return null;
+            project.RemoveObjective(objectiveID);
+            updateGoals();
+            return RedirectToAction("ShowGoals", "project");
         }
 
         public ActionResult CreateFile()
