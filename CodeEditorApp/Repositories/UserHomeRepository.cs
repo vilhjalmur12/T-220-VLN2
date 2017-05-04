@@ -81,7 +81,7 @@ namespace CodeEditorApp.Repositories
         {
             Folder HeadFolder = CreateHeadFolder(project);
             Folder tmp = _db.Folders.Where(x => x.ProjectID == project.ID).SingleOrDefault();
-            project.FolderID = tmp.ID;
+            project.HeadFolderID = tmp.ID;
 
             _db.Projects.Add(project);
             _db.SaveChanges();

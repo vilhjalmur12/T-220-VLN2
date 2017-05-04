@@ -53,7 +53,7 @@ namespace CodeEditorApp.Models
         public DbSet<File> Files { get; set; }
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Folder> Folders { get; set; }
-        public DbSet<SubFolder> SubFolders { get; set; }
+        public DbSet<RootFolder> RootFolders { get; set; }
     }
 }   
     
