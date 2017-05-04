@@ -18,7 +18,7 @@ namespace CodeEditorApp.Repositories
         }
 
         public List<ProjectViewModel> GetAllProjects(string AspNetUserID)
-        { 
+        {
             /*
             List<ProjectViewModel> NewModel = new List<ProjectViewModel>();
             _db.Projects.ToList().ForEach((x) =>
