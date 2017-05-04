@@ -1,4 +1,5 @@
 ﻿using CodeEditorApp.Models;
+using CodeEditorApp.Models.Entities;
 using CodeEditorApp.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -17,9 +18,9 @@ namespace CodeEditorApp.Repositories
             _db = new ApplicationDbContext();
         }
 
-        public List<ProjectViewModel> GetAllProjects(string AspNetUserID)
+        public List<ProjectViewModel> GetAllProjects(string UserID)
         { 
-            /*
+            
             List<ProjectViewModel> NewModel = new List<ProjectViewModel>();
             _db.Projects.ToList().ForEach((x) =>
             {
@@ -29,36 +30,54 @@ namespace CodeEditorApp.Repositories
                     {
                         ID = x.ID,
                         name = x.name,
+                        location = x.location
                     });
                 }
             });
-            */
-            /*
-            List<Project> tmp = _db.Projects.Where(x => x.AspNetUserID == UserID).ToList();
-            ProjectViewModel tmpProject = new ProjectViewModel();
 
-            foreach (Project project in tmp)
+            if (NewModel != null)
             {
-                
-                tmpProject.ID = project.ID;
-                tmpProject.name = project.name;
-                foreach (Folder folder in _db.Folders.Where(x => x.ProjectID == project.ID))
+                foreach (ProjectViewModel project in NewModel)
                 {
-                    tmpProject.Folders.Add(folder);
+                    project.Comments = GetProjectComments(project.ID);
                 }
-                foreach (Comment comment in _db.Comments.Where(x => x.projectID == project.ID))
-                {
-                    tmpProject.Comments.Add(comment);
-                }
-                NewModel.Add(tmpProject);
             }
-            */
-            return _db.Projects.ToList();
+
+            return NewModel;
         }
 
-        public IEnumerator<FolderViewModel> GetFileTree(string AspNetUserID)
+        public List<Comment> GetProjectComments (int ProjectID)
         {
-            //TODO
+            List<Comment> NewList = new List<Comment>();
+            foreach (Comment comment in _db.Comments.Where(x => x.ProjectID == ProjectID))
+            {
+                NewList.Add(comment);
+            }
+            return NewList;
+        }
+
+        public List<ProjectType> GetAllProjectTypes ()
+        {
+            return _db.ProjectTypes.ToList();
+        }
+
+        public List<FolderViewModel> GetFileTree(string UserID)
+        {
+            List<FolderViewModel> UserFolders = new List<FolderViewModel>();
+            
+            foreach (Folder folder in _db.Folders.Where(x => x.AspNetUserID == UserID))
+            {
+                UserFolders.Add(new FolderViewModel()
+                {
+                    ID = folder.ID,
+                    Name = folder.Name,
+                    Location = folder.Location,
+                    //TODO:     project = folder.project
+                    
+
+                 
+                }); 
+            }
             return null;
         }
 

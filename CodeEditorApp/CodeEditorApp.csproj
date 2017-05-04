@@ -209,17 +209,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201705031607552_Added entities.cs" />
-    <Compile Include="Migrations\201705031607552_Added entities.Designer.cs">
-      <DependentUpon>201705031607552_Added entities.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705031727424_update tables.cs" />
-    <Compile Include="Migrations\201705031727424_update tables.Designer.cs">
-      <DependentUpon>201705031727424_update tables.cs</DependentUpon>
-    </Compile>
-    <Compile Include="Migrations\201705031910328_update entities.cs" />
-    <Compile Include="Migrations\201705031910328_update entities.Designer.cs">
-      <DependentUpon>201705031910328_update entities.cs</DependentUpon>
+    <Compile Include="Migrations\201705041156288_subFolders.cs" />
+    <Compile Include="Migrations\201705041156288_subFolders.Designer.cs">
+      <DependentUpon>201705041156288_subFolders.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -227,6 +219,7 @@
     <Compile Include="Models\Entities\File.cs" />
     <Compile Include="Models\Entities\Folder.cs" />
     <Compile Include="Models\Entities\Goal.cs" />
+    <Compile Include="Models\Entities\SubFolder.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Entities\Project.cs" />
@@ -674,14 +667,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705031607552_Added entities.resx">
-      <DependentUpon>201705031607552_Added entities.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705031727424_update tables.resx">
-      <DependentUpon>201705031727424_update tables.cs</DependentUpon>
-    </EmbeddedResource>
-    <EmbeddedResource Include="Migrations\201705031910328_update entities.resx">
-      <DependentUpon>201705031910328_update entities.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201705041156288_subFolders.resx">
+      <DependentUpon>201705041156288_subFolders.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
