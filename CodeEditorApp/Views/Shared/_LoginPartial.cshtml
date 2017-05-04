@@ -15,11 +15,6 @@
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
-        <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
-
     <html>
     <head>
         <style>
@@ -75,11 +70,13 @@ else
 
         <div id="Login" class="tabcontent">
             <h3>Log In</h3>
+            <p>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</p>
             <p>Hér kemur log in formið</p>
         </div>
 
         <div id="Signup" class="tabcontent">
             <h3>Sign Up</h3>
+            <p>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</p>
             <p>Hér kemur sign up formið</p>
         </div>
 
