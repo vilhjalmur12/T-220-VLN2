@@ -16,14 +16,10 @@ namespace CodeEditorApp.Models
         /// The database generates unique ID of the project.
         /// </summary>
         public int ID { get; set; }
-        /// <summary>
+        /// <summary> 
         /// The name of the Project, Example: "Project1".
         /// </summary>
         public string name { get; set; }
-        /// <summary>
-        /// The location of the Project, Example: "username/folder1"
-        /// </summary>
-        public string location { get; set; }
         /// <summary>
         /// The ID of the user that created the project.
         /// </summary>
@@ -32,6 +28,11 @@ namespace CodeEditorApp.Models
         /// The ID of the type of the project.
         /// </summary>
         public int ProjectTypeID { get; set; }
+        /// <summary>
+        /// The ID of the HEAD folder
+        /// </summary>
+        public int HeadFolderID { get; set; }
+        public int SolutionFolderID { get; set; }
 
      //   public virtual AspNetUser user { get; set; }
      //   public virtual ProjectType projectType { get; set; }

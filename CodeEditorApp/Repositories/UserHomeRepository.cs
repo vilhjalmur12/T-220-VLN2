@@ -30,7 +30,6 @@ namespace CodeEditorApp.Repositories
                     {
                         ID = x.ID,
                         name = x.name,
-                        location = x.location
                     });
                 }
             });
@@ -71,24 +70,39 @@ namespace CodeEditorApp.Repositories
                 {
                     ID = folder.ID,
                     Name = folder.Name,
-                    Location = folder.Location,
-                    //TODO:     project = folder.project
-                    
 
-                 
+                    //TODO:     project = folder.project
                 }); 
             }
             return null;
         }
 
-        public void CreateProject(string AspNetUserID)
+        public void CreateProject(Project project)
         {
-            //TODO
+            Folder HeadFolder = CreateHeadFolder(project);
+            Folder tmp = _db.Folders.Where(x => x.ProjectID == project.ID).SingleOrDefault();
+            project.HeadFolderID = tmp.ID;
+
+            _db.Projects.Add(project);
+            _db.SaveChanges();
         }
 
-        public void CreateNewFolder(string AspNetUserID)
+        public Folder CreateHeadFolder(Project project)
         {
             //TODO
+            Folder NewFolder = new Folder();
+            NewFolder.Name = project.name + "Solutions";
+            NewFolder.AspNetUserID = project.AspNetUserID;
+            NewFolder.ProjectID = project.ID;
+
+            _db.Folders.Add(NewFolder);
+
+            return NewFolder;
+        }
+
+        public void CreateNewSubFolder (string AspNetUserID)
+        {
+
         }
 
         public void DeleteProject(int projectID)
@@ -125,6 +139,12 @@ namespace CodeEditorApp.Repositories
         {
             //TODO
             return false;
+        }
+
+        public void CreateRoot(RootFolder Root)
+        {
+            _db.RootFolders.Add(Root);
+            _db.SaveChanges();
         }
     }
 }

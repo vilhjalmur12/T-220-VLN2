@@ -7,13 +7,13 @@ namespace CodeEditorApp.Migrations
     using System.Resources;
     
     [GeneratedCode("EntityFramework.Migrations", "6.1.3-40302")]
-    public sealed partial class subFolders : IMigrationMetadata
+    public sealed partial class RootFolder : IMigrationMetadata
     {
-        private readonly ResourceManager Resources = new ResourceManager(typeof(subFolders));
+        private readonly ResourceManager Resources = new ResourceManager(typeof(RootFolder));
         
         string IMigrationMetadata.Id
         {
-            get { return "201705041156288_subFolders"; }
+            get { return "201705041526488_RootFolder"; }
         }
         
         string IMigrationMetadata.Source

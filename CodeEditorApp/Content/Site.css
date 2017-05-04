@@ -3,6 +3,12 @@
     background-color: #006072;
 }
 
+body, html {
+    height: 100%;
+    width: 100%;
+    margin: 0;
+}
+
 /*Override the default bootstrap behavior*/
 .container{
     padding:0;
@@ -14,14 +20,30 @@
 .body-content {
     margin:50px 0px;
     padding:5px;
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("../images/bakgrunnurtre.jpg");
 }
 
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+/*Overwrite some default settings from Bootstrap*/
+.navbar {
+    background-color: #006072;
+    width:inherit;
+    max-width:none;
 }
+
+
+/*Size of logo on navbar*/
+.logo{
+    width:50px;
+    height:50px;
+}
+
+
+
+/*stuff we might not need*/
 
 /* Set width on the form input elements since they're 100% wide by default */
 input,
@@ -34,41 +56,12 @@ textarea {
     background: none;
     border: none;
 }
-body, html {
-    height: 100%;
-    width: 100%;
-    margin: 0;
-}
 
 #info-front {
   float:left;
   margin-top: 50px;
 }
 
-/*Overwrite some default settings from Bootstrap*/
-.navbar {
-    background-color: #006072;
-    width:inherit;
-    max-width:none;
-}
-
-
-
-/*Size of logo on navbar*/
-.logo{
-    width:50px;
-    height:50px;
-}
-
-#main-content {
-    height: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-image: url("../images/bakgrunnurtre.jpg");
-}
-
-/*stuff we might not need*/
 .btn-x1 {
     padding: 15px 45px;
     font-size: 11px;
@@ -88,49 +81,10 @@ body, html {
     letter-spacing: 2px;
 }
 
-/*  We won't use flexbox
-.flex-layout {
-    display: flex;
-    flex-direction:column;
-    justify-content:space-between;
-}
-
-.flex-header {
-    background-color: #006072;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border: 2px solid red;
-    width:inherit;
-    height:10px;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
-    align-items: center;
-
-    width: 100%; 
-    
-}
-
-.flex-header-left {
-    border: 2px solid red;
-    align-items: center;
-}
-
-.flex-header-right {
-    border: 2px solid red;
-    align-items: center;
-    padding:2px;
-}
-
-.flex-main {
-    display:flex;
-    flex-direction:row;
-}
-
-.flex-bottom {
-    background-color: #006072;
-    padding-top: 5px;
-    padding-bottom: 5px;
-    border: 2px solid red;
-}
+/* Override the default bootstrap behavior where horizontal description lists 
+   will truncate terms that are too long to fit in the left column 
 */
+.dl-horizontal dt {
+    white-space: normal;
+}
+
