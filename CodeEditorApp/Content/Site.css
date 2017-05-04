@@ -31,20 +31,6 @@ body, html {
     height: 100%;
     width: 100%;
     margin: 0;
-    background-image: url("../images/ele.jpg");
-
-    /* Center and scale the image nicely */
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-}
-
-#blur {
-    height: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-image:url('../images/ele.jpg');
 }
 
 #info-front {
@@ -71,4 +57,43 @@ body, html {
     letter-spacing: 2px;
 }
 
+#background-main {
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("../images/bakgrunnurtre.jpg");
+}
 
+.flex-header {
+    background-color: #006072;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 2px solid red;
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    align-content: space-between;
+}
+
+.flex-header-left {
+    display: flex;
+    align-items: center;
+}
+
+.flex-header-rigth {
+    display: flex;
+    align-items: center;
+}
+
+.flex-main {
+    display:flex;
+    flex-direction:row;
+}
+
+.flex-bottom {
+    background-color: #006072;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 2px solid red;
+}

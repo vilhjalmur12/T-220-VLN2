@@ -5,7 +5,7 @@ using System.Web;
 
 namespace CodeEditorApp.Models.ViewModels
 {
-    public class ProjectViewModel
+    public class ObjectiveViewModel
     {
     }
 }
