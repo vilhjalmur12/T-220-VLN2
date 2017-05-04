@@ -25,12 +25,7 @@ namespace CodeEditorApp.Models
     {
 
         // Setja lista hér:
-        public DbSet<Project> Projects { get; set; }
-        public DbSet<ProjectType> ProjectTypes { get; set; }
-        public DbSet<Goal> Goals { get; set; }
-        public DbSet<File> Files { get; set; }
-        public DbSet<Comment> Comments { get; set; }
-        public DbSet<Folder> Folders { get; set; }
+
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -51,7 +46,14 @@ namespace CodeEditorApp.Models
 
         }
 
-        public System.Data.Entity.DbSet<CodeEditorApp.Models.AspNetUser> AspNetUsers { get; set; }
+      //  public System.Data.Entity.DbSet<CodeEditorApp.Models.AspNetUser> AspNetUsers { get; set; }
+        public DbSet<Project> Projects { get; set; }
+        public DbSet<ProjectType> ProjectTypes { get; set; }
+        public DbSet<Goal> Goals { get; set; }
+        public DbSet<File> Files { get; set; }
+        public DbSet<Comment> Comments { get; set; }
+        public DbSet<Folder> Folders { get; set; }
+        public DbSet<SubFolder> SubFolders { get; set; }
     }
 }   
     

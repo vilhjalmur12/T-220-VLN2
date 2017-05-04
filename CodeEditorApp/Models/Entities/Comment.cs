@@ -26,12 +26,15 @@ namespace CodeEditorApp.Models
         /// <summary>
         /// The ID of the user that made the comment.
         /// </summary>
-        public string userID { get; set; }
+        public string AspNetUserID { get; set; }
         /// <summary>
         /// The ID of the project that has the comment
         /// </summary>
-        public int projectID { get; set; }
+        public int ProjectID { get; set; }
      //   public virtual AspNetUser user { get; set; }
      //   public virtual Project project { get; set; }
+    //    public virtual AspNetUser user { get; set; }
+    //    public virtual Project project { get; set; }
+
     }
 }

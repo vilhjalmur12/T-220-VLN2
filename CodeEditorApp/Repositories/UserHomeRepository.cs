@@ -1,4 +1,5 @@
 ﻿using CodeEditorApp.Models;
+using CodeEditorApp.Models.Entities;
 using CodeEditorApp.Models.ViewModels;
 using System;
 using System.Collections.Generic;
@@ -17,7 +18,7 @@ namespace CodeEditorApp.Repositories
             _db = new ApplicationDbContext();
         }
 
-        public List<ProjectViewModel> GetAllProjects(string AspNetUserID)
+        public List<Project> GetAllProjects(string AspNetUserID)
         { 
             /*
             List<ProjectViewModel> NewModel = new List<ProjectViewModel>();
@@ -56,9 +57,28 @@ namespace CodeEditorApp.Repositories
             return _db.Projects.ToList();
         }
 
-        public IEnumerator<FolderViewModel> GetFileTree(string AspNetUserID)
+        public List<ProjectType> GetAllProjectTypes ()
         {
-            //TODO
+            return _db.ProjectTypes.ToList();
+        }
+
+        public List<FolderViewModel> GetFileTree(string UserID)
+        {
+            List<FolderViewModel> UserFolders = new List<FolderViewModel>();
+            
+            foreach (Folder folder in _db.Folders.Where(x => x.AspNetUserID == UserID))
+            {
+                UserFolders.Add(new FolderViewModel()
+                {
+                    ID = folder.ID,
+                    Name = folder.Name,
+                    Location = folder.Location,
+                    //TODO:     project = folder.project
+                    
+
+                 
+                }); 
+            }
             return null;
         }
 

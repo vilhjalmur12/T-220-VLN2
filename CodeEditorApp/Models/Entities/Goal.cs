@@ -56,5 +56,7 @@ namespace CodeEditorApp.Models
         public int ProjectID { get; set; }
     //    public virtual AspNetUser user { get; set; }
     //    public virtual Project project { get; set; }
+    //    public virtual AspNetUser user { get; set; }
+    //    public virtual Project project { get; set; }
     }
 }
