@@ -24,9 +24,10 @@ namespace CodeEditorApp.Controllers
         // GET: UserHome
         public ActionResult Index()
         {
-            string userId = User.Identity.GetUserId();
-           /* List<Project> model = UserHome.GetAllProjects(userId);*/
-            return View(/*model*/);
+            string UserId = User.Identity.GetUserId();
+            ViewBag.UserId = UserId;
+            List<ProjectViewModel> model = UserHome.GetAllProjects(UserId);
+            return View(model);
         }
 
         public ActionResult CreateProject()

@@ -1,4 +1,4 @@
-﻿@model List<CodeEditorApp.Models.Project>
+﻿@model List<CodeEditorApp.Models.ViewModels.ProjectViewModel>
 
 @{
     ViewBag.Title = "Index";
@@ -9,6 +9,8 @@
 @foreach (var item in Model)
 {
     <h2>@item.name</h2>
+    <br/>
+    <h2>@item.location</h2>
     <br/>
 }
 
