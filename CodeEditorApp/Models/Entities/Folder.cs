@@ -21,6 +21,9 @@ namespace CodeEditorApp.Models.Entities
         public string AspNetUserID { get; set; }
 
         public int ProjectID { get; set; }
+        public int HeadFolderID { get; set; }
+
+        public bool IsSolutionFolder { get; set; }
     //    public virtual AspNetUser user { get; set; }
     //    public virtual Project project { get; set; }
     }
