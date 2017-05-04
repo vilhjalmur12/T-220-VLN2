@@ -1,16 +1,52 @@
-﻿using System;
+﻿using CodeEditorApp.Models;
+using CodeEditorApp.Models.ViewModels;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
+using CodeEditorApp.Repositories;
 
 namespace CodeEditorApp.Controllers
 {
     public class ProjectController: Controller
     {
-        public ActionResult Index()
+        private ProjectRepository project = new ProjectRepository();
+
+        private int projectID;
+        private List<GoalViewModel> projectGoals = new List<GoalViewModel>();
+        private List<CommentViewModel> projectComments = new List<CommentViewModel>();
+        private List<UserViewModel> projectUsers = new List<UserViewModel>();
+
+        public ActionResult Index(int? id)
         {
-            return View();
+            if (id.HasValue)
+            {
+                projectID = id.Value;
+                updateComments();
+                updateGoals();
+                updateUsers();
+                return View();
+            }
+            else
+            {
+                return View("Error");
+            }
+        }
+
+        private void updateGoals()
+        {
+            project.GetGoalsByProject(projectID);
+        }
+
+        private void updateComments()
+        {
+            project.GetCommentsByProject(projectID);
+        }
+
+        private void updateUsers()
+        {
+            project.GetUsersByProject(projectID);
         }
 
         public ActionResult ShowCodeEditor()
@@ -39,7 +75,8 @@ namespace CodeEditorApp.Controllers
 
         public ActionResult AddMember(string AspNetUserID)
         {
-            //TODO
+           // project.AddMemberToProject(AspNetUserID);
+            updateUsers();
             return null;
         }
 
