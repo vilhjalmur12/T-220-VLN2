@@ -140,5 +140,11 @@ namespace CodeEditorApp.Repositories
             //TODO
             return false;
         }
+
+        public void CreateRoot(RootFolder Root)
+        {
+            _db.RootFolders.Add(Root);
+            _db.SaveChanges();
+        }
     }
 }

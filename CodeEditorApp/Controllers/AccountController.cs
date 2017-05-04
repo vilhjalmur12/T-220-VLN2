@@ -9,6 +9,8 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.Owin;
 using Microsoft.Owin.Security;
 using CodeEditorApp.Models;
+using CodeEditorApp.Models.Entities;
+using CodeEditorApp.Repositories;
 
 namespace CodeEditorApp.Controllers
 {
@@ -156,13 +158,17 @@ namespace CodeEditorApp.Controllers
                 if (result.Succeeded)
                 {
                     await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
-                    
+
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
                     // string code = await UserManager.GenerateEmailConfirmationTokenAsync(user.Id);
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
 
+                    RootFolder Root = new Models.Entities.RootFolder();
+                    Root.UserID = user.Id;
+                    UserHomeRepository service = new UserHomeRepository();
+                    service.CreateRoot(Root);
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);

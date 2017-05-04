@@ -217,6 +217,10 @@
     <Compile Include="Migrations\201705041454574_FolderTree.Designer.cs">
       <DependentUpon>201705041454574_FolderTree.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705041526488_RootFolder.cs" />
+    <Compile Include="Migrations\201705041526488_RootFolder.Designer.cs">
+      <DependentUpon>201705041526488_RootFolder.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entities\Comment.cs" />
@@ -677,6 +681,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705041454574_FolderTree.resx">
       <DependentUpon>201705041454574_FolderTree.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705041526488_RootFolder.resx">
+      <DependentUpon>201705041526488_RootFolder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
