@@ -16,7 +16,7 @@ namespace CodeEditorApp.Models
         /// The database generates unique ID of the project.
         /// </summary>
         public int ID { get; set; }
-        /// <summary>
+        /// <summary> 
         /// The name of the Project, Example: "Project1".
         /// </summary>
         public string name { get; set; }
