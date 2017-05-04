@@ -45,12 +45,12 @@ namespace CodeEditorApp.Repositories
             return NewModel;
         }
 
-        public List<Comment> GetProjectComments (int ProjectID)
+        public List<CommentViewModel> GetProjectComments (int ProjectID)
         {
-            List<Comment> NewList = new List<Comment>();
+            List<CommentViewModel> NewList = new List<CommentViewModel>();
             foreach (Comment comment in _db.Comments.Where(x => x.ProjectID == ProjectID))
             {
-                NewList.Add(comment);
+              //  NewList.Add(comment);
             }
             return NewList;
         }

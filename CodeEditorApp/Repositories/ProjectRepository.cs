@@ -25,7 +25,7 @@ namespace CodeEditorApp.Repositories
             return null;
         }
 
-        public List<UserViewModel> GetUsersByProject(int ProjectID)
+        public List<AspNetUser> GetUsersByProject(int ProjectID)
         {
             //Todo
             return null;
@@ -69,11 +69,6 @@ namespace CodeEditorApp.Repositories
             return null;
         }
 
-        public IEnumerable<ObjectiveViewModel> ListObjectivesByProject(int projectID)
-        {
-            //TODO
-            return null;
-        }
 
         public IEnumerable<GoalViewModel> ListGoalsByProject(int projectID)
         {
