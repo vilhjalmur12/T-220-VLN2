@@ -9,7 +9,6 @@ namespace CodeEditorApp.Controllers
 {
     public class HomeController : Controller
     {
-        private UserHomeRepository UserHome = new UserHomeRepository();
 
         public ActionResult Index()
         {
@@ -28,6 +27,12 @@ namespace CodeEditorApp.Controllers
             ViewBag.Message = "Your contact page.";
 
             return View();
+        }
+
+        public ActionResult Team()
+        {
+            //TODO
+            return null;
         }
     }
 }

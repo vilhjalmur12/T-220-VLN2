@@ -1,4 +1,5 @@
-﻿using CodeEditorApp.Models.ViewModels;
+﻿using CodeEditorApp.Models;
+using CodeEditorApp.Models.ViewModels;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,10 +11,9 @@ namespace CodeEditorApp.Repositories
     {
         public ProjectRepository()
         {
-
         }
 
-        public IEnumerable<FolderViewModel> ListFilesByProject(int projectID)
+        public IEnumerable<FileViewModel> ListFilesByProject(int projectID)
         {
             //TODO
             return null;

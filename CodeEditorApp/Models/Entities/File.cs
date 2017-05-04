@@ -30,6 +30,7 @@ namespace CodeEditorApp.Models
         /// The ID of the Project that the File belongs to. 
         /// </summary>
         public int ProjectID { get; set; }
+        public int FolderID { get; set; }
      //   public virtual Project project { get; set; }
     }
 }
