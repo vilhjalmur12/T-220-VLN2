@@ -79,7 +79,7 @@ namespace CodeEditorApp.Repositories
 
         public void CreateProject(Project project)
         {
-            Folder HeadFolder = CreateHeadFolder(project);
+            Folder HeadFolder = CreateSolutionFolder(project);
             Folder tmp = _db.Folders.Where(x => x.ProjectID == project.ID).SingleOrDefault();
             project.HeadFolderID = tmp.ID;
 
@@ -87,7 +87,7 @@ namespace CodeEditorApp.Repositories
             _db.SaveChanges();
         }
 
-        public Folder CreateHeadFolder(Project project)
+        public Folder CreateSolutionFolder(Project project)
         {
             //TODO
             Folder NewFolder = new Folder();
