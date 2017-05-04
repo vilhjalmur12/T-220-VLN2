@@ -1,4 +1,5 @@
-﻿using System;
+﻿using CodeEditorApp.Models.Entities;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
@@ -32,5 +33,6 @@ namespace CodeEditorApp.Models
         public int ProjectID { get; set; }
         public int FolderID { get; set; }
      //   public virtual Project project { get; set; }
+     //   public virtual Folder folder { get; set; }
     }
 }
