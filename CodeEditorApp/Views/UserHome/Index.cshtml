@@ -1,0 +1,14 @@
+﻿@model List<CodeEditorApp.Models.Project>
+
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+@foreach (var item in Model)
+{
+    <h2>@item.name</h2>
+    <br/>
+}
+

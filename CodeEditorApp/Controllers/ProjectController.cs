@@ -36,5 +36,83 @@ namespace CodeEditorApp.Controllers
             //TODO
             return null;
         }
+
+        public ActionResult AddMember(string AspNetUserID)
+        {
+            //TODO
+            return null;
+        }
+
+        public ActionResult RemoveMember(string AspNetUserID)
+        {
+            //TODO
+            return null;
+        }
+
+        public ActionResult AddGoal(string AspNetUserID)
+        {
+            //TODO
+            return null;
+        }
+
+        public ActionResult RemoveGoal(int goalID)
+        {
+            //TODO
+            return null;
+        }
+
+        public ActionResult AddObjective(int goalID, string AspNetUserID)
+        {
+            //TODO
+            return null;
+        }
+
+        public ActionResult RemoveObjective(int objectiveID)
+        {
+            //TODO
+            return null;
+        }
+
+        public ActionResult CreateFile()
+        {
+            //TODO
+            return null;
+        }
+
+        public ActionResult CreateFolder()
+        {
+            //TODO
+            return null;
+        }
+
+        public ActionResult CopyFile(int fileID)
+        {
+            //TODO
+            return null;
+        }
+
+        public ActionResult PasteFile(int fileID)
+        {
+            //TODO
+            return null;
+        }
+
+        public ActionResult DeleteFile(int fileID)
+        {
+            //TODo
+            return null;
+        }
+
+        public ActionResult LeaveProject()
+        {
+            //TODO
+            return null;
+        }
+
+        public ActionResult ChangeEditorColor()
+        {
+            //TODO
+            return null;
+        }
     }
 }

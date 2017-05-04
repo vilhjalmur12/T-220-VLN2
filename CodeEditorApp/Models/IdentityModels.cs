@@ -5,6 +5,7 @@ using Microsoft.AspNet.Identity;
 using Microsoft.AspNet.Identity.EntityFramework;
 using System.Data.Entity.ModelConfiguration.Conventions;
 using CodeEditorApp.Migrations;
+using CodeEditorApp.Models.Entities;
 
 namespace CodeEditorApp.Models
 {
@@ -29,6 +30,7 @@ namespace CodeEditorApp.Models
         public DbSet<Goal> Goals { get; set; }
         public DbSet<File> Files { get; set; }
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<Folder> Folders { get; set; }
 
         public ApplicationDbContext()
             : base("DefaultConnection", throwIfV1Schema: false)
@@ -48,8 +50,8 @@ namespace CodeEditorApp.Models
             // modelBuilder.Conventions.Remove<PluralizingTableNameConvention>();
 
         }
-        
-   
+
+        public System.Data.Entity.DbSet<CodeEditorApp.Models.AspNetUser> AspNetUsers { get; set; }
     }
 }   
     
