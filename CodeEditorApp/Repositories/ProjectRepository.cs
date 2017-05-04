@@ -13,6 +13,35 @@ namespace CodeEditorApp.Repositories
         {
         }
 
+        public List<GoalViewModel> GetGoalsByProject(int ProjectID)
+        {
+            //Todo
+            return null;
+        }
+
+        public List<CommentViewModel> GetCommentsByProject(int ProjectID)
+        {
+            //Todo
+            return null;
+        }
+
+        public List<UserViewModel> GetUsersByProject(int ProjectID)
+        {
+            //Todo
+            return null;
+        }
+
+        public void AddUserToProject(string AspNetUserID)
+        {
+            //TODO
+        }
+
+        public void RemoveUserFromProject(string AspNetUserID)
+        {
+            //TODO
+        }
+
+
         public IEnumerable<FileViewModel> ListFilesByProject(int projectID)
         {
             //TODO
