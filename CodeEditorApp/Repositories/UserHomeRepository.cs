@@ -18,7 +18,7 @@ namespace CodeEditorApp.Repositories
         }
 
         public List<ProjectViewModel> GetAllProjects(string AspNetUserID)
-        { 
+        {
             /*
             List<ProjectViewModel> NewModel = new List<ProjectViewModel>();
             _db.Projects.ToList().ForEach((x) =>
@@ -53,7 +53,8 @@ namespace CodeEditorApp.Repositories
                 NewModel.Add(tmpProject);
             }
             */
-            return _db.Projects.ToList();
+            // return _db.Projects.ToList();
+            return null;
         }
 
         public IEnumerator<FolderViewModel> GetFileTree(string AspNetUserID)
