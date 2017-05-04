@@ -31,6 +31,16 @@ namespace CodeEditorApp.Repositories
             return null;
         }
 
+        public void AddNewGoal(GoalViewModel goal)
+        {
+            //TODO
+        }
+
+        public void RemoveGoal(int goalID)
+        {
+            //TODO
+        }
+
         public void AddUserToProject(string AspNetUserID)
         {
             //TODO
