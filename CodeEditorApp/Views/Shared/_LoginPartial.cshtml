@@ -15,8 +15,34 @@
 }
 else
 {
-    <ul class="nav navbar-nav navbar-right">
-        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+    <script src="jquery-1.11.2.js"></script>
+    <script src="jquery-ui.js"></script>
+    <link href="jquery-ui.css" rel="stylesheet" />
+    <script type="text/javascript">
+        $(document).ready(function () {
+            $('#tabs').tabs();
+        });
+    </script>
+    <div id="tabs" style="width: 400px">
+        <ul>
+            <li><a href="#tab1">Log in</a></li>
+            <li><a href="#tab2">Sign up</a></li>
+            <li><a href="#tab3">Contact us</a></li>
+        </ul>
+        <div id="tab1">
+            Log in form
+        </div>
+        <div id="tab2">
+            Sign up form
+        </div>
+        <div id="tab3">
+            Contact information
+        </div>
+   </div>
+
+   <!-- <ul class="nav navbar-nav navbar-right">
         <li>@Html.ActionLink("Log in", "Login", "Account", routeValues: null, htmlAttributes: new { id = "loginLink" })</li>
-    </ul>
+        <li>@Html.ActionLink("Register", "Register", "Account", routeValues: null, htmlAttributes: new { id = "registerLink" })</li>
+        <li>@Html.ActionLink("Contact", "_ContactPartial", "Home", routeValues: null, htmlAttributes: new { id = "contactLink" })</li>
+    </ul>-->
 }
