@@ -9,7 +9,7 @@
 
 </head>
 <!--The layout of the website for a person that is not logged in-->
-<body class="container">
+<body class="container-fluid">
     <header class="navbar navbar-fixed-top container padding-for-container">
         <div class="header-flex-container navbar-left">
             <div> <img class="logo" src="../images/logo.png" alt="Mountain View" "></div>
@@ -22,15 +22,18 @@
             </ul>    
         </div>
     </header>
-    <!--the body of -->
-    <div class="row container body-content padding-for-container">  
+
+    <!--the body of home page-->
+    <div class="container body-content padding-for-container">  
             @RenderBody()      
     </div>
+    <!--End of body of home page-->
 
     <footer class="navbar navbar-fixed-bottom padding-for-container">
             @Html.ActionLink("About", "About", "Home")
             @Html.ActionLink("Help", "Contact", "Home")
     </footer>
+
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
