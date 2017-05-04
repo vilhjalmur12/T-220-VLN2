@@ -29,5 +29,11 @@ namespace CodeEditorApp.Controllers
 
             return View();
         }
+
+        public ActionResult Team()
+        {
+            //TODO
+            return null;
+        }
     }
 }
