@@ -23,7 +23,7 @@ namespace CodeEditorApp.Models
         public string name { get; set; }
         /// <summary>
         /// The location of the file.
-        /// Example: username/folder1/project1/File.cs
+        /// Example: "username/folder1/project1"
         /// </summary>
         public string location { get; set; }
         /// <summary>
