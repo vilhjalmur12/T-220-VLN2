@@ -30,10 +30,19 @@ namespace CodeEditorApp.Controllers
             return View(model);
         }
 
-        public ActionResult CreateProject()
+        [HttpPost]
+        public ActionResult CreateProject(ProjectViewModel model)
         {
-            //TODO
-            return null;
+            Project NewProject = new Project();
+            NewProject.ID = model.ID;
+            NewProject.name = model.name;
+            NewProject.AspNetUserID = User.Identity.GetUserId();
+            NewProject.ProjectTypeID = model.TypeID;
+
+            UserHome.CreateProject(NewProject);
+
+
+            return RedirectToAction("Index");
         }
 
         public ActionResult OpenProject(int projectID)
