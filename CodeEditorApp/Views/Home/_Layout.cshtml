@@ -9,24 +9,27 @@
 
 </head>
 <!--The layout of the website for a person that is not logged in-->
-<body class="flex-layout">
-    <header class="flex-header navbar navbar-">
-            <div class="flex-header-left">
-                <img class="logo" src="../images/logo.png" alt="Mountain View" style="width:100px;height:100px;">
+<body class="container">
+    <header class="navbar navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <img class="logo" src="../images/logo.png" alt="Mountain View" ">
                 @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="flex-header-right navbar">
-                @Html.ActionLink("About", "About", "Home")
-                @Html.ActionLink("Help", "Contact", "Home")
+            <div class="collapse navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Help", "Contact", "Home")
+                </ul>
             </div>
+        </div>
     </header>
     <!--the body of -->
-    <div class="container body-content" id="background-main">
+    <div class="container row body-content" id="main-content">         
         @RenderBody()
-
     </div>
 
-    <footer class="navbar navbar-inverse navbar-fixed-bottom flex-bottom">
+    <footer class="">
             @Html.ActionLink("About", "About", "Home")
             @Html.ActionLink("Help", "Contact", "Home")
     </footer>

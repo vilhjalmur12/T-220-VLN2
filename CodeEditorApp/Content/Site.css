@@ -58,7 +58,23 @@ body, html {
     letter-spacing: 2px;
 }
 
-#background-main {
+
+/*Overwrite some default settings from Bootstrap*/
+.navbar {
+    background-color: #006072;
+    /*padding-top: 5px;
+    padding-bottom: 5px;*/
+    border: 2px solid red;
+    width:inherit;
+}
+
+.logo{
+
+    width:100px;
+    height:100px;
+}
+#main-content {
+    padding:200px;
     height: 100%;
     background-position: center;
     background-repeat: no-repeat;
