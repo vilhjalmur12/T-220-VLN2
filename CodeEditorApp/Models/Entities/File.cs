@@ -12,6 +12,7 @@ namespace CodeEditorApp.Models
         public string name { get; set; }
         public string location { get; set; }
         public int ProjectID { get; set; }
+        public int FolderID { get; set; }
      //   public virtual Project project { get; set; }
     }
 }

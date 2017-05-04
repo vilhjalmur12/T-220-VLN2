@@ -212,10 +212,19 @@
     <Compile Include="Migrations\201705031607552_Added entities.Designer.cs">
       <DependentUpon>201705031607552_Added entities.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705031727424_update tables.cs" />
+    <Compile Include="Migrations\201705031727424_update tables.Designer.cs">
+      <DependentUpon>201705031727424_update tables.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705031910328_update entities.cs" />
+    <Compile Include="Migrations\201705031910328_update entities.Designer.cs">
+      <DependentUpon>201705031910328_update entities.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entities\Comment.cs" />
     <Compile Include="Models\Entities\File.cs" />
+    <Compile Include="Models\Entities\Folder.cs" />
     <Compile Include="Models\Entities\Goal.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -647,11 +656,11 @@
     <Content Include="Views\Shared\_LoginPartial.cshtml" />
     <Content Include="Views\Home\_ViewStart.cshtml" />
     <Content Include="Views\Home\_Layout.cshtml" />
+    <Content Include="Views\UserHome\Index.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
     <Folder Include="Data\" />
-    <Folder Include="Views\UserHome\" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="fonts\glyphicons-halflings-regular.woff" />
@@ -664,6 +673,12 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201705031607552_Added entities.resx">
       <DependentUpon>201705031607552_Added entities.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705031727424_update tables.resx">
+      <DependentUpon>201705031727424_update tables.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705031910328_update entities.resx">
+      <DependentUpon>201705031910328_update entities.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
