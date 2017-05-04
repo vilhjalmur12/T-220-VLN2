@@ -1,13 +1,12 @@
 ﻿body {
-    padding-top: 50px;
-    padding-bottom: 20px;
     margin:0;
+    background-color: #006072;
 }
 
 /* Set padding to keep content from hitting the edges */
 .body-content {
-    padding-left: 15px;
-    padding-right: 15px;
+    margin:50px 0px;
+    padding:5px;
 }
 
 /* Override the default bootstrap behavior where horizontal description lists 
@@ -39,6 +38,27 @@ body, html {
   margin-top: 50px;
 }
 
+/*Overwrite some default settings from Bootstrap*/
+.navbar {
+    background-color: #006072;
+    width:inherit;
+}
+
+
+/*Size of logo on navbar*/
+.logo{
+    width:50px;
+    height:50px;
+}
+#main-content {
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("../images/bakgrunnurtre.jpg");
+}
+
+/*stuff we might not need*/
 .btn-x1 {
     padding: 15px 45px;
     font-size: 11px;
@@ -58,29 +78,6 @@ body, html {
     letter-spacing: 2px;
 }
 
-
-/*Overwrite some default settings from Bootstrap*/
-.navbar {
-    background-color: #006072;
-    /*padding-top: 5px;
-    padding-bottom: 5px;*/
-    border: 2px solid red;
-    width:inherit;
-}
-
-.logo{
-
-    width:100px;
-    height:100px;
-}
-#main-content {
-    padding:200px;
-    height: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-image: url("../images/bakgrunnurtre.jpg");
-}
 /*  We won't use flexbox
 .flex-layout {
     display: flex;
