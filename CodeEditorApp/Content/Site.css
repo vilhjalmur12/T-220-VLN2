@@ -33,14 +33,6 @@ body, html {
     margin: 0;
 }
 
-#blur {
-    height: 100%;
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-image: url("../images/bakgrunnurtre.jpg");
-}
-
 #info-front {
   float:left;
   margin-top: 50px;
@@ -65,6 +57,14 @@ body, html {
     letter-spacing: 2px;
 }
 
+#background-main {
+    height: 100%;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("../images/bakgrunnurtre.jpg");
+}
+
 .flex-header {
     background-color: #006072;
     padding-top: 5px;
@@ -73,17 +73,27 @@ body, html {
     display: flex;
     flex-direction: row;
     align-items: center;
-    justify-content: space-between;
+    align-content: space-between;
 }
 
 .flex-header-left {
     display: flex;
     align-items: center;
-    padding-right: 900px;
 }
 
 .flex-header-rigth {
     display: flex;
     align-items: center;
-    padding-left: 150px;
+}
+
+.flex-main {
+    display:flex;
+    flex-direction:row;
+}
+
+.flex-bottom {
+    background-color: #006072;
+    padding-top: 5px;
+    padding-bottom: 5px;
+    border: 2px solid red;
 }
