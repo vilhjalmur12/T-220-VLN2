@@ -19,6 +19,7 @@ namespace CodeEditorApp.Controllers
 
         public ActionResult Index(ProjectViewModel model)
         {
+            projectModel = model;
             updateComments();
             updateGoals();
             updateUsers();
@@ -38,6 +39,16 @@ namespace CodeEditorApp.Controllers
         private void updateUsers()
         {
             projectModel.Members = project.GetUsersByProject(projectModel.ID);
+        }
+
+        private void updateFiles()
+        {
+            projectModel.Files = project.GetFilesByProject(projectModel.ID);
+        }
+
+        private void updateFolders()
+        {
+            projectModel.Folders = project.GetFoldersByProject(projectModel.ID);
         }
 
         public ActionResult ShowCodeEditor()
@@ -92,7 +103,7 @@ namespace CodeEditorApp.Controllers
                 return RedirectToAction("Index", "Project", new { id = projectModel.ID });
             }
 
-            GoalViewModel thisGoal = new GoalViewModel() { name = goalName, description = goalDescription, ProjectID = projectModel.ID, AspNetUserID = User.Identity.GetUserName(), finished = false, goalType = GoalType.Goal };
+            GoalViewModel thisGoal = new GoalViewModel() { name = goalName, description = goalDescription, ProjectID = projectModel.ID, AspNetUserID = User.Identity.GetUserId(), finished = false, goalType = GoalType.Goal };
             project.AddNewGoal(thisGoal);
             updateGoals();
             return RedirectToAction("ShowGoals", "project");
@@ -116,7 +127,7 @@ namespace CodeEditorApp.Controllers
             }
             if (String.IsNullOrEmpty(objectiveDescription))
             {
-                return RedirectToAction("Index", "Project", new { id = projectModel.ID });
+                return RedirectToAction("Index", "Project", new { model = projectModel });
             }
 
             GoalViewModel thisObjective = new GoalViewModel() { name = objectiveName, description = objectiveDescription, ProjectID = projectModel.ID, AspNetUserID = userID, finished = false, goalType = GoalType.Objective };
@@ -158,14 +169,15 @@ namespace CodeEditorApp.Controllers
 
         public ActionResult DeleteFile(int fileID)
         {
-            //TODo
-            return null;
+            project.RemoveFile(fileID);
+            updateFiles();
+            return RedirectToAction("Index", "Project", new { model = projectModel });
         }
 
         public ActionResult LeaveProject()
         {
-            //TODO
-            return null;
+            project.RemoveUserFromProject(User.Identity.GetUserId(), projectModel.ID);
+            return RedirectToAction("Index", "UserHome");
         }
 
         public ActionResult ChangeEditorColor()

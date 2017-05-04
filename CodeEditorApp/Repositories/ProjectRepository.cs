@@ -31,6 +31,18 @@ namespace CodeEditorApp.Repositories
             return null;
         }
 
+        public List<FileViewModel> GetFilesByProject(int ProjectID)
+        {
+            //TODO
+            return null;
+        }
+
+        public List<FolderViewModel> GetFoldersByProject (int ProjectID)
+        {
+            //TODO
+            return null;
+        }
+
         public void AddNewGoal(GoalViewModel goal)
         {
             //TODO
@@ -61,6 +73,10 @@ namespace CodeEditorApp.Repositories
             //TODO
         }
 
+        public void RemoveFile(int fileID)
+        {
+            //TODO
+        }
 
         public IEnumerable<FileViewModel> ListFilesByProject(int projectID)
         {
