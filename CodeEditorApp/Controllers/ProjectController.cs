@@ -19,7 +19,7 @@ namespace CodeEditorApp.Controllers
         private int solutionFolderID;
         private List<GoalViewModel> projectGoals = new List<GoalViewModel>();
         private List<CommentViewModel> projectComments = new List<CommentViewModel>();
-        private List<UserViewModel> projectUsers = new List<UserViewModel>();
+        private List<AspNetUser> projectUsers = new List<AspNetUser>();
 
         public ActionResult Index(int? id)
         {
