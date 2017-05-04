@@ -3,38 +3,36 @@
 <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>@ViewBag.Title - My ASP.NET Application</title>
+    <title>@ViewBag.Title - CollabCode</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
-<body>
-    <div class="navbar navbar-inverse navbar-fixed-top">
+<!--The layout of the website for a person that is not logged in-->
+<body class="container">
+    <header class="navbar navbar-fixed-top">
         <div class="container">
             <div class="navbar-header">
-                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                    <span class="icon-bar"></span>
-                </button>
-                @Html.ActionLink("Application name", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
+                <img class="logo" src="../images/logo.png" alt="Mountain View" ">
+                @Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })
             </div>
-            <div class="navbar-collapse collapse">
+            <div class="collapse navbar-collapse">
                 <ul class="nav navbar-nav navbar-right">
-                    <li>@Html.ActionLink("Home", "Index", "Home")</li>
                     <li>@Html.ActionLink("About", "About", "Home")</li>
-                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                    <li>@Html.ActionLink("Help", "Contact", "Home")
                 </ul>
-                
             </div>
         </div>
-    </div>
-    
-    <div class="container body-content">
+    </header>
+    <!--the body of -->
+    <div class="container row body-content" id="main-content">         
         @RenderBody()
-
     </div>
 
+    <footer class="">
+            @Html.ActionLink("About", "About", "Home")
+            @Html.ActionLink("Help", "Contact", "Home")
+    </footer>
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

@@ -1,6 +1,7 @@
 ﻿body {
     padding-top: 50px;
     padding-bottom: 20px;
+    margin:0;
 }
 
 /* Set padding to keep content from hitting the edges */
@@ -57,12 +58,34 @@ body, html {
     letter-spacing: 2px;
 }
 
-#background-main {
+
+/*Overwrite some default settings from Bootstrap*/
+.navbar {
+    background-color: #006072;
+    /*padding-top: 5px;
+    padding-bottom: 5px;*/
+    border: 2px solid red;
+    width:inherit;
+}
+
+.logo{
+
+    width:100px;
+    height:100px;
+}
+#main-content {
+    padding:200px;
     height: 100%;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
     background-image: url("../images/bakgrunnurtre.jpg");
+}
+/*  We won't use flexbox
+.flex-layout {
+    display: flex;
+    flex-direction:column;
+    justify-content:space-between;
 }
 
 .flex-header {
@@ -70,20 +93,26 @@ body, html {
     padding-top: 5px;
     padding-bottom: 5px;
     border: 2px solid red;
+    width:inherit;
+    height:10px;
     display: flex;
+    justify-content: space-between;
     flex-direction: row;
     align-items: center;
-    align-content: space-between;
+
+    width: 100%; 
+    
 }
 
 .flex-header-left {
-    display: flex;
+    border: 2px solid red;
     align-items: center;
 }
 
-.flex-header-rigth {
-    display: flex;
+.flex-header-right {
+    border: 2px solid red;
     align-items: center;
+    padding:2px;
 }
 
 .flex-main {
@@ -97,3 +126,4 @@ body, html {
     padding-bottom: 5px;
     border: 2px solid red;
 }
+*/

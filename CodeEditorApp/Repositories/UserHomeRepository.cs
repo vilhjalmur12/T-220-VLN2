@@ -54,7 +54,7 @@ namespace CodeEditorApp.Repositories
                 NewModel.Add(tmpProject);
             }
             */
-            return _db.Projects.ToList();
+            return null/*_db.Projects.ToList()*/;
         }
 
         public List<ProjectType> GetAllProjectTypes ()

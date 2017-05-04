@@ -9,7 +9,6 @@ namespace CodeEditorApp.Controllers
 {
     public class HomeController : Controller
     {
-        private UserHomeRepository UserHome = new UserHomeRepository();
 
         public ActionResult Index()
         {
