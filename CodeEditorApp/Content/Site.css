@@ -40,6 +40,7 @@ body, html {
     margin:0px;
 }
 
+/*...*/
 .header-flex-container{
     display:flex;
     flex-direction:row;
@@ -51,9 +52,6 @@ body, html {
     height:50px;
 }
 
-.inline-block{
-    display:inline-block;
-}
 
 /*stuff we might not need*/
 
