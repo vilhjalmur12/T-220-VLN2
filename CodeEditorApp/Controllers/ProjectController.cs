@@ -15,42 +15,29 @@ namespace CodeEditorApp.Controllers
     {
         private ProjectRepository project = new ProjectRepository();
 
-        private int projectID;
-        private int solutionFolderID;
-        private List<GoalViewModel> projectGoals = new List<GoalViewModel>();
-        private List<CommentViewModel> projectComments = new List<CommentViewModel>();
-        private List<AspNetUser> projectUsers = new List<AspNetUser>();
+        private ProjectViewModel projectModel;
 
-        public ActionResult Index(int? id)
+        public ActionResult Index(ProjectViewModel model)
         {
-            if (id.HasValue)
-            {
-                projectID = id.Value;
-               // solutionFolderID = solutionFolderid.Value;
-                updateComments();
-                updateGoals();
-                updateUsers();
-                return View();
-            }
-            else
-            {
-                return View("Error");
-            }
+            updateComments();
+            updateGoals();
+            updateUsers();
+            return View();
         }
 
         private void updateGoals()
         {
-            project.GetGoalsByProject(projectID);
+            projectModel.Goals = project.GetGoalsByProject(projectModel.ID);
         }
 
         private void updateComments()
         {
-            project.GetCommentsByProject(projectID);
+            projectModel.Comments = project.GetCommentsByProject(projectModel.ID);
         }
 
         private void updateUsers()
         {
-            project.GetUsersByProject(projectID);
+            projectModel.Members = project.GetUsersByProject(projectModel.ID);
         }
 
         public ActionResult ShowCodeEditor()
@@ -79,14 +66,14 @@ namespace CodeEditorApp.Controllers
 
         public ActionResult AddMember(string AspNetUserID)
         {
-            project.AddUserToProject(AspNetUserID, projectID);
+            project.AddUserToProject(AspNetUserID, projectModel.ID);
             updateUsers();
             return RedirectToAction("ShowGroup", "Project");
         }
 
         public ActionResult RemoveMember(string AspNetUserID)
         {
-            project.RemoveUserFromProject(AspNetUserID, projectID);
+            project.RemoveUserFromProject(AspNetUserID, projectModel.ID);
             updateUsers();
             return RedirectToAction("ShowGroup", "Project");
         }
@@ -102,10 +89,10 @@ namespace CodeEditorApp.Controllers
             }
             if (String.IsNullOrEmpty(goalDescription))
             {
-                return RedirectToAction("Index", "Project", new { id = projectID });
+                return RedirectToAction("Index", "Project", new { id = projectModel.ID });
             }
 
-            GoalViewModel thisGoal = new GoalViewModel() { name = goalName, description = goalDescription, ProjectID = projectID, AspNetUserID = User.Identity.GetUserName(), finished = false, goalType = GoalType.Goal };
+            GoalViewModel thisGoal = new GoalViewModel() { name = goalName, description = goalDescription, ProjectID = projectModel.ID, AspNetUserID = User.Identity.GetUserName(), finished = false, goalType = GoalType.Goal };
             project.AddNewGoal(thisGoal);
             updateGoals();
             return RedirectToAction("ShowGoals", "project");
@@ -129,10 +116,10 @@ namespace CodeEditorApp.Controllers
             }
             if (String.IsNullOrEmpty(objectiveDescription))
             {
-                return RedirectToAction("Index", "Project", new { id = projectID });
+                return RedirectToAction("Index", "Project", new { id = projectModel.ID });
             }
 
-            ObjectiveViewModel thisObjective = new ObjectiveViewModel() { name = objectiveName, description = objectiveDescription, ProjectID = projectID, AspNetUserID = userID, finished = false, goalType = GoalType.Objective };
+            GoalViewModel thisObjective = new GoalViewModel() { name = objectiveName, description = objectiveDescription, ProjectID = projectModel.ID, AspNetUserID = userID, finished = false, goalType = GoalType.Objective };
             project.AddNewObjective(thisObjective);
             updateGoals();
             return RedirectToAction("ShowGoals", "project");

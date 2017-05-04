@@ -19,6 +19,6 @@ namespace CodeEditorApp.Models.ViewModels
         public List<FileViewModel> Files { get; set; }
         public List<CommentViewModel> Comments { get; set; }
         public List<AspNetUser> Members { get; set; }
-        public List<Goal> Goals { get; set; }  
+        public List<GoalViewModel> Goals { get; set; }  
     }
 }

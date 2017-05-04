@@ -41,7 +41,7 @@ namespace CodeEditorApp.Repositories
             //TODO
         }
 
-        public void AddNewObjective(ObjectiveViewModel objective)
+        public void AddNewObjective(GoalViewModel objective)
         {
             //TODO
         }
