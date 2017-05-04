@@ -23,15 +23,10 @@ namespace CodeEditorApp.Models
         /// </summary>
         public string name { get; set; }
         /// <summary>
-        /// The location of the file.
-        /// Example: "username/folder1/project1"
-        /// </summary>
-        public string location { get; set; }
-        /// <summary>
         /// The ID of the Project that the File belongs to. 
         /// </summary>
         public int ProjectID { get; set; }
-        public int FolderID { get; set; }
+        public int HeadFolderID { get; set; }
      //   public virtual Project project { get; set; }
      //   public virtual Folder folder { get; set; }
     }

@@ -213,12 +213,17 @@
     <Compile Include="Migrations\201705041341196_projectTOfolder.Designer.cs">
       <DependentUpon>201705041341196_projectTOfolder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705041454574_FolderTree.cs" />
+    <Compile Include="Migrations\201705041454574_FolderTree.Designer.cs">
+      <DependentUpon>201705041454574_FolderTree.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entities\Comment.cs" />
     <Compile Include="Models\Entities\File.cs" />
     <Compile Include="Models\Entities\Folder.cs" />
     <Compile Include="Models\Entities\Goal.cs" />
+    <Compile Include="Models\Entities\RootFolder.cs" />
     <Compile Include="Models\Entities\SubFolder.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -669,6 +674,9 @@
   <ItemGroup>
     <EmbeddedResource Include="Migrations\201705041341196_projectTOfolder.resx">
       <DependentUpon>201705041341196_projectTOfolder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705041454574_FolderTree.resx">
+      <DependentUpon>201705041454574_FolderTree.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
