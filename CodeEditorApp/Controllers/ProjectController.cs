@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CodeEditorApp.Repositories;
+using Microsoft.AspNet.Identity;
 
 namespace CodeEditorApp.Controllers
 {
@@ -75,30 +76,46 @@ namespace CodeEditorApp.Controllers
 
         public ActionResult AddMember(string AspNetUserID)
         {
-           // project.AddMemberToProject(AspNetUserID);
+            project.AddUserToProject(AspNetUserID);
             updateUsers();
             return null;
         }
 
         public ActionResult RemoveMember(string AspNetUserID)
         {
-            //TODO
+            project.RemoveUserFromProject(AspNetUserID);
             return null;
         }
 
-        public ActionResult AddGoal(string AspNetUserID)
+        public ActionResult AddGoal(FormCollection collection)
         {
-            //TODO
-            return null;
+            string goalName = collection["goalName"];
+            string goalDescription = collection["goalDescription"];
+
+            if (String.IsNullOrEmpty(goalName))
+            {
+                return View("Error");
+            }
+            if (String.IsNullOrEmpty(goalDescription))
+            {
+                return RedirectToAction("Index", "Project", new { id = projectID });
+            }
+
+            string username = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
+
+            GoalViewModel thisGoal = new GoalViewModel() { name = goalName, description = goalDescription, ProjectID = projectID, AspNetUserID = User.Identity.GetUserName(), finished = false, goalType = 0 };
+            project.AddNewGoal(thisGoal);
+            updateGoals();
+            return RedirectToAction("ShowGoals", "project");
         }
 
         public ActionResult RemoveGoal(int goalID)
         {
-            //TODO
-            return null;
+            project.RemoveGoal(goalID);
+            return RedirectToAction("ShowGoals", "project");
         }
 
-        public ActionResult AddObjective(int goalID, string AspNetUserID)
+        public ActionResult AddObjective(int goalID)
         {
             //TODO
             return null;
