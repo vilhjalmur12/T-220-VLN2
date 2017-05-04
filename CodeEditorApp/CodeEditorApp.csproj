@@ -209,9 +209,9 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
-    <Compile Include="Migrations\201705041156288_subFolders.cs" />
-    <Compile Include="Migrations\201705041156288_subFolders.Designer.cs">
-      <DependentUpon>201705041156288_subFolders.cs</DependentUpon>
+    <Compile Include="Migrations\201705041341196_projectTOfolder.cs" />
+    <Compile Include="Migrations\201705041341196_projectTOfolder.Designer.cs">
+      <DependentUpon>201705041341196_projectTOfolder.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -667,8 +667,8 @@
     <Content Include="Scripts\jquery-1.10.2.min.map" />
   </ItemGroup>
   <ItemGroup>
-    <EmbeddedResource Include="Migrations\201705041156288_subFolders.resx">
-      <DependentUpon>201705041156288_subFolders.cs</DependentUpon>
+    <EmbeddedResource Include="Migrations\201705041341196_projectTOfolder.resx">
+      <DependentUpon>201705041341196_projectTOfolder.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

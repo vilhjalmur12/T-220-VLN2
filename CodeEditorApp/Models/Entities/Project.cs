@@ -21,10 +21,6 @@ namespace CodeEditorApp.Models
         /// </summary>
         public string name { get; set; }
         /// <summary>
-        /// The location of the Project, Example: "username/folder1"
-        /// </summary>
-        public string location { get; set; }
-        /// <summary>
         /// The ID of the user that created the project.
         /// </summary>
         public string AspNetUserID { get; set; }
@@ -32,6 +28,10 @@ namespace CodeEditorApp.Models
         /// The ID of the type of the project.
         /// </summary>
         public int ProjectTypeID { get; set; }
+        /// <summary>
+        /// The ID of the HEAD folder
+        /// </summary>
+        public int FolderID { get; set; }
 
      //   public virtual AspNetUser user { get; set; }
      //   public virtual ProjectType projectType { get; set; }
