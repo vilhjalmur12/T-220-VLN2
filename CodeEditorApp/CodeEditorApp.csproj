@@ -221,12 +221,17 @@
     <Compile Include="Migrations\201705041526488_RootFolder.Designer.cs">
       <DependentUpon>201705041526488_RootFolder.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705041542583_Memberships.cs" />
+    <Compile Include="Migrations\201705041542583_Memberships.Designer.cs">
+      <DependentUpon>201705041542583_Memberships.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entities\Comment.cs" />
     <Compile Include="Models\Entities\File.cs" />
     <Compile Include="Models\Entities\Folder.cs" />
     <Compile Include="Models\Entities\Goal.cs" />
+    <Compile Include="Models\Entities\Membership.cs" />
     <Compile Include="Models\Entities\RootFolder.cs" />
     <Compile Include="Models\Entities\SubFolder.cs" />
     <Compile Include="Models\IdentityModels.cs" />
@@ -684,6 +689,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705041526488_RootFolder.resx">
       <DependentUpon>201705041526488_RootFolder.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705041542583_Memberships.resx">
+      <DependentUpon>201705041542583_Memberships.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

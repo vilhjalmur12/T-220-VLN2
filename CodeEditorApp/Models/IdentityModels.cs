@@ -54,6 +54,7 @@ namespace CodeEditorApp.Models
         public DbSet<Comment> Comments { get; set; }
         public DbSet<Folder> Folders { get; set; }
         public DbSet<Entities.RootFolder> RootFolders { get; set; }
+        public DbSet<Membership> Memberships { get; set; }
     }
 }   
     
