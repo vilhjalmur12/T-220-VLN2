@@ -103,7 +103,7 @@ namespace CodeEditorApp.Controllers
                 return RedirectToAction("Index", "Project", new { id = projectModel.ID });
             }
 
-            GoalViewModel thisGoal = new GoalViewModel() { name = goalName, description = goalDescription, ProjectID = projectModel.ID, AspNetUserID = User.Identity.GetUserId(), finished = false, goalType = GoalType.Goal };
+            GoalViewModel thisGoal = new GoalViewModel() { name = goalName, description = goalDescription, ProjectID = projectModel.ID, AspNetUserID = User.Identity.GetUserId(), finished = false };
             project.AddNewGoal(thisGoal);
             updateGoals();
             return RedirectToAction("ShowGoals", "project");
@@ -116,7 +116,7 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("ShowGoals", "project");
         }
 
-        public ActionResult AddObjective(int goalID, string userID, FormCollection collection)
+        public ActionResult AddObjective(int goalID, FormCollection collection)
         {
             string objectiveName = collection["objectiveName"];
             string objectiveDescription = collection["objectiveDescription"];
@@ -130,7 +130,7 @@ namespace CodeEditorApp.Controllers
                 return RedirectToAction("Index", "Project", new { model = projectModel });
             }
 
-            GoalViewModel thisObjective = new GoalViewModel() { name = objectiveName, description = objectiveDescription, ProjectID = projectModel.ID, AspNetUserID = userID, finished = false, goalType = GoalType.Objective };
+            GoalViewModel thisObjective = new GoalViewModel() { name = objectiveName, description = objectiveDescription, ProjectID = projectModel.ID, AspNetUserID = User.Identity.GetUserId(), finished = false };
             project.AddNewObjective(thisObjective);
             updateGoals();
             return RedirectToAction("ShowGoals", "project");

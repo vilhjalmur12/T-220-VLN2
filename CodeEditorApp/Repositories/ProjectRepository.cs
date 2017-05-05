@@ -9,13 +9,33 @@ namespace CodeEditorApp.Repositories
 {
     public class ProjectRepository
     {
+        private ApplicationDbContext _db;
         public ProjectRepository()
         {
+            _db = new ApplicationDbContext();
         }
 
-        public List<GoalViewModel> GetGoalsByProject(int ProjectID)
+        public List<GoalViewModel> GetGoalsByProject(int projectID)
         {
-            //Todo
+            List<GoalViewModel> NewModel = new List<GoalViewModel>();
+            _db.Goals.ToList().ForEach((x) =>
+            {
+                if (x.ProjectID == projectID)
+                {
+                    List<GoalViewModel> theObjectives = new List<GoalViewModel>();
+                    NewModel.Add(new GoalViewModel()
+                    {
+                        ID = x.ID,
+                        name = x.name,
+                        description = x.description,
+                        finished = x.finished,
+                        AspNetUserID = x.AspNetUserID,
+                        ProjectID = x.ProjectID
+                    });
+                }
+            });
+
+
             return null;
         }
 
