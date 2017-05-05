@@ -50,7 +50,11 @@ namespace CodeEditorApp.Repositories
             List<CommentViewModel> NewList = new List<CommentViewModel>();
             foreach (Comment comment in _db.Comments.Where(x => x.ProjectID == ProjectID))
             {
-              //  NewList.Add(comment);
+                NewList.Add(new CommentViewModel()
+                {
+                    Content = comment.content,
+                    AspNetID = comment.AspNetUserID
+                });
             }
             return NewList;
         }
@@ -60,22 +64,47 @@ namespace CodeEditorApp.Repositories
             return _db.ProjectTypes.ToList();
         }
 
-        public List<FolderViewModel> GetFileTree(string UserID)
+        public FolderViewModel GetProjectFileTree(Project project)
         {
-            List<FolderViewModel> UserFolders = new List<FolderViewModel>();
-            
-            foreach (Folder folder in _db.Folders.Where(x => x.AspNetUserID == UserID))
-            {
-                UserFolders.Add(new FolderViewModel()
-                {
-                    ID = folder.ID,
-                    Name = folder.Name,
+            Folder tmp = _db.Folders.Where(x => x.ProjectID == project.ID && x.IsSolutionFolder == true).SingleOrDefault();
+            FolderViewModel folder = new FolderViewModel();
 
-                    //TODO:     project = folder.project
-                }); 
-            }
+            folder.ID = tmp.ID;
+            folder.Name = tmp.Name;
+            folder.ProjectID = tmp.ProjectID;
+            folder.HeadFolderID = tmp.HeadFolderID;
+            List<FolderViewModel> TmpFolderList = new List<FolderViewModel>();
+            GetAllSubFolders(ref TmpFolderList, tmp.ID);
+            folder.SubFolders = TmpFolderList;
+            
             return null;
         }
+
+        public void GetAllSubFolders (ref List<FolderViewModel> SubFolders, int FolderID)
+        {
+            List<Folder> TmpFolders = _db.Folders.Where(x => x.HeadFolderID == FolderID).ToList();
+            FolderViewModel TmpViewModel = new FolderViewModel();
+
+            if (TmpFolders == null)
+            {
+                return;
+            } else
+            {
+                foreach (Folder item in TmpFolders)
+                {
+                    /*
+                
+                        ID = item.ID,
+                        Name = item.Name,
+                        ProjectID = item.ProjectID,
+                        HeadFolderID = item.HeadFolderID,
+                        //TODO GetAllFiles
+                     */
+                   
+                }
+            }
+        }
+        
 
         public void CreateProject(Project project)
         {
@@ -118,18 +147,22 @@ namespace CodeEditorApp.Repositories
 
         public void DeleteRecursiveFolder (int folderID)
         {
-            List<Folder> SubFolders = _db.Folders.Where(x => x.ID == folderID).ToList();
+            List<Folder> SubFolders = _db.Folders.Where(x => x.HeadFolderID == folderID).ToList();
 
             if (SubFolders == null)
             {
+                Folder tmp = _db.Folders.Where(x => x.ID == folderID).SingleOrDefault();
+                DeleteFolderFiles(tmp.ID);
+                _db.Folders.Remove(tmp);
+                _db.SaveChanges();
                 return;
             }
 
             foreach (Folder item in SubFolders)
             {
                 DeleteRecursiveFolder(item.ID);
-                Folder RemoveFolder = _db.Folders.Where(x => x.ID == folderID).SingleOrDefault();
-                _db.Folders.Remove(RemoveFolder);
+                DeleteFolderFiles(item.ID);
+                _db.Folders.Remove(item);
                 _db.SaveChanges();
             }   
         }
@@ -137,8 +170,49 @@ namespace CodeEditorApp.Repositories
         public void DeleteProject(int projectID)
         {
             //TODO
+            Project RmvProject = _db.Projects.Where(x => x.ID == projectID).SingleOrDefault();
+            Folder RmvFolder = _db.Folders.Where(x => x.ID == RmvProject.SolutionFolderID).SingleOrDefault();
+            List<Membership> PrjMember = _db.Memberships.Where(x => x.ProjectID == projectID).ToList();
 
-            
+            foreach(Membership item in PrjMember)
+            {
+                DeleteMembership(item);
+            }
+
+            DeleteFolder(RmvFolder.ID);
+            DeleteProjectComments(projectID);
+            DeleteProjectGoals(projectID);
+
+            _db.Projects.Remove(RmvProject);
+            _db.SaveChanges();
+        }
+
+        public void DeleteProjectComments (int projectID)
+        {
+            List<Comment> PrjComments = _db.Comments.Where(x => x.ProjectID == projectID).ToList();
+
+            if (PrjComments != null)
+            {
+                foreach (Comment item in PrjComments)
+                {
+                    _db.Comments.Remove(item);
+                    _db.SaveChanges();
+                }
+            }
+        }
+
+        public void DeleteProjectGoals (int projectID)
+        {
+            List<Goal> PrjGoals = _db.Goals.Where(x => x.ProjectID == projectID).ToList();
+
+            if(PrjGoals != null)
+            {
+                foreach (Goal item in PrjGoals)
+                {
+                    _db.Goals.Remove(item);
+                    _db.SaveChanges();
+                }
+            }
         }
 
         public void DeleteFile(int fileID)
@@ -164,6 +238,13 @@ namespace CodeEditorApp.Repositories
                 }
             }
         }
+
+        public void DeleteMembership (Membership membership)
+        {
+            _db.Memberships.Remove(membership);
+            _db.SaveChanges();
+        }
+
 
         public void MoveProjectPath(int projectID, string newPath)
         {
