@@ -17,7 +17,7 @@ namespace CodeEditorApp.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "About this awesome page.";
+            ViewBag.Message = "About the ColabCode Project.";
 
             return View();
         }

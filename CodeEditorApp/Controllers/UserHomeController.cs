@@ -73,5 +73,19 @@ namespace CodeEditorApp.Controllers
             //TODO
             return null;
         }
+
+
+
+        /// <summary>
+        /// Finds current users UserID, and looks for all information about that user.
+        /// ApplicationUser holds all user info.
+        /// </summary>
+        /// <returns>A single ApplicationUser</returns>
+        public UserViewModel GetUserInfo ()
+        {
+            string UserID = User.Identity.GetUserId();
+            UserViewModel ReturnUser = UserHome.GetUser(UserID);
+            return ReturnUser;
+        }
     }
 }

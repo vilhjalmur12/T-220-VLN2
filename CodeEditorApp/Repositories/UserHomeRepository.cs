@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using Microsoft.AspNet.Identity;
 
 namespace CodeEditorApp.Repositories
 {
@@ -13,11 +14,24 @@ namespace CodeEditorApp.Repositories
     {
         private ApplicationDbContext _db;
 
+
+
+        /// <summary>
+        /// The class initializer will create a NEW instance of ApplicationDbContext to 
+        /// connect to our database.
+        /// </summary>
         public UserHomeRepository()
         {
             _db = new ApplicationDbContext();
         }
 
+
+        /// <summary>
+        /// A method to call all projects owned by a specific user with specific UserID, takes all projects
+        /// and transforms the Projects to a ViewModel class ("ProjectViewModel") and returns that list.
+        /// </summary>
+        /// <param name="UserID"></param>
+        /// <returns>A list of ProjectViewModels owned or linked with user</returns>
         public List<ProjectViewModel> GetAllProjects(string UserID)
         { 
             
@@ -45,6 +59,24 @@ namespace CodeEditorApp.Repositories
             return NewModel;
         }
 
+
+
+        /// <summary>
+        /// Collects all project types for the projects
+        /// </summary>
+        /// <returns>A list of ProjectType</returns>
+        public List<ProjectType> GetAllProjectTypes()
+        {
+            return _db.ProjectTypes.ToList();
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ProjectID"></param>
+        /// <returns></returns>
         public List<CommentViewModel> GetProjectComments (int ProjectID)
         {
             List<CommentViewModel> NewList = new List<CommentViewModel>();
@@ -58,12 +90,14 @@ namespace CodeEditorApp.Repositories
             }
             return NewList;
         }
+        
 
-        public List<ProjectType> GetAllProjectTypes ()
-        {
-            return _db.ProjectTypes.ToList();
-        }
 
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
         public FolderViewModel GetProjectFileTree(Project project)
         {
             Folder tmp = _db.Folders.Where(x => x.ProjectID == project.ID && x.IsSolutionFolder == true).SingleOrDefault();
@@ -73,39 +107,122 @@ namespace CodeEditorApp.Repositories
             folder.Name = tmp.Name;
             folder.ProjectID = tmp.ProjectID;
             folder.HeadFolderID = tmp.HeadFolderID;
-            List<FolderViewModel> TmpFolderList = new List<FolderViewModel>();
-            GetAllSubFolders(ref TmpFolderList, tmp.ID);
-            folder.SubFolders = TmpFolderList;
-            
+            folder.SubFolders =  GetAllSubFolders(tmp);
+            folder.Files = GetFolderFiles(tmp.ID);
+
             return null;
         }
 
-        public void GetAllSubFolders (ref List<FolderViewModel> SubFolders, int FolderID)
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="FolderID"></param>
+        /// <returns></returns>
+        public FolderViewModel GetFolder (int FolderID) {
+            Folder tmp = _db.Folders.Where(x => x.ID == FolderID).SingleOrDefault();
+            FolderViewModel folder = new FolderViewModel();
+
+            folder.ID = tmp.ID;
+            folder.Name = tmp.Name;
+            folder.ProjectID = tmp.ProjectID;
+            folder.HeadFolderID = tmp.HeadFolderID;
+            folder.SubFolders = GetAllSubFolders(tmp);
+            folder.Files = GetFolderFiles(tmp.ID);
+            return folder;
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="FileID"></param>
+        /// <returns></returns>
+        public FileViewModel GetFile (int FileID)
         {
-            List<Folder> TmpFolders = _db.Folders.Where(x => x.HeadFolderID == FolderID).ToList();
+            File tmp = _db.Files.Where(x => x.ID == FileID).SingleOrDefault();
+            FileViewModel NewFile = new FileViewModel();
+
+            NewFile.ID = tmp.ID;
+            NewFile.name = tmp.name;
+            NewFile.HeadFolderID = tmp.HeadFolderID;
+            NewFile.ProjectID = tmp.ProjectID;
+            return NewFile;
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="FolderID"></param>
+        /// <returns></returns>
+        public List<FileViewModel> GetFolderFiles (int FolderID)
+        {
+            Folder tmp = _db.Folders.Where(x => x.ID == FolderID).SingleOrDefault();
+            List<File> DbFileList = _db.Files.Where(x => x.HeadFolderID == FolderID).ToList();
+            List<FileViewModel> NewList = new List<FileViewModel>();
+
+            if (DbFileList != null)
+            {
+                foreach (File item in DbFileList)
+                {
+                    NewList.Add(new FileViewModel()
+                    {
+                        ID = item.ID,
+                        name = item.name,
+                        HeadFolderID = item.HeadFolderID,
+                        ProjectID = item.ProjectID
+                    });
+                }
+                return NewList;
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
+        public List<FolderViewModel> GetAllSubFolders (Folder folder)
+        {
+            List<Folder> TmpFolders = _db.Folders.Where(x => x.HeadFolderID == folder.ID).ToList();
+            List<FolderViewModel> NewList = new List<FolderViewModel>();
             FolderViewModel TmpViewModel = new FolderViewModel();
 
             if (TmpFolders == null)
             {
-                return;
+                return null;
             } else
             {
                 foreach (Folder item in TmpFolders)
                 {
-                    /*
-                
-                        ID = item.ID,
-                        Name = item.Name,
-                        ProjectID = item.ProjectID,
-                        HeadFolderID = item.HeadFolderID,
-                        //TODO GetAllFiles
-                     */
-                   
+                    TmpViewModel.ID = item.ID;
+                    TmpViewModel.Name = item.Name;
+                    TmpViewModel.ProjectID = item.ProjectID;
+                    TmpViewModel.HeadFolderID = item.HeadFolderID;
+                    TmpViewModel.Files = GetFolderFiles(item.ID);
+                    TmpViewModel.SubFolders = GetAllSubFolders(item);
+                    NewList.Add(TmpViewModel);
                 }
+                return NewList;
             }
         }
-        
 
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="project"></param>
         public void CreateProject(Project project)
         {
             Folder HeadFolder = CreateSolutionFolder(project);
@@ -114,8 +231,17 @@ namespace CodeEditorApp.Repositories
 
             _db.Projects.Add(project);
             _db.SaveChanges();
+
+            
         }
 
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
         public Folder CreateSolutionFolder(Project project)
         {
             //TODO
@@ -131,6 +257,14 @@ namespace CodeEditorApp.Repositories
             return NewFolder;
         }
 
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="AspNetUserID"></param>
+        /// <param name="HeadFolderID"></param>
+        /// <param name="folder"></param>
         public void CreateFolder (string AspNetUserID, int HeadFolderID, Folder folder)
         {
             folder.AspNetUserID = AspNetUserID;
@@ -140,11 +274,42 @@ namespace CodeEditorApp.Repositories
             _db.SaveChanges();
 
         }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="file"></param>
+        public void CreateFile (FileViewModel file)
+        {
+            File NewFile = new Models.File();
+
+            NewFile.name = file.name;
+            NewFile.HeadFolderID = file.HeadFolderID;
+            NewFile.ProjectID = file.ProjectID;
+
+            _db.Files.Add(NewFile);
+            _db.SaveChanges();
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="folderID"></param>
         public void DeleteFolder(int folderID)
         {
             DeleteRecursiveFolder(folderID);
         }
 
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="folderID"></param>
         public void DeleteRecursiveFolder (int folderID)
         {
             List<Folder> SubFolders = _db.Folders.Where(x => x.HeadFolderID == folderID).ToList();
@@ -277,6 +442,25 @@ namespace CodeEditorApp.Repositories
         {
             _db.RootFolders.Add(Root);
             _db.SaveChanges();
+        }
+
+
+
+        /// <summary>
+        /// Inputs userID and searches for the user linked with the ID. Returns a single user as
+        /// ApplicationUser (All information about user).
+        /// </summary>
+        /// <param name="UserID"></param>
+        /// <returns>Single ApplicationUser</returns>
+        public UserViewModel GetUser (string UserID)
+        {
+            ApplicationUser TmpUser = _db.Users.Where(x => x.Id == UserID).SingleOrDefault();
+            UserViewModel ReturnUser = new UserViewModel();
+
+            ReturnUser.ID = TmpUser.Id;
+            ReturnUser.UserName = TmpUser.UserName;
+
+            return ReturnUser;
         }
     }
 }
