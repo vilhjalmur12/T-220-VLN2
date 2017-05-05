@@ -15,7 +15,7 @@ namespace CodeEditorApp.Controllers
     {
         private ProjectRepository project = new ProjectRepository();
 
-        private ProjectViewModel projectModel;
+        private ProjectViewModel projectModel = new ProjectViewModel();
 
         public ActionResult Index(ProjectViewModel model)
         {
@@ -109,9 +109,9 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("ShowGoals", "project");
         }
 
-        public ActionResult RemoveGoal(int goalID)
+        public ActionResult RemoveGoal(GoalViewModel goal)
         {
-            project.RemoveGoal(goalID);
+            project.RemoveGoal(goal);
             updateGoals();
             return RedirectToAction("ShowGoals", "project");
         }

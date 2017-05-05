@@ -6,6 +6,7 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
+using CodeEditorApp.Models.Entities;
 
 namespace CodeEditorApp.Repositories
 {
@@ -19,109 +20,145 @@ namespace CodeEditorApp.Repositories
 
         public List<GoalViewModel> GetGoalsByProject(int projectID)
         {
-            List<GoalViewModel> NewModel = new List<GoalViewModel>();
-            _db.Goals.ToList().ForEach((x) =>
+            List<GoalViewModel> goalModels = new List<GoalViewModel>();
+            _db.Goals.ToList().ForEach(goal =>
             {
-                if (x.ProjectID == projectID)
+                if (goal.ProjectID == projectID)
                 {
-                    List<ObjectiveViewModel> theObjectives = new List<ObjectiveViewModel>();
-                    _db.Objectives.ToList().ForEach((y) =>
+                    // Get the objectives for the goal
+                    List<ObjectiveViewModel> objectiveModels = new List<ObjectiveViewModel>();
+                    _db.Objectives.ToList().ForEach(objective =>
                     {
-                        if (y.GoalID == x.ID)
+                        if (objective.GoalID == goal.ID)
                         {
-                            theObjectives.Add(new ObjectiveViewModel()
+                            objectiveModels.Add(new ObjectiveViewModel()
                             {
-                                ID = y.ID,
-                                name = y.name,
-                                finished = y.finished,
-                                AspNetUserID = y.AspNetUserID,
-                                GoalID = y.GoalID
+                                ID = objective.ID,
+                                name = objective.name,
+                                finished = objective.finished,
+                                AspNetUserID = objective.AspNetUserID,
+                                GoalID = objective.GoalID
                             });
                         }
                     });
-                    NewModel.Add(new GoalViewModel()
+
+                    goalModels.Add(new GoalViewModel()
                     {
-                        ID = x.ID,
-                        name = x.name,
-                        description = x.description,
-                        finished = x.finished,
-                        AspNetUserID = x.AspNetUserID,
-                        ProjectID = x.ProjectID,
-                        objectives = theObjectives
+                        ID = goal.ID,
+                        name = goal.name,
+                        description = goal.description,
+                        finished = goal.finished,
+                        AspNetUserID = goal.AspNetUserID,
+                        ProjectID = goal.ProjectID,
+                        objectives = objectiveModels
                     });
                 }
             });
 
-            return NewModel;
+            return goalModels;
         }
 
         public List<CommentViewModel> GetCommentsByProject(int projectID)
         {
-            List<CommentViewModel> NewModel = new List<CommentViewModel>();
-            _db.Comments.ToList().ForEach((x) =>
+            List<CommentViewModel> commentModels = new List<CommentViewModel>();
+            _db.Comments.ToList().ForEach(comment =>
             {
-                if (x.ProjectID == projectID)
+                if (comment.ProjectID == projectID)
                 {
-                    NewModel.Add(new CommentViewModel()
+                    commentModels.Add(new CommentViewModel()
                     {
-                        ID = x.ID,
-                        Content = x.content,
-                        AspNetUserID = x.AspNetUserID,
-                        ProjectID = x.ProjectID,
+                        ID = comment.ID,
+                        Content = comment.content,
+                        AspNetUserID = comment.AspNetUserID,
+                        ProjectID = comment.ProjectID,
                     });
                 }
             });
 
-            return NewModel;
+            return commentModels;
         }
 
         public List<UserViewModel> GetUsersByProject(int projectID)
         {
-            List<UserViewModel> NewModel = new List<UserViewModel>();
+            List<UserViewModel> userModels = new List<UserViewModel>();
+
             _db.Memberships.ToList().ForEach((x) =>
             {
                 if (x.ProjectID == projectID)
                 {
-                    NewModel.Add(new UserViewModel()
+                    userModels.Add(new UserViewModel()
                     {                  
-                       
+                       //TODO: na i alla og setja i userModels
                     });
                 }
             });
 
-            return NewModel;
+            return userModels;
         }
 
-        public List<FileViewModel> GetFilesByProject(int ProjectID)
+        public List<FileViewModel> GetFilesByProject(int projectID)
         {
-            
+           // TODO
             return null;
         }
 
-        public List<FolderViewModel> GetFoldersByProject (int ProjectID)
+        public List<FolderViewModel> GetFoldersByProject (int projectID)
         {
-            //TODO
+           //TODO
             return null;
         }
 
         public void AddNewGoal(GoalViewModel goal)
         {
-            //TODO
+            Goal newGoal = new Goal()
+            {
+                ID = goal.ID,
+                name = goal.name,
+                description = goal.description,
+                finished = goal.finished,
+                AspNetUserID = goal.AspNetUserID,
+                ProjectID = goal.ProjectID
+            };
+
+            _db.Goals.Add(newGoal);
+            _db.SaveChanges();
         }
 
-        public void RemoveGoal(int goalID)
+        public void RemoveGoal(GoalViewModel goal)
         {
-            //TODO
+            Goal theGoal = _db.Goals.Find(goal.ID);
+
+            if (goal.objectives.Count != 0)
+            {
+                foreach (ObjectiveViewModel x in goal.objectives)
+                {
+                    RemoveObjective(x.ID);
+                }
+            }
+
+            _db.Goals.Remove(theGoal);
+            _db.SaveChanges();
         }
 
         public void AddNewObjective(ObjectiveViewModel objective)
         {
-            //TODO
+            Objective newObjective = new Objective()
+            {
+                ID = objective.ID,
+                name = objective.name,
+                finished = objective.finished,
+                AspNetUserID = objective.AspNetUserID,
+            };
+
+            _db.Objectives.Add(newObjective);
+            _db.SaveChanges();
         }
 
         public void RemoveObjective(int objectiveID)
         {
-            //TODO
+            Objective theObjective = _db.Objectives.Find(objectiveID);
+            _db.Objectives.Remove(theObjective);
+            _db.SaveChanges();
         }
 
         public void AddUserToProject(string AspNetUserID, int projectID)
@@ -150,19 +187,6 @@ namespace CodeEditorApp.Repositories
             //TODO
         }
 
-        public IEnumerable<CommentViewModel> ListCommentsByProject(int projectID)
-        {
-            //TODO
-            return null;
-        }
-
-
-        public IEnumerable<GoalViewModel> ListGoalsByProject(int projectID)
-        {
-            //TODO
-            return null;
-        }
-
         public void EditProject(int projectID)
         {
             //TODO
@@ -185,7 +209,7 @@ namespace CodeEditorApp.Repositories
 
         public void ChangeProjectName(int projectID, string newName)
         {
-            //TODO
+            Project project = _db.Projects.Find(projectID);
         }
 
         public void ChangeFileName(int fileID, string newName)
