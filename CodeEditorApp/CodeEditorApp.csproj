@@ -209,6 +209,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\MyHub1.cs" />
     <Compile Include="Migrations\201705041341196_projectTOfolder.cs" />
     <Compile Include="Migrations\201705041341196_projectTOfolder.Designer.cs">
       <DependentUpon>201705041341196_projectTOfolder.cs</DependentUpon>
@@ -225,6 +226,14 @@
     <Compile Include="Migrations\201705041542583_Memberships.Designer.cs">
       <DependentUpon>201705041542583_Memberships.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705051010429_laga goals.cs" />
+    <Compile Include="Migrations\201705051010429_laga goals.Designer.cs">
+      <DependentUpon>201705051010429_laga goals.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705051013119_objectives.cs" />
+    <Compile Include="Migrations\201705051013119_objectives.Designer.cs">
+      <DependentUpon>201705051013119_objectives.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entities\Comment.cs" />
@@ -232,12 +241,15 @@
     <Compile Include="Models\Entities\Folder.cs" />
     <Compile Include="Models\Entities\Goal.cs" />
     <Compile Include="Models\Entities\Membership.cs" />
+    <Compile Include="Models\Entities\Objective.cs" />
     <Compile Include="Models\Entities\RootFolder.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Entities\Project.cs" />
     <Compile Include="Models\Entities\ProjectType.cs" />
+    <Compile Include="Models\ViewModels\ObjectiveViewModel.cs" />
     <Compile Include="Models\ViewModels\RootFolderViewModel.cs" />
+    <Compile Include="Models\ViewModels\UserViewModel.cs" />
     <Compile Include="Repositories\User.cs" />
     <Compile Include="Models\ViewModels\CommentViewModel.cs" />
     <Compile Include="Models\ViewModels\FileViewModel.cs" />
@@ -667,7 +679,7 @@
     <Content Include="Views\UserHome\Index.cshtml" />
     <Content Include="Views\Home\Team.cshtml" />
     <Content Include="Views\Home\Help.cshtml" />
-    <Content Include="Views\Account\_LogInPartial.cshtml" />
+    <Content Include="Views\UserHome\_Layout.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -693,6 +705,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705041542583_Memberships.resx">
       <DependentUpon>201705041542583_Memberships.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705051010429_laga goals.resx">
+      <DependentUpon>201705051010429_laga goals.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705051013119_objectives.resx">
+      <DependentUpon>201705051013119_objectives.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
