@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 
-namespace CodeEditorApp.Models.Entities
+namespace CodeEditorApp.Models
 {
     public class Objective
     {  
