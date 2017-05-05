@@ -40,23 +40,37 @@ namespace CodeEditorApp.Repositories
             {
                 if (x.AspNetUserID == UserID)
                 {
-                    NewModel.Add(new ProjectViewModel()
-                    {
-                        ID = x.ID,
-                        name = x.name,
-                    });
+                    NewModel.Add(GetProjectByID(x.ID));
                 }
             });
 
-            if (NewModel != null)
-            {
-                foreach (ProjectViewModel project in NewModel)
-                {
-                    project.Comments = GetProjectComments(project.ID);
-                }
-            }
-
             return NewModel;
+        }
+
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ProjectID"></param>
+        /// <returns></returns>
+        public ProjectViewModel GetProjectByID (int ProjectID)
+        {
+            ProjectViewModel ReturnProject = new ProjectViewModel();
+            Project tmp = _db.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
+
+            ReturnProject.ID = tmp.ID;
+            ReturnProject.name = tmp.name;
+            ReturnProject.OwnerID = tmp.AspNetUserID;
+            ReturnProject.TypeID = tmp.ProjectTypeID;
+            ReturnProject.HeadFolderID = tmp.HeadFolderID;
+            ReturnProject.SolutionFolderID = tmp.SolutionFolderID;
+            ReturnProject.SolutionFolder = GetFolder(ReturnProject.SolutionFolderID);
+            ReturnProject.Comments = GetProjectComments(ReturnProject.ID);
+            ReturnProject.Members = GetProjectMembers(ReturnProject.ID);
+            ReturnProject.Goals = GetProjectGoals(ReturnProject.ID);
+
+            return ReturnProject;
         }
 
 
@@ -70,6 +84,39 @@ namespace CodeEditorApp.Repositories
             return _db.ProjectTypes.ToList();
         }
 
+        public List<UserViewModel> GetProjectMembers (int ProjectID)
+        {
+            List<UserViewModel> ReturnList = new List<UserViewModel>();
+            UserViewModel TmpUser = new UserViewModel();
+
+            foreach (Membership tableitem in _db.Memberships.Where(x => x.ProjectID == ProjectID))
+            {
+                TmpUser = GetUser(tableitem.UserID);
+                ReturnList.Add(TmpUser);
+            }
+
+            return ReturnList;
+        }
+
+        public List<GoalViewModel> GetProjectGoals (int ProjectID)
+        {
+            List<GoalViewModel> ReturnList = new List<GoalViewModel>();
+            GoalViewModel TmpGoal = new GoalViewModel();
+
+            foreach(Goal goalItem in _db.Goals.Where(x => x.ProjectID == ProjectID))
+            {
+                TmpGoal.ID = goalItem.ID;
+                TmpGoal.name = goalItem.name;
+                TmpGoal.description = goalItem.description;
+                TmpGoal.ProjectID = goalItem.ProjectID;
+                TmpGoal.AspNetUserID = goalItem.AspNetUserID;
+                TmpGoal.finished = goalItem.finished;
+                ReturnList.Add(TmpGoal);
+            }
+
+            return ReturnList;
+        }
+
 
 
         /// <summary>
@@ -80,6 +127,7 @@ namespace CodeEditorApp.Repositories
         public List<CommentViewModel> GetProjectComments (int ProjectID)
         {
             List<CommentViewModel> NewList = new List<CommentViewModel>();
+
             foreach (Comment comment in _db.Comments.Where(x => x.ProjectID == ProjectID))
             {
                 NewList.Add(new CommentViewModel()
@@ -332,6 +380,12 @@ namespace CodeEditorApp.Repositories
             }   
         }
 
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectID"></param>
         public void DeleteProject(int projectID)
         {
             //TODO
@@ -352,6 +406,12 @@ namespace CodeEditorApp.Repositories
             _db.SaveChanges();
         }
 
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectID"></param>
         public void DeleteProjectComments (int projectID)
         {
             List<Comment> PrjComments = _db.Comments.Where(x => x.ProjectID == projectID).ToList();
@@ -366,6 +426,12 @@ namespace CodeEditorApp.Repositories
             }
         }
 
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="projectID"></param>
         public void DeleteProjectGoals (int projectID)
         {
             List<Goal> PrjGoals = _db.Goals.Where(x => x.ProjectID == projectID).ToList();
@@ -380,6 +446,12 @@ namespace CodeEditorApp.Repositories
             }
         }
 
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="fileID"></param>
         public void DeleteFile(int fileID)
         {
             //TODO
@@ -389,6 +461,12 @@ namespace CodeEditorApp.Repositories
             _db.SaveChanges();
         }
 
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="folderID"></param>
         public void DeleteFolderFiles (int folderID)
         {
             List<File> AllFiles = new List<File>();
@@ -404,6 +482,12 @@ namespace CodeEditorApp.Repositories
             }
         }
 
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="membership"></param>
         public void DeleteMembership (Membership membership)
         {
             _db.Memberships.Remove(membership);
@@ -438,6 +522,12 @@ namespace CodeEditorApp.Repositories
             return false;
         }
 
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="Root"></param>
         public void CreateRoot(RootFolder Root)
         {
             _db.RootFolders.Add(Root);
