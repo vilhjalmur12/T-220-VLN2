@@ -94,13 +94,14 @@ namespace CodeEditorApp.Repositories
             NewFolder.Name = project.name + "Solutions";
             NewFolder.AspNetUserID = project.AspNetUserID;
             NewFolder.ProjectID = project.ID;
+            NewFolder.IsSolutionFolder = true;
 
             _db.Folders.Add(NewFolder);
 
             return NewFolder;
         }
 
-        public void CreateNewSubFolder (string AspNetUserID)
+        public void CreateFolder (string AspNetUserID)
         {
 
         }
