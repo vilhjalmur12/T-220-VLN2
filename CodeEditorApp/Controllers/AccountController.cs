@@ -169,7 +169,7 @@ namespace CodeEditorApp.Controllers
                     Root.UserID = user.Id;
                     UserHomeRepository service = new UserHomeRepository();
                     service.CreateRoot(Root);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "UserHome");
                 }
                 AddErrors(result);
             }
