@@ -119,18 +119,13 @@ namespace CodeEditorApp.Controllers
         public ActionResult AddObjective(int goalID, FormCollection collection)
         {
             string objectiveName = collection["objectiveName"];
-            string objectiveDescription = collection["objectiveDescription"];
 
             if (String.IsNullOrEmpty(objectiveName))
             {
                 return View("Error");
             }
-            if (String.IsNullOrEmpty(objectiveDescription))
-            {
-                return RedirectToAction("Index", "Project", new { model = projectModel });
-            }
 
-            GoalViewModel thisObjective = new GoalViewModel() { name = objectiveName, description = objectiveDescription, ProjectID = projectModel.ID, AspNetUserID = User.Identity.GetUserId(), finished = false };
+            ObjectiveViewModel thisObjective = new ObjectiveViewModel() { name = objectiveName, GoalID = goalID, AspNetUserID = User.Identity.GetUserId(), finished = false };
             project.AddNewObjective(thisObjective);
             updateGoals();
             return RedirectToAction("ShowGoals", "project");
