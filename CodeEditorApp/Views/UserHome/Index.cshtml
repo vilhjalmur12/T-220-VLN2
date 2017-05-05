@@ -13,15 +13,59 @@
         <h2>@item.location</h2>
         <br/>
     }*@
+<head>
+    <style>
 
+    </style>
+    }
+
+</head>
 <body>
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-2 document-list">
             <p>Þetta er index í UserHome</p>
 
         </div>
-        <div class="col-md-10">
-            <p>hehe</p>
+        <div class="col-md-9 project-table">
+            <!-- Responsive table starts here -->
+            <!-- For correct display on small screens you must add 'data-title' to each 'td' in your table -->
+            <div class="table-responsive-vertical shadow-z-1">
+                <!-- Table starts here -->
+                <table id="table" class="table table-hover table-responsive">
+                    <thead>
+                        <tr>
+                            <th>#</th>
+                            <th>Name</th>
+                            <th>Last Modified</th>
+                            <th>Owner</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td data-title="ID">1</td>
+                            <td data-title="name-of-project">Material Design Color Palette</td>
+                            <td data-title="project-modified">24/4/2017</td>
+                            <td data-title="project-owner">Jack Daniels</td>
+                        </tr>
+                        <tr>
+                            <td data-title="ID">2</td>
+                            <td data-title="name-of-project">Material Design Color Palette</td>
+                            <td data-title="project-modified">24/4/2017</td>
+                            <td data-title="project-owner">Jack Daniels</td>
+                        </tr>
+                        <tr>
+                            <td data-title="ID">3</td>
+                            <td data-title="name-of-project">Material Design Color Palette</td>
+                            <td data-title="project-modified">24/4/2017</td>
+                            <td data-title="project-owner">Jack Daniels</td>
+                        </tr>                       
+                    </tbody>
+                </table>
+            </div>
+
+        </div>
+        <div class="col-md-1 add-project">
+
         </div>
     </div>
 

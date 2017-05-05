@@ -54,6 +54,19 @@ body, html {
 }
 
 
+
+/*UserHomePage*/
+
+.document-list{
+    border: 5px solid red;
+}
+.project-table{
+    border: 5px solid yellow;
+}
+
+.add-project{
+    border: 5px solid green;
+}
 /*stuff we might not need*/
 
 /* Set width on the form input elements since they're 100% wide by default */
