@@ -81,12 +81,11 @@ namespace CodeEditorApp.Repositories
         public List<UserViewModel> GetUsersByProject(int projectID)
         {
             List<UserViewModel> userModels = new List<UserViewModel>();
-
-            _db.Memberships.ToList().ForEach((x) =>
+            _db.Memberships.ToList().ForEach(membership =>
             {
-                if (x.ProjectID == projectID)
+                if (membership.ProjectID == projectID)
                 {
-                    userModels.Add(GetUser(x.UserID));
+                    userModels.Add(GetUser(membership.UserID));
                 }
             });
 
@@ -113,13 +112,43 @@ namespace CodeEditorApp.Repositories
 
         public List<FileViewModel> GetFilesByProject(int projectID)
         {
-           // TODO
-            return null;
+            // TODO
+            List<FileViewModel> fileModels = new List<FileViewModel>();
+            _db.Files.ToList().ForEach(file =>
+            {
+                if (file.ProjectID == projectID)
+                {
+                    fileModels.Add(new FileViewModel()
+                    {
+                        ID = file.ID,
+                        name = file.name,
+                        ProjectID = file.ProjectID,
+                        HeadFolderID = file.HeadFolderID,
+                    });
+                }
+            });
+            return fileModels;
         }
 
         public List<FolderViewModel> GetFoldersByProject (int projectID)
         {
-           //TODO
+            //TODO
+            List<FolderViewModel> folderModels = new List<FolderViewModel>();
+            _db.Folders.ToList().ForEach(folder =>
+            {
+                if (folder.ProjectID == projectID)
+                {
+                    folderModels.Add(new FolderViewModel()
+                    {
+                        ID = folder.ID,
+                        Name = folder.Name,
+                        ProjectID = folder.ProjectID,
+                        HeadFolderID = folder.HeadFolderID,
+                    });
+                }
+
+
+            });
             return null;
         }
 
