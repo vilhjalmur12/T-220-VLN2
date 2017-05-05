@@ -4,6 +4,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
+using Microsoft.AspNet.Identity;
 
 namespace CodeEditorApp.Repositories
 {
@@ -22,7 +24,21 @@ namespace CodeEditorApp.Repositories
             {
                 if (x.ProjectID == projectID)
                 {
-                    List<GoalViewModel> theObjectives = new List<GoalViewModel>();
+                    List<ObjectiveViewModel> theObjectives = new List<ObjectiveViewModel>();
+                    _db.Objectives.ToList().ForEach((y) =>
+                    {
+                        if (y.GoalID == x.ID)
+                        {
+                            theObjectives.Add(new ObjectiveViewModel()
+                            {
+                                ID = y.ID,
+                                name = y.name,
+                                finished = y.finished,
+                                AspNetUserID = y.AspNetUserID,
+                                GoalID = y.GoalID
+                            });
+                        }
+                    });
                     NewModel.Add(new GoalViewModel()
                     {
                         ID = x.ID,
@@ -30,25 +46,51 @@ namespace CodeEditorApp.Repositories
                         description = x.description,
                         finished = x.finished,
                         AspNetUserID = x.AspNetUserID,
-                        ProjectID = x.ProjectID
+                        ProjectID = x.ProjectID,
+                        objectives = theObjectives
                     });
                 }
             });
 
-
-            return null;
+            return NewModel;
         }
 
-        public List<CommentViewModel> GetCommentsByProject(int ProjectID)
+        public List<CommentViewModel> GetCommentsByProject(int projectID)
         {
-            //Todo
-            return null;
+            List<CommentViewModel> NewModel = new List<CommentViewModel>();
+            _db.Comments.ToList().ForEach((x) =>
+            {
+                if (x.ProjectID == projectID)
+                {
+                    NewModel.Add(new CommentViewModel()
+                    {
+                        ID = x.ID,
+                        Content = x.content,
+                        AspNetUserID = x.AspNetUserID,
+                        ProjectID = x.ProjectID,
+                    });
+                }
+            });
+
+            return NewModel;
         }
 
-        public List<AspNetUser> GetUsersByProject(int ProjectID)
+        public List<UserViewModel> GetUsersByProject(int projectID)
         {
-            //Todo
-            return null;
+            List<UserViewModel> NewModel = new List<UserViewModel>();
+            _db.Memberships.ToList().ForEach((x) =>
+            {
+                if (x.ProjectID == projectID)
+                {
+                    NewModel.Add(new UserViewModel()
+                    {
+                   
+                    //    UserName = User.Identity.GetUserName();
+                    });
+                }
+            });
+
+            return NewModel;
         }
 
         public List<FileViewModel> GetFilesByProject(int ProjectID)
@@ -73,7 +115,7 @@ namespace CodeEditorApp.Repositories
             //TODO
         }
 
-        public void AddNewObjective(GoalViewModel objective)
+        public void AddNewObjective(ObjectiveViewModel objective)
         {
             //TODO
         }
