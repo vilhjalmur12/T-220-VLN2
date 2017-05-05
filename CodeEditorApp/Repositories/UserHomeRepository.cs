@@ -53,7 +53,7 @@ namespace CodeEditorApp.Repositories
                 NewList.Add(new CommentViewModel()
                 {
                     Content = comment.content,
-                    AspNetID = comment.AspNetUserID
+                    AspNetUserID = comment.AspNetUserID
                 });
             }
             return NewList;
