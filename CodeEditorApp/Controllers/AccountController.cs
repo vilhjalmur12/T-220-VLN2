@@ -169,7 +169,7 @@ namespace CodeEditorApp.Controllers
                     Root.UserID = user.Id;
                     UserHomeRepository service = new UserHomeRepository();
                     service.CreateRoot(Root);
-                    return RedirectToAction("Index", "Home");
+                    return RedirectToAction("Index", "UserHome");
                 }
                 AddErrors(result);
             }
@@ -427,6 +427,11 @@ namespace CodeEditorApp.Controllers
             }
 
             base.Dispose(disposing);
+        }
+        public ActionResult Details()
+        {
+            var m = new Tuple<LoginViewModel, RegisterViewModel>(new LoginViewModel(), new RegisterViewModel());
+            return View(m);
         }
 
         #region Helpers
