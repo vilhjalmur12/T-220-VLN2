@@ -1,6 +1,9 @@
-﻿body {
+﻿
+body {
     margin:0;
     background-color: #006072;
+    font-family: 'Lato', sans-serif;
+    font-size:12px;
 }
 
 body, html {
@@ -8,6 +11,55 @@ body, html {
     width: 100%;
     margin: 0;
 }
+/*Used for the name of site on banner*/
+#name {
+     font-family: 'Lusitana', serif;
+     font-size: xx-large;
+}
+/*=FONT FOR HOMEPAGES=*/
+/*Used for largest headings on Login site*/
+.l-heading-home{
+     font-family: 'Lusitana', serif;
+     font-size:x-large;
+}
+.
+/*Used for smaller headings and larger text on Login site*/
+.s-heading-home{
+    font-family: 'Lato', sans-serif;
+    font-size: large;
+}
+
+/*Used for textfields on Login site*/
+.text-home{
+    font-family: 'Lato', sans-serif;
+    font-size: medium; 
+}
+
+/*For the smallest letters on Login site*/
+.sm-text-home{
+    font-family: 'Lato', sans-serif;
+    font-size: small;
+}
+
+/*=FONTS FOR USERPAGES=*/
+/*Used for largest headings on Login site*/
+.heading-user{
+    font-family: 'Lusitana', serif;
+}
+.l-user{
+    font-family: 'Lato', sans-serif;
+}
+/*Used for smaller headings and larger text on Login site*/
+.m-user{
+    font-family: 'Lato', sans-serif;
+}
+
+/*Used for hover writing*/
+.hover-user{
+    font-family: 'Lato', sans-serif;
+}
+
+
 /*Padding for all containers*/
 .padding-for-container{
     padding:5px;
