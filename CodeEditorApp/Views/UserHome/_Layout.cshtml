@@ -1,4 +1,5 @@
-﻿<!DOCTYPE html>
+﻿
+<!DOCTYPE html>
 <html>
 <head>
     <meta charset="utf-8" />
@@ -8,7 +9,7 @@
     @Scripts.Render("~/bundles/modernizr")
 
 </head>
-<!--The layout of the website for a person that is not logged in-->
+<!--The layout of the website for a logged in person-->
 <body class="container-fluid">
     <header class="navbar navbar-fixed-top container padding-for-container">
         <div class="header-flex-container navbar-left">
@@ -19,22 +20,23 @@
             <ul class="nav navbar-nav">
                 <li>@Html.ActionLink("About", "About", "Home")</li>
                 <li>@Html.ActionLink("Help", "Help", "Home")
-            </ul>    
+            </ul>
         </div>
     </header>
 
-    <!--the body of home page-->
-    <div class="container body-content padding-for-container">  
-            @RenderBody()      
+    <!--the body of logged in page-->
+    <div class="container body-content padding-for-container">
+        @RenderBody()
     </div>
-    <!--End of body of home page-->
+    <!--End of body of logged in page-->
 
-    <footer class="navbar navbar-fixed-bottom padding-for-container">
-        @Html.ActionLink("The Team", "Team", "Home")
+    <!-- sleppa?
+        <footer class="navbar navbar-fixed-bottom padding-for-container">
+      @*  @Html.ActionLink("The Team", "Team", "Home")
         @Html.ActionLink("Terms and conditions", "Terms", "Home")
-        @Html.ActionLink("FAQ", "About", "Home")
+        @Html.ActionLink("FAQ", "About", "Home") *@
     </footer>
-
+    -->
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)

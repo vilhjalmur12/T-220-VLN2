@@ -7,6 +7,7 @@ using System.Web;
 using System.Web.Mvc;
 using CodeEditorApp.Repositories;
 using Microsoft.AspNet.Identity;
+using CodeEditorApp.Models.Entities;
 
 namespace CodeEditorApp.Controllers
 {
@@ -14,40 +15,40 @@ namespace CodeEditorApp.Controllers
     {
         private ProjectRepository project = new ProjectRepository();
 
-        private int projectID;
-        private List<GoalViewModel> projectGoals = new List<GoalViewModel>();
-        private List<CommentViewModel> projectComments = new List<CommentViewModel>();
-        private List<AspNetUser> projectUsers = new List<AspNetUser>();
+        private ProjectViewModel projectModel;
 
-        public ActionResult Index(int? id)
+        public ActionResult Index(ProjectViewModel model)
         {
-            if (id.HasValue)
-            {
-                projectID = id.Value;
-                updateComments();
-                updateGoals();
-                updateUsers();
-                return View();
-            }
-            else
-            {
-                return View("Error");
-            }
+            projectModel = model;
+            updateComments();
+            updateGoals();
+            updateUsers();
+            return View();
         }
 
         private void updateGoals()
         {
-            project.GetGoalsByProject(projectID);
+            projectModel.Goals = project.GetGoalsByProject(projectModel.ID);
         }
 
         private void updateComments()
         {
-            project.GetCommentsByProject(projectID);
+            projectModel.Comments = project.GetCommentsByProject(projectModel.ID);
         }
 
         private void updateUsers()
         {
-            project.GetUsersByProject(projectID);
+            projectModel.Members = project.GetUsersByProject(projectModel.ID);
+        }
+
+        private void updateFiles()
+        {
+            projectModel.Files = project.GetFilesByProject(projectModel.ID);
+        }
+
+        private void updateFolders()
+        {
+            projectModel.Folders = project.GetFoldersByProject(projectModel.ID);
         }
 
         public ActionResult ShowCodeEditor()
@@ -76,15 +77,16 @@ namespace CodeEditorApp.Controllers
 
         public ActionResult AddMember(string AspNetUserID)
         {
-            project.AddUserToProject(AspNetUserID);
+            project.AddUserToProject(AspNetUserID, projectModel.ID);
             updateUsers();
-            return null;
+            return RedirectToAction("ShowGroup", "Project");
         }
 
         public ActionResult RemoveMember(string AspNetUserID)
         {
-            project.RemoveUserFromProject(AspNetUserID);
-            return null;
+            project.RemoveUserFromProject(AspNetUserID, projectModel.ID);
+            updateUsers();
+            return RedirectToAction("ShowGroup", "Project");
         }
 
         public ActionResult AddGoal(FormCollection collection)
@@ -98,12 +100,10 @@ namespace CodeEditorApp.Controllers
             }
             if (String.IsNullOrEmpty(goalDescription))
             {
-                return RedirectToAction("Index", "Project", new { id = projectID });
+                return RedirectToAction("Index", "Project", new { id = projectModel.ID });
             }
 
-            string username = System.Security.Principal.WindowsIdentity.GetCurrent().Name;
-
-            GoalViewModel thisGoal = new GoalViewModel() { name = goalName, description = goalDescription, ProjectID = projectID, AspNetUserID = User.Identity.GetUserName(), finished = false, goalType = 0 };
+            GoalViewModel thisGoal = new GoalViewModel() { name = goalName, description = goalDescription, ProjectID = projectModel.ID, AspNetUserID = User.Identity.GetUserId(), finished = false, goalType = GoalType.Goal };
             project.AddNewGoal(thisGoal);
             updateGoals();
             return RedirectToAction("ShowGoals", "project");
@@ -112,19 +112,35 @@ namespace CodeEditorApp.Controllers
         public ActionResult RemoveGoal(int goalID)
         {
             project.RemoveGoal(goalID);
+            updateGoals();
             return RedirectToAction("ShowGoals", "project");
         }
 
-        public ActionResult AddObjective(int goalID)
+        public ActionResult AddObjective(int goalID, string userID, FormCollection collection)
         {
-            //TODO
-            return null;
+            string objectiveName = collection["objectiveName"];
+            string objectiveDescription = collection["objectiveDescription"];
+
+            if (String.IsNullOrEmpty(objectiveName))
+            {
+                return View("Error");
+            }
+            if (String.IsNullOrEmpty(objectiveDescription))
+            {
+                return RedirectToAction("Index", "Project", new { model = projectModel });
+            }
+
+            GoalViewModel thisObjective = new GoalViewModel() { name = objectiveName, description = objectiveDescription, ProjectID = projectModel.ID, AspNetUserID = userID, finished = false, goalType = GoalType.Objective };
+            project.AddNewObjective(thisObjective);
+            updateGoals();
+            return RedirectToAction("ShowGoals", "project");
         }
 
         public ActionResult RemoveObjective(int objectiveID)
         {
-            //TODO
-            return null;
+            project.RemoveObjective(objectiveID);
+            updateGoals();
+            return RedirectToAction("ShowGoals", "project");
         }
 
         public ActionResult CreateFile()
@@ -153,14 +169,15 @@ namespace CodeEditorApp.Controllers
 
         public ActionResult DeleteFile(int fileID)
         {
-            //TODo
-            return null;
+            project.RemoveFile(fileID);
+            updateFiles();
+            return RedirectToAction("Index", "Project", new { model = projectModel });
         }
 
         public ActionResult LeaveProject()
         {
-            //TODO
-            return null;
+            project.RemoveUserFromProject(User.Identity.GetUserId(), projectModel.ID);
+            return RedirectToAction("Index", "UserHome");
         }
 
         public ActionResult ChangeEditorColor()

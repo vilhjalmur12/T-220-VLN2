@@ -17,22 +17,28 @@ namespace CodeEditorApp.Controllers
 
         public ActionResult About()
         {
-            ViewBag.Message = "Your application description page.";
+            ViewBag.Message = "About this awesome page.";
 
             return View();
         }
 
-        public ActionResult Contact()
+        public ActionResult Terms()
         {
-            ViewBag.Message = "Your contact page.";
+            ViewBag.Message = "Terms and conditions.";
 
             return View();
         }
 
         public ActionResult Team()
         {
-            //TODO
-            return null;
+            ViewBag.Message = "A great text about our team!";
+            return View();
+        }
+
+        public ActionResult Help()
+        {
+            ViewBag.Message = "Helping a friend.";
+            return View();
         }
     }
 }

@@ -31,6 +31,18 @@ namespace CodeEditorApp.Repositories
             return null;
         }
 
+        public List<FileViewModel> GetFilesByProject(int ProjectID)
+        {
+            //TODO
+            return null;
+        }
+
+        public List<FolderViewModel> GetFoldersByProject (int ProjectID)
+        {
+            //TODO
+            return null;
+        }
+
         public void AddNewGoal(GoalViewModel goal)
         {
             //TODO
@@ -41,16 +53,30 @@ namespace CodeEditorApp.Repositories
             //TODO
         }
 
-        public void AddUserToProject(string AspNetUserID)
+        public void AddNewObjective(GoalViewModel objective)
         {
             //TODO
         }
 
-        public void RemoveUserFromProject(string AspNetUserID)
+        public void RemoveObjective(int objectiveID)
         {
             //TODO
         }
 
+        public void AddUserToProject(string AspNetUserID, int projectID)
+        {
+            //TODO
+        }
+
+        public void RemoveUserFromProject(string AspNetUserID, int projectID)
+        {
+            //TODO
+        }
+
+        public void RemoveFile(int fileID)
+        {
+            //TODO
+        }
 
         public IEnumerable<FileViewModel> ListFilesByProject(int projectID)
         {
