@@ -5,7 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using System.Web.Mvc;
-using Microsoft.AspNet.Identity;
+using Microsoft.AspNet.Identity.Owin;
 
 namespace CodeEditorApp.Repositories
 {
@@ -83,9 +83,8 @@ namespace CodeEditorApp.Repositories
                 if (x.ProjectID == projectID)
                 {
                     NewModel.Add(new UserViewModel()
-                    {
-                   
-                    //    UserName = User.Identity.GetUserName();
+                    {                  
+                       
                     });
                 }
             });
@@ -95,7 +94,7 @@ namespace CodeEditorApp.Repositories
 
         public List<FileViewModel> GetFilesByProject(int ProjectID)
         {
-            //TODO
+            
             return null;
         }
 
