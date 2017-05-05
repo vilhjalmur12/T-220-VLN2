@@ -13,6 +13,6 @@ namespace CodeEditorApp.Models.ViewModels
         public bool finished { get; set; }
         public string AspNetUserID { get; set; }
         public int ProjectID { get; set; }
-        public List<Goal> objectives;
+        public List<ObjectiveViewModel> objectives;
     }
 }
