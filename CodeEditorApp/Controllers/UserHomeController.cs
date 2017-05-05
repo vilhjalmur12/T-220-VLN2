@@ -47,12 +47,14 @@ namespace CodeEditorApp.Controllers
         public ActionResult OpenProject(int projectID)
         {
             //TODO
+
             return null;
         }
 
         public ActionResult OpenProjectByFile(int fileID)
         {
-            //TODO
+            FileViewModel file = UserHome.GetFile(fileID);
+            //TOD GetProject
             return null;
         }
 
