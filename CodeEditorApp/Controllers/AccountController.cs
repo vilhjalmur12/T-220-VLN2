@@ -428,6 +428,11 @@ namespace CodeEditorApp.Controllers
 
             base.Dispose(disposing);
         }
+        public ActionResult Details()
+        {
+            var m = new Tuple<LoginViewModel, RegisterViewModel>(new LoginViewModel(), new RegisterViewModel());
+            return View(m);
+        }
 
         #region Helpers
         // Used for XSRF protection when adding external logins
