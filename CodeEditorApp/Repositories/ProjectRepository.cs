@@ -86,14 +86,29 @@ namespace CodeEditorApp.Repositories
             {
                 if (x.ProjectID == projectID)
                 {
-                    userModels.Add(new UserViewModel()
-                    {                  
-                       //TODO: na i alla og setja i userModels
-                    });
+                    userModels.Add(GetUser(x.UserID));
                 }
             });
 
             return userModels;
+        }
+
+
+        /// <summary>
+        /// Inputs userID and searches for the user linked with the ID. Returns a single user as
+        /// ApplicationUser (All information about user).
+        /// </summary>
+        /// <param name="UserID"></param>
+        /// <returns>Single ApplicationUser</returns>
+        public UserViewModel GetUser(string UserID)
+        {
+            ApplicationUser TmpUser = _db.Users.Where(x => x.Id == UserID).SingleOrDefault();
+            UserViewModel ReturnUser = new UserViewModel();
+
+            ReturnUser.ID = TmpUser.Id;
+            ReturnUser.UserName = TmpUser.UserName;
+
+            return ReturnUser;
         }
 
         public List<FileViewModel> GetFilesByProject(int projectID)
