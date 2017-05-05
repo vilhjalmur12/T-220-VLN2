@@ -1,8 +1,8 @@
-﻿
+﻿@import url('https://fonts.googleapis.com/css?family=Lato|Raleway');
 body {
     margin:0;
     background-color: #006072;
-    font-family: 'Lato', sans-serif;
+    font-family: 'Raleway', sans-serif;
     font-size:12px;
 }
 
@@ -13,31 +13,31 @@ body, html {
 }
 /*Used for the name of site on banner*/
 #name {
-     font-family: 'Lusitana', serif;
+     font-family: 'Lato', sans-serif;
      font-size: xx-large;
 }
 /*=FONT FOR HOMEPAGES=*/
 /*Used for largest headings on Login site*/
 .l-heading-home{
-     font-family: 'Lusitana', serif;
+     font-family: 'Lato', sans-serif;
      font-size:x-large;
 }
 .
 /*Used for smaller headings and larger text on Login site*/
 .s-heading-home{
-    font-family: 'Lato', sans-serif;
+    font-family: 'Raleway', sans-serif;
     font-size: large;
 }
 
 /*Used for textfields on Login site*/
 .text-home{
-    font-family: 'Lato', sans-serif;
+    font-family: 'Raleway', sans-serif;
     font-size: medium; 
 }
 
 /*For the smallest letters on Login site*/
 .sm-text-home{
-    font-family: 'Lato', sans-serif;
+    font-family: 'Raleway', sans-serif;
     font-size: small;
 }
 
@@ -45,18 +45,19 @@ body, html {
 /*Used for largest headings on Login site*/
 .heading-user{
     font-family: 'Lusitana', serif;
+    font-size:x-large;
 }
 .l-text-user{
-    font-family: 'Lato', sans-serif;
+    font-size:large;
 }
 /*Used for smaller headings and larger text on Login site*/
 .text-user{
-    font-family: 'Lato', sans-serif;
+    font-size:normal;
 }
 
 /*Used for hover writing*/
 .hover-user{
-    font-family: 'Lato', sans-serif;
+    font-size:x-small;
 }
 
 
