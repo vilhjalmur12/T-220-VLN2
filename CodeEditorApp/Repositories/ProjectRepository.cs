@@ -149,7 +149,7 @@ namespace CodeEditorApp.Repositories
 
 
             });
-            return null;
+            return folderModels;
         }
 
         public void AddNewGoal(GoalViewModel goal)
@@ -208,11 +208,26 @@ namespace CodeEditorApp.Repositories
         public void AddUserToProject(string AspNetUserID, int projectID)
         {
             //TODO
+            Membership newMembership = new Membership()
+            {
+                ProjectID = projectID,
+                UserID = AspNetUserID,
+            };
+            _db.Memberships.Add(newMembership);
+            _db.SaveChanges();
         }
 
-        public void RemoveUserFromProject(string AspNetUserID, int projectID)
+        public void RemoveUserFromProject(ref ProjectViewModel project, string AspNetUserID) //Project View Model, þar er ég með projID og lista af öllum memberum
         {
             //TODO
+            //UserViewModel theUser = project.Members.Find(AspNetUserID);
+
+            List<UserViewModel> theUsers = GetUsersByProject(project.ID); //GetUsersByProject skilar lista af user-um sem eru í þessu projectID.
+            //ÓKLÁRAÐ
+            Membership theMembership = _db.Memberships.Find(AspNetUserID);
+            _db.Memberships.Remove(theMembership);
+            _db.SaveChanges();
+
         }
 
         public void RemoveFile(int fileID)
