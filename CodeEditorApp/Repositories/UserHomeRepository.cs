@@ -97,28 +97,78 @@ namespace CodeEditorApp.Repositories
             NewFolder.IsSolutionFolder = true;
 
             _db.Folders.Add(NewFolder);
+            _db.SaveChanges();
 
             return NewFolder;
         }
 
-        public void CreateFolder (string AspNetUserID)
+        public void CreateFolder (string AspNetUserID, int HeadFolderID, Folder folder)
         {
+            folder.AspNetUserID = AspNetUserID;
+            folder.HeadFolderID = HeadFolderID;
 
+            _db.Folders.Add(folder);
+            _db.SaveChanges();
+
+        }
+        public void DeleteFolder(int folderID)
+        {
+            DeleteRecursiveFolder(folderID);
+        }
+
+        public void DeleteRecursiveFolder (int folderID)
+        {
+            List<Folder> SubFolders = _db.Folders.Where(x => x.ID == folderID).ToList();
+
+            if (SubFolders == null)
+            {
+                return;
+            }
+
+            foreach (Folder item in SubFolders)
+            {
+                DeleteRecursiveFolder(item.ID);
+                Folder RemoveFolder = _db.Folders.Where(x => x.ID == folderID).SingleOrDefault();
+                _db.Folders.Remove(RemoveFolder);
+                _db.SaveChanges();
+            }   
         }
 
         public void DeleteProject(int projectID)
         {
             //TODO
+
+            
         }
 
         public void DeleteFile(int fileID)
         {
             //TODO
+            File RemoveFile = _db.Files.Where(x => x.ID == fileID).SingleOrDefault();
+
+            _db.Files.Remove(RemoveFile);
+            _db.SaveChanges();
+        }
+
+        public void DeleteFolderFiles (int folderID)
+        {
+            List<File> AllFiles = new List<File>();
+            AllFiles = _db.Files.Where(x => x.HeadFolderID == folderID).ToList();
+
+            if (AllFiles != null)
+            {
+                foreach (File item in AllFiles)
+                {
+                    _db.Files.Remove(item);
+                    _db.SaveChanges();
+                }
+            }
         }
 
         public void MoveProjectPath(int projectID, string newPath)
         {
             //TODO
+
         }
 
         public void MoveFolderPath(int folderID, string newPath)
