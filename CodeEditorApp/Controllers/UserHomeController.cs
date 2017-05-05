@@ -81,10 +81,10 @@ namespace CodeEditorApp.Controllers
         /// ApplicationUser holds all user info.
         /// </summary>
         /// <returns>A single ApplicationUser</returns>
-        public ApplicationUser GetUserInfo ()
+        public UserViewModel GetUserInfo ()
         {
             string UserID = User.Identity.GetUserId();
-            ApplicationUser ReturnUser = UserHome.GetUser(UserID);
+            UserViewModel ReturnUser = UserHome.GetUser(UserID);
             return ReturnUser;
         }
     }

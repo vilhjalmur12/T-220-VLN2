@@ -452,9 +452,15 @@ namespace CodeEditorApp.Repositories
         /// </summary>
         /// <param name="UserID"></param>
         /// <returns>Single ApplicationUser</returns>
-        public ApplicationUser GetUser (string UserID)
+        public UserViewModel GetUser (string UserID)
         {
-            return _db.Users.Where(x => x.Id == UserID).SingleOrDefault();
+            ApplicationUser TmpUser = _db.Users.Where(x => x.Id == UserID).SingleOrDefault();
+            UserViewModel ReturnUser = new UserViewModel();
+
+            ReturnUser.ID = TmpUser.Id;
+            ReturnUser.UserName = TmpUser.UserName;
+
+            return ReturnUser;
         }
     }
 }
