@@ -46,11 +46,11 @@ body, html {
 .heading-user{
     font-family: 'Lusitana', serif;
 }
-.l-user{
+.l-text-user{
     font-family: 'Lato', sans-serif;
 }
 /*Used for smaller headings and larger text on Login site*/
-.m-user{
+.text-user{
     font-family: 'Lato', sans-serif;
 }
 
