@@ -225,6 +225,14 @@
     <Compile Include="Migrations\201705041542583_Memberships.Designer.cs">
       <DependentUpon>201705041542583_Memberships.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705051010429_laga goals.cs" />
+    <Compile Include="Migrations\201705051010429_laga goals.Designer.cs">
+      <DependentUpon>201705051010429_laga goals.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705051013119_objectives.cs" />
+    <Compile Include="Migrations\201705051013119_objectives.Designer.cs">
+      <DependentUpon>201705051013119_objectives.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entities\Comment.cs" />
@@ -232,6 +240,7 @@
     <Compile Include="Models\Entities\Folder.cs" />
     <Compile Include="Models\Entities\Goal.cs" />
     <Compile Include="Models\Entities\Membership.cs" />
+    <Compile Include="Models\Entities\Objective.cs" />
     <Compile Include="Models\Entities\RootFolder.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
@@ -693,6 +702,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705041542583_Memberships.resx">
       <DependentUpon>201705041542583_Memberships.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705051010429_laga goals.resx">
+      <DependentUpon>201705051010429_laga goals.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705051013119_objectives.resx">
+      <DependentUpon>201705051013119_objectives.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

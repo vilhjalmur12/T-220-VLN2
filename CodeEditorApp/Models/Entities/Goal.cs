@@ -7,18 +7,6 @@ using System.Web;
 namespace CodeEditorApp.Models
 {
     /// <summary>
-    /// enum for the goalType
-    /// 0: Goal
-    /// 1: Objective
-    /// Each Goal may contain multiple Objectives
-    /// </summary>
-    public enum GoalType
-    {
-        Goal,
-        Objective
-    }
-
-    /// <summary>
     /// A Goal represents a goal or an objective for a Project.
     /// Each Project can contain multiple Goals.
     /// </summary>
@@ -42,10 +30,6 @@ namespace CodeEditorApp.Models
         /// Finished represents if the Goal has been achived or not.
         /// </summary>
         public bool finished { get; set; }
-        /// <summary>
-        /// GoalType is the Enum varible above.
-        /// </summary>
-        public GoalType goalType { get; set; }
         /// <summary>
         /// The ID of the user that created the Goal
         /// </summary>
