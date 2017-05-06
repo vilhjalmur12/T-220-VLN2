@@ -84,7 +84,7 @@ namespace CodeEditorApp.Controllers
 
         public ActionResult RemoveMember(string AspNetUserID)
         {
-           // project.RemoveUserFromProject(AspNetUserID, projectModel.ID);
+            project.RemoveUserFromProject(AspNetUserID, projectModel.ID);
             updateUsers();
             return RedirectToAction("ShowGroup", "Project");
         }

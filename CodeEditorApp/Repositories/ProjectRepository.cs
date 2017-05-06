@@ -217,7 +217,7 @@ namespace CodeEditorApp.Repositories
             _db.SaveChanges();
         }
 
-        public void RemoveUserFromProject(ref ProjectViewModel project, string AspNetUserID) //Project View Model, þar er ég með projID og lista af öllum memberum
+       /* public void RemoveUserFromProject(ref ProjectViewModel project, string AspNetUserID) //Project View Model, þar er ég með projID og lista af öllum memberum
         {
             //TODO
             //UserViewModel theUser = project.Members.Find(AspNetUserID);
@@ -228,6 +228,19 @@ namespace CodeEditorApp.Repositories
             _db.Memberships.Remove(theMembership);
             _db.SaveChanges();
 
+        }*/
+
+        public void RemoveUserFromProject (string AspNetUserID, int projectID)
+        {
+            _db.Memberships.ToList().ForEach(membership =>
+            {
+                if ((membership.ProjectID == projectID) && (membership.UserID == AspNetUserID))
+                {
+                    Membership deleteMembership = membership;
+                    _db.Memberships.Remove(deleteMembership);
+                    _db.SaveChanges();
+                }
+            });
         }
 
         public void RemoveFile(int fileID)
