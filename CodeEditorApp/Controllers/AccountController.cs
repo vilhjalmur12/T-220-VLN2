@@ -59,7 +59,7 @@ namespace CodeEditorApp.Controllers
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
-            // ViewBag.ReturnUrl = returnUrl;
+            ViewBag.ReturnUrl = returnUrl;
             ViewBag.LogIn = new LoginViewModel();
             ViewBag.Register = new RegisterViewModel();
             return View();
@@ -72,27 +72,32 @@ namespace CodeEditorApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            ViewBag.LogIn = model;
+            ViewBag.Register = new RegisterViewModel();
+
             if (!ModelState.IsValid)
             {
-                return View(model);
+                //return View(model);
+                return View("../Home/Index");
             }
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
             switch (result)
             {
                 case SignInStatus.Success:
                     return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
-                    return View("Lockout");
+                    return View("../Home/Index");
+                    //return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    // ModelState.AddModelError("", "Invalid login attempt.");
-                    ViewBag.LogIn = model;
-                    ViewBag.Register = new RegisterViewModel();
+                     ModelState.AddModelError("", "Invalid login attempt.");
+                    
                     return View(model);
             }
         }
@@ -183,7 +188,7 @@ namespace CodeEditorApp.Controllers
             // If we got this far, something failed, redisplay form
             ViewBag.LogIn = new LoginViewModel();
             ViewBag.Register = model;
-            return View(model);
+            return View("../Home/Index", model);
         }
 
         //
