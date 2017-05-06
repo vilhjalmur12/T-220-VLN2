@@ -18,6 +18,54 @@ namespace CodeEditorApp.Repositories
             _db = new ApplicationDbContext();
         }
 
+        public ProjectTreeViewModel GetProjectTree(FolderViewModel solutionFolder)
+        {
+            ProjectTreeViewModel projectTreeModel = new ProjectTreeViewModel();
+
+            List<FileViewModel> projectFiles = GetFilesByProject(solutionFolder.ProjectID);
+            List<FolderViewModel> projectFolders = GetFoldersByProject(solutionFolder.ProjectID);
+
+            foreach (FileViewModel file in projectFiles)
+            {
+                foreach (FolderViewModel folder in projectFolders)
+                {
+                    if (file.HeadFolderID == folder.ID)
+                    {
+                        folder.Files.Add(file);
+                    }
+                }
+            }
+
+            foreach (FolderViewModel folder in projectFolders)
+            {
+                foreach (FolderViewModel folder2 in projectFolders)
+                {
+                    if (folder.HeadFolderID == folder2.ID)
+                    {
+                        folder2.SubFolders.Add(folder);
+                    }
+                }
+            }
+
+
+            foreach (FolderViewModel folder in projectFolders)
+            {
+                if (folder.ID == solutionFolder.ID)
+                {
+                    projectTreeModel.SolutionFolder = folder;
+                    projectFolders.Remove(folder);
+  
+                }
+            }
+
+            foreach (FolderViewModel folder in projectFolders)
+            {
+                projectTreeModel.SubFolders.Add(folder);
+            }
+
+            return (projectTreeModel);
+        }
+
         public List<GoalViewModel> GetGoalsByProject(int projectID)
         {
             List<GoalViewModel> goalModels = new List<GoalViewModel>();

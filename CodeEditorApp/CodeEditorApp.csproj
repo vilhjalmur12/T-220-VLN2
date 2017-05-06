@@ -248,6 +248,7 @@
     <Compile Include="Models\Entities\Project.cs" />
     <Compile Include="Models\Entities\ProjectType.cs" />
     <Compile Include="Models\ViewModels\ObjectiveViewModel.cs" />
+    <Compile Include="Models\ViewModels\ProjectTreeViewModel.cs" />
     <Compile Include="Models\ViewModels\RootFolderViewModel.cs" />
     <Compile Include="Models\ViewModels\UserViewModel.cs" />
     <Compile Include="Repositories\User.cs" />
