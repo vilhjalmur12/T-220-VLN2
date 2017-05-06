@@ -43,12 +43,12 @@ namespace CodeEditorApp.Controllers
 
         private void updateFiles()
         {
-            projectModel.Files = project.GetFilesByProject(projectModel.ID);
+          //  projectModel.Files = project.GetFilesByProject(projectModel.ID);
         }
 
         private void updateFolders()
         {
-            projectModel.Folders = project.GetFoldersByProject(projectModel.ID);
+          //  projectModel.Folders = project.GetFoldersByProject(projectModel.ID);
         }
 
         public ActionResult ShowCodeEditor()
@@ -84,7 +84,7 @@ namespace CodeEditorApp.Controllers
 
         public ActionResult RemoveMember(string AspNetUserID)
         {
-            project.RemoveUserFromProject(AspNetUserID, projectModel.ID);
+           // project.RemoveUserFromProject(AspNetUserID, projectModel.ID);
             updateUsers();
             return RedirectToAction("ShowGroup", "Project");
         }
@@ -171,7 +171,7 @@ namespace CodeEditorApp.Controllers
 
         public ActionResult LeaveProject()
         {
-            project.RemoveUserFromProject(User.Identity.GetUserId(), projectModel.ID);
+          //  project.RemoveUserFromProject(User.Identity.GetUserId(), projectModel.ID);
             return RedirectToAction("Index", "UserHome");
         }
 
