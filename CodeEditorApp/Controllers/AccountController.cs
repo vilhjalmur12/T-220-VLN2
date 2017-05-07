@@ -11,6 +11,8 @@ using Microsoft.Owin.Security;
 using CodeEditorApp.Models;
 using CodeEditorApp.Models.Entities;
 using CodeEditorApp.Repositories;
+using CodeEditorApp.Models.ViewModels;
+using System.Diagnostics;
 
 namespace CodeEditorApp.Controllers
 {
@@ -88,7 +90,19 @@ namespace CodeEditorApp.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return View("../UserHome/Index");
+                    {
+                        // To show projects after signin in:
+                        UserHomeRepository userHomeService = new UserHomeRepository();
+                        string userID = AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();
+
+                        UserViewModel userModel = new UserViewModel()
+                        {
+                            ID = userID,
+                            UserName = User.Identity.GetUserName(),
+                            Projects = userHomeService.GetAllProjects(userID)
+                        };
+                        return View("../UserHome/Index", userModel);
+                    }
                     //return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("../Home/Index");
@@ -181,7 +195,14 @@ namespace CodeEditorApp.Controllers
                     Root.UserID = user.Id;
                     UserHomeRepository service = new UserHomeRepository();
                     service.CreateRoot(Root);
-                    return RedirectToAction("Index", "UserHome");
+
+                    UserViewModel userModel = new UserViewModel()
+                    {
+                        ID = user.Id,
+                        UserName = User.Identity.GetUserName(),
+                        Projects = service.GetAllProjects(user.Id)
+                    };
+                    return RedirectToAction("Index", "UserHome", userModel);
                 }
                 AddErrors(result);
             }

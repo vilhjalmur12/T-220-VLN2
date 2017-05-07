@@ -1,6 +1,9 @@
-﻿@{
+﻿@model CodeEditorApp.Models.ViewModels.UserViewModel
+
+@{
     Layout = "~/Views/UserHome/_Layout.cshtml";
 }
+
 @{
     ViewBag.Title = "UserHomePage";
 }
@@ -17,6 +20,7 @@
     <div class="row">
         <div class="col-md-2 document-list">
             <p>Þetta er index í UserHome</p>
+            <p>listi í projectum kemur hér</p>
 
         </div>
         <div class="col-md-9 project-table">
@@ -29,36 +33,25 @@
                         <tr>
                             <th>#</th>
                             <th>Name</th>
-                            <th>Last Modified</th>
                             <th>Owner</th>
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td data-title="ID">1</td>
-                            <td data-title="name-of-project">Material Design Color Palette</td>
-                            <td data-title="project-modified">24/4/2017</td>
-                            <td data-title="project-owner">Jack Daniels</td>
-                        </tr>
-                        <tr>
-                            <td data-title="ID">2</td>
-                            <td data-title="name-of-project">Material Design Color Palette</td>
-                            <td data-title="project-modified">24/4/2017</td>
-                            <td data-title="project-owner">Jack Daniels</td>
-                        </tr>
-                        <tr>
-                            <td data-title="ID">3</td>
-                            <td data-title="name-of-project">Material Design Color Palette</td>
-                            <td data-title="project-modified">24/4/2017</td>
-                            <td data-title="project-owner">Jack Daniels</td>
-                        </tr>                       
+                        @foreach (var item in Model.Projects)
+                        {
+                            <tr>
+                                <td data-title="ID">1</td>
+                                <td data-title="name-of-project">@item.name</td>
+                                <td data-title="project-owner">Jack Daniels</td>
+                            </tr>
+                        }                      
                     </tbody>
                 </table>
             </div>
 
         </div>
         <div class="col-md-1 add-project">
-
+            <p>vantar plús tákn</p>
         </div>
     </div>
 
