@@ -91,10 +91,9 @@ namespace CodeEditorApp.Controllers
             {
                 case SignInStatus.Success:
                     {
+                        // To show projects after signin in:
                         UserHomeRepository userHomeService = new UserHomeRepository();
                         string userID = AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();
-                        Debug.WriteLine("SIGNIN");
-                        Debug.WriteLine(userID);
 
                         UserViewModel userModel = new UserViewModel()
                         {
