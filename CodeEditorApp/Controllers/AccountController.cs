@@ -88,7 +88,8 @@ namespace CodeEditorApp.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    return View("../UserHome/Index");
+                    //return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("../Home/Index");
                     //return View("Lockout");
