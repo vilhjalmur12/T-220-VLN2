@@ -1,7 +1,7 @@
 ﻿@import url('https://fonts.googleapis.com/css?family=Lato|Raleway');
 body {
     margin:0;
-    background-color: #006072;
+    /*background-color: #006072;*/
     font-family: 'Raleway', sans-serif;
     font-size:12px;
 }
@@ -15,14 +15,22 @@ body, html {
 #name {
      font-family: 'Lato', sans-serif;
      font-size: xx-large;
+     color:#FF5C00; /*for gradient background*/
 }
+
+.navbar .l-heading-home a{
+    color:#006072;/*for gradient background*/
+}
+
 /*=FONT FOR HOMEPAGES=*/
 /*Used for largest headings on Login site*/
 .l-heading-home{
      font-family: 'Lato', sans-serif;
      font-size:x-large;
 }
-.
+.navbar a{
+    color:#FF5C00;
+}
 /*Used for smaller headings and larger text on Login site*/
 .s-heading-home{
     font-family: 'Raleway', sans-serif;
@@ -81,15 +89,21 @@ body, html {
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url("../images/bakgrunnurtre.jpg");
+    /*background-image: url("../images/bakgrunnurtre.jpg");*/
 }
 
 .userhome-body-content {
-
+    background-color: #CAE6EB;
 }
+
 /*Overwrite some default settings from Bootstrap*/
 .navbar {
-    background-color: #006072;
+  background: #006072; /* For browsers that do not support gradients */
+  background: -webkit-linear-gradient(left,  #006072 , #FF5C00); /* For Safari 5.1 to 6.0 */
+  background: -o-linear-gradient(right,  #006072, #FF5C00); /* For Opera 11.1 to 12.0 */
+  background: -moz-linear-gradient(right,  #006072, #FF5C00); /* For Firefox 3.6 to 15 */
+  background: linear-gradient(to right,  #006072 , #FF5C00); /* Standard syntax */
+   /* background-color: #006072;*/
     width:inherit;
     max-width:none;
     min-height:40px;
