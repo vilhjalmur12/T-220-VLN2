@@ -13,19 +13,20 @@
     <header class="navbar navbar-fixed-top container padding-for-container">
         <div class="header-flex-container navbar-left">
             <div> <img class="logo" src="../images/logo.png" alt="Mountain View" "></div>
-            <div>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "navbar-brand" })</div>
+            <!--vantar hér réttan link-->
+            <div>@Html.ActionLink("Home", "Index", "UserHome", new { area = "" }, new { @class = "navbar-brand" })</div>
         </div>
         <div class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
-                <li>@Html.ActionLink("About", "About", "Home")</li>
-                <li>@Html.ActionLink("Help", "Help", "Home")
+                <!--vantar hér réttan link-->
+                <li>@Html.ActionLink("You", "About", "Home")</li>
             </ul>
         </div>
         <p>Þetta er header í UserHome</p>
     </header>
 
     <!--the body of logged in page-->
-    <div class="container body-content padding-for-container">
+    <div class="container userhome-body-content padding-for-container">
         @RenderBody()
     </div>
     <!--End of body of logged in page-->

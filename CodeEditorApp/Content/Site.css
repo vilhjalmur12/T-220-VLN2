@@ -84,6 +84,9 @@ body, html {
     background-image: url("../images/bakgrunnurtre.jpg");
 }
 
+.userhome-body-content {
+
+}
 /*Overwrite some default settings from Bootstrap*/
 .navbar {
     background-color: #006072;
