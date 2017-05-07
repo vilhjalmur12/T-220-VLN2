@@ -25,8 +25,9 @@ namespace CodeEditorApp.Controllers
         {
             string UserId = User.Identity.GetUserId();
             ViewBag.UserId = UserId;
-            List<ProjectViewModel> model = UserHome.GetAllProjects(UserId);
-            return View(model);
+            // List<ProjectViewModel> model = UserHome.GetAllProjects(UserId);
+            // return View(model);
+            return View();
         }
 
         [HttpPost]
