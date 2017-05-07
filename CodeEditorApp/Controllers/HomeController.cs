@@ -40,5 +40,10 @@ namespace CodeEditorApp.Controllers
             ViewBag.Message = "Helping a friend.";
             return View();
         }
+        public ActionResult Editor()
+        {
+            ViewBag.Message = "Edit your Code";
+            return View();
+        }
     }
 }
