@@ -1,6 +1,9 @@
-﻿@{
+﻿@model CodeEditorApp.Models.ViewModels.UserViewModel
+
+@{
     Layout = "~/Views/UserHome/_Layout.cshtml";
 }
+
 @{
     ViewBag.Title = "UserHomePage";
 }
@@ -34,12 +37,15 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr>
-                            <td data-title="ID">1</td>
-                            <td data-title="name-of-project">Material Design Color Palette</td>
-                            <td data-title="project-modified">24/4/2017</td>
-                            <td data-title="project-owner">Jack Daniels</td>
-                        </tr>
+                        @foreach (var item in Model.Projects)
+                        {
+                            <tr>
+                                <td data-title="ID">1</td>
+                                <td data-title="name-of-project">@item.name</td>
+                                <td data-title="project-modified">24/4/2017</td>
+                                <td data-title="project-owner">Jack Daniels</td>
+                            </tr>
+                        }
                         <tr>
                             <td data-title="ID">2</td>
                             <td data-title="name-of-project">Material Design Color Palette</td>
