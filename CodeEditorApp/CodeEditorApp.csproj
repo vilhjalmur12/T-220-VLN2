@@ -683,6 +683,7 @@
     <Content Include="Views\UserHome\_Layout.cshtml" />
     <Content Include="Views\Account\_Login.cshtml" />
     <Content Include="Views\Account\_Register.cshtml" />
+    <Content Include="Views\UserHome\Project.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
