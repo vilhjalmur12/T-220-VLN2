@@ -138,14 +138,15 @@ body, html {
 
 .document-list{
     height:100%;
-    border: 5px solid red;
+    width:15%;
+    border: 1px solid red;
 }
 .project-table{
-    border: 5px solid yellow;
+    border: 1px solid yellow;
 }
 
 .add-project{
-    border: 5px solid green;
+    border: 1px solid green;
 }
 
 /* PROJECT VIEW */
@@ -158,16 +159,24 @@ body, html {
 
 .project-editor{
     height:100%;
-    border: 5px solid blue;
+    width:80%;
+    padding:0;
+    border: 1px groove blue;
 }
 
 .project-updates{
     height:20px;
+    border-top:1px solid #FF5C00;
 }
 
 .project-actions{
     height:100%;
-    padding:0;
+    width:5%;
+    border:1px solid yellow;
+    background-color: #E0E0E0;
+    z-index: 2; /* Stay on top */
+    position: fixed; /* Stay in place */
+    right: 0px;
 }
 
 .clickable-icon{
@@ -304,13 +313,13 @@ textarea {
 
 /* The side navigation menu */
 .sidenav {
-    border: 1px solid #FF5C00;
+    border-left: 1px solid #FF5C00;
     height: 100%; /* 100% Full-height */
     width: 0; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
     z-index: 1; /* Stay on top */
     top: 0;
-    right: 42px;
+    right:0px;
     background-color: #E0E0E0; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
@@ -354,7 +363,10 @@ textarea {
     list-style:none;
     text-align: right;
     list-style-position: inside;
+    position:center;
 }
 
-
+.project-actions ul li{
+    padding: 7px 0px;
+}
 /*     --END--     HILMA ER AÐ VINNA HÉR      --END--   */
