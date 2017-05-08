@@ -19,8 +19,92 @@
         <!--Project folders and file tree ends-->
         <!--File editor starts-->
         <div class="col-md-9 project-editor ">
-                <h3>editor</h3>
-                <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
+         <!--ViewBag for storing the project code-->
+            <div id="editor">
+                @ViewBag.Code
+            </div>
+
+            
+            }
+            @section scripts
+ {
+                <script src="~/3rdparty/src/ace.js" type="text/javascript" charset="utf-8"></script>
+
+                <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
+                <script src="~/signalr/hubs"></script>
+
+                <script>
+                var documentID = @ViewBag.DocumentID;
+                var editor = ace.edit("editor");
+                  editor.setTheme("ace/theme/monokai");
+                editor.getSession().setMode("ace/mode/javascript");
+                $("form").submit(function () {
+                $("#hidden_editor").val(editor.getSession().getValue());
+             });
+
+                 var myHub1 = $.connection.myHub1;
+                var silent = false;
+                var val = 0;
+
+                myHub1.client.onChange = function (changeData) {
+                console.log(changeData);
+                silent = true;
+                editor.getSession().getDocument().applyDelta(changeData);
+                myHub1.server.send($('#displayname').val(), $('#update').val());
+                silent = false;
+    };
+
+                $.connection.hub.start().done(function () {
+                myHub1.server.joinDocument(documentID);
+                editor.on("change", function (obj) {
+                    if(silent){
+                    return;
+                }
+                console.log(obj);
+                myHub1.server.onChange(obj, documentID);
+        });
+    });
+                </script>
+                <script>
+    $(function () {
+            // Reference the auto-generated proxy for the hub.
+        var chat = $.connection.myHub1;
+
+
+            // Create a function that the hub can call back to display messages.
+            chat.client.addNewMessageToPage = function (name, message) {
+                // Add the message to the page.
+                $('#discussion').replaceWith('<li><strong>' + htmlEncode(name)
+                    + '</strong>: ' + htmlEncode(message) +  '</li>');
+            };
+            $('#displayname').val('Stebbi');
+            $('#update').val('Made the last change');
+                        // Set initial focus to message input box.
+            $('#message').focus();
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    // Call the Send method on the hub.
+                    myHub1.server.send($('#displayname').val(), $('#message').val());
+                    // Clear text box and reset focus for next comment.
+                    $('#message').val('').focus();
+                });
+            });
+        });
+        // This optional function html-encodes messages for display in the page.
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+                </script>
+}
+
+            <div class="project-update">
+                <p class="l-text-user">Updates</p>
+                <input class="hover-user" type="hidden" id="displayname" />
+                <input class="hover-user" type="hidden" id="update" />
+                <ul class="hover-user" id="discussion"></ul>
+            </div>
         </div>
         <!--File editor ends-->
         <!--Pop-out nav start-->
@@ -42,8 +126,8 @@
             </div>
         <!--Pop-out nav ends -->
         <!--Action nav starts -->
-        <div class="col-sm-1 project-actions">
-            <ul style="list-style: none">
+        <div class="col-md-1 project-actions">
+            <ul>
                 <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
                 <li><span onclick="openNav('project-chat');" class="clickable-icon"><i class="glyphicon glyphicon-comment fa-3x" aria-hidden="true"></i></span></li>
                 <li><span onclick="openNav('project-members');" class="clickable-icon"><i class="fa fa-users fa-3x" aria-hidden="true"></i></span></li>

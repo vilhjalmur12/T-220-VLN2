@@ -55,7 +55,7 @@ namespace CodeEditorApp.Controllers
 
             NewModel.OwnerID = User.Identity.GetUserId();
 
-            return PartialView(NewModel);
+            return View(NewModel);
         }
 
         [HttpPost]
