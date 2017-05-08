@@ -30,7 +30,7 @@
                         {
                             <tr>
                                 <td data-title="ID">1</td>
-                                <td data-title="name-of-project">@item.name</td>
+                                <td data-title="name-of-project">@Html.ActionLink(@item.name, "../UserHome/OpenProject", @item.ID)</td>
                                 <td data-title="project-owner">Jack Daniels</td>
                             </tr>
                         }                      
