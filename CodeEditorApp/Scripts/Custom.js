@@ -61,6 +61,22 @@ $('#tree2').treed({ openedClass: 'glyphicon-folder-open', closedClass: 'glyphico
 
 /* File Tree END */
 
+/*  CreateProject Modal Window  -   START   */
+
+$(document).ready(function () {
+    $('#CreateProject').click(function () {
+        var url = $('#CreateProjectModal').data('url');
+
+        $.get(url, function (data) {
+            $('#CreateProjectContainer').html(data);
+
+            $('#CreateProjectModal').modal('show');
+        });
+    });
+});
+
+/*  CreateProject Modal Window  -   END   */
+
 /*      --END--   VILLI ER AÐ VINNA HÉR   --END--   */
 
 /*     --START--     HILMA ER AÐ VINNA HÉR      --START--   */
