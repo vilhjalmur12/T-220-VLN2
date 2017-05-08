@@ -242,6 +242,14 @@
     <Compile Include="Migrations\201705081630496_content i file.Designer.cs">
       <DependentUpon>201705081630496_content i file.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705082056007_FileUpdate.cs" />
+    <Compile Include="Migrations\201705082056007_FileUpdate.Designer.cs">
+      <DependentUpon>201705082056007_FileUpdate.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705082058033_FileUpdate_2.cs" />
+    <Compile Include="Migrations\201705082058033_FileUpdate_2.Designer.cs">
+      <DependentUpon>201705082058033_FileUpdate_2.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entities\Comment.cs" />
@@ -733,6 +741,12 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705081630496_content i file.resx">
       <DependentUpon>201705081630496_content i file.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705082056007_FileUpdate.resx">
+      <DependentUpon>201705082056007_FileUpdate.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705082058033_FileUpdate_2.resx">
+      <DependentUpon>201705082058033_FileUpdate_2.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

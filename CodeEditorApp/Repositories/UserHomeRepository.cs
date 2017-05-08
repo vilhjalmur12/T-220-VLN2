@@ -633,16 +633,20 @@ namespace CodeEditorApp.Repositories
             return ReturnUser;
         }
 
-        /*
+        
         public List<SelectListItem> GetProjectTypes ()
         {
             List<SelectListItem> ReturnList = new List<SelectListItem>();
 
-            ReturnList.Add( new SelectListItem() { Value = "1", Text = "Web"});
-            ReturnList.Add(new SelectListItem() { Value = "4", Text = "Console" });
+            ReturnList.Add(new SelectListItem() { Value="", Text="- Select Project Type -" });
+            
+            foreach(ProjectType item in _db.ProjectTypes.ToList())
+            {
+                ReturnList.Add(new SelectListItem() { Value = item.ID.ToString(), Text = item.name });
+            }
 
             return ReturnList;
         }
-        */
+        
     }
 }
