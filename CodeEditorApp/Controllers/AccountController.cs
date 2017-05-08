@@ -101,7 +101,7 @@ namespace CodeEditorApp.Controllers
                             UserName = User.Identity.GetUserName(),
                             Projects = userHomeService.GetAllProjects(userID)
                         };
-                        return View("../UserHome/Index", userModel);
+                        return RedirectToAction("Index", "UserHome", userModel);
                     }
                     //return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:

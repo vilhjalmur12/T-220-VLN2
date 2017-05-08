@@ -29,5 +29,6 @@ namespace CodeEditorApp.Models
         public int HeadFolderID { get; set; }
      //   public virtual Project project { get; set; }
      //   public virtual Folder folder { get; set; }
+        public string content { get; set; }
     }
 }
