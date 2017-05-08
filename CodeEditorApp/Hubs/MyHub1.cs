@@ -8,9 +8,9 @@ namespace CodeEditorApp.Hubs
 {
     public class MyHub1 : Hub
     {
-        public void Send(string name, string message)
+        public void OnChange(object changeData)
         {
-            Clients.All.addNewMessageToPage(name, message);
+            Clients.All.OnChange(changeData);
         }
     }
 }

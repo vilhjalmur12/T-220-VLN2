@@ -61,14 +61,14 @@ namespace CodeEditorApp.Repositories
 
             ReturnProject.ID = tmp.ID;
             ReturnProject.name = tmp.name;
-            ReturnProject.OwnerID = tmp.AspNetUserID;
-            ReturnProject.TypeID = tmp.ProjectTypeID;
-            ReturnProject.HeadFolderID = tmp.HeadFolderID;
-            ReturnProject.SolutionFolderID = tmp.SolutionFolderID;
-            ReturnProject.SolutionFolder = GetFolder(ReturnProject.SolutionFolderID);
-            ReturnProject.Comments = GetProjectComments(ReturnProject.ID);
-            ReturnProject.Members = GetProjectMembers(ReturnProject.ID);
-            ReturnProject.Goals = GetProjectGoals(ReturnProject.ID);
+          //  ReturnProject.OwnerID = tmp.AspNetUserID;
+           // ReturnProject.TypeID = tmp.ProjectTypeID;
+           // ReturnProject.HeadFolderID = tmp.HeadFolderID;
+           // ReturnProject.SolutionFolderID = tmp.SolutionFolderID;
+            //ReturnProject.SolutionFolder = GetFolder(ReturnProject.SolutionFolderID);
+            //ReturnProject.Comments = GetProjectComments(ReturnProject.ID);
+            //ReturnProject.Members = GetProjectMembers(ReturnProject.ID);
+           // ReturnProject.Goals = GetProjectGoals(ReturnProject.ID);
 
             return ReturnProject;
         }

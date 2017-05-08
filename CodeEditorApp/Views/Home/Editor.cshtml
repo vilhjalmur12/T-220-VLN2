@@ -1,0 +1,50 @@
+﻿
+@model CodeEditorApp.Models.ViewModels.EditorViewModel
+
+@{
+    ViewBag.Title = "Editor";
+}
+
+
+
+<div id="editor">
+    .
+    .
+    .
+    @ViewBag.Code
+</div>
+
+@using (Html.BeginForm("SaveCode", "Home", FormMethod.Post))
+{
+    @Html.HiddenFor(m => m.Content, new { @id = "hidden_editor"})
+    <input type="submit" value="Save code"/>
+}
+@section scripts
+ {
+ <script src="~/3rdparty/src/ace.js" type="text/javascript" charset="utf-8"></script>
+
+ <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
+ <script src="~/signalr/hubs"></script>
+
+<script>
+    var editor = ace.edit("editor");
+    editor.setTheme("ace/theme/monokai");
+    editor.getSession().setMode("ace/mode/javascript");
+    $("form").submit(function () {
+        $("#hidden_editor").val(editor.getSession().getValue());
+    });
+
+    var myHub1 = $.connection.myHub1;
+
+    myHub1.client.onChange = function (changeData) {
+        console.log(changeData);
+    };
+
+    $.connection.hub.start().done(function () { 
+        editor.on("change", function (obj) {
+            console.log(obj);
+            myHub1.server.onChange(obj);
+        });
+    });
+</script>             
+                      }

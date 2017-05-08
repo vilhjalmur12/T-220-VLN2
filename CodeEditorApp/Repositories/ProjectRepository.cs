@@ -18,6 +18,54 @@ namespace CodeEditorApp.Repositories
             _db = new ApplicationDbContext();
         }
 
+        public ProjectTreeViewModel GetProjectTree(FolderViewModel solutionFolder)
+        {
+            ProjectTreeViewModel projectTreeModel = new ProjectTreeViewModel();
+
+            List<FileViewModel> projectFiles = GetFilesByProject(solutionFolder.ProjectID);
+            List<FolderViewModel> projectFolders = GetFoldersByProject(solutionFolder.ProjectID);
+
+            foreach (FileViewModel file in projectFiles)
+            {
+                foreach (FolderViewModel folder in projectFolders)
+                {
+                    if (file.HeadFolderID == folder.ID)
+                    {
+                        folder.Files.Add(file);
+                    }
+                }
+            }
+
+            foreach (FolderViewModel folder in projectFolders)
+            {
+                foreach (FolderViewModel folder2 in projectFolders)
+                {
+                    if (folder.HeadFolderID == folder2.ID)
+                    {
+                        folder2.SubFolders.Add(folder);
+                    }
+                }
+            }
+
+
+            foreach (FolderViewModel folder in projectFolders)
+            {
+                if (folder.ID == solutionFolder.ID)
+                {
+                    projectTreeModel.SolutionFolder = folder;
+                    projectFolders.Remove(folder);
+  
+                }
+            }
+
+            foreach (FolderViewModel folder in projectFolders)
+            {
+                projectTreeModel.SubFolders.Add(folder);
+            }
+
+            return (projectTreeModel);
+        }
+
         public List<GoalViewModel> GetGoalsByProject(int projectID)
         {
             List<GoalViewModel> goalModels = new List<GoalViewModel>();
@@ -149,7 +197,7 @@ namespace CodeEditorApp.Repositories
 
 
             });
-            return null;
+            return folderModels;
         }
 
         public void AddNewGoal(GoalViewModel goal)
@@ -208,11 +256,39 @@ namespace CodeEditorApp.Repositories
         public void AddUserToProject(string AspNetUserID, int projectID)
         {
             //TODO
+            Membership newMembership = new Membership()
+            {
+                ProjectID = projectID,
+                UserID = AspNetUserID,
+            };
+            _db.Memberships.Add(newMembership);
+            _db.SaveChanges();
         }
 
-        public void RemoveUserFromProject(string AspNetUserID, int projectID)
+       /* public void RemoveUserFromProject(ref ProjectViewModel project, string AspNetUserID) //Project View Model, þar er ég með projID og lista af öllum memberum
         {
             //TODO
+            //UserViewModel theUser = project.Members.Find(AspNetUserID);
+
+            List<UserViewModel> theUsers = GetUsersByProject(project.ID); //GetUsersByProject skilar lista af user-um sem eru í þessu projectID.
+            //ÓKLÁRAÐ
+            Membership theMembership = _db.Memberships.Find(AspNetUserID);
+            _db.Memberships.Remove(theMembership);
+            _db.SaveChanges();
+
+        }*/
+
+        public void RemoveUserFromProject (string AspNetUserID, int projectID)
+        {
+            _db.Memberships.ToList().ForEach(membership =>
+            {
+                if ((membership.ProjectID == projectID) && (membership.UserID == AspNetUserID))
+                {
+                    Membership deleteMembership = membership;
+                    _db.Memberships.Remove(deleteMembership);
+                    _db.SaveChanges();
+                }
+            });
         }
 
         public void RemoveFile(int fileID)

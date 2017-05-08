@@ -11,6 +11,8 @@ using Microsoft.Owin.Security;
 using CodeEditorApp.Models;
 using CodeEditorApp.Models.Entities;
 using CodeEditorApp.Repositories;
+using CodeEditorApp.Models.ViewModels;
+using System.Diagnostics;
 
 namespace CodeEditorApp.Controllers
 {
@@ -24,7 +26,7 @@ namespace CodeEditorApp.Controllers
         {
         }
 
-        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager )
+        public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
@@ -36,9 +38,9 @@ namespace CodeEditorApp.Controllers
             {
                 return _signInManager ?? HttpContext.GetOwinContext().Get<ApplicationSignInManager>();
             }
-            private set 
-            { 
-                _signInManager = value; 
+            private set
+            {
+                _signInManager = value;
             }
         }
 
@@ -60,6 +62,8 @@ namespace CodeEditorApp.Controllers
         public ActionResult Login(string returnUrl)
         {
             ViewBag.ReturnUrl = returnUrl;
+            ViewBag.LogIn = new LoginViewModel();
+            ViewBag.Register = new RegisterViewModel();
             return View();
         }
 
@@ -70,25 +74,45 @@ namespace CodeEditorApp.Controllers
         [ValidateAntiForgeryToken]
         public async Task<ActionResult> Login(LoginViewModel model, string returnUrl)
         {
+            ViewBag.LogIn = model;
+            ViewBag.Register = new RegisterViewModel();
+
             if (!ModelState.IsValid)
             {
-                return View(model);
+                //return View(model);
+                return View("../Home/Index");
             }
 
             // This doesn't count login failures towards account lockout
             // To enable password failures to trigger account lockout, change to shouldLockout: true
             var result = await SignInManager.PasswordSignInAsync(model.Email, model.Password, model.RememberMe, shouldLockout: false);
+
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    {
+                        // To show projects after signin in:
+                        UserHomeRepository userHomeService = new UserHomeRepository();
+                        string userID = AuthenticationManager.AuthenticationResponseGrant.Identity.GetUserId();
+
+                        UserViewModel userModel = new UserViewModel()
+                        {
+                            ID = userID,
+                            UserName = User.Identity.GetUserName(),
+                            Projects = userHomeService.GetAllProjects(userID)
+                        };
+                        return View("../UserHome/Index", userModel);
+                    }
+                    //return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
-                    return View("Lockout");
+                    return View("../Home/Index");
+                    //return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
                 default:
-                    ModelState.AddModelError("", "Invalid login attempt.");
+                     ModelState.AddModelError("", "Invalid login attempt.");
+                    
                     return View(model);
             }
         }
@@ -122,7 +146,7 @@ namespace CodeEditorApp.Controllers
             // If a user enters incorrect codes for a specified amount of time then the user account 
             // will be locked out for a specified amount of time. 
             // You can configure the account lockout settings in IdentityConfig
-            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent:  model.RememberMe, rememberBrowser: model.RememberBrowser);
+            var result = await SignInManager.TwoFactorSignInAsync(model.Provider, model.Code, isPersistent: model.RememberMe, rememberBrowser: model.RememberBrowser);
             switch (result)
             {
                 case SignInStatus.Success:
@@ -141,6 +165,8 @@ namespace CodeEditorApp.Controllers
         [AllowAnonymous]
         public ActionResult Register()
         {
+            ViewBag.LogIn = new LoginViewModel();
+            ViewBag.Register = new RegisterViewModel();
             return View();
         }
 
@@ -157,7 +183,7 @@ namespace CodeEditorApp.Controllers
                 var result = await UserManager.CreateAsync(user, model.Password);
                 if (result.Succeeded)
                 {
-                    await SignInManager.SignInAsync(user, isPersistent:false, rememberBrowser:false);
+                    await SignInManager.SignInAsync(user, isPersistent: false, rememberBrowser: false);
 
                     // For more information on how to enable account confirmation and password reset please visit http://go.microsoft.com/fwlink/?LinkID=320771
                     // Send an email with this link
@@ -169,13 +195,22 @@ namespace CodeEditorApp.Controllers
                     Root.UserID = user.Id;
                     UserHomeRepository service = new UserHomeRepository();
                     service.CreateRoot(Root);
-                    return RedirectToAction("Index", "UserHome");
+
+                    UserViewModel userModel = new UserViewModel()
+                    {
+                        ID = user.Id,
+                        UserName = User.Identity.GetUserName(),
+                        Projects = service.GetAllProjects(user.Id)
+                    };
+                    return RedirectToAction("Index", "UserHome", userModel);
                 }
                 AddErrors(result);
             }
 
             // If we got this far, something failed, redisplay form
-            return View(model);
+            ViewBag.LogIn = new LoginViewModel();
+            ViewBag.Register = model;
+            return View("../Home/Index", model);
         }
 
         //

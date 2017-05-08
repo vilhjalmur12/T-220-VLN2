@@ -1,63 +1,121 @@
-﻿@using CodeEditorApp.Models
-@model LoginViewModel
-@{
-    ViewBag.Title = "Log in";
-}
+﻿@using Microsoft.AspNet.Identity
+@using CodeEditorApp.Models
 
-<h2>@ViewBag.Title.</h2>
-<div class="row">
-    <div class="col-md-8">
-        <section id="loginForm">
-            @using (Html.BeginForm("Login", "Account", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
-            {
-                @Html.AntiForgeryToken()
-                <h4>Use a local account to log in.</h4>
-                <hr />
-                @Html.ValidationSummary(true, "", new { @class = "text-danger" })
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Email, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.TextBoxFor(m => m.Email, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Email, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    @Html.LabelFor(m => m.Password, new { @class = "col-md-2 control-label" })
-                    <div class="col-md-10">
-                        @Html.PasswordFor(m => m.Password, new { @class = "form-control" })
-                        @Html.ValidationMessageFor(m => m.Password, "", new { @class = "text-danger" })
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <div class="checkbox">
-                            @Html.CheckBoxFor(m => m.RememberMe)
-                            @Html.LabelFor(m => m.RememberMe)
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <div class="col-md-offset-2 col-md-10">
-                        <input type="submit" value="Log in" class="btn btn-default" />
-                    </div>
-                </div>
-                <p>
-                    @Html.ActionLink("Register as a new user", "Register")
-                </p>
-                @* Enable this once you have account confirmation enabled for password reset functionality
-                    <p>
-                        @Html.ActionLink("Forgot your password?", "ForgotPassword")
-                    </p>*@
+
+@if (Request.IsAuthenticated)
+{
+    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+    {
+        @Html.AntiForgeryToken()
+
+        <ul class="nav navbar-nav navbar-right">
+            <li>
+                @Html.ActionLink("Hello " + User.Identity.GetUserName() + "!", "Index", "Manage", routeValues: null, htmlAttributes: new { title = "Manage" })
+            </li>
+            <li><a href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+        </ul>
+    }
+}
+else
+{
+    <html>
+    <head>
+        <style>
+            body {
+                font-family: "Lato", sans-serif;
             }
-        </section>
-    </div>
-    <div class="col-md-4">
-        <section id="socialLoginForm">
-            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { ReturnUrl = ViewBag.ReturnUrl })
-        </section>
-    </div>
-</div>
+            /* Style the tab */
+            div.tab {
+                overflow: hidden;
+                border: 1px solid #ccc;
+                background-color: #f1f1f1;
+            }
 
-@section Scripts {
-    @Scripts.Render("~/bundles/jqueryval")
-}
+                /* Style the buttons inside the tab */
+                div.tab button {
+                    background-color: inherit;
+                    float: left;
+                    border: none;
+                    outline: none;
+                    cursor: pointer;
+                    padding: 14px 16px;
+                    transition: 0.3s;
+                    font-size: 17px;
+                }
+
+                    /* Change background color of buttons on hover */
+                    div.tab button:hover {
+                        background-color: #ddd;
+                    }
+
+                    /* Create an active/current tablink class */
+                    div.tab button.active {
+                        outline: none;
+                        overflow: hidden;
+                    }
+
+            /* Style the tab content */
+            .tabcontent {
+                display: none;
+                padding: 6px 12px;
+                border: 1px solid #ccc;
+                border-top: none;
+            }
+        </style>
+    </head>
+
+    <body onload="openTab(event, 'Login')">
+        <div class="tab">
+            <button class="tablinks" onclick="openTab(event, 'Login')">Log In</button>
+            <button class="tablinks" onclick="openTab(event, 'Signup')">Sign Up</button>
+            <button class="tablinks" onclick="openTab(event, 'Contact')">Contact us</button>
+        </div>
+
+        <div id="Login" class="tabcontent">
+            <h3>Log In</h3>
+            <div class="row">
+                <div class="col-md-8">
+                    <section id="loginForm2">
+                        @{  Html.RenderPartial("../Account/_Login", (LoginViewModel)ViewBag.LogIn);}
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <div id="Signup" class="tabcontent">
+            <div class="row">
+                <div class="col-md-8">
+                    <section id="loginForm2">
+                        @{  Html.RenderPartial("../Account/_Register", (RegisterViewModel)ViewBag.Register);}
+                    </section>
+                </div>
+            </div>
+        </div>
+
+        <div id="Contact" class="tabcontent">
+            <h3>Contact us</h3>
+            <p>
+                Hér kemur upplýsingar um hvernig hægt er að hafa samband við okkur
+                Hafa bara email sem sent er á og svoleiðis.
+            </p>
+        </div>
+
+        <script>
+        function openTab(evt, tabName) {
+            var i, tabcontent, tablink;
+            tabcontent = document.getElementsByClassName("tabcontent")
+            for (i = 0; i < tabcontent.length; i++) {
+                tabcontent[i].style.display = "none";
+            }
+            tablink = document.getElementsByClassName("tablink");
+            for (i = 0; i < tablink.length; i++) {
+                tablink[i].className = tablink[i].className.replace("active", " ");
+            }
+            document.getElementById(tabName).style.display = "block";
+            evt.currentTarget.className += " active";
+            return false;
+        }
+        </script>
+    </body>
+</html>
+                            }

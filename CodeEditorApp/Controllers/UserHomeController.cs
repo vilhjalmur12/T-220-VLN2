@@ -8,6 +8,7 @@ using System.Web.Mvc;
 using System.Web.Security;
 using Microsoft.AspNet.Identity;
 using CodeEditorApp.Models;
+using System.Diagnostics;
 
 namespace CodeEditorApp.Controllers
 {
@@ -23,10 +24,23 @@ namespace CodeEditorApp.Controllers
         // GET: UserHome
         public ActionResult Index()
         {
-            string UserId = User.Identity.GetUserId();
-            ViewBag.UserId = UserId;
-            List<ProjectViewModel> model = UserHome.GetAllProjects(UserId);
+            string userID = User.Identity.GetUserId();
+
+            UserViewModel model = new UserViewModel()
+            {
+                ID = userID,
+                UserName = User.Identity.GetUserName(),
+                Projects = UserHome.GetAllProjects(userID)
+            };
+
+            Debug.WriteLine("username"+User.Identity.GetUserId());
+            Debug.WriteLine(UserHome.GetAllProjects(User.Identity.GetUserId()).Count());
+
             return View(model);
+        }
+        public ActionResult Project()
+        {
+            return View();
         }
 
         [HttpPost]

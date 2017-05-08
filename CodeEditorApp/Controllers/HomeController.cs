@@ -5,6 +5,8 @@ using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 
+using CodeEditorApp.Models.ViewModels;
+
 namespace CodeEditorApp.Controllers
 {
     public class HomeController : Controller
@@ -39,6 +41,15 @@ namespace CodeEditorApp.Controllers
         {
             ViewBag.Message = "Helping a friend.";
             return View();
+        }
+        public ActionResult Editor()
+        {
+            ViewBag.Code = "alert('Hello World!');";
+            return View();
+        }
+        public ActionResult SaveCode(EditorViewModel model)
+        {
+            return View("Home");
         }
     }
 }
