@@ -21,11 +21,23 @@
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
             </div>
             <!-- tabs start here-->
+            
+        </div>
+
+        <div>
+            <p>hér koma actions og sprettigluggi</p>
+
+
+            <div id="chat" class="sidenav">
+                <h3>chat</h3>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+
+            <!-- Use any element to open the sidenav -->
+            <span onclick="openNav('chat')">open</span>
             <div class="tab-content">
                 <div id="project-chat" class="tab-pane fade col-md-2 right">
-                    <h3>chat</h3>
-                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
+                                 </div>
                 <div id="project-members" class="tab-pane fade col-md-2">
                     <h3>members</h3>
                     <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
@@ -36,53 +48,19 @@
                 </div>
             </div>
         </div>
-
-        <div>
-            <p>hér koma actions og sprettigluggi</p>
-            <div id="left">
-                <a class="handle ui-slideouttab-handle-rounded">Left<i class="fa fa-icon fa-television"></i></a>
-                <p>This panel doesn't close automatically when somewhere else is clicked.</p>
-                <p>And it can be controlled from the buttons in the main window.</p>
-            </div>
-        </div>
     </div>
-    
-
     <script>
-  
-        $(document).ready(function () {
+    /* Set the width of the side navigation to 250px */
+    function openNav(name) {
+        document.getElementById(name).style.width = "250px";
+    }
 
-            var left = $('#left').tabSlideOut({
-                tabLocation: 'left',
-                clickScreenToClose: false,
-                offset: '40px',
-                offsetReverse: true, // offset from bottom, not top
-                // handlers: enable and disable buttons when sliding open or closed
-                onOpen: function () {
-                    $('#open').prop('disabled', true);
-                    $('#close').prop('disabled', false);
-                },
-                onClose: function () {
-                    $('#open').prop('disabled', false);
-                    $('#close').prop('disabled', true);
-                }
-            });
-
-            
-
-            /* programmatically drive the left tab */
-            $('button').click(function (event) {
-                left.tabSlideOut( /*command*/$(event.target).attr('id'));
-            });
-
-            /* register event handler */
-            $(document).on('slideouttabopen slideouttabclose slideouttabbounce', function (event) {
-                var text = $(event.target).attr('id') + ': ' + event.type;
-                $('#events').append(text + "\n");
-            });
-
-        });
-
+    /* Set the width of the side navigation to 0 */
+    function closeNav(name) {
+        document.getElementById(name).style.width = "0";
+    }
     </script>
+
+   
    
 </body>
