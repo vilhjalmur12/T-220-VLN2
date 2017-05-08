@@ -9,18 +9,21 @@
 </head>
 <script src="https://use.fontawesome.com/3e0cecfe87.js"></script>
 <body>
+    <!--Project body starts-->
     <div class="row padding-for-container project-body">
+        <!--Project folders and file tree starts-->
         <div class="col-md-2 document-list padding-for-container">
             <p>listi í projectum kemur hér</p>
 
         </div>
+        <!--Project folders and file tree ends-->
+        <!--File editor starts-->
         <div class="col-md-9 project-editor ">
                 <h3>editor</h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
         </div>
-        <!--Tabs start here-->
-        
-
+        <!--File editor ends-->
+        <!--Pop-out nav start-->
             <div id="project-chat" class="sidenav">
                 <h3>chat</h3>
                 <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
@@ -37,6 +40,8 @@
                 <h3>chat</h3>
                 <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
+        <!--Pop-out nav ends -->
+        <!--Action nav starts -->
         <div class="col-sm-1 project-actions">
             <ul style="list-style: none">
                 <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
@@ -45,10 +50,11 @@
                 <li><span onclick="openNav('project-goals')" class="clickable-icon"><i class="fa fa-check-square-o fa-3x" aria-hidden="true"></i></span></li>
             </ul>
         </div>
+        <!--Action nav ends -->
     </div>
+    <!--Project body ends-->
     <script>
-
-        
+/*þarf að færa*/
         function openNav(name) {
             document.getElementById(name).style.width = "250px";/* Set the width of the side navigation to 250px */
             if (name != "project-chat")
