@@ -27,6 +27,7 @@ namespace CodeEditorApp.Controllers
         {
             Debug.WriteLine("INDEX");
             string userID = User.Identity.GetUserId();
+            Debug.WriteLine("UserID: ");
             Debug.WriteLine(userID);
             UserViewModel model = new UserViewModel()
             {
@@ -34,10 +35,15 @@ namespace CodeEditorApp.Controllers
                 UserName = User.Identity.GetUserName(),
                 Projects = UserHome.GetAllProjects(userID)
             };
-
+            Debug.WriteLine("Fjöldi i projects: ");
+            Debug.WriteLine(model.Projects.Count());
+            Debug.WriteLine("Fjöldi i solutiionnfolder: ");
+            Debug.WriteLine(model.Projects[0].SolutionFolder.Name);
+            Debug.WriteLine("Fjöldi i solutionfolder: ");
+            Debug.WriteLine(model.Projects[0].SolutionFolder.SubFolders.Count());
             ViewBag.Root = GetFileTree(userID);
-            Debug.WriteLine("username"+User.Identity.GetUserId());
-            Debug.WriteLine(UserHome.GetAllProjects(User.Identity.GetUserId()).Count());
+            Debug.WriteLine("FolderList:");
+            Debug.WriteLine(GetFileTree(userID).Folders.Count());
 
             return View(model);
         }
@@ -119,8 +125,6 @@ namespace CodeEditorApp.Controllers
 
         public RootFolderViewModel GetFileTree (string UserID)
         {
-            Debug.WriteLine("GETFILETREE");
-            Debug.WriteLine(UserHome.GetUserRootFolder(UserID).ID);
             return UserHome.GetUserRootFolder(UserID);
         }
         
