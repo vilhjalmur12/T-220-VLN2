@@ -109,4 +109,16 @@ namespace CodeEditorApp.Models
         [Display(Name = "Email")]
         public string Email { get; set; }
     }
+    public class ContactViewModel
+    {
+        [Required]
+        [StringLength(20, MinimumLength = 3)]
+        public string Name { get; set; }
+        [Required]
+        [EmailAddress]
+        [Display(Name = "Email")]
+        public string Email { get; set; }
+        [Required]
+        public string Message { get; set; }
+    }
 }
