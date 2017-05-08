@@ -13,6 +13,10 @@ namespace CodeEditorApp.Controllers
 {
     public class ProjectController: Controller
     {
+        public ActionResult Index()
+        {
+            return View();
+        }
         private ProjectRepository projectService = new ProjectRepository();
 
         private ProjectViewModel projectModel = new ProjectViewModel();
