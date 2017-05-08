@@ -1,12 +1,19 @@
 ﻿@{
     ViewBag.Title = "Home Page";
 }
+
+@{ 
+    if (ViewBag.Make == null)
+    {
+        ViewBag.Make = "Login";
+    }
+}
 <!--
 <div class="row container body-content padding-for-container">
    @* @RenderBody()*@
 </div>
 -->
-<body onload="openTab(event, 'Login')">
+<body onload="openTab(event, '@ViewBag.make')">
     <div class="row container  padding-for-container">
         <div class="col-md-8">
             <h2 class="s-heading-home">Build your application in groups</h2>

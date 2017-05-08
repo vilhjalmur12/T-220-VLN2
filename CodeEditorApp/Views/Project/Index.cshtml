@@ -4,85 +4,80 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/UserHome/_Layout.cshtml";
 }
+<script src="https://use.fontawesome.com/3e0cecfe87.js"></script>
 
 <h2>Project Index</h2>
 
 <body>
-    
-  
-    <div class="row padding-for-container">
+    <div class="row padding-for-container project-body">
         <div class="col-md-2 document-list padding-for-container">
             <p>listi í projectum kemur hér</p>
 
         </div>
-        <div class="row project-editor ">
-            <div class="col-md-9" id="project-editor">
+        <div class="row project-editor col-md-9">
                 <h3>editor</h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            </div>
-            <!-- tabs start here-->
-            <div class="tab-content">
-                <div id="project-chat" class="tab-pane fade col-md-2 right">
-                    <h3>chat</h3>
-                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-                </div>
-                <div id="project-members" class="tab-pane fade col-md-2">
-                    <h3>members</h3>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-                </div>
-                <div id="project-todo" class="tab-pane fade col-md-2">
-                    <h3>todo</h3>
-                    <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                </div>
-            </div>
         </div>
+        <!--Tabs start here-->
+        
 
-        <div>
-            <p>hér koma actions og sprettigluggi</p>
-            <div id="left">
-                <a class="handle ui-slideouttab-handle-rounded">Left<i class="fa fa-icon fa-television"></i></a>
-                <p>This panel doesn't close automatically when somewhere else is clicked.</p>
-                <p>And it can be controlled from the buttons in the main window.</p>
+            <div id="project-chat" class="sidenav">
+                <h3>chat</h3>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
+            <div id="project-members" class="sidenav">
+                <h3>members</h3>
+                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+            </div>
+            <div id="project-goals" class="sidenav">
+                <h3>todo</h3>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+            <div id="project-chat" class="sidenav">
+                <h3>chat</h3>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+        <div class="project-actions">
+            <ul>
+                <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
+                <li><span onclick="openNav('project-chat');" class="clickable-icon"><i class="glyphicon glyphicon-comment fa-3x" aria-hidden="true"></i></span></li>
+                <li><span onclick="openNav('project-members');" class="clickable-icon"><i class="fa fa-users fa-3x" aria-hidden="true"></i></span></li>
+                <li><span onclick="openNav('project-goals')" class="clickable-icon"><i class="fa fa-check-square-o fa-3x" aria-hidden="true"></i></span></li>
+            </ul>
         </div>
     </div>
-    
-
     <script>
-  
-        $(document).ready(function () {
 
-            var left = $('#left').tabSlideOut({
-                tabLocation: 'left',
-                clickScreenToClose: false,
-                offset: '40px',
-                offsetReverse: true, // offset from bottom, not top
-                // handlers: enable and disable buttons when sliding open or closed
-                onOpen: function () {
-                    $('#open').prop('disabled', true);
-                    $('#close').prop('disabled', false);
-                },
-                onClose: function () {
-                    $('#open').prop('disabled', false);
-                    $('#close').prop('disabled', true);
-                }
-            });
+        /* Set the width of the side navigation to 250px */
+        function openNav(name) {
+            document.getElementById(name).style.width = "250px";
+            if (name != "project-chat")
+            {
+                closeNav("project-chat");
+            }
+            if (name != "project-members")
+            {
+                closeNav("project-members");
+            }
+            if (name != "project-goals")
+            {
+                closeNav("project-goals");
+            }
+        }
 
-            
+        /* Set the width of the side navigation to 0 */
+        function closeNav(name) {
+            document.getElementById(name).style.width = "0";
+        }
 
-            /* programmatically drive the left tab */
-            $('button').click(function (event) {
-                left.tabSlideOut( /*command*/$(event.target).attr('id'));
-            });
-
-            /* register event handler */
-            $(document).on('slideouttabopen slideouttabclose slideouttabbounce', function (event) {
-                var text = $(event.target).attr('id') + ': ' + event.type;
-                $('#events').append(text + "\n");
-            });
-
-        });
-
+        function closeAllNavs()
+        {
+            closeNav("project-chat");
+            closeNav("project-members");
+            closeNav("project-goals");
+        }
     </script>
+
+   
    
 </body>

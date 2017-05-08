@@ -167,6 +167,7 @@ namespace CodeEditorApp.Controllers
         {
             ViewBag.LogIn = new LoginViewModel();
             ViewBag.Register = new RegisterViewModel();
+            ViewBag.Make = "Signup";
             return View();
         }
 
@@ -210,6 +211,7 @@ namespace CodeEditorApp.Controllers
             // If we got this far, something failed, redisplay form
             ViewBag.LogIn = new LoginViewModel();
             ViewBag.Register = model;
+            ViewBag.Make = "Signup";
             return View("../Home/Index", model);
         }
 
