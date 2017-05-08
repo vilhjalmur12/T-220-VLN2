@@ -7,6 +7,8 @@ using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity;
 using System.Web.Mvc;
+using System.Data.Entity;
+using System.Diagnostics;
 
 namespace CodeEditorApp.Repositories
 {
@@ -62,14 +64,14 @@ namespace CodeEditorApp.Repositories
 
             ReturnProject.ID = tmp.ID;
             ReturnProject.name = tmp.name;
-          //  ReturnProject.OwnerID = tmp.AspNetUserID;
-           // ReturnProject.TypeID = tmp.ProjectTypeID;
-           // ReturnProject.HeadFolderID = tmp.HeadFolderID;
-           // ReturnProject.SolutionFolderID = tmp.SolutionFolderID;
-            //ReturnProject.SolutionFolder = GetFolder(ReturnProject.SolutionFolderID);
-            //ReturnProject.Comments = GetProjectComments(ReturnProject.ID);
-            //ReturnProject.Members = GetProjectMembers(ReturnProject.ID);
-           // ReturnProject.Goals = GetProjectGoals(ReturnProject.ID);
+            ReturnProject.OwnerID = tmp.AspNetUserID;
+            ReturnProject.TypeID = tmp.ProjectTypeID;
+            ReturnProject.HeadFolderID = tmp.HeadFolderID;
+            ReturnProject.SolutionFolderID = tmp.SolutionFolderID;
+            ReturnProject.SolutionFolder = GetFolder(ReturnProject.SolutionFolderID);
+            ReturnProject.Comments = GetProjectComments(ReturnProject.ID);
+            ReturnProject.Members = GetProjectMembers(ReturnProject.ID);
+            ReturnProject.Goals = GetProjectGoals(ReturnProject.ID);
 
             return ReturnProject;
         }
@@ -186,6 +188,7 @@ namespace CodeEditorApp.Repositories
         /// <returns></returns>
         public RootFolderViewModel GetUserRootFolder (string UserID)
         {
+            Debug.WriteLine("GETUSERROOTFOLDER");
             RootFolder RootTmp = _db.RootFolders.Where(x => x.UserID == UserID).SingleOrDefault();
             RootFolderViewModel RootFolder = new RootFolderViewModel();
 
@@ -279,9 +282,13 @@ namespace CodeEditorApp.Repositories
         /// <returns></returns>
         public List<FolderViewModel> GetAllSubFolders (Folder folder)
         {
+            Debug.WriteLine("GetAllSubFOlders");
             List<Folder> TmpFolders = _db.Folders.Where(x => x.HeadFolderID == folder.ID).ToList();
             List<FolderViewModel> NewList = new List<FolderViewModel>();
             FolderViewModel TmpViewModel = new FolderViewModel();
+
+            Debug.WriteLine("FoldersCount");
+            Debug.WriteLine(TmpFolders.Count());
 
             if (TmpFolders == null)
             {
@@ -312,7 +319,11 @@ namespace CodeEditorApp.Repositories
         /// <returns></returns>
         public List<FolderViewModel> GetAllSubFolders(RootFolder folder)
         {
+            Debug.WriteLine("GETAllSubFolders");
             List<Folder> TmpFolders = _db.Folders.Where(x => x.HeadFolderID == 0 && x.AspNetUserID == folder.UserID).ToList();
+            Debug.WriteLine("fjöldi dfoldera");
+            Debug.WriteLine(TmpFolders[0].Name);
+            Debug.WriteLine(TmpFolders[1].Name);
             List<FolderViewModel> NewList = new List<FolderViewModel>();
             FolderViewModel TmpViewModel = new FolderViewModel();
 

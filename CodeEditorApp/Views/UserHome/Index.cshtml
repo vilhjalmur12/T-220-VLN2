@@ -14,11 +14,13 @@
         @if (FolderList == null && Model.Projects == null)
         {
             <p>Database is empty</p>
-        } else
+        }
+        else
         {
             <ul class="tree2">
-                @foreach (CodeEditorApp.Models.ViewModels.ProjectViewModel ProjectItem in Model.Projects)
+                @foreach (CodeEditorApp.Models.ViewModels.ProjectViewModel ProjectItem in @Model.Projects)
                 {
+
                     <li>
                         <a href="#">@ProjectItem.name</a>
                         @ShowSubItems(ProjectItem.SolutionFolder.SubFolders)
@@ -39,22 +41,21 @@
             </ul>
         }
 
-                @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders) { 
+                @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
+                { 
                     <ul>
-                        @foreach(CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
+              
+                        @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
                         {
                             <li>
                                 @item.Name
-                                @if (item.SubFolders != null)
-                                {
-                                    @ShowSubItems(item.SubFolders)
-                                }
+                                @ShowSubItems(item.SubFolders)
                                 
                             </li>
                             foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
                             {
                                 <li>@file.name</li>
-                            }                        
+                            }
                         }
                     </ul>
                 }
