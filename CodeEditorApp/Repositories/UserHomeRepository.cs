@@ -312,7 +312,7 @@ namespace CodeEditorApp.Repositories
         /// <returns></returns>
         public List<FolderViewModel> GetAllSubFolders(RootFolder folder)
         {
-            List<Folder> TmpFolders = _db.Folders.Where(x => x.HeadFolderID == folder.ID).ToList();
+            List<Folder> TmpFolders = _db.Folders.Where(x => x.HeadFolderID == 0 && x.AspNetUserID == folder.UserID).ToList();
             List<FolderViewModel> NewList = new List<FolderViewModel>();
             FolderViewModel TmpViewModel = new FolderViewModel();
 
