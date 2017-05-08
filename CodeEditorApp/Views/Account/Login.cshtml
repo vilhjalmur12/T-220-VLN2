@@ -1,7 +1,6 @@
 ﻿@using Microsoft.AspNet.Identity
 @using CodeEditorApp.Models
 
-
 @if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
@@ -96,7 +95,7 @@ else
             <div class="row">
                 <div class="col-md-8">
                     <section id="loginForm2">
-                        @{  Html.RenderPartial("../Account/_Contact");}
+                        @{  Html.RenderPartial("../Account/_Contact", (ContactViewModel)ViewBag.Contact);}
                     </section>
                 </div>
             </div>
@@ -120,4 +119,4 @@ else
         </script>
 
 </html>
-                            }
+}
