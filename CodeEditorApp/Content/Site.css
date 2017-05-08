@@ -162,7 +162,9 @@ body, html {
     border: 5px solid pink;
 }
 
-
+.clickable-icon{
+    cursor: pointer
+}
 
 /*========stuff we might not need*/
 
@@ -300,7 +302,7 @@ textarea {
     position: fixed; /* Stay in place */
     z-index: 1; /* Stay on top */
     top: 0;
-    right: 10px;
+    right: 100px;
     background-color: #E0E0E0; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
