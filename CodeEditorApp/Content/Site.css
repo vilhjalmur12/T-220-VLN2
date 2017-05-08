@@ -138,6 +138,7 @@ body, html {
 
 .document-list{
     height:100%;
+    width:15%;
     border: 1px solid red;
 }
 .project-table{
@@ -158,6 +159,8 @@ body, html {
 
 .project-editor{
     height:100%;
+    width:80%;
+    padding:0;
     border: 1px groove blue;
 }
 
@@ -168,12 +171,12 @@ body, html {
 
 .project-actions{
     height:100%;
+    width:5%;
     border:1px solid yellow;
-    padding:0;
     background-color: #E0E0E0;
     z-index: 2; /* Stay on top */
     position: fixed; /* Stay in place */
-    right: 5px;
+    right: 0px;
 }
 
 .clickable-icon{
@@ -316,7 +319,7 @@ textarea {
     position: fixed; /* Stay in place */
     z-index: 1; /* Stay on top */
     top: 0;
-    right: 50px;
+    right:0px;
     background-color: #E0E0E0; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
@@ -360,7 +363,10 @@ textarea {
     list-style:none;
     text-align: right;
     list-style-position: inside;
+    position:center;
 }
 
-
+.project-actions ul li{
+    padding: 7px 0px;
+}
 /*     --END--     HILMA ER AÐ VINNA HÉR      --END--   */
