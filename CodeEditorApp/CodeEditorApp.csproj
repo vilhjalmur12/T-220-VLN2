@@ -234,6 +234,10 @@
     <Compile Include="Migrations\201705051013119_objectives.Designer.cs">
       <DependentUpon>201705051013119_objectives.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705081543134_laga.cs" />
+    <Compile Include="Migrations\201705081543134_laga.Designer.cs">
+      <DependentUpon>201705081543134_laga.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entities\Comment.cs" />
@@ -687,6 +691,7 @@
     <Content Include="Views\Home\Editor.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Account\_Contact.cshtml" />
+    <Content Include="Views\UserHome\CreateProject.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
@@ -718,6 +723,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705051013119_objectives.resx">
       <DependentUpon>201705051013119_objectives.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705081543134_laga.resx">
+      <DependentUpon>201705081543134_laga.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

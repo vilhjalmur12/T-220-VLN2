@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Web;
 using Microsoft.AspNet.Identity;
+using System.Web.Mvc;
 
 namespace CodeEditorApp.Repositories
 {
@@ -608,9 +609,16 @@ namespace CodeEditorApp.Repositories
             return ReturnUser;
         }
 
-        public List<ProjectType> GetProjectTypes ()
+        /*
+        public List<SelectListItem> GetProjectTypes ()
         {
-            return _db.ProjectTypes.ToList();
+            List<SelectListItem> ReturnList = new List<SelectListItem>();
+
+            ReturnList.Add( new SelectListItem() { Value = "1", Text = "Web"});
+            ReturnList.Add(new SelectListItem() { Value = "4", Text = "Console" });
+
+            return ReturnList;
         }
+        */
     }
 }
