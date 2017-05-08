@@ -15,19 +15,19 @@
             <p>Database is empty</p>
         } else
         {
-            <ul id="tree">
+            <ul class="tree2">
                 @foreach (CodeEditorApp.Models.ViewModels.ProjectViewModel ProjectItem in Model.Projects)
                 {
-                    <li class="Project-item-tree">
-                        @ProjectItem.name
+                    <li>
+                        <a href="#">@ProjectItem.name</a>
                         @ShowSubItems(ProjectItem.SolutionFolder.SubFolders)
                     </li>
                 }
 
                 @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in FolderList)
                 {
-                    <li class="Folder-item-tree">
-                        @item.Name
+                    <li>
+                        <a href="#">@item.Name</a>
                         @if (item.SubFolders != null)
                         {
                             ShowSubItems(item.SubFolders);
@@ -50,9 +50,9 @@
                                 }
                                 
                             </li>
-                            @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
+                            foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
                             {
-                                <li class="File-item-tree">@file.name</li>
+                                <li>@file.name</li>
                             }                        
                         }
                     </ul>
@@ -86,7 +86,23 @@
 
         </div>
         <div class="col-md-1 add-project">
-            <p>vantar plús tákn</p>
+            <!-- Hér er CreateProject aðgerð -->
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#CreateProjectModal">
+                <i class="glyphicon glyphicon-plus-sign"></i>
+            </button>
+            <div id="CreateProjectModal" class="modal fade" role="dialog">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <button type="button" class="close" data-dissmiss="modal">&times;</button>
+                            <h4 class="modal-title">Modal header</h4>
+                        </div>
+                        <div class="modal-body">
+                            <p>Some text in the modal.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
     </div>
 

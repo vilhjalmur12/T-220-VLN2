@@ -109,5 +109,19 @@ namespace CodeEditorApp.Controllers
         {
             return UserHome.GetUserRootFolder(UserID);
         }
+
+        public List<SelectListItem> GetAvailableProjectTypes ()
+        {
+            List<SelectListItem> TypeList = new List<SelectListItem>();
+            List<ProjectType> AvailableTypes = UserHome.GetProjectTypes();
+
+            TypeList.Add( new SelectListItem() { Value = "", Text = "Choose Type of project" });
+            foreach(ProjectType item in AvailableTypes)
+            {
+                TypeList.Add(new SelectListItem() { Value = item.ID.ToString() , Text = item.name });
+            }
+
+            return TypeList;
+        }
     }
 }

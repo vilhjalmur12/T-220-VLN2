@@ -607,5 +607,10 @@ namespace CodeEditorApp.Repositories
 
             return ReturnUser;
         }
+
+        public List<ProjectType> GetProjectTypes ()
+        {
+            return _db.ProjectTypes.ToList();
+        }
     }
 }
