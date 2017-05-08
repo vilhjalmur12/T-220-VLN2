@@ -160,6 +160,10 @@ body, html {
     border: 5px solid blue;
 }
 
+.project-updates{
+    height:20px;
+}
+
 .project-actions{
     height:100%;
     padding:0;

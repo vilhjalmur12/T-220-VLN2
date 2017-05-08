@@ -19,7 +19,6 @@
         <!--Project folders and file tree ends-->
         <!--File editor starts-->
         <div class="col-md-9 project-editor ">
-                <h3>editor</h3>
          <!--ViewBag for storing the project code-->
             <div id="editor">
                 @ViewBag.Code
@@ -98,14 +97,13 @@
             return encodedValue;
         }
                 </script>
+}
 
-
-            }
-            <h2>Updates</h2>
-            <div class="container">
-                <input type="hidden" id="displayname" />
-                <input type="hidden" id="update" />
-                <ul id="discussion"></ul>
+            <div class="project-update">
+                <p class="l-text-user">Updates</p>
+                <input class="hover-user" type="hidden" id="displayname" />
+                <input class="hover-user" type="hidden" id="update" />
+                <ul class="hover-user" id="discussion"></ul>
             </div>
         </div>
         <!--File editor ends-->
