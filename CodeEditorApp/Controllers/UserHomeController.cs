@@ -21,6 +21,7 @@ namespace CodeEditorApp.Controllers
     public class UserHomeController : Controller
     {
         private UserHomeRepository UserHome = new UserHomeRepository();
+
         // GET: UserHome
         public ActionResult Index()
         {
@@ -40,6 +41,16 @@ namespace CodeEditorApp.Controllers
             return View(model);
         }
 
+        [HttpGet]
+        public ActionResult CreateProject()
+        {
+            ProjectViewModel NewModel = new ProjectViewModel();
+
+            NewModel.OwnerID = User.Identity.GetUserId();
+
+            return PartialView(NewModel);
+        }
+
         [HttpPost]
         public ActionResult CreateProject(ProjectViewModel model)
         {
@@ -48,9 +59,9 @@ namespace CodeEditorApp.Controllers
             NewProject.name = model.name;
             NewProject.AspNetUserID = User.Identity.GetUserId();
             NewProject.ProjectTypeID = model.TypeID;
+            
 
             UserHome.CreateProject(NewProject);
-
 
             return RedirectToAction("Index");
         }
@@ -109,19 +120,12 @@ namespace CodeEditorApp.Controllers
         {
             return UserHome.GetUserRootFolder(UserID);
         }
-
-        public List<SelectListItem> GetAvailableProjectTypes ()
+        
+        /*
+        public List<SelectListItem> GetAvailableProjectTypes()
         {
-            List<SelectListItem> TypeList = new List<SelectListItem>();
-            List<ProjectType> AvailableTypes = UserHome.GetProjectTypes();
-
-            TypeList.Add( new SelectListItem() { Value = "", Text = "Choose Type of project" });
-            foreach(ProjectType item in AvailableTypes)
-            {
-                TypeList.Add(new SelectListItem() { Value = item.ID.ToString() , Text = item.name });
-            }
-
-            return TypeList;
+            return UserHome.GetProjectTypes();
         }
+        */
     }
 }
