@@ -45,6 +45,7 @@ namespace CodeEditorApp.Controllers
         public ActionResult Editor()
         {
             ViewBag.Code = "alert('Hello World!');";
+            ViewBag.DocumentID = 17;
             return View();
         }
         public ActionResult SaveCode(EditorViewModel model)
