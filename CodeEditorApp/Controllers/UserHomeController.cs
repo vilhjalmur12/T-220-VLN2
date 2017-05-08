@@ -38,10 +38,6 @@ namespace CodeEditorApp.Controllers
 
             return View(model);
         }
-        public ActionResult Project()
-        {
-            return View();
-        }
 
         [HttpPost]
         public ActionResult CreateProject(ProjectViewModel model)
@@ -58,11 +54,15 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index");
         }
 
-        public ActionResult OpenProject(int projectID)
+        public ActionResult OpenProject(int? projectID)
         {
-            //TODO
+            if (projectID.HasValue)
+            {
+                ProjectViewModel model = UserHome.GetProjectByID(projectID.Value);
 
-            return null;
+                return RedirectToAction("Index", "Project", model);
+            }
+            return RedirectToAction("Index", "Project");
         }
 
         public ActionResult OpenProjectByFile(int fileID)
