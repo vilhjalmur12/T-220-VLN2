@@ -113,7 +113,7 @@ namespace CodeEditorApp.Controllers
                 default:
                      ModelState.AddModelError("", "Invalid login attempt.");
                     
-                    return View(model);
+                    return View("../Home/Index");
             }
         }
 
