@@ -25,25 +25,18 @@ namespace CodeEditorApp.Controllers
         // GET: UserHome
         public ActionResult Index()
         {
-            Debug.WriteLine("INDEX");
+
             string userID = User.Identity.GetUserId();
-            Debug.WriteLine("UserID: ");
-            Debug.WriteLine(userID);
+
             UserViewModel model = new UserViewModel()
             {
                 ID = userID,
                 UserName = User.Identity.GetUserName(),
                 Projects = UserHome.GetAllProjects(userID)
             };
-            Debug.WriteLine("Fjöldi i projects: ");
-            Debug.WriteLine(model.Projects.Count());
-            Debug.WriteLine("Fjöldi i solutiionnfolder: ");
-            Debug.WriteLine(model.Projects[0].SolutionFolder.Name);
-            Debug.WriteLine("Fjöldi i solutionfolder: ");
-            Debug.WriteLine(model.Projects[0].SolutionFolder.SubFolders.Count());
+
             ViewBag.Root = GetFileTree(userID);
-            Debug.WriteLine("FolderList:");
-            Debug.WriteLine(GetFileTree(userID).Folders.Count());
+
 
             return View(model);
         }
