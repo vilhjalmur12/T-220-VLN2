@@ -26,6 +26,11 @@ namespace CodeEditorApp.Controllers
             updateComments();
             updateGoals();
             updateUsers();
+            //For the Editor
+            ViewBag.Code = "alert('Hello World!');";
+            ViewBag.DocumentID = 17;
+            //For the editor
+
             return View(projectModel);
         }
 
@@ -196,5 +201,6 @@ namespace CodeEditorApp.Controllers
             //TODO
             return null;
         }
+        
     }
 }
