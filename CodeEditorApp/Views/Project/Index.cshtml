@@ -7,45 +7,86 @@
 
 <h2>Project Index</h2>
 
-
+<head>
+    <script src="https://use.fontawesome.com/2be9406092.js"></script>
+    <script src="https://rawgit.com/hawk-ip/jquery.tabSlideOut.js/master/jquery.tabSlideOut.js"></script>
+</head>
 <body>
+    
+    
     <div class="row padding-for-container">
         <div class="col-md-2 document-list padding-for-container">
             <p>listi í projectum kemur hér</p>
 
         </div>
-        <div class="col-md-9 project-editor ">
-            <!-- Responsive editor starts here -->
-            <div class="tab-content">
-            <div id="project-editor" class="tab-pane fade in active col-md-9">
+        <div class="row project-editor ">
+            <div class="col-md-9" id="project-editor">
                 <h3>editor</h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
             </div>
-            <div id="project-chat" class="tab-pane fade col-md-2">
-                <h3>chat</h3>
-                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            <!-- tabs start here-->
+            <div class="tab-content">
+                <div id="project-chat" class="tab-pane fade col-md-2 right">
+                    <h3>chat</h3>
+                    <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                </div>
+                <div id="project-members" class="tab-pane fade col-md-2">
+                    <h3>members</h3>
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                </div>
+                <div id="project-todo" class="tab-pane fade col-md-2">
+                    <h3>todo</h3>
+                    <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+                </div>
             </div>
-            <div id="project-members" class="tab-pane fade col-md-2">
-                <h3>members</h3>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-            </div>
-            <div id="project-todo" class="tab-pane fade col-md-2">
-                <h3>todo</h3>
-                <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
+        </div>
+
+        <div>
+            <p>hér koma actions og sprettigluggi</p>
+            <div id="left">
+                <a class="handle ui-slideouttab-handle-rounded">Left<i class="fa fa-icon fa-television"></i></a>
+                <p>This panel doesn't close automatically when somewhere else is clicked.</p>
+                <p>And it can be controlled from the buttons in the main window.</p>
             </div>
         </div>
     </div>
-    </div>
-    <div class="col-md-1 project-actions padding-for-container">
-        <p>hér koma actions og sprettigluggi</p>
-        <ul class="nav">
-            <li class="active"><a data-toggle="tab" href="#project-editor">Project editor</a></li>
-            <li><a data-toggle="tab" href="#project-chat">Project chat</a></li>
-            <li><a data-toggle="tab" href="#project-members">Project members</a></li>
-            <li><a data-toggle="tab" href="#project-todo">Project todo</a></li>
-        </ul>
-    </div>
+    
 
+    <script>
+  
+        $(document).ready(function () {
 
+            var left = $('#left').tabSlideOut({
+                tabLocation: 'left',
+                clickScreenToClose: false,
+                offset: '40px',
+                offsetReverse: true, // offset from bottom, not top
+                // handlers: enable and disable buttons when sliding open or closed
+                onOpen: function () {
+                    $('#open').prop('disabled', true);
+                    $('#close').prop('disabled', false);
+                },
+                onClose: function () {
+                    $('#open').prop('disabled', false);
+                    $('#close').prop('disabled', true);
+                }
+            });
 
+            
+
+            /* programmatically drive the left tab */
+            $('button').click(function (event) {
+                left.tabSlideOut( /*command*/$(event.target).attr('id'));
+            });
+
+            /* register event handler */
+            $(document).on('slideouttabopen slideouttabclose slideouttabbounce', function (event) {
+                var text = $(event.target).attr('id') + ': ' + event.type;
+                $('#events').append(text + "\n");
+            });
+
+        });
+
+    </script>
+   
 </body>
