@@ -238,6 +238,10 @@
     <Compile Include="Migrations\201705081543134_laga.Designer.cs">
       <DependentUpon>201705081543134_laga.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705081630496_content i file.cs" />
+    <Compile Include="Migrations\201705081630496_content i file.Designer.cs">
+      <DependentUpon>201705081630496_content i file.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\Entities\Comment.cs" />
@@ -727,6 +731,9 @@
     <EmbeddedResource Include="Migrations\201705081543134_laga.resx">
       <DependentUpon>201705081543134_laga.cs</DependentUpon>
     </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705081630496_content i file.resx">
+      <DependentUpon>201705081630496_content i file.cs</DependentUpon>
+    </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
     <VisualStudioVersion Condition="'$(VisualStudioVersion)' == ''">10.0</VisualStudioVersion>
@@ -742,7 +749,7 @@
     <VisualStudio>
       <FlavorProperties GUID="{349c5851-65df-11da-9384-00065b846f21}">
         <WebProjectProperties>
-          <UseIIS>True</UseIIS>
+          <UseIIS>False</UseIIS>
           <AutoAssignPort>True</AutoAssignPort>
           <DevelopmentServerPort>14007</DevelopmentServerPort>
           <DevelopmentServerVPath>/</DevelopmentServerVPath>
