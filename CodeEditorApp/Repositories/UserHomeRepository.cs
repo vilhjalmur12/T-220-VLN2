@@ -84,6 +84,13 @@ namespace CodeEditorApp.Repositories
             return _db.ProjectTypes.ToList();
         }
 
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ProjectID"></param>
+        /// <returns></returns>
         public List<UserViewModel> GetProjectMembers (int ProjectID)
         {
             List<UserViewModel> ReturnList = new List<UserViewModel>();
@@ -98,6 +105,13 @@ namespace CodeEditorApp.Repositories
             return ReturnList;
         }
 
+
+
+        /// <summary>
+        /// 
+        /// </summary>
+        /// <param name="ProjectID"></param>
+        /// <returns></returns>
         public List<GoalViewModel> GetProjectGoals (int ProjectID)
         {
             List<GoalViewModel> ReturnList = new List<GoalViewModel>();
@@ -495,21 +509,6 @@ namespace CodeEditorApp.Repositories
         }
 
 
-        public void MoveProjectPath(int projectID, string newPath)
-        {
-            //TODO
-
-        }
-
-        public void MoveFolderPath(int folderID, string newPath)
-        {
-            //TODO
-        }
-
-        public void MoveFilePath(int fileID, string newPath)
-        {
-            //TODO
-        }
 
         public void SendConfirmEmail(string AspNetUserID)
         {

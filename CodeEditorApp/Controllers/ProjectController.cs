@@ -43,12 +43,14 @@ namespace CodeEditorApp.Controllers
 
         private void updateFiles()
         {
-            projectModel.Files = project.GetFilesByProject(projectModel.ID);
+            //  Files var tekið út úr ProjectViewModel
+           // projectModel.Files = project.GetFilesByProject(projectModel.ID);
         }
 
         private void updateFolders()
         {
-            projectModel.Folders = project.GetFoldersByProject(projectModel.ID);
+            //  Folders er öðruvísi núna í ProjectViewModel 
+            // projectModel.Folders = project.GetFoldersByProject(projectModel.ID);
         }
 
         public ActionResult ShowCodeEditor()
