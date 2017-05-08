@@ -25,8 +25,9 @@ namespace CodeEditorApp.Controllers
         // GET: UserHome
         public ActionResult Index()
         {
+            Debug.WriteLine("INDEX");
             string userID = User.Identity.GetUserId();
-
+            Debug.WriteLine(userID);
             UserViewModel model = new UserViewModel()
             {
                 ID = userID,
@@ -118,6 +119,8 @@ namespace CodeEditorApp.Controllers
 
         public RootFolderViewModel GetFileTree (string UserID)
         {
+            Debug.WriteLine("GETFILETREE");
+            Debug.WriteLine(UserHome.GetUserRootFolder(UserID).ID);
             return UserHome.GetUserRootFolder(UserID);
         }
         
