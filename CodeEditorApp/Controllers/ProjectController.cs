@@ -13,12 +13,7 @@ namespace CodeEditorApp.Controllers
 {
     public class ProjectController: Controller
     {
-        public ActionResult Index()
-        {
-            return View();
-        }
-
-        private ProjectRepository project = new ProjectRepository();
+        private ProjectRepository projectService = new ProjectRepository();
 
         private ProjectViewModel projectModel = new ProjectViewModel();
 
@@ -28,22 +23,22 @@ namespace CodeEditorApp.Controllers
             updateComments();
             updateGoals();
             updateUsers();
-            return View();
+            return View(projectModel);
         }
 
         private void updateGoals()
         {
-            projectModel.Goals = project.GetGoalsByProject(projectModel.ID);
+            projectModel.Goals = projectService.GetGoalsByProject(projectModel.ID);
         }
 
         private void updateComments()
         {
-            projectModel.Comments = project.GetCommentsByProject(projectModel.ID);
+            projectModel.Comments = projectService.GetCommentsByProject(projectModel.ID);
         }
 
         private void updateUsers()
         {
-            projectModel.Members = project.GetUsersByProject(projectModel.ID);
+            projectModel.Members = projectService.GetUsersByProject(projectModel.ID);
         }
 
         private void updateFiles()
@@ -64,32 +59,29 @@ namespace CodeEditorApp.Controllers
 
         public ActionResult ShowCommunication()
         {
-            //TODO
-            return null;
+            return View(projectModel.Comments);
         }
 
         public ActionResult ShowGroup()
         {
-            //TODO
-            return null;
+            return View(projectModel.Members);
         }
 
         public ActionResult ShowGoals()
         {
-            //TODO
-            return null;
+            return View(projectModel.Goals);
         }
 
         public ActionResult AddMember(string AspNetUserID)
         {
-            project.AddUserToProject(AspNetUserID, projectModel.ID);
+            projectService.AddUserToProject(AspNetUserID, projectModel.ID);
             updateUsers();
             return RedirectToAction("ShowGroup", "Project");
         }
 
         public ActionResult RemoveMember(string AspNetUserID)
         {
-            project.RemoveUserFromProject(AspNetUserID, projectModel.ID);
+            projectService.RemoveUserFromProject(AspNetUserID, projectModel.ID);
             updateUsers();
             return RedirectToAction("ShowGroup", "Project");
         }
@@ -108,17 +100,26 @@ namespace CodeEditorApp.Controllers
                 return RedirectToAction("Index", "Project", new { id = projectModel.ID });
             }
 
-            GoalViewModel thisGoal = new GoalViewModel() { name = goalName, description = goalDescription, ProjectID = projectModel.ID, AspNetUserID = User.Identity.GetUserId(), finished = false };
-            project.AddNewGoal(thisGoal);
+            GoalViewModel newGoal = new GoalViewModel()
+            {
+                name = goalName,
+                description = goalDescription,
+                ProjectID = projectModel.ID,
+                AspNetUserID = User.Identity.GetUserId(),
+                finished = false
+            };
+
+            projectService.AddNewGoal(newGoal);
             updateGoals();
             return RedirectToAction("ShowGoals", "project");
         }
 
+
         public ActionResult RemoveGoal(GoalViewModel goal)
         {
-            project.RemoveGoal(goal);
+            projectService.RemoveGoal(goal);
             updateGoals();
-            return RedirectToAction("ShowGoals", "project");
+            return RedirectToAction("ShowGoals", "Project");
         }
 
         public ActionResult AddObjective(int goalID, FormCollection collection)
@@ -130,17 +131,24 @@ namespace CodeEditorApp.Controllers
                 return View("Error");
             }
 
-            ObjectiveViewModel thisObjective = new ObjectiveViewModel() { name = objectiveName, GoalID = goalID, AspNetUserID = User.Identity.GetUserId(), finished = false };
-            project.AddNewObjective(thisObjective);
+            ObjectiveViewModel thisObjective = new ObjectiveViewModel()
+            {
+                name = objectiveName,
+                GoalID = goalID,
+                AspNetUserID = User.Identity.GetUserId(),
+                finished = false
+            };
+
+            projectService.AddNewObjective(thisObjective);
             updateGoals();
-            return RedirectToAction("ShowGoals", "project");
+            return RedirectToAction("ShowGoals", "Project");
         }
 
         public ActionResult RemoveObjective(int objectiveID)
         {
-            project.RemoveObjective(objectiveID);
+            projectService.RemoveObjective(objectiveID);
             updateGoals();
-            return RedirectToAction("ShowGoals", "project");
+            return RedirectToAction("ShowGoals", "Project");
         }
 
         public ActionResult CreateFile()
@@ -169,14 +177,14 @@ namespace CodeEditorApp.Controllers
 
         public ActionResult DeleteFile(int fileID)
         {
-            project.RemoveFile(fileID);
+            projectService.RemoveFile(fileID);
             updateFiles();
             return RedirectToAction("Index", "Project", new { model = projectModel });
         }
 
         public ActionResult LeaveProject()
         {
-          //  project.RemoveUserFromProject(User.Identity.GetUserId(), projectModel.ID);
+            projectService.RemoveUserFromProject(User.Identity.GetUserId(), projectModel.ID);
             return RedirectToAction("Index", "UserHome");
         }
 
