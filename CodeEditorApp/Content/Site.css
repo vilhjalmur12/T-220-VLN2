@@ -136,6 +136,7 @@ body, html {
 }
 
 .document-list{
+    height:100%;
     border: 5px solid red;
 }
 .project-table{
@@ -155,15 +156,17 @@ body, html {
 }
 
 .project-editor{
+    height:100%;
     border: 5px solid blue;
 }
 
 .project-actions{
-    border: 5px solid pink;
+    height:100%;
+    padding:0;
 }
 
 .clickable-icon{
-    cursor: pointer
+    cursor: pointer;
 }
 
 /*========stuff we might not need*/
@@ -296,13 +299,13 @@ textarea {
 
 /* The side navigation menu */
 .sidenav {
-    border: 5px solid yellow;
+    border: 1px solid #FF5C00;
     height: 100%; /* 100% Full-height */
     width: 0; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
     z-index: 1; /* Stay on top */
     top: 0;
-    right: 100px;
+    right: 42px;
     background-color: #E0E0E0; /* Black*/
     overflow-x: hidden; /* Disable horizontal scroll */
     padding-top: 60px; /* Place content 60px from the top */
@@ -351,8 +354,8 @@ textarea {
 }
 
 
-.project-actions ul li{
-    border: 5px solid green;
+.project-actions ul{
+    height:100%;
     padding: 5px;
     list-style-type:none;
     text-align: right;
