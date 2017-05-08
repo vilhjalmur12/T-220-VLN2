@@ -6,7 +6,9 @@
     <title>@ViewBag.Title - CollabCode</title>
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
-
+    <script src="https://use.fontawesome.com/2be9406092.js"></script>
+    <script src="https://rawgit.com/hawk-ip/jquery.tabSlideOut.js/master/jquery.tabSlideOut.js"></script>
+    <link rel="stylesheet" href="https://rawgit.com/hawk-ip/jquery.tabSlideOut.js/master/jquery.tabSlideOut.css"> 
 </head>
 <!--The layout of the website for a logged in person-->
 <body class="container-fluid">
@@ -19,14 +21,14 @@
         <div class="collapse navbar-collapse navbar-right">
             <ul class="nav navbar-nav">
                 <!--vantar hér réttan link-->
-                <li>@Html.ActionLink("project", "Project", "UserHome")</li>
+                <li>@Html.ActionLink("project", "Index", "Project")</li>
             </ul>
         </div>
         <p>Þetta er header í UserHome</p>
     </header>
 
     <!--the body of logged in page-->
-    <div class="container userhome-body-content padding-for-container">
+    <div class="userhome-body-content">
         @RenderBody()
     </div>
     <!--End of body of logged in page-->

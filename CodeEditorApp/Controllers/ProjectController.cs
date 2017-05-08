@@ -8,6 +8,8 @@ using System.Web.Mvc;
 using CodeEditorApp.Repositories;
 using Microsoft.AspNet.Identity;
 using CodeEditorApp.Models.Entities;
+using System.Data.Entity;
+using System.Diagnostics;
 
 namespace CodeEditorApp.Controllers
 {

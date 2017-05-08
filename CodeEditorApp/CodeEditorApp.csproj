@@ -685,6 +685,7 @@
     <Content Include="Views\Account\_Register.cshtml" />
     <Content Include="Views\Home\Editor.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
+    <Content Include="Views\Account\_Contact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

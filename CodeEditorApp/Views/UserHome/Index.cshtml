@@ -3,14 +3,24 @@
 @{
     Layout = "~/Views/UserHome/_Layout.cshtml";
     ViewBag.Title = "UserHomePage";
+    List<CodeEditorApp.Models.ViewModels.FolderViewModel> FolderList = ViewBag.Root.Folders;
 }
 <h2>Index</h2>
 
 <body>
     <div class="row">
         <div class="col-md-2 document-list">
-            <p>Þetta er index í UserHome</p>
-            <p>listi í projectum kemur hér</p>
+            <ul id="tree">
+                @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in FolderList)
+                {
+                    <li class="project-tree-head"><a href="#"></a>
+                        <ul>
+
+                        </ul>
+                    </li>
+
+                }
+            </ul>
         </div>
         <div class="col-md-9 project-table">
             <!-- Responsive table starts here -->
@@ -30,7 +40,7 @@
                         {
                             <tr>
                                 <td data-title="ID">1</td>
-                                <td data-title="name-of-project">@Html.ActionLink(@item.name, "../UserHome/OpenProject", @item.ID)</td>
+                                <td data-title="name-of-project">@Html.ActionLink(@item.name, "../UserHome/OpenProject", new { projectID = @item.ID })</td>
                                 <td data-title="project-owner">Jack Daniels</td>
                             </tr>
                         }                      

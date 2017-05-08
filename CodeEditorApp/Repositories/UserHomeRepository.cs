@@ -50,7 +50,7 @@ namespace CodeEditorApp.Repositories
 
 
         /// <summary>
-        /// 
+        /// Searches project in database by ID, installs data in a new ViewModel and returns.
         /// </summary>
         /// <param name="ProjectID"></param>
         /// <returns></returns>
@@ -177,6 +177,28 @@ namespace CodeEditorApp.Repositories
 
 
 
+
+        /// <summary>
+        /// Gets users root folder which holds a project list and a file tree
+        /// </summary>
+        /// <param name="UserID"></param>
+        /// <returns></returns>
+        public RootFolderViewModel GetUserRootFolder (string UserID)
+        {
+            RootFolder RootTmp = _db.RootFolders.Where(x => x.UserID == UserID).SingleOrDefault();
+            RootFolderViewModel RootFolder = new RootFolderViewModel();
+
+            RootFolder.ID = RootTmp.ID;
+            RootFolder.UserID = RootTmp.UserID;
+
+            RootFolder.Projects = GetAllProjects(UserID);
+            RootFolder.Folders = GetAllSubFolders(RootTmp);
+
+            return RootFolder;
+        }
+
+
+
         /// <summary>
         /// 
         /// </summary>
@@ -264,6 +286,40 @@ namespace CodeEditorApp.Repositories
             {
                 return null;
             } else
+            {
+                foreach (Folder item in TmpFolders)
+                {
+                    TmpViewModel.ID = item.ID;
+                    TmpViewModel.Name = item.Name;
+                    TmpViewModel.ProjectID = item.ProjectID;
+                    TmpViewModel.HeadFolderID = item.HeadFolderID;
+                    TmpViewModel.Files = GetFolderFiles(item.ID);
+                    TmpViewModel.SubFolders = GetAllSubFolders(item);
+                    NewList.Add(TmpViewModel);
+                }
+                return NewList;
+            }
+        }
+
+
+
+        /// <summary>
+        /// Overridded function on getting all folders within a folder specially
+        /// for the users Root folder.
+        /// </summary>
+        /// <param name="folder"></param>
+        /// <returns></returns>
+        public List<FolderViewModel> GetAllSubFolders(RootFolder folder)
+        {
+            List<Folder> TmpFolders = _db.Folders.Where(x => x.HeadFolderID == folder.ID).ToList();
+            List<FolderViewModel> NewList = new List<FolderViewModel>();
+            FolderViewModel TmpViewModel = new FolderViewModel();
+
+            if (TmpFolders == null)
+            {
+                return null;
+            }
+            else
             {
                 foreach (Folder item in TmpFolders)
                 {
