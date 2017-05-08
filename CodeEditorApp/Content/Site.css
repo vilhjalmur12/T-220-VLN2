@@ -128,6 +128,17 @@ body, html {
     background-image: url("../images/bakgrunnurtre.jpg");
 }
 
+/*Text in home*/
+.info{
+    margin-top:50px;
+}
+.info a{
+    border:1px groove #006072;
+}
+
+.blue-theme{
+    background-color: #006072;
+}
 /* USERHOME VIEW */
 
 .userhome-body-content {
