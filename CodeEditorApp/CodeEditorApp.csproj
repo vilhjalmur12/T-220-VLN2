@@ -249,7 +249,6 @@
     <Compile Include="Models\Entities\ProjectType.cs" />
     <Compile Include="Models\ViewModels\EditorViewModel.cs" />
     <Compile Include="Models\ViewModels\ObjectiveViewModel.cs" />
-    <Compile Include="Models\ViewModels\ProjectTreeViewModel.cs" />
     <Compile Include="Models\ViewModels\RootFolderViewModel.cs" />
     <Compile Include="Models\ViewModels\UserViewModel.cs" />
     <Compile Include="Repositories\User.cs" />
@@ -687,6 +686,7 @@
     <Content Include="Views\Account\_Register.cshtml" />
     <Content Include="Views\Home\Editor.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
+    <Content Include="Views\Account\_Contact.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
