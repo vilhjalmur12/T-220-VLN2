@@ -17,5 +17,10 @@ namespace CodeEditorApp.Hubs
             Clients.Group(Convert.ToString(documentID), Context.ConnectionId).OnChange(changeData);
             //Clients.All.OnChange(changeData);
         }
+        public void Send(string name, string message)
+        {
+            // Call the addNewMessageToPage method to update clients.
+            Clients.All.addNewMessageToPage(name, message);
+        }
     }
 }

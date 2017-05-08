@@ -18,10 +18,10 @@
     @ViewBag.Code
 </div>
 
-@using (Html.BeginForm("SaveCode", "Home", FormMethod.Post))
+@*@using (Html.BeginForm("SaveCode", "Home", FormMethod.Post))
 {
     @Html.HiddenFor(m => m.Content, new { @id = "hidden_editor"})
-    <input type="submit" value="Save code"/>
+    <input type="submit" value="Save code"/>*@
 }
 @section scripts
  {
@@ -41,11 +41,13 @@
 
     var myHub1 = $.connection.myHub1;
     var silent = false;
-
+    var val = 0;
+    
     myHub1.client.onChange = function (changeData) {
         console.log(changeData);
         silent = true;
         editor.getSession().getDocument().applyDelta(changeData); 
+        myHub1.server.send($('#displayname').val(), $('#update').val());
         silent = false;
     };
 
@@ -59,5 +61,46 @@
             myHub1.server.onChange(obj, documentID);
         });
     });
-</script>             
+</script>    
+<script>
+    $(function () {
+            // Reference the auto-generated proxy for the hub.
+        var chat = $.connection.myHub1;
+        
+            // Create a function that the hub can call back to display messages.
+            chat.client.addNewMessageToPage = function (name, message) {
+                // Add the message to the page.
+                $('#discussion').replaceWith('<li><strong>' + htmlEncode(name)
+                    + '</strong>: ' + htmlEncode(message) + '</li>');
+            };
+            $('#displayname').val('Stebbi');
+            $('#update').val('Made the last change');
+                        // Set initial focus to message input box.
+            $('#message').focus();
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    // Call the Send method on the hub.
+                    myHub1.server.send($('#displayname').val(), $('#message').val());
+                    // Clear text box and reset focus for next comment.
+                    $('#message').val('').focus();
+                });
+            });
+        });
+        // This optional function html-encodes messages for display in the page.
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+</script>
+    
+             
                       }
+<h2>Updates</h2>
+<div class="container">
+    <input type="hidden" id="displayname" />
+    <input type="hidden" id="update"/>
+    <ul id="discussion"></ul>
+</div>
+
+   
