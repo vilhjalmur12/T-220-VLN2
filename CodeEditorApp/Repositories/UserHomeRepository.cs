@@ -50,6 +50,21 @@ namespace CodeEditorApp.Repositories
             return NewModel;
         }
 
+        public List<ProjectViewModel> GetAllSubProjects(RootFolder folder)
+        {
+
+            List<ProjectViewModel> NewModel = new List<ProjectViewModel>();
+            _db.Projects.ToList().ForEach((x) =>
+            {
+                if (x.AspNetUserID == folder.UserID)
+                {
+                    NewModel.Add(GetProjectByID(x.ID));
+                }
+            });
+
+            return NewModel;
+        }
+
 
 
         /// <summary>
@@ -195,7 +210,8 @@ namespace CodeEditorApp.Repositories
             RootFolder.ID = RootTmp.ID;
             RootFolder.UserID = RootTmp.UserID;
 
-            RootFolder.Projects = GetAllProjects(UserID);
+           // RootFolder.Projects = GetAllProjects(UserID);
+            RootFolder.Projects = GetAllSubProjects(RootTmp);
             RootFolder.Folders = GetAllSubFolders(RootTmp);
 
             return RootFolder;

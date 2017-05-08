@@ -17,10 +17,10 @@
         }
         else
         {
-            <ul class="tree2">
+            <ul id="tree2">
                 @foreach (CodeEditorApp.Models.ViewModels.ProjectViewModel ProjectItem in @Model.Projects)
                 {
-
+                    
                     <li>
                         <a href="#">@ProjectItem.name</a>
                         @ShowSubItems(ProjectItem.SolutionFolder.SubFolders)
@@ -31,10 +31,9 @@
                 {
                     <li>
                         <a href="#">@item.Name</a>
-                        @if (item.SubFolders != null)
-                        {
-                            ShowSubItems(item.SubFolders);
-                        }
+
+                        @ShowSubItems(item.SubFolders);
+
                     </li>
 
                 }
