@@ -4,6 +4,7 @@
     Layout = "~/Views/UserHome/_Layout.cshtml";
     ViewBag.Title = "UserHomePage";
     List<CodeEditorApp.Models.ViewModels.FolderViewModel> FolderList = ViewBag.Root.Folders;
+    ViewBag.NewProject = new CodeEditorApp.Models.ViewModels.ProjectViewModel();
 }
 <h2>Index</h2>
 
@@ -87,9 +88,7 @@
         </div>
         <div class="col-md-1 add-project">
             <!-- Hér er CreateProject aðgerð -->
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-url="@Url.Action("CreateProject")">
-                <i class="glyphicon glyphicon-plus-sign"></i>
-            </button>
+
             <div id="CreateProjectModal" class="modal fade" role="dialog">
                 <div class="modal-dialog">
                     <div id="CreateProjectContainer" class="modal-content">
