@@ -38,6 +38,10 @@ namespace CodeEditorApp.Controllers
 
             return View(model);
         }
+        public ActionResult Project()
+        {
+            return View();
+        }
 
         [HttpPost]
         public ActionResult CreateProject(ProjectViewModel model)
