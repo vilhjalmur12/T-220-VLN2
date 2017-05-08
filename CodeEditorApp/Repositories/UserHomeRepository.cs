@@ -319,11 +319,8 @@ namespace CodeEditorApp.Repositories
         /// <returns></returns>
         public List<FolderViewModel> GetAllSubFolders(RootFolder folder)
         {
-            Debug.WriteLine("GETAllSubFolders");
             List<Folder> TmpFolders = _db.Folders.Where(x => x.HeadFolderID == 0 && x.AspNetUserID == folder.UserID).ToList();
-            Debug.WriteLine("fjöldi dfoldera");
-            Debug.WriteLine(TmpFolders[0].Name);
-            Debug.WriteLine(TmpFolders[1].Name);
+
             List<FolderViewModel> NewList = new List<FolderViewModel>();
             FolderViewModel TmpViewModel = new FolderViewModel();
 
