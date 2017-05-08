@@ -47,6 +47,7 @@ namespace CodeEditorApp.Controllers
             ProjectViewModel NewModel = new ProjectViewModel();
 
             NewModel.OwnerID = User.Identity.GetUserId();
+            NewModel.AvailableProjects = GetAvailableProjectTypes();
 
             return View(NewModel);
         }
@@ -63,7 +64,7 @@ namespace CodeEditorApp.Controllers
 
             UserHome.CreateProject(NewProject);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "UserHome");
         }
 
         public ActionResult OpenProject(int? projectID)
@@ -121,11 +122,11 @@ namespace CodeEditorApp.Controllers
             return UserHome.GetUserRootFolder(UserID);
         }
         
-        /*
+        
         public List<SelectListItem> GetAvailableProjectTypes()
         {
             return UserHome.GetProjectTypes();
         }
-        */
+        
     }
 }
