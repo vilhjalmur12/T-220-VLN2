@@ -33,6 +33,7 @@ namespace CodeEditorApp.Controllers
                 Projects = UserHome.GetAllProjects(userID)
             };
 
+            ViewBag.Root = GetFileTree(userID);
             Debug.WriteLine("username"+User.Identity.GetUserId());
             Debug.WriteLine(UserHome.GetAllProjects(User.Identity.GetUserId()).Count());
 
@@ -102,6 +103,11 @@ namespace CodeEditorApp.Controllers
             string UserID = User.Identity.GetUserId();
             UserViewModel ReturnUser = UserHome.GetUser(UserID);
             return ReturnUser;
+        }
+
+        public RootFolderViewModel GetFileTree (string UserID)
+        {
+            return UserHome.GetUserRootFolder(UserID);
         }
     }
 }
