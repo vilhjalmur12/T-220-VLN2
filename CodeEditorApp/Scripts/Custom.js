@@ -67,5 +67,4 @@ $('#tree2').treed({ openedClass: 'glyphicon-folder-open', closedClass: 'glyphico
 
 
 
-
 /*     --END--     HILMA ER AÐ VINNA HÉR      --END--   */

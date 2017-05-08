@@ -4,61 +4,58 @@
     ViewBag.Title = "Index";
     Layout = "~/Views/UserHome/_Layout.cshtml";
 }
+<script src="https://use.fontawesome.com/3e0cecfe87.js"></script>
 
 <h2>Project Index</h2>
 
 <body>
-    
-  
-    <div class="row padding-for-container">
+    <div class="row padding-for-container project-body">
         <div class="col-md-2 document-list padding-for-container">
             <p>listi í projectum kemur hér</p>
 
         </div>
-        <div class="row project-editor ">
-            <div class="col-md-9" id="project-editor">
+        <div class="row project-editor col-md-9">
                 <h3>editor</h3>
                 <p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.</p>
-            </div>
-            <!-- tabs start here-->
-            
         </div>
+        <!--Tabs start here-->
+        
 
-        <div>
-            <p>hér koma actions og sprettigluggi</p>
-
-
+            <div id="project-chat" class="sidenav">
+                <h3>chat</h3>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
+            <div id="project-members" class="sidenav">
+                <h3>members</h3>
+                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+            </div>
+            <div id="project-todo" class="sidenav">
+                <h3>todo</h3>
+                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+            </div>
             <div id="chat" class="sidenav">
                 <h3>chat</h3>
                 <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
-
-            <!-- Use any element to open the sidenav -->
-            <span onclick="openNav('chat')">open</span>
-            <div class="tab-content">
-                <div id="project-chat" class="tab-pane fade col-md-2 right">
-                                 </div>
-                <div id="project-members" class="tab-pane fade col-md-2">
-                    <h3>members</h3>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-                </div>
-                <div id="project-todo" class="tab-pane fade col-md-2">
-                    <h3>todo</h3>
-                    <p>Eaque ipsa quae ab illo inventore veritatis et quasi architecto beatae vitae dicta sunt explicabo.</p>
-                </div>
-            </div>
+        <div class="project-actions">
+            <ul>
+                <li><span onclick="openNav('chat')">lchat<i class="fa fa-weixin"></i></span></li>
+                <li><span onclick="openNav('chat')">members</span></li>
+                <li><span onclick="openNav('chat')">todo</span></li>
+            </ul>
         </div>
     </div>
     <script>
-    /* Set the width of the side navigation to 250px */
-    function openNav(name) {
-        document.getElementById(name).style.width = "250px";
-    }
 
-    /* Set the width of the side navigation to 0 */
-    function closeNav(name) {
-        document.getElementById(name).style.width = "0";
-    }
+        /* Set the width of the side navigation to 250px */
+        function openNav(name) {
+            document.getElementById(name).style.width = "250px";
+        }
+
+        /* Set the width of the side navigation to 0 */
+        function closeNav(name) {
+            document.getElementById(name).style.width = "0";
+        }
     </script>
 
    
