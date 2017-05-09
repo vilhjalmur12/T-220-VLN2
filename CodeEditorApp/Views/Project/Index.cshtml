@@ -67,10 +67,10 @@
             <div id="editor">
                 @ViewBag.Code
             </div>
-            <div id="color"><input type="button" value="Change Color" /></div>
+            <div id="color"><input type="button" value="Change Color" onclick="ToggleColor()" class="btn btn-btndefault" /></div>
             <div id="syntax">
                 <select>
-                    <option value="C#">Csharp</option>
+                    <option value="C">Csharp</option>
                     <option value="Html">Html</option>
                     <option value="JavaScript">JavaScript</option>
                     <option value="TooDoo">TBD</option>
@@ -92,6 +92,13 @@
                 editor.setTheme("ace/theme/monokai");
                 //Set the Editor in Javascript mode
                 editor.getSession().setMode("ace/mode/javascript");
+                    function ToggleColor() {
+                        if (editor.getTheme() == "ace/theme/monokai") {
+                            editor.setTheme("ace/theme/xcode");
+                        } else {                       
+                            editor.setTheme("ace/theme/monokai");
+                        }
+                    }
                 $("form").submit(function () {
                 $("#hidden_editor").val(editor.getSession().getValue());
                 });
@@ -168,11 +175,13 @@
         </div>
         <!--File editor ends-->
         <!--Pop-out nav start-->
-            <div id="project-chat" class="sidenav padding-for-container">
-                <h2>Chat</h2>
-                <div class="container">
-                    <input type="text" id="message" />
-                    <input type="button" id="sendmessage" value="Send" />
+            <div id="project-chat" class="sidenav padding-for-container right-padding">
+                
+                <div id="message-box" class="container">
+                    <div class="row">
+                        <textarea class="col" id="message"></textarea>
+                        <input class="col" type="button" id="sendmessage" value="" />
+                    </div>
                     <input type="hidden" id="displayname" />
                     <ul class="hover-user" id="discussion"></ul>
                 </div>
@@ -217,17 +226,9 @@
                 }
                 
             </div>
-            <div id="project-members" class="sidenav padding-for-container">
-                <script>
-                    var addmemb = '<li><input type="text" id="myinputmember" name="myinputmember" /></li>';
-                    $(document).ready(function(){
-                        $("#add-member").click(function(){
-                            $("#member-list").append(addmemb);
-                        });
-                    });
-                </script>
+            <div id="project-members" class="sidenav padding-for-container right-padding">
                 <h3>Members</h3>
-                <ul id="member-list">
+                <ul>
                     <!--Show the list of members in a project if any-->
                     @if (Model.Members != null)
                     {
@@ -236,20 +237,28 @@
                             <li>@user.UserName</li>
                         }
                     }
-               </ul>
-                <p id="add-member-input"></p>
-                <!--<div id="add-member"><button onclick="AddInputBox()" value="Add new member"></button></div>-->
-               <button id="add-member">Add new member</button>
-               <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                </ul>
+                <div id="add-member"><input type="button" value="AddMember" /></div>
+                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
             </div>
-            <div id="project-goals" class="sidenav padding-for-container">
+            <div id="project-goals" class="sidenav padding-for-container right-padding">
                 <h3>Goals</h3>
                 <div>
                     <dl>
-                        <dt>GOAL1</dt>
-                        <dd>objective</dd>
-                        <dt>GOAL2/dt>
-                        <dd>objective</dd>
+                        @if (Model.Goals != null)
+                        {
+                            foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
+                            {
+                                <dt><input type="checkbox" checked=@goal.finished/>@goal.name : @goal.description</dt>
+                                if (goal.objectives != null)
+                                {
+                                    foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
+                                    {
+                                        <dd><input type="checkbox" checked=@objective.finished/>@objective.name</dd>
+                                    }
+                                }
+                            }
+                        }
                     </dl>
                 </div>
             </div>
@@ -269,7 +278,7 @@
     <script>
 /*þarf að færa*/
         function openNav(name) {
-            document.getElementById(name).style.width = "300px";/* Set the width of the side navigation to 250px */
+            document.getElementById(name).style.width = "500px";/* Set the width of the side navigation to 250px */
             if (name != "project-chat")
             {
                 closeNav("project-chat");
