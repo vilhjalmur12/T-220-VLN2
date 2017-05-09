@@ -1,6 +1,11 @@
 ﻿@model CodeEditorApp.Models.ContactViewModel
+@{
+    ViewBag.Title = "Contact";
+}
 
-@using (Html.BeginForm("Contact", "Contact", FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
+<h2>@ViewBag.Title.</h2>
+
+@using (Html.BeginForm("Contact", "Contact", new { ReturnUrl = ViewBag.ReturnUrl }, FormMethod.Post, new { @class = "form-horizontal", role = "form" }))
 {
     @Html.AntiForgeryToken();
     <h4>Contact us!</h4>
@@ -30,4 +35,6 @@
     </div>
 }
 
-
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

@@ -13,9 +13,53 @@
     <div class="row container padding-for-container project-body">
         <!--Project folders and file tree starts-->
         <div class="col-md-2 document-list padding-for-container">
-            <p>listi í projectum kemur hér</p>
+            <div class="row container padding-for-container">
+                <ul id="tree2">
+                    <li>@Model.SolutionFolder.Name</li>
 
+                    @if (Model.SolutionFolder.SubFolders != null)
+                    {
+                        <ul>
+
+
+                            @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in Model.SolutionFolder.SubFolders)
+                {
+                                <li>
+                                    <a href="#">@item.Name</a>
+                                    @ShowSubItems(item.SubFolders);
+
+                                </li>
+                            }
+                        </ul>
+                    }
+                </ul>
+                    @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
+                    {
+                        <ul>
+
+                            @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
+                            {
+                                <li>
+                                    @item.Name
+                                    @ShowSubItems(item.SubFolders)
+
+                                    @if (item.Files != null)
+                                    {
+                                        <ul>
+                                            @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
+                                            {
+                                                <li>@file.name</li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+
+            </div>
         </div>
+
         <!--Project folders and file tree ends-->
         <!--File editor starts-->
         <div class="col-md-9 project-editor ">
@@ -23,13 +67,13 @@
             <div id="editor">
                 @ViewBag.Code
             </div>
-            <div id="color"><input type="button" value="Change Color" /></div>
+            <div id="color"><input type="button" value="Change Color" onclick="ToggleColor()" class="btn btn-btndefault" /></div>
             <div id="syntax">
-                <select>
-                    <option value="C#">Csharp</option>
-                    <option value="Html">Html</option>
+                <select id="SyntaxSelector" onchange="Syntax()">
                     <option value="JavaScript">JavaScript</option>
-                    <option value="TooDoo">TBD</option>
+                    <option>Html</option>
+                    <option>C#</option>
+                    <option>Css</option>
                 </select>
             </div>
 
@@ -47,7 +91,31 @@
                 var editor = ace.edit("editor");
                 editor.setTheme("ace/theme/monokai");
                 //Set the Editor in Javascript mode
-                editor.getSession().setMode("ace/mode/javascript");
+                    editor.getSession().setMode("ace/mode/javascript");
+                //Changes the style of the editor
+                    function ToggleColor() {
+                        if (editor.getTheme() == "ace/theme/monokai") {
+                            editor.setTheme("ace/theme/xcode");
+                        } else {                       
+                            editor.setTheme("ace/theme/monokai");
+                        }
+                    }
+                //Changes the syntax of the editor
+                    function Syntax() {
+                        var e = document.getElementById("SyntaxSelector");
+                        var str = e.options[e.selectedIndex].text;
+                        //alert(str);
+                        if (str == "JavaScript") {
+                            editor.getSession().setMode("ace/mode/javascript");
+                        } else if (str == "Html") {
+                            editor.getSession().setMode("ace/mode/html");
+                        } else if (str == "C#") {
+                            editor.getSession().setMode("ace/mode/csharp");
+                        } else if (str == "Css") {
+                            editor.getSession().setMode("ace/mode/css");
+                        }
+                    }
+
                 $("form").submit(function () {
                 $("#hidden_editor").val(editor.getSession().getValue());
                 });
@@ -88,7 +156,7 @@
                         // Create a function that the hub can call back to display messages.
                         chat.client.addNewMessageToPage = function (name, message) {
                             // Add the message to the page.
-                            $('#discussion').replaceWith('<li><strong>' + htmlEncode(name)
+                            $('#discussion1').replaceWith('<li><strong>' + htmlEncode(name)
                                 + '</strong>: ' + htmlEncode(message) +  '</li>');
                         };
                         //Set the name of the user
@@ -99,12 +167,12 @@
                         //$('#message').focus();
                         // Start the connection.
                         $.connection.hub.start().done(function () {
-                            $('#sendmessage').click(function () {
-                                // Call the Send method on the hub.
-                                myHub1.server.send($('#displayname').val(), $('#message').val());
-                                // Clear text box and reset focus for next comment.
-                                $('#message').val('').focus();
-                            });
+                            //$('#sendmessage').click(function () {
+                            //    // Call the Send method on the hub.
+                            //    myHub1.server.send($('#displayname').val(), $('#message').val());
+                            //    // Clear text box and reset focus for next comment.
+                            //    $('#message').val('').focus();
+                            //});
                         });
                     });
                     // This optional function html-encodes messages for display in the page.
@@ -119,18 +187,20 @@
                 @*<p class="l-text-user">Updates</p>*@
                 <input class="hover-user" type="hidden" id="displayname" />
                 <input class="hover-user" type="hidden" id="update" />
-                <ul class="hover-user" id="discussion"></ul>
+                <ul class="hover-user" id="discussion1"></ul>
             </div>
         </div>
         <!--File editor ends-->
         <!--Pop-out nav start-->
-            <div id="project-chat" class="sidenav padding-for-container">
-                <h3>chat</h3>
-                <div class="container">
-                    <input type="text" id="message" />
-                    <input type="button" id="sendmessage" value="Send" />
+            <div id="project-chat" class="sidenav padding-for-container right-padding">
+                
+                <div id="message-box" class="container">
+                    <div class="row">
+                        <textarea class="col" id="message"></textarea>
+                        <input class="col" type="button" id="sendmessage" value="" />
+                    </div>
                     <input type="hidden" id="displayname" />
-                    <ul id="discussion"></ul>
+                    <ul class="hover-user" id="discussion"></ul>
                 </div>
                 @section scriptsComment {
                     <!--Script references. -->
@@ -151,7 +221,7 @@
                     + '</strong>: ' + htmlEncode(message) + '</li>');
             };
             // Get the user name and store it to prepend to messages.
-            $('#displayname').val(prompt('Enter your name:', ''));
+            $('#displayname').val(@Html.Raw(Json.Encode(ViewBag.UserName)));
             // Set initial focus to message input box.
             $('#message').focus();
             // Start the connection.
@@ -174,42 +244,68 @@
                 
             </div>
             <div id="project-members" class="sidenav padding-for-container">
+                <script>
+                    var addmemb = '<li><input type="text" id="myinputmember" name="myinputmember" /></li>';
+                    addmemb += '<button type="submit">Invite</button>';
+                    $(document).ready(function(){
+                        $("#add-member").click(function(){
+                            $("#member-list").append(addmemb);
+                        });
+                    });
+                </script>
                 <h3>Members</h3>
-                <ul>
-                    <li class="owner"> Ég er eigandi </li>
-                    <li> I'm a minion </li>
-                    <li> minion2</li>
+                <ul id="member-list">
+                    <!--Display the list of members in a project if any-->
+                    @if (Model.Members != null)
+                    {
+                        foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
+                        {
+                            <li>@user.UserName</li>
+                        }
+                    }
                 </ul>
+                <button id="add-member">Add new member</button>
                 <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
             </div>
-            <div id="project-goals" class="sidenav padding-for-container">
+            <div id="project-goals" class="sidenav padding-for-container right-padding">
                 <h3>Goals</h3>
                 <div>
                     <dl>
-                        <dt>GOAL1</dt>
-                        <dd>objective</dd>
-                        <dt>GOAL2/dt>
-                        <dd>objective</dd>
+                        @if (Model.Goals != null)
+                        {
+                            foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
+                            {
+                                <dt><input type="checkbox" checked=@goal.finished />@goal.name : @goal.description</dt>
+                                if (goal.objectives != null)
+                                {
+                                    foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
+                                    {
+                                        <dd><input type="checkbox" checked=@objective.finished />@objective.name</dd>
+                                    }
+                                }
+                            }
+                        }
                     </dl>
                 </div>
             </div>
-        <!--Pop-out nav ends -->
-        <!--Action nav starts -->
-        <div class="col-md-1 project-actions">
-            <ul>
-                <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
-                <li><span onclick="openNav('project-chat');" class="clickable-icon"><i class="glyphicon glyphicon-comment fa-3x" aria-hidden="true"></i></span></li>
-                <li><span onclick="openNav('project-members');" class="clickable-icon"><i class="fa fa-users fa-3x" aria-hidden="true"></i></span></li>
-                <li><span onclick="openNav('project-goals')" class="clickable-icon"><i class="fa fa-check-square-o fa-3x" aria-hidden="true"></i></span></li>
-            </ul>
+            <!--Pop-out nav ends -->
+            <!--Action nav starts -->
+            <div class="col-md-1 project-actions">
+                <ul>
+                    <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
+                    <li><span onclick="openNav('project-chat');" class="clickable-icon"><i class="glyphicon glyphicon-comment fa-3x" aria-hidden="true"></i></span></li>
+                    <li><span onclick="openNav('project-members');" class="clickable-icon"><i class="fa fa-users fa-3x" aria-hidden="true"></i></span></li>
+                    <li><span onclick="openNav('project-goals')" class="clickable-icon"><i class="fa fa-check-square-o fa-3x" aria-hidden="true"></i></span></li>
+                </ul>
+            </div>
+            <!--Action nav ends -->
         </div>
-        <!--Action nav ends -->
-    </div>
+
     <!--Project body ends-->
     <script>
 /*þarf að færa*/
         function openNav(name) {
-            document.getElementById(name).style.width = "300px";/* Set the width of the side navigation to 250px */
+            document.getElementById(name).style.width = "500px";/* Set the width of the side navigation to 250px */
             if (name != "project-chat")
             {
                 closeNav("project-chat");
@@ -235,6 +331,68 @@
             closeNav("project-members");
             closeNav("project-goals");
         }
+
+        $.fn.extend({
+            treed: function (o) {
+
+                var openedClass = 'glyphicon-minus-sign';
+                var closedClass = 'glyphicon-plus-sign';
+
+                if (typeof o != 'undefined') {
+                    if (typeof o.openedClass != 'undefined') {
+                        openedClass = o.openedClass;
+                    }
+                    if (typeof o.closedClass != 'undefined') {
+                        closedClass = o.closedClass;
+                    }
+                };
+
+                //initialize each of the top levels
+                var tree = $(this);
+                tree.addClass("tree");
+                tree.find('li').has("ul").each(function () {
+                    var branch = $(this); //li with children ul
+                    branch.prepend("<i class='indicator glyphicon " + closedClass + "'></i>");
+                    branch.addClass('branch');
+                    branch.on('click', function (e) {
+                        if (this == e.target) {
+                            var icon = $(this).children('i:first');
+                            icon.toggleClass(openedClass + " " + closedClass);
+                            $(this).children().children().toggle();
+                        }
+                    })
+                    branch.children().children().toggle();
+                });
+                //fire event from the dynamically added icon
+                tree.find('.branch .indicator').each(function () {
+                    $(this).on('click', function () {
+                        $(this).closest('li').click();
+                    });
+                });
+                //fire event to open branch if the li contains an anchor instead of text
+                //      tree.find('.branch>a').each(function() {
+                //    $(this).on('click', function(e) {
+                //     $(this).closest('li').click();
+                //        e.preventDefault();
+                //      });
+                //   });
+                //fire event to open branch if the li contains a button instead of text
+                //   tree.find('.branch>button').each(function() {
+                //$(this).on('click', function(e) {
+                //   $(this).closest('li').click();
+                //              e.preventDefault();
+                //         });
+                //       });
+            }
+        });
+
+        //Initialization of treeviews
+
+        $('#tree1').treed();
+
+        $('#tree2').treed({ openedClass: 'glyphicon-folder-open', closedClass: 'glyphicon-folder-close' });
+
+        $('#tree3').treed({ openedClass: 'glyphicon-chevron-right', closedClass: 'glyphicon-chevron-down' });
     </script>
 
    

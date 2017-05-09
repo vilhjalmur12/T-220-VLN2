@@ -7,7 +7,8 @@
     ProjectViewModel NewProject = ViewBag.NewProject;
 }
 <body>
-    <div class="row container">
+    <!--UserHome body starts-->
+    <div class="row container padding-for-container userhome-body">
         <div class="col-md-2 document-list">
         @if (Model.RootFolder.Folders == null)
         {
@@ -68,7 +69,6 @@
         </div>
         <div class="col-md-9 project-table">
             <!-- Responsive table starts here -->
-            <!-- For correct display on small screens you must add 'data-title' to each 'td' in your table -->
             <div class="table-responsive-vertical shadow-z-1">
                 <!-- Table starts here -->
                 <table id="table" class="table table-hover table-responsive">
@@ -125,6 +125,8 @@
 
         </div>
     </div>
+    
+    <!--UserHome body ends-->
     <script>
             $.fn.extend({
             treed: function(o)

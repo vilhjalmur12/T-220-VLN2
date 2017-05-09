@@ -78,11 +78,11 @@ namespace CodeEditorApp.Controllers
         {
             if (projectID.HasValue)
             {
-                ProjectViewModel model = UserHome.GetProjectByID(projectID.Value);
-
-                return RedirectToAction("Index", "Project", model);
+                TempData["projectModel"] = UserHome.GetProjectByID(projectID.Value);
+                return RedirectToAction("Index", "Project");
             }
-            return RedirectToAction("Index", "Project");
+
+            return RedirectToAction("Index", "UserHome");
         }
 
         public ActionResult OpenProjectByFile(int fileID)
