@@ -1,9 +1,10 @@
-﻿@model CodeEditorApp.Models.ViewModels.UserViewModel
+﻿@using CodeEditorApp.Models.ViewModels
+@model CodeEditorApp.Models.ViewModels.UserViewModel
 
 @{
     Layout = "~/Views/UserHome/_Layout.cshtml";
     ViewBag.Title = "UserHomePage";
-    ViewBag.NewProject = new CodeEditorApp.Models.ViewModels.ProjectViewModel();
+    ProjectViewModel NewProject = ViewBag.NewProject;
 }
 <body>
     <div class="row container">
@@ -110,8 +111,8 @@
                             <h4 class="modal-title">Modal Header</h4>
                         </div>
                         <div class="modal-body">
-                            @{Html.RenderAction("CreateProject", "UserHome");}
-                        </div >
+                            @{Html.RenderPartial("CreateProject", NewProject);}
+                        </div>
 
 
                         <div class="modal-footer">

@@ -20,25 +20,34 @@ namespace CodeEditorApp.Controllers
     }
     public class UserHomeController : Controller
     {
-        private UserHomeRepository UserHome = new UserHomeRepository();
+        private UserHomeRepository UserHome;
+
+        public UserHomeController ()
+        {
+            UserHome = new UserHomeRepository();
+        }
 
         // GET: UserHome
         public ActionResult Index()
         {
-            string userID = User.Identity.GetUserId();
 
-            UserViewModel model = new UserViewModel()
-            {
-                ID = userID,
-                UserName = User.Identity.GetUserName(),
-                Projects = UserHome.GetAllProjects(userID),
-                RootFolder = GetFileTree(userID)
-            };
+            ViewBag.NewProject = NewProject();
 
-            return View(model);
+            return View(GetUserData());
         }
 
-        [HttpGet]
+        public ProjectViewModel NewProject()
+        {
+            ProjectViewModel NewModel = new ProjectViewModel();
+
+            NewModel.OwnerID = User.Identity.GetUserId();
+            NewModel.AvailableProjects = GetAvailableProjectTypes();
+            return NewModel;
+        }
+
+
+
+       [HttpGet]
         public ActionResult CreateProject()
         {
             ProjectViewModel NewModel = new ProjectViewModel();
@@ -58,10 +67,11 @@ namespace CodeEditorApp.Controllers
             NewProject.AspNetUserID = User.Identity.GetUserId();
             NewProject.ProjectTypeID = model.TypeID;
             
+            UserHome.CreateProject(ref NewProject);
 
-            UserHome.CreateProject(NewProject);
+            model.ID = NewProject.ID;
 
-            return RedirectToAction("Index", "UserHome");
+            return OpenProject(NewProject.ID);
         }
 
         public ActionResult OpenProject(int? projectID)
@@ -146,6 +156,25 @@ namespace CodeEditorApp.Controllers
         public List<SelectListItem> GetAvailableFileTypes()
         {
             return UserHome.GetFileTypes();
+        }
+
+        public ActionResult ClearUserData()
+        {
+            UserHome.ClearUserData(User.Identity.GetUserId());
+
+            return RedirectToAction("Index", "UserHome");
+        }
+
+        public UserViewModel GetUserData ()
+        {
+            UserViewModel user = new UserViewModel();
+            string userID = User.Identity.GetUserId();
+            user.ID = userID;
+            user.UserName = User.Identity.GetUserName();
+            user.Projects = UserHome.GetAllProjects(userID);
+            user.RootFolder = GetFileTree(userID);
+
+            return user;
         }
         
     }
