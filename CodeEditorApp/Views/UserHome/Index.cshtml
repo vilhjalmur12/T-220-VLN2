@@ -22,7 +22,14 @@
                 @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in Model.RootFolder.Folders)
                 {
                     <li>
-                        <a href="#">@item.Name</a>
+                        @if (item.IsSolutionFolder)
+                        {
+                            @Html.ActionLink(item.Name, "../UserHome/OpenProject", new { projectID = @item.ProjectID })
+                        }
+                        else
+                        {
+                            <a href="#">@item.Name</a>
+                        }
 
                         @ShowSubItems(item.SubFolders);
 
@@ -37,7 +44,14 @@
                         @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
                         {
                             <li>
-                                @item.Name
+                                @if (item.IsSolutionFolder)
+                                {
+                                    @Html.ActionLink(item.Name, "../UserHome/OpenProject", new { projectID = @item.ProjectID })
+                                }
+                                else
+                                {
+                                    @item.Name
+                                }
                                 @ShowSubItems(item.SubFolders)
                                 @if (item.Files != null)
                                 {
@@ -156,19 +170,19 @@
                                             });
                                         });
                                         //fire event to open branch if the li contains an anchor instead of text
-                                        tree.find('.branch>a').each(function() {
-                    $(this).on('click', function(e) {
-                        $(this).closest('li').click();
-                                                e.preventDefault();
-                                            });
-                                        });
+                                  //      tree.find('.branch>a').each(function() {
+                //    $(this).on('click', function(e) {
+                   //     $(this).closest('li').click();
+                                        //        e.preventDefault();
+                                      //      });
+                                     //   });
                                         //fire event to open branch if the li contains a button instead of text
-                                        tree.find('.branch>button').each(function() {
-                    $(this).on('click', function(e) {
-                        $(this).closest('li').click();
-                                                e.preventDefault();
-                                            });
-                                        });
+                                     //   tree.find('.branch>button').each(function() {
+                    //$(this).on('click', function(e) {
+                     //   $(this).closest('li').click();
+                                  //              e.preventDefault();
+                                   //         });
+                                 //       });
                                     }
                                 });
 
