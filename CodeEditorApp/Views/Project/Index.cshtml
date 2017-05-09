@@ -69,11 +69,11 @@
             </div>
             <div id="color"><input type="button" value="Change Color" onclick="ToggleColor()" class="btn btn-btndefault" /></div>
             <div id="syntax">
-                <select>
-                    <option value="C">Csharp</option>
-                    <option value="Html">Html</option>
+                <select id="SyntaxSelector" onchange="Syntax()">
                     <option value="JavaScript">JavaScript</option>
-                    <option value="TooDoo">TBD</option>
+                    <option>Html</option>
+                    <option>C#</option>
+                    <option>Css</option>
                 </select>
             </div>
 
@@ -91,7 +91,8 @@
                 var editor = ace.edit("editor");
                 editor.setTheme("ace/theme/monokai");
                 //Set the Editor in Javascript mode
-                editor.getSession().setMode("ace/mode/javascript");
+                    editor.getSession().setMode("ace/mode/javascript");
+                //Changes the style of the editor
                     function ToggleColor() {
                         if (editor.getTheme() == "ace/theme/monokai") {
                             editor.setTheme("ace/theme/xcode");
@@ -99,6 +100,22 @@
                             editor.setTheme("ace/theme/monokai");
                         }
                     }
+                //Changes the syntax of the editor
+                    function Syntax() {
+                        var e = document.getElementById("SyntaxSelector");
+                        var str = e.options[e.selectedIndex].text;
+                        //alert(str);
+                        if (str == "JavaScript") {
+                            editor.getSession().setMode("ace/mode/javascript");
+                        } else if (str == "Html") {
+                            editor.getSession().setMode("ace/mode/html");
+                        } else if (str == "C#") {
+                            editor.getSession().setMode("ace/mode/csharp");
+                        } else if (str == "Css") {
+                            editor.getSession().setMode("ace/mode/css");
+                        }
+                    }
+
                 $("form").submit(function () {
                 $("#hidden_editor").val(editor.getSession().getValue());
                 });
