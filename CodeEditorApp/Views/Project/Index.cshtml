@@ -10,7 +10,7 @@
 <script src="https://use.fontawesome.com/3e0cecfe87.js"></script>
 <body>
     <!--Project body starts-->
-    <div class="row padding-for-container project-body">
+    <div class="row project-body">
         <!--Project folders and file tree starts-->
         <div class="col-md-2 document-list padding-for-container">
             <p>listi í projectum kemur hér</p>
@@ -19,7 +19,6 @@
         <!--Project folders and file tree ends-->
         <!--File editor starts-->
         <div class="col-md-9 project-editor ">
-                <h3>editor</h3>
          <!--ViewBag for storing the project code-->
             <div id="editor">
                 @ViewBag.Code
@@ -99,38 +98,33 @@
             return encodedValue;
         }
                 </script>
+}
 
-
-            }
-            <h2>Updates</h2>
-            <div class="container">
-                <input type="hidden" id="displayname" />
-                <input type="hidden" id="update" />
-                <ul id="discussion"></ul>
+            <div class="project-update">
+                <p class="l-text-user">Updates</p>
+                <input class="hover-user" type="hidden" id="displayname" />
+                <input class="hover-user" type="hidden" id="update" />
+                <ul class="hover-user" id="discussion"></ul>
             </div>
         </div>
         <!--File editor ends-->
         <!--Pop-out nav start-->
-            <div id="project-chat" class="sidenav">
+            <div id="project-chat" class="sidenav padding-for-container">
                 <h3>chat</h3>
                 <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
-            <div id="project-members" class="sidenav">
+            <div id="project-members" class="sidenav padding-for-container">
                 <h3>members</h3>
                 <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
             </div>
-            <div id="project-goals" class="sidenav">
+            <div id="project-goals" class="sidenav padding-for-container">
                 <h3>todo</h3>
-                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
-            </div>
-            <div id="project-chat" class="sidenav">
-                <h3>chat</h3>
                 <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
             </div>
         <!--Pop-out nav ends -->
         <!--Action nav starts -->
-        <div class="col-sm-1 project-actions">
-            <ul style="list-style: none">
+        <div class="col-md-1 project-actions">
+            <ul>
                 <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
                 <li><span onclick="openNav('project-chat');" class="clickable-icon"><i class="glyphicon glyphicon-comment fa-3x" aria-hidden="true"></i></span></li>
                 <li><span onclick="openNav('project-members');" class="clickable-icon"><i class="fa fa-users fa-3x" aria-hidden="true"></i></span></li>
@@ -143,7 +137,7 @@
     <script>
 /*þarf að færa*/
         function openNav(name) {
-            document.getElementById(name).style.width = "250px";/* Set the width of the side navigation to 250px */
+            document.getElementById(name).style.width = "300px";/* Set the width of the side navigation to 250px */
             if (name != "project-chat")
             {
                 closeNav("project-chat");

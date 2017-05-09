@@ -25,9 +25,9 @@ namespace CodeEditorApp.Controllers
         // GET: UserHome
         public ActionResult Index()
         {
-            Debug.WriteLine("INDEX");
+
             string userID = User.Identity.GetUserId();
-            Debug.WriteLine(userID);
+
             UserViewModel model = new UserViewModel()
             {
                 ID = userID,
@@ -36,8 +36,7 @@ namespace CodeEditorApp.Controllers
             };
 
             ViewBag.Root = GetFileTree(userID);
-            Debug.WriteLine("username"+User.Identity.GetUserId());
-            Debug.WriteLine(UserHome.GetAllProjects(User.Identity.GetUserId()).Count());
+
 
             return View(model);
         }
@@ -48,8 +47,9 @@ namespace CodeEditorApp.Controllers
             ProjectViewModel NewModel = new ProjectViewModel();
 
             NewModel.OwnerID = User.Identity.GetUserId();
+            NewModel.AvailableProjects = GetAvailableProjectTypes();
 
-            return PartialView(NewModel);
+            return View(NewModel);
         }
 
         [HttpPost]
@@ -64,7 +64,7 @@ namespace CodeEditorApp.Controllers
 
             UserHome.CreateProject(NewProject);
 
-            return RedirectToAction("Index");
+            return RedirectToAction("Index", "UserHome");
         }
 
         public ActionResult OpenProject(int? projectID)
@@ -119,16 +119,14 @@ namespace CodeEditorApp.Controllers
 
         public RootFolderViewModel GetFileTree (string UserID)
         {
-            Debug.WriteLine("GETFILETREE");
-            Debug.WriteLine(UserHome.GetUserRootFolder(UserID).ID);
             return UserHome.GetUserRootFolder(UserID);
         }
         
-        /*
+        
         public List<SelectListItem> GetAvailableProjectTypes()
         {
             return UserHome.GetProjectTypes();
         }
-        */
+        
     }
 }

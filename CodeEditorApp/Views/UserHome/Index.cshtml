@@ -4,6 +4,7 @@
     Layout = "~/Views/UserHome/_Layout.cshtml";
     ViewBag.Title = "UserHomePage";
     List<CodeEditorApp.Models.ViewModels.FolderViewModel> FolderList = ViewBag.Root.Folders;
+    ViewBag.NewProject = new CodeEditorApp.Models.ViewModels.ProjectViewModel();
 }
 <h2>Index</h2>
 
@@ -13,11 +14,13 @@
         @if (FolderList == null && Model.Projects == null)
         {
             <p>Database is empty</p>
-        } else
+        }
+        else
         {
-            <ul class="tree2">
-                @foreach (CodeEditorApp.Models.ViewModels.ProjectViewModel ProjectItem in Model.Projects)
+            <ul id="tree2">
+                @foreach (CodeEditorApp.Models.ViewModels.ProjectViewModel ProjectItem in @Model.Projects)
                 {
+
                     <li>
                         <a href="#">@ProjectItem.name</a>
                         @ShowSubItems(ProjectItem.SolutionFolder.SubFolders)
@@ -28,32 +31,28 @@
                 {
                     <li>
                         <a href="#">@item.Name</a>
-                        @if (item.SubFolders != null)
-                        {
-                            ShowSubItems(item.SubFolders);
-                        }
-                    </li>
 
+                        @ShowSubItems(item.SubFolders);
+
+                    </li>
                 }
             </ul>
         }
-
-                @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders) { 
+                @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
+                { 
                     <ul>
-                        @foreach(CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
+              
+                        @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
                         {
                             <li>
                                 @item.Name
-                                @if (item.SubFolders != null)
-                                {
-                                    @ShowSubItems(item.SubFolders)
-                                }
+                                @ShowSubItems(item.SubFolders)
                                 
                             </li>
                             foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
                             {
                                 <li>@file.name</li>
-                            }                        
+                            }
                         }
                     </ul>
                 }
@@ -87,23 +86,102 @@
         </div>
         <div class="col-md-1 add-project">
             <!-- Hér er CreateProject aðgerð -->
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-url="@Url.Action("CreateProject")">
-                <i class="glyphicon glyphicon-plus-sign"></i>
+            <!-- Trigger the modal with a button -->
+            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
+                <i class="indicator glyphicon glyphicon-plus-sign"></i>
             </button>
-            <div id="CreateProjectModal" class="modal fade" role="dialog">
+
+            <!-- Modal -->
+            <div id="myModal" class="modal fade" role="dialog">
                 <div class="modal-dialog">
-                    <div id="CreateProjectContainer" class="modal-content">
+
+                    <!-- Modal content-->
+                    <div class="modal-content">
                         <div class="modal-header">
-                            <button type="button" class="close" data-dissmiss="modal">&times;</button>
-                            <h4 class="modal-title">Modal header</h4>
+                            <button type="button" class="close" data-dismiss="modal">&times;</button>
+                            <h4 class="modal-title">Modal Header</h4>
                         </div>
                         <div class="modal-body">
-                           
+                            @{Html.RenderAction("CreateProject", "UserHome");}
+                        </div >
+
+
+                        <div class="modal-footer">
+                            <button type = "button" class="btn btn-default" data-dismiss="modal">Close</button>
                         </div>
                     </div>
+
                 </div>
             </div>
+
         </div>
     </div>
+    <script>
+            $.fn.extend({
+            treed: function(o)
+                                    {
 
+                                        var openedClass = 'glyphicon-minus-sign';
+                                        var closedClass = 'glyphicon-plus-sign';
+
+                                        if (typeof o != 'undefined')
+                                        {
+                                            if (typeof o.openedClass != 'undefined')
+                                            {
+                                                openedClass = o.openedClass;
+                                            }
+                                            if (typeof o.closedClass != 'undefined')
+                                            {
+                                                closedClass = o.closedClass;
+                                            }
+                                        };
+
+                                        //initialize each of the top levels
+                                        var tree = $(this);
+                                        tree.addClass("tree");
+                                        tree.find('li').has("ul").each(function() {
+                                            var branch = $(this); //li with children ul
+                                            branch.prepend("<i class='indicator glyphicon " + closedClass + "'></i>");
+                                            branch.addClass('branch');
+                                            branch.on('click', function(e) {
+                                                if (this == e.target)
+                                                {
+                                                    var icon = $(this).children('i:first');
+                                                    icon.toggleClass(openedClass + " " + closedClass);
+                            $(this).children().children().toggle();
+                                                }
+                                            })
+                    branch.children().children().toggle();
+                                        });
+                                        //fire event from the dynamically added icon
+                                        tree.find('.branch .indicator').each(function(){
+                $(this).on('click', function() {
+                    $(this).closest('li').click();
+                                            });
+                                        });
+                                        //fire event to open branch if the li contains an anchor instead of text
+                                        tree.find('.branch>a').each(function() {
+                    $(this).on('click', function(e) {
+                        $(this).closest('li').click();
+                                                e.preventDefault();
+                                            });
+                                        });
+                                        //fire event to open branch if the li contains a button instead of text
+                                        tree.find('.branch>button').each(function() {
+                    $(this).on('click', function(e) {
+                        $(this).closest('li').click();
+                                                e.preventDefault();
+                                            });
+                                        });
+                                    }
+                                });
+
+        //Initialization of treeviews
+
+        $('#tree1').treed();
+
+        $('#tree2').treed({ openedClass: 'glyphicon-folder-open', closedClass: 'glyphicon-folder-close'});
+
+        $('#tree3').treed({ openedClass: 'glyphicon-chevron-right', closedClass: 'glyphicon-chevron-down'});
+    </script>
 </body>

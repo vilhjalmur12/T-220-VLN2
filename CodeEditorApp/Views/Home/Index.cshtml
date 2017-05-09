@@ -15,15 +15,18 @@
 -->
 <body onload="openTab(event, '@ViewBag.make')">
     <div class="row container  padding-for-container">
-        <div class="col-md-8">
-            <h2 class="s-heading-home">Build your application in groups</h2>
-            <p>CollabCode lets you work on your projects with anyone</p>
-            <h2>Access your project anywhere</h2>
-            <p>CollabCode stores your project in the cloud making it accessible anywhere</p>
-            <h2>Usable whatever the platform</h2>
-            <p>The online editor gives you the freedom to chose the platform you work on</p>
-            @Html.ActionLink("Learn More", "About", "Home")
-            @Html.ActionLink("dummyLink", "Index", "UserHome")
+        <div class="col-md-8 info">
+            <div class="text-center ">
+                <h2 class="l-heading-home">Build your application in groups</h2>
+                <p>CollabCode lets you work on your projects with anyone</p>
+                <h2 class="s-heading-home">Access your project anywhere</h2>
+                <p>CollabCode stores your project in the cloud making it accessible anywhere</p>
+                <h2  class="s-heading-home">Usable whatever the platform</h2>
+                <p>The online editor gives you the freedom to chose the platform you work on</p>
+
+                @Html.ActionLink("Learn More", "About", "Home", new { area = "" }, new { @class = "btn btn-secondary btn-lg" })
+               @* @Html.ActionLink("dummyLink", "Index", "UserHome")*@
+            </div>
         </div>
         <div class="col-md-4 vcenter ">
             @Html.Partial("../Account/Login")

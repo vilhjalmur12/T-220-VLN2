@@ -1,6 +1,7 @@
 ﻿using CodeEditorApp.Models.Entities;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Linq;
 using System.Web;
@@ -21,14 +22,17 @@ namespace CodeEditorApp.Models
         /// <summary>
         /// The name of the file, Example:CommentViewModel.cs
         /// </summary>
+        [StringLength(255)]
         public string name { get; set; }
         /// <summary>
         /// The ID of the Project that the File belongs to. 
         /// </summary>
         public int ProjectID { get; set; }
+        [StringLength(100)]
+        public string ContentType { get; set; }
+        public byte[] Content { get; set; }
         public int HeadFolderID { get; set; }
      //   public virtual Project project { get; set; }
      //   public virtual Folder folder { get; set; }
-        public string content { get; set; }
     }
 }
