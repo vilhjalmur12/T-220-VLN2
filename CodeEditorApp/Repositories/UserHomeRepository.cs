@@ -366,16 +366,44 @@ namespace CodeEditorApp.Repositories
         /// 
         /// </summary>
         /// <param name="project"></param>
-        public void CreateProject(Project project)
+        public void CreateProject(Project project, Folder HeadFolder)
         {
-            Folder HeadFolder = CreateSolutionFolder(project);
-            Folder tmp = _db.Folders.Where(x => x.ProjectID == project.ID).SingleOrDefault();
-            project.HeadFolderID = tmp.ID;
+            project.HeadFolderID = HeadFolder.ID;
+            CreateSolutionFolder(project);
 
             _db.Projects.Add(project);
             _db.SaveChanges();
 
-            
+            Folder TmpFolder = _db.Folders.Where(x => x.Name == project.name + "Solutions" && x.IsSolutionFolder == true).SingleOrDefault();
+            Project TmpProject = _db.Projects.Where(x => x.name == project.name + "Solutions" && x.SolutionFolderID == 0).SingleOrDefault();
+
+            TmpFolder.ProjectID = TmpProject.ID;
+            TmpProject.SolutionFolderID = TmpFolder.ID;
+        }
+
+
+
+        /// <summary>
+        /// Overridded for input of only project, in case of creating a project
+        /// under root folder.
+        /// </summary>
+        /// <param name="project"></param>
+        public void CreateProject(Project project)
+        {
+            CreateSolutionFolder(project);
+            project.HeadFolderID = 0;
+            project.SolutionFolderID = 0;
+
+            _db.Projects.Add(project);
+            _db.SaveChanges();
+
+            Folder TmpFolder = _db.Folders.Where(x => x.Name == project.name + "Solutions" && x.IsSolutionFolder == true).SingleOrDefault();
+            Project TmpProject = _db.Projects.Where(x => x.name == project.name + "Solutions" && x.SolutionFolderID == 0).SingleOrDefault();
+
+            TmpFolder.ProjectID = TmpProject.ID;
+            TmpProject.SolutionFolderID = TmpFolder.ID;
+
+            _db.SaveChanges();
         }
 
 
@@ -385,19 +413,17 @@ namespace CodeEditorApp.Repositories
         /// </summary>
         /// <param name="project"></param>
         /// <returns></returns>
-        public Folder CreateSolutionFolder(Project project)
+        public void CreateSolutionFolder(Project project)
         {
             //TODO
             Folder NewFolder = new Folder();
             NewFolder.Name = project.name + "Solutions";
             NewFolder.AspNetUserID = project.AspNetUserID;
-            NewFolder.ProjectID = project.ID;
+            NewFolder.ProjectID = 0;
             NewFolder.IsSolutionFolder = true;
 
             _db.Folders.Add(NewFolder);
             _db.SaveChanges();
-
-            return NewFolder;
         }
 
 

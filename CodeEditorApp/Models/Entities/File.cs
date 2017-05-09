@@ -32,6 +32,7 @@ namespace CodeEditorApp.Models
         public string ContentType { get; set; }
         public byte[] Content { get; set; }
         public int HeadFolderID { get; set; }
+        public virtual FileType FileType { get; set; }
      //   public virtual Project project { get; set; }
      //   public virtual Folder folder { get; set; }
     }
