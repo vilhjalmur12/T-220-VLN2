@@ -175,13 +175,15 @@
         </div>
         <!--File editor ends-->
         <!--Pop-out nav start-->
-            <div id="project-chat" class="sidenav padding-for-container">
-                <h2>Chat</h2>
-                <div class="container">
-                    <input type="text" id="message" />
-                    <input type="button" id="sendmessage" value="Send" />
-                    <input type="hidden" id="displayname" />
-                    <ul class="hover-user" id="discussion"></ul>
+            <div id="project-chat" class="sidenav padding-for-container right-padding">
+                
+                <div id="message-box" class="container">
+                    <div class="row">
+                        <textarea id="message"></textarea>
+                        <input type="button" id="sendmessage" value="" />
+                    </div>
+                <input type="hidden" id="displayname" />
+                <ul class="hover-user" id="discussion"></ul>
                 </div>
                 @section scriptsComment {
                     <!--Script references. -->
@@ -224,7 +226,7 @@
                 }
                 
             </div>
-            <div id="project-members" class="sidenav padding-for-container">
+            <div id="project-members" class="sidenav padding-for-container right-padding">
                 <h3>Members</h3>
                 <ul>
                     <!--Show the list of members in a project if any-->
@@ -239,7 +241,7 @@
                 <div id="add-member"><input type="button" value="AddMember" /></div>
                 <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
             </div>
-            <div id="project-goals" class="sidenav padding-for-container">
+            <div id="project-goals" class="sidenav padding-for-container right-padding">
                 <h3>Goals</h3>
                 <div>
                     <dl>
@@ -276,7 +278,7 @@
     <script>
 /*þarf að færa*/
         function openNav(name) {
-            document.getElementById(name).style.width = "300px";/* Set the width of the side navigation to 250px */
+            document.getElementById(name).style.width = "500px";/* Set the width of the side navigation to 250px */
             if (name != "project-chat")
             {
                 closeNav("project-chat");
