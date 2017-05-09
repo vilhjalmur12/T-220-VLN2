@@ -91,6 +91,24 @@ namespace CodeEditorApp.Controllers
             return null;
         }
 
+        [HttpGet]
+        public ActionResult CreateFile()
+        {
+            FileViewModel model = new FileViewModel();
+            model.AvailableTypes = GetAvailableFileTypes();
+            
+            
+
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult CreateFile(FileViewModel model)
+        {
+
+            return null;
+        }
+
         public ActionResult DeleteType(ObjectType type, int ID)
         {
             //TODO
@@ -126,6 +144,11 @@ namespace CodeEditorApp.Controllers
         public List<SelectListItem> GetAvailableProjectTypes()
         {
             return UserHome.GetProjectTypes();
+        }
+
+        public List<SelectListItem> GetAvailableFileTypes()
+        {
+            return UserHome.GetFileTypes();
         }
         
     }
