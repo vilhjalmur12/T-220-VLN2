@@ -398,6 +398,71 @@ namespace CodeEditorApp.Repositories
             TmpProject.SolutionFolderID = TmpFolder.ID;
 
             _db.SaveChanges();
+
+            GenerateProjectFiles(TmpProject);
+        }
+
+        private void GenerateProjectFiles (Project project)
+        {
+            if (project.ProjectTypeID == 4)
+            {
+                File CPP = new File();
+                CPP.name = "main";
+                CPP.ProjectID = project.ID;
+                CPP.HeadFolderID = project.SolutionFolderID;
+                // CPP.Content = eitthvað
+
+                _db.Files.Add(CPP);
+                _db.SaveChanges();
+            }
+            else if (project.ProjectTypeID == 10)
+            {
+                // TODO:    Búa til web project files
+                Folder styles = new Folder();
+                Folder script = new Folder();
+                File index = new File();
+                File CSS = new File();
+                File JS = new File();
+
+                styles.HeadFolderID = project.SolutionFolderID;
+                script.HeadFolderID = project.SolutionFolderID;
+                styles.Name = "styles";
+                script.Name = "script";
+
+                index.HeadFolderID = project.SolutionFolderID;
+                index.name = "Index";
+                index.ProjectID = project.ID;
+                index.FileType = _db.FileTypes.Where(x => x.ID == 1).SingleOrDefault();
+                // TODO:    Content
+
+                _db.Folders.Add(styles);
+                _db.Folders.Add(script);
+                _db.Files.Add(index);
+                _db.SaveChanges();
+
+                Folder TmpScript = _db.Folders.Where(x => x.HeadFolderID == project.SolutionFolderID && x.Name == script.Name).SingleOrDefault();
+                Folder TmpStyles = _db.Folders.Where(x => x.HeadFolderID == project.SolutionFolderID && x.Name == styles.Name).SingleOrDefault();
+
+                CSS.HeadFolderID = TmpStyles.ID;
+                JS.HeadFolderID = TmpScript.ID;
+                CSS.name = "styles";
+                JS.name = "scripts";
+                CSS.ProjectID = project.ID;
+                JS.ProjectID = project.ID;
+                CSS.FileType = _db.FileTypes.Where(x => x.ID == 2).SingleOrDefault();
+                JS.FileType = _db.FileTypes.Where(x => x.ID == 3).SingleOrDefault();
+                //  TODO:   Content
+
+                _db.Files.Add(CSS);
+                _db.Files.Add(JS);
+                _db.SaveChanges();
+            }
+        }
+
+        private void CreateCPPFile (Project project, Folder HeadFolder)
+        {
+            
+
         }
 
 
@@ -665,6 +730,23 @@ namespace CodeEditorApp.Repositories
                 ReturnList.Add(new SelectListItem() { Value = item.ID.ToString(), Text = item.name });
             }
 
+            return ReturnList;
+        }
+
+        public List<SelectListItem> GetFileTypes ()
+        {
+            List<SelectListItem> ReturnList = new List<SelectListItem>();
+
+            ReturnList.Add(new SelectListItem() { Value = "", Text = "- Select Project Type -" });
+
+            foreach(FileType item in _db.FileTypes.ToList())
+            {
+                ReturnList.Add(new SelectListItem()
+                {
+                    Value = item.ID.ToString(),
+                    Text = item.Name,
+                });
+            }
             return ReturnList;
         }
         

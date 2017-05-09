@@ -6,7 +6,8 @@
     ViewBag.NewProject = new CodeEditorApp.Models.ViewModels.ProjectViewModel();
 }
 <body>
-    <div class="row container">
+    <!--UserHome body starts-->
+    <div class="row container padding-for-container userhome-body">
         <div class="col-md-2 document-list">
         @if (Model.RootFolder.Folders == null)
         {
@@ -124,6 +125,8 @@
 
         </div>
     </div>
+    
+    <!--UserHome body ends-->
     <script>
             $.fn.extend({
             treed: function(o)
