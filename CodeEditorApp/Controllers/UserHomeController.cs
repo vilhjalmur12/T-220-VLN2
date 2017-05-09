@@ -78,6 +78,8 @@ namespace CodeEditorApp.Controllers
         {
             if (projectID.HasValue)
             {
+                Debug.WriteLine("Projecid");
+                Debug.WriteLine(projectID.Value);
                 TempData["projectModel"] = UserHome.GetProjectByID(projectID.Value);
                 Debug.WriteLine("FJÖLDI SKR'AA");
                 Debug.WriteLine(UserHome.GetProjectByID(projectID.Value).SolutionFolder.Files.Count());

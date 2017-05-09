@@ -78,6 +78,8 @@ namespace CodeEditorApp.Repositories
         /// <returns></returns>
         public ProjectViewModel GetProjectByID(int ProjectID)
         {
+            Debug.WriteLine("PROJECTID");
+            Debug.WriteLine(ProjectID);
             Project project = _db.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
 
             ProjectViewModel returnProject = new ProjectViewModel()
@@ -397,6 +399,8 @@ namespace CodeEditorApp.Repositories
             _db.Projects.Add(project);
             _db.SaveChanges();
 
+
+
             Folder TmpFolder = _db.Folders.Where(x => x.Name == project.name + "Solutions" && x.IsSolutionFolder == true).SingleOrDefault();
             Project TmpProject = _db.Projects.Where(x => x.name == project.name + "Solutions" && x.SolutionFolderID == 0).SingleOrDefault();
 
@@ -416,16 +420,18 @@ namespace CodeEditorApp.Repositories
             CreateSolutionFolder(ref project);
             project.HeadFolderID = 0;
 
+          
+
             _db.Projects.Add(project);
             _db.SaveChanges();
 
-
+            _db.Folders.Find(project.SolutionFolderID).ProjectID = project.ID;
             GenerateProjectFiles(project);
         }
 
         private void GenerateProjectFiles (Project project)
         {
-            if (project.ProjectTypeID == 4)
+            if (project.ProjectTypeID == 4) //console
             {
                 File CPP = new File();
                 CPP.name = "main";
@@ -436,46 +442,50 @@ namespace CodeEditorApp.Repositories
                 _db.Files.Add(CPP);
                 _db.SaveChanges();
             }
-            else if (project.ProjectTypeID == 10)
+            else if (project.ProjectTypeID == 10) // web
             {
-                Folder styles = new Folder();
-                Folder script = new Folder();
-                File index = new File();
-                File CSS = new File();
-                File JS = new File();
+                Folder styles = new Folder()
+                {
+                    HeadFolderID = project.SolutionFolderID,
+                    Name = "styles"
+                };
 
-                styles.HeadFolderID = project.SolutionFolderID;
-                script.HeadFolderID = project.SolutionFolderID;
-                styles.Name = "styles";
-                script.Name = "script";
-                styles.AspNetUserID = project.AspNetUserID;
-                script.AspNetUserID = project.AspNetUserID;
-                styles.ProjectID = project.ID;
-                script.ProjectID = project.ID;
+                Folder script = new Folder()
+                {
+                    HeadFolderID = project.SolutionFolderID,
+                    Name = "script"
+                };
 
-
-                index.HeadFolderID = project.SolutionFolderID;
-                index.name = "Index";
-                index.ProjectID = project.ID;
-                index.FileType = _db.FileTypes.Where(x => x.ID == 1).SingleOrDefault();
-                // TODO:    Content
+                File index = new File()
+                {
+                    HeadFolderID = project.SolutionFolderID,
+                    name = "Index",
+                    ProjectID = project.ID,
+                    FileType = _db.FileTypes.Where(x => x.ID == 1).SingleOrDefault()
+                };
 
                 _db.Folders.Add(styles);
                 _db.Folders.Add(script);
                 _db.Files.Add(index);
                 _db.SaveChanges();
 
+                File CSS = new File()
+                {
+                    HeadFolderID = styles.ID,
+                    name = "styles",
+                    ProjectID = project.ID,
+                    FileType = _db.FileTypes.Where(x => x.ID == 2).SingleOrDefault()
+                };
 
-                CSS.HeadFolderID = styles.ID;
-                JS.HeadFolderID = script.ID;
-                CSS.name = "styles";
-                JS.name = "scripts";
-                CSS.ProjectID = project.ID;
-                JS.ProjectID = project.ID;
-                CSS.FileType = _db.FileTypes.Where(x => x.ID == 2).SingleOrDefault();
-                JS.FileType = _db.FileTypes.Where(x => x.ID == 3).SingleOrDefault();
-                //  TODO:   Content
+                File JS = new File()
+                {
+                    HeadFolderID = script.ID,
+                    name = "scripts",
+                    ProjectID = project.ID,
+                    FileType = _db.FileTypes.Where(x => x.ID == 3).SingleOrDefault()
+                };
 
+                
                 _db.Files.Add(CSS);
                 _db.Files.Add(JS);
                 _db.SaveChanges();
