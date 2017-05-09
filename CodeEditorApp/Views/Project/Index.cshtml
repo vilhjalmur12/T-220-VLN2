@@ -13,7 +13,7 @@
     <div class="row container padding-for-container project-body">
         <!--Project folders and file tree starts-->
         <div class="col-md-2 document-list padding-for-container">
-            <div class="row container padding-for-container userhome-body">
+            <div class="row container padding-for-container">
                 <ul id="tree2">
                     <li>@Model.SolutionFolder.Name</li>
 
@@ -69,11 +69,11 @@
             </div>
             <div id="color"><input type="button" value="Change Color" onclick="ToggleColor()" class="btn btn-btndefault" /></div>
             <div id="syntax">
-                <select>
-                    <option value="C">Csharp</option>
-                    <option value="Html">Html</option>
+                <select id="SyntaxSelector" onchange="Syntax()">
                     <option value="JavaScript">JavaScript</option>
-                    <option value="TooDoo">TBD</option>
+                    <option>Html</option>
+                    <option>C#</option>
+                    <option>Css</option>
                 </select>
             </div>
 
@@ -91,7 +91,8 @@
                 var editor = ace.edit("editor");
                 editor.setTheme("ace/theme/monokai");
                 //Set the Editor in Javascript mode
-                editor.getSession().setMode("ace/mode/javascript");
+                    editor.getSession().setMode("ace/mode/javascript");
+                //Changes the style of the editor
                     function ToggleColor() {
                         if (editor.getTheme() == "ace/theme/monokai") {
                             editor.setTheme("ace/theme/xcode");
@@ -99,6 +100,22 @@
                             editor.setTheme("ace/theme/monokai");
                         }
                     }
+                //Changes the syntax of the editor
+                    function Syntax() {
+                        var e = document.getElementById("SyntaxSelector");
+                        var str = e.options[e.selectedIndex].text;
+                        //alert(str);
+                        if (str == "JavaScript") {
+                            editor.getSession().setMode("ace/mode/javascript");
+                        } else if (str == "Html") {
+                            editor.getSession().setMode("ace/mode/html");
+                        } else if (str == "C#") {
+                            editor.getSession().setMode("ace/mode/csharp");
+                        } else if (str == "Css") {
+                            editor.getSession().setMode("ace/mode/css");
+                        }
+                    }
+
                 $("form").submit(function () {
                 $("#hidden_editor").val(editor.getSession().getValue());
                 });
@@ -179,11 +196,11 @@
                 
                 <div id="message-box" class="container">
                     <div class="row">
-                        <textarea id="message"></textarea>
-                        <input type="button" id="sendmessage" value="" />
+                        <textarea class="col" id="message"></textarea>
+                        <input class="col" type="button" id="sendmessage" value="" />
                     </div>
-                <input type="hidden" id="displayname" />
-                <ul class="hover-user" id="discussion"></ul>
+                    <input type="hidden" id="displayname" />
+                    <ul class="hover-user" id="discussion"></ul>
                 </div>
                 @section scriptsComment {
                     <!--Script references. -->
@@ -226,10 +243,19 @@
                 }
                 
             </div>
-            <div id="project-members" class="sidenav padding-for-container right-padding">
+            <div id="project-members" class="sidenav padding-for-container">
+                <script>
+                    var addmemb = '<li><input type="text" id="myinputmember" name="myinputmember" /></li>';
+                    addmemb += '<button type="submit">Invite</button>';
+                    $(document).ready(function(){
+                        $("#add-member").click(function(){
+                            $("#member-list").append(addmemb);
+                        });
+                    });
+                </script>
                 <h3>Members</h3>
-                <ul>
-                    <!--Show the list of members in a project if any-->
+                <ul id="member-list">
+                    <!--Display the list of members in a project if any-->
                     @if (Model.Members != null)
                     {
                         foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
@@ -238,7 +264,7 @@
                         }
                     }
                 </ul>
-                <div id="add-member"><input type="button" value="AddMember" /></div>
+                <button id="add-member">Add new member</button>
                 <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
             </div>
             <div id="project-goals" class="sidenav padding-for-container right-padding">
@@ -249,12 +275,12 @@
                         {
                             foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
                             {
-                                <dt><input type="checkbox" checked=@goal.finished onchange="ChangeGoal(@goal.ID)"/>@goal.name : @goal.description</dt>
+                                <dt><input type="checkbox" checked=@goal.finished />@goal.name : @goal.description</dt>
                                 if (goal.objectives != null)
                                 {
                                     foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
                                     {
-                                        <dd><input type="checkbox" checked=@objective.finished/>@objective.name</dd>
+                                        <dd><input type="checkbox" checked=@objective.finished />@objective.name</dd>
                                     }
                                 }
                             }
@@ -262,30 +288,34 @@
                     </dl>
                 </div>
             </div>
-        <!--Pop-out nav ends -->
-        <!--Action nav starts -->
-        <div class="col-md-1 project-actions">
-            <ul>
-                <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
-                <li><span onclick="openNav('project-chat');" class="clickable-icon"><i class="glyphicon glyphicon-comment fa-3x" aria-hidden="true"></i></span></li>
-                <li><span onclick="openNav('project-members');" class="clickable-icon"><i class="fa fa-users fa-3x" aria-hidden="true"></i></span></li>
-                <li><span onclick="openNav('project-goals')" class="clickable-icon"><i class="fa fa-check-square-o fa-3x" aria-hidden="true"></i></span></li>
-            </ul>
+            <!--Pop-out nav ends -->
+            <!--Action nav starts -->
+            <div class="col-md-1 project-actions">
+                <ul>
+                    <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
+                    <li><span onclick="openNav('project-chat');" class="clickable-icon"><i class="glyphicon glyphicon-comment fa-3x" aria-hidden="true"></i></span></li>
+                    <li><span onclick="openNav('project-members');" class="clickable-icon"><i class="fa fa-users fa-3x" aria-hidden="true"></i></span></li>
+                    <li><span onclick="openNav('project-goals')" class="clickable-icon"><i class="fa fa-check-square-o fa-3x" aria-hidden="true"></i></span></li>
+                </ul>
+            </div>
+            <!--Action nav ends -->
         </div>
-        <!--Action nav ends -->
-    </div>
+
     <!--Project body ends-->
     <script>
-        /*þarf að færa*/
+/*þarf að færa*/
         function openNav(name) {
             document.getElementById(name).style.width = "500px";/* Set the width of the side navigation to 250px */
-            if (name != "project-chat") {
+            if (name != "project-chat")
+            {
                 closeNav("project-chat");
             }
-            if (name != "project-members") {
+            if (name != "project-members")
+            {
                 closeNav("project-members");
             }
-            if (name != "project-goals") {
+            if (name != "project-goals")
+            {
                 closeNav("project-goals");
             }
         }
@@ -295,22 +325,11 @@
             document.getElementById(name).style.width = "0";
         }
 
-        function closeAllNavs() {
+        function closeAllNavs()
+        {
             closeNav("project-chat");
             closeNav("project-members");
             closeNav("project-goals");
-        }
-
-        function ChangeGoal(id)
-        {
-            var tmp = id;
-             $.ajax({
-                    type: "POST",
-                    url: "/Project/ChangeGoal",
-                    data: '{goalID: "' + tmp + '" }',
-                    contentType: "application/json; charset=utf-8",
-                    dataType: "json",
-                });
         }
 
         $.fn.extend({

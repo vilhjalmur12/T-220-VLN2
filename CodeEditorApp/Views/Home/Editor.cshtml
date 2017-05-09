@@ -17,6 +17,13 @@
 <div id="editor">
     @ViewBag.Code
 </div>
+<select id="SyntaxSelector" onchange="Syntax()">
+        <option value="JavaScript">JavaScript</option>
+        <option>Html</option>
+        <option>C#</option>
+        <option>Css</option>
+</select>
+ 
 
 @*@using (Html.BeginForm("SaveCode", "Home", FormMethod.Post))
 {
@@ -38,6 +45,20 @@
     $("form").submit(function () {
         $("#hidden_editor").val(editor.getSession().getValue());
     });
+    function Syntax() {
+        var e = document.getElementById("SyntaxSelector");
+        var str = e.options[e.selectedIndex].text;
+        alert(str);
+        if (str == "JavaScript") {
+            editor.getSession().setMode("ace/mode/javascript");
+        } else if (str == "Html") {
+            editor.getSession().setMode("ace/mode/html");
+        } else if (str == "C#") {
+            editor.getSession().setMode("ace/mode/csharp");
+        } else if (str == "Css") {
+            editor.getSession().setMode("ace/mode/css");
+        }
+    }
 
     var myHub1 = $.connection.myHub1;
     var silent = false;
