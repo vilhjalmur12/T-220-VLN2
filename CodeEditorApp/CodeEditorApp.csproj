@@ -646,8 +646,12 @@
     <Content Include="images\bak.png" />
     <Content Include="images\bak1.PNG" />
     <Content Include="images\bakgrunnurtre.jpg" />
+    <Content Include="images\blar.PNG" />
+    <Content Include="images\graenn.PNG" />
     <Content Include="images\logo.png" />
     <Content Include="images\arrow.png" />
+    <Content Include="images\logo2.PNG" />
+    <Content Include="images\logo3.PNG" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
