@@ -23,7 +23,15 @@
             <div id="editor">
                 @ViewBag.Code
             </div>
-            <div><input type="button" value="Change Color" /></div>
+            <div id="color"><input type="button" value="Change Color" /></div>
+            <div id="syntax">
+                <select>
+                    <option value="C#">Csharp</option>
+                    <option value="Html">Html</option>
+                    <option value="JavaScript">JavaScript</option>
+                    <option value="TooDoo">TBD</option>
+                </select>
+            </div>
 
          
             @section scripts
