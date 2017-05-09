@@ -31,6 +31,7 @@ namespace CodeEditorApp.Controllers
             ViewBag.Code = "alert('Hello World!');";
             ViewBag.DocumentID = 17;
             ViewBag.UserName = User.Identity.GetUserName();
+            ViewBag.UseID = User.Identity.GetUserId();
             //For the editor
 
             return View(projectModel);
@@ -159,6 +160,21 @@ namespace CodeEditorApp.Controllers
             projectService.RemoveObjective(objectiveID);
             updateGoals();
             return RedirectToAction("ShowGoals", "Project");
+        }
+
+        public void SaveComment(string content)
+        {
+            if (!String.IsNullOrEmpty(content))
+            {
+                CommentViewModel commentModel = new CommentViewModel()
+                {
+                    AspNetUserID = User.Identity.GetUserId(),
+                    Content = content,
+                    ProjectID = projectModel.ID
+                };
+
+                projectService.AddNewComment(commentModel);
+            }
         }
 
         public ActionResult CreateFile()
