@@ -88,7 +88,7 @@
                         // Create a function that the hub can call back to display messages.
                         chat.client.addNewMessageToPage = function (name, message) {
                             // Add the message to the page.
-                            $('#discussion').replaceWith('<li><strong>' + htmlEncode(name)
+                            $('#discussion1').replaceWith('<li><strong>' + htmlEncode(name)
                                 + '</strong>: ' + htmlEncode(message) +  '</li>');
                         };
                         //Set the name of the user
@@ -119,7 +119,7 @@
                 @*<p class="l-text-user">Updates</p>*@
                 <input class="hover-user" type="hidden" id="displayname" />
                 <input class="hover-user" type="hidden" id="update" />
-                <ul class="hover-user" id="discussioncomment"></ul>
+                <ul class="hover-user" id="discussion1"></ul>
             </div>
         </div>
         <!--File editor ends-->
@@ -130,7 +130,7 @@
                     <input type="text" id="message" />
                     <input type="button" id="sendmessage" value="Send" />
                     <input type="hidden" id="displayname" />
-                    <ul id="discussion"></ul>
+                    <ul class="hover-user" id="discussion"></ul>
                 </div>
                 @section scriptsComment {
                     <!--Script references. -->
@@ -178,6 +178,7 @@
                 <ul>
                     @if (Model.Members)
                 </ul>
+                <div id="add-member"><input type="button" value="AddMember" /></div>
                 <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
             </div>
             <div id="project-goals" class="sidenav padding-for-container">
