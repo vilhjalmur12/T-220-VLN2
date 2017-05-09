@@ -236,10 +236,20 @@
                 <h3>Goals</h3>
                 <div>
                     <dl>
-                        <dt>GOAL1</dt>
-                        <dd>objective</dd>
-                        <dt>GOAL2/dt>
-                        <dd>objective</dd>
+                        @if (Model.Goals != null)
+                        {
+                            foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
+                            {
+                                <dt>@goal.name : @goal.description</dt>
+                                if (goal.objectives != null)
+                                {
+                                    foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
+                                    {
+                                        <dd>@objective.name</dd>
+                                    }
+                                }
+                            }
+                        }
                     </dl>
                 </div>
             </div>
