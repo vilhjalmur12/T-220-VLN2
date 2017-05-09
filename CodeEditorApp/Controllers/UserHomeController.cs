@@ -53,7 +53,7 @@ namespace CodeEditorApp.Controllers
         public ActionResult CreateProject(ProjectViewModel model)
         {
             Project NewProject = new Project();
-            NewProject.ID = model.ID;
+  
             NewProject.name = model.name;
             NewProject.AspNetUserID = User.Identity.GetUserId();
             NewProject.ProjectTypeID = model.TypeID;

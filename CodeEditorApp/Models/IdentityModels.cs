@@ -56,6 +56,7 @@ namespace CodeEditorApp.Models
         public DbSet<Entities.RootFolder> RootFolders { get; set; }
         public DbSet<Membership> Memberships { get; set; }
         public DbSet<Objective> Objectives { get; set; }
+        public DbSet<FileType> FileTypes { get; set; }
     }
 }   
     
