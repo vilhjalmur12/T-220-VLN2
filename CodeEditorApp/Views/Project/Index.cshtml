@@ -226,9 +226,17 @@
                 }
                 
             </div>
-            <div id="project-members" class="sidenav padding-for-container right-padding">
+            <div id="project-members" class="sidenav padding-for-container">
+                <script>
+                        var addmemb = '<li><input type="text" id="myinputmember" name="myinputmember" /></li>';
+                        $(document).ready(function(){
+                            $("#add-member").click(function(){
+                                $("#member-list").append(addmemb);
+                            });
+                        });
+                </script>
                 <h3>Members</h3>
-                <ul>
+                <ul id="member-list">
                     <!--Show the list of members in a project if any-->
                     @if (Model.Members != null)
                     {
@@ -238,7 +246,7 @@
                         }
                     }
                 </ul>
-                <div id="add-member"><input type="button" value="AddMember" /></div>
+                <button id="add-member">Add new member</button>
                 <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
             </div>
             <div id="project-goals" class="sidenav padding-for-container right-padding">
@@ -249,12 +257,12 @@
                         {
                             foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
                             {
-                                <dt><input type="checkbox" checked=@goal.finished/>@goal.name : @goal.description</dt>
+                                <dt><input type="checkbox" checked=@goal.finished />@goal.name : @goal.description</dt>
                                 if (goal.objectives != null)
                                 {
                                     foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
                                     {
-                                        <dd><input type="checkbox" checked=@objective.finished/>@objective.name</dd>
+                                        <dd><input type="checkbox" checked=@objective.finished />@objective.name</dd>
                                     }
                                 }
                             }
@@ -262,18 +270,19 @@
                     </dl>
                 </div>
             </div>
-        <!--Pop-out nav ends -->
-        <!--Action nav starts -->
-        <div class="col-md-1 project-actions">
-            <ul>
-                <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
-                <li><span onclick="openNav('project-chat');" class="clickable-icon"><i class="glyphicon glyphicon-comment fa-3x" aria-hidden="true"></i></span></li>
-                <li><span onclick="openNav('project-members');" class="clickable-icon"><i class="fa fa-users fa-3x" aria-hidden="true"></i></span></li>
-                <li><span onclick="openNav('project-goals')" class="clickable-icon"><i class="fa fa-check-square-o fa-3x" aria-hidden="true"></i></span></li>
-            </ul>
+            <!--Pop-out nav ends -->
+            <!--Action nav starts -->
+            <div class="col-md-1 project-actions">
+                <ul>
+                    <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
+                    <li><span onclick="openNav('project-chat');" class="clickable-icon"><i class="glyphicon glyphicon-comment fa-3x" aria-hidden="true"></i></span></li>
+                    <li><span onclick="openNav('project-members');" class="clickable-icon"><i class="fa fa-users fa-3x" aria-hidden="true"></i></span></li>
+                    <li><span onclick="openNav('project-goals')" class="clickable-icon"><i class="fa fa-check-square-o fa-3x" aria-hidden="true"></i></span></li>
+                </ul>
+            </div>
+            <!--Action nav ends -->
         </div>
-        <!--Action nav ends -->
-    </div>
+
     <!--Project body ends-->
     <script>
 /*þarf að færa*/
