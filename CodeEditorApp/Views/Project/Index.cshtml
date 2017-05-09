@@ -249,7 +249,7 @@
                         {
                             foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
                             {
-                                <dt><input type="checkbox" checked=@goal.finished/>@goal.name : @goal.description</dt>
+                                <dt><input type="checkbox" checked=@goal.finished onchange="ChangeGoal(@goal.ID)"/>@goal.name : @goal.description</dt>
                                 if (goal.objectives != null)
                                 {
                                     foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
@@ -276,19 +276,16 @@
     </div>
     <!--Project body ends-->
     <script>
-/*þarf að færa*/
+        /*þarf að færa*/
         function openNav(name) {
             document.getElementById(name).style.width = "500px";/* Set the width of the side navigation to 250px */
-            if (name != "project-chat")
-            {
+            if (name != "project-chat") {
                 closeNav("project-chat");
             }
-            if (name != "project-members")
-            {
+            if (name != "project-members") {
                 closeNav("project-members");
             }
-            if (name != "project-goals")
-            {
+            if (name != "project-goals") {
                 closeNav("project-goals");
             }
         }
@@ -298,11 +295,22 @@
             document.getElementById(name).style.width = "0";
         }
 
-        function closeAllNavs()
-        {
+        function closeAllNavs() {
             closeNav("project-chat");
             closeNav("project-members");
             closeNav("project-goals");
+        }
+
+        function ChangeGoal(id)
+        {
+            var tmp = id;
+             $.ajax({
+                    type: "POST",
+                    url: "/Project/ChangeGoal",
+                    data: '{goalID: "' + tmp + '" }',
+                    contentType: "application/json; charset=utf-8",
+                    dataType: "json",
+                });
         }
 
         $.fn.extend({

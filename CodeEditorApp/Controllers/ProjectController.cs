@@ -18,7 +18,7 @@ namespace CodeEditorApp.Controllers
 
         private ProjectRepository projectService = new ProjectRepository();
 
-        private ProjectViewModel projectModel = new ProjectViewModel();
+        private ProjectViewModel projectModel;
 
         [HttpGet]
         public ActionResult Index()
@@ -35,6 +35,14 @@ namespace CodeEditorApp.Controllers
             //For the editor
 
             return View(projectModel);
+        }
+
+        [HttpPost]
+        public ActionResult ChangeGoal (int? goalID)
+        {
+            projectService.ChangeGoal(goalID.Value);
+            updateGoals();
+            return RedirectToAction("Index", "Project", projectModel);
         }
 
         private void updateGoals()
