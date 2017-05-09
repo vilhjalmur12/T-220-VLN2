@@ -13,9 +13,53 @@
     <div class="row container padding-for-container project-body">
         <!--Project folders and file tree starts-->
         <div class="col-md-2 document-list padding-for-container">
-            <p>listi í projectum kemur hér</p>
+            <div class="row container padding-for-container userhome-body">
+                <ul id="tree2">
+                    <li>@Model.SolutionFolder.Name</li>
 
+                    @if (Model.SolutionFolder.SubFolders != null)
+                    {
+                        <ul>
+
+
+                            @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in Model.SolutionFolder.SubFolders)
+                {
+                                <li>
+                                    <a href="#">@item.Name</a>
+                                    @ShowSubItems(item.SubFolders);
+
+                                </li>
+                            }
+                        </ul>
+                    }
+                </ul>
+                    @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
+                    {
+                        <ul>
+
+                            @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
+                            {
+                                <li>
+                                    @item.Name
+                                    @ShowSubItems(item.SubFolders)
+
+                                    @if (item.Files != null)
+                                    {
+                                        <ul>
+                                            @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
+                                            {
+                                                <li>@file.name</li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+
+            </div>
         </div>
+
         <!--Project folders and file tree ends-->
         <!--File editor starts-->
         <div class="col-md-9 project-editor ">
@@ -241,6 +285,68 @@
             closeNav("project-members");
             closeNav("project-goals");
         }
+
+        $.fn.extend({
+            treed: function (o) {
+
+                var openedClass = 'glyphicon-minus-sign';
+                var closedClass = 'glyphicon-plus-sign';
+
+                if (typeof o != 'undefined') {
+                    if (typeof o.openedClass != 'undefined') {
+                        openedClass = o.openedClass;
+                    }
+                    if (typeof o.closedClass != 'undefined') {
+                        closedClass = o.closedClass;
+                    }
+                };
+
+                //initialize each of the top levels
+                var tree = $(this);
+                tree.addClass("tree");
+                tree.find('li').has("ul").each(function () {
+                    var branch = $(this); //li with children ul
+                    branch.prepend("<i class='indicator glyphicon " + closedClass + "'></i>");
+                    branch.addClass('branch');
+                    branch.on('click', function (e) {
+                        if (this == e.target) {
+                            var icon = $(this).children('i:first');
+                            icon.toggleClass(openedClass + " " + closedClass);
+                            $(this).children().children().toggle();
+                        }
+                    })
+                    branch.children().children().toggle();
+                });
+                //fire event from the dynamically added icon
+                tree.find('.branch .indicator').each(function () {
+                    $(this).on('click', function () {
+                        $(this).closest('li').click();
+                    });
+                });
+                //fire event to open branch if the li contains an anchor instead of text
+                //      tree.find('.branch>a').each(function() {
+                //    $(this).on('click', function(e) {
+                //     $(this).closest('li').click();
+                //        e.preventDefault();
+                //      });
+                //   });
+                //fire event to open branch if the li contains a button instead of text
+                //   tree.find('.branch>button').each(function() {
+                //$(this).on('click', function(e) {
+                //   $(this).closest('li').click();
+                //              e.preventDefault();
+                //         });
+                //       });
+            }
+        });
+
+        //Initialization of treeviews
+
+        $('#tree1').treed();
+
+        $('#tree2').treed({ openedClass: 'glyphicon-folder-open', closedClass: 'glyphicon-folder-close' });
+
+        $('#tree3').treed({ openedClass: 'glyphicon-chevron-right', closedClass: 'glyphicon-chevron-down' });
     </script>
 
    
