@@ -193,7 +193,9 @@ footer{
     border:1px groove #006072;
 }
 
-
+hehe{
+    height:60px;
+}
 
 
 
@@ -202,11 +204,12 @@ footer{
     $USERHOME
 \*----------------------------------------------------------*/
 
-/*.document-list,
+.document-list,
 .project-table,
 .add-project{
+    margin-top:55px;
     height:100%;
-}*/
+}
 
 .document-list{ /*also used in project*/
     width:15%;
@@ -229,7 +232,9 @@ footer{
 /*----------------------------------------------------------*\
     $PROJECT
 \*----------------------------------------------------------*/
-
+.project-body{
+    margin-top:55px;
+}
 .project-body,
 .project-editor,
 .project-actions,

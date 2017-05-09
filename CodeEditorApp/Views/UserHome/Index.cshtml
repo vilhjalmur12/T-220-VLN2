@@ -5,10 +5,8 @@
     ViewBag.Title = "UserHomePage";
     ViewBag.NewProject = new CodeEditorApp.Models.ViewModels.ProjectViewModel();
 }
-<h2>Index</h2>
-
 <body>
-    <div class="row">
+    <div class="row container">
         <div class="col-md-2 document-list">
         @if (Model.RootFolder.Folders == null)
         {
