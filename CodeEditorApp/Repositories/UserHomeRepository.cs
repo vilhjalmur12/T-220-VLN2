@@ -448,6 +448,11 @@ namespace CodeEditorApp.Repositories
                 script.HeadFolderID = project.SolutionFolderID;
                 styles.Name = "styles";
                 script.Name = "script";
+                styles.AspNetUserID = project.AspNetUserID;
+                script.AspNetUserID = project.AspNetUserID;
+                styles.ProjectID = project.ID;
+                script.ProjectID = project.ID;
+
 
                 index.HeadFolderID = project.SolutionFolderID;
                 index.name = "Index";
