@@ -67,10 +67,10 @@
             <div id="editor">
                 @ViewBag.Code
             </div>
-            <div id="color"><input type="button" value="Change Color" /></div>
+            <div id="color"><input type="button" value="Change Color" onclick="ToggleColor()" class="btn btn-btndefault" /></div>
             <div id="syntax">
                 <select>
-                    <option value="C#">Csharp</option>
+                    <option value="C">Csharp</option>
                     <option value="Html">Html</option>
                     <option value="JavaScript">JavaScript</option>
                     <option value="TooDoo">TBD</option>
@@ -92,6 +92,13 @@
                 editor.setTheme("ace/theme/monokai");
                 //Set the Editor in Javascript mode
                 editor.getSession().setMode("ace/mode/javascript");
+                    function ToggleColor() {
+                        if (editor.getTheme() == "ace/theme/monokai") {
+                            editor.setTheme("ace/theme/xcode");
+                        } else {                       
+                            editor.setTheme("ace/theme/monokai");
+                        }
+                    }
                 $("form").submit(function () {
                 $("#hidden_editor").val(editor.getSession().getValue());
                 });
