@@ -10,12 +10,56 @@
 <script src="https://use.fontawesome.com/3e0cecfe87.js"></script>
 <body>
     <!--Project body starts-->
-    <div class="row project-body">
+    <div class="row container padding-for-container project-body">
         <!--Project folders and file tree starts-->
         <div class="col-md-2 document-list padding-for-container">
-            <p>listi í projectum kemur hér</p>
+            <div class="row container padding-for-container userhome-body">
+                <ul id="tree2">
+                    <li>@Model.SolutionFolder.Name</li>
 
+                    @if (Model.SolutionFolder.SubFolders != null)
+                    {
+                        <ul>
+
+
+                            @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in Model.SolutionFolder.SubFolders)
+                {
+                                <li>
+                                    <a href="#">@item.Name</a>
+                                    @ShowSubItems(item.SubFolders);
+
+                                </li>
+                            }
+                        </ul>
+                    }
+                </ul>
+                    @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
+                    {
+                        <ul>
+
+                            @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
+                            {
+                                <li>
+                                    @item.Name
+                                    @ShowSubItems(item.SubFolders)
+
+                                    @if (item.Files != null)
+                                    {
+                                        <ul>
+                                            @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
+                                            {
+                                                <li>@file.name</li>
+                                            }
+                                        </ul>
+                                    }
+                                </li>
+                            }
+                        </ul>
+                    }
+
+            </div>
         </div>
+
         <!--Project folders and file tree ends-->
         <!--File editor starts-->
         <div class="col-md-9 project-editor ">
@@ -81,6 +125,9 @@
                 //Sends the Object from Ace Editor(Position of change, what changed)
                 console.log(obj);
                 myHub1.server.onChange(obj, documentID);
+
+ 
+               
         });
     });
                 </script>
@@ -92,7 +139,7 @@
                         // Create a function that the hub can call back to display messages.
                         chat.client.addNewMessageToPage = function (name, message) {
                             // Add the message to the page.
-                            $('#discussion').replaceWith('<li><strong>' + htmlEncode(name)
+                            $('#discussion1').replaceWith('<li><strong>' + htmlEncode(name)
                                 + '</strong>: ' + htmlEncode(message) +  '</li>');
                         };
                         //Set the name of the user
@@ -103,12 +150,12 @@
                         //$('#message').focus();
                         // Start the connection.
                         $.connection.hub.start().done(function () {
-                            $('#sendmessage').click(function () {
-                                // Call the Send method on the hub.
-                                myHub1.server.send($('#displayname').val(), $('#message').val());
-                                // Clear text box and reset focus for next comment.
-                                $('#message').val('').focus();
-                            });
+                            //$('#sendmessage').click(function () {
+                            //    // Call the Send method on the hub.
+                            //    myHub1.server.send($('#displayname').val(), $('#message').val());
+                            //    // Clear text box and reset focus for next comment.
+                            //    $('#message').val('').focus();
+                            //});
                         });
                     });
                     // This optional function html-encodes messages for display in the page.
@@ -123,22 +170,85 @@
                 @*<p class="l-text-user">Updates</p>*@
                 <input class="hover-user" type="hidden" id="displayname" />
                 <input class="hover-user" type="hidden" id="update" />
-                <ul class="hover-user" id="discussion"></ul>
+                <ul class="hover-user" id="discussion1"></ul>
             </div>
         </div>
         <!--File editor ends-->
         <!--Pop-out nav start-->
             <div id="project-chat" class="sidenav padding-for-container">
-                <h3>chat</h3>
-                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <h2>Chat</h2>
+                <div class="container">
+                    <input type="text" id="message" />
+                    <input type="button" id="sendmessage" value="Send" />
+                    <input type="hidden" id="displayname" />
+                    <ul class="hover-user" id="discussion"></ul>
+                </div>
+                @section scriptsComment {
+                    <!--Script references. -->
+                    <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
+                    <!--Reference the SignalR library. -->
+                    <script src="~/Scripts/jquery.signalR-2.1.0.min.js"></script>
+                    <!--Reference the autogenerated SignalR hub script. -->
+                    <script src="~/signalr/hubs"></script>
+                    <!--SignalR script to update the chat page and send messages.-->
+                    <script>
+        $(function () {
+            // Reference the auto-generated proxy for the hub.
+            var chat = $.connection.chatHub;
+            // Create a function that the hub can call back to display messages.
+            chat.client.addNewMessageToPage = function (name, message) {
+                // Add the message to the page.
+                $('#discussion').append('<li><strong>' + htmlEncode(name)
+                    + '</strong>: ' + htmlEncode(message) + '</li>');
+            };
+            // Get the user name and store it to prepend to messages.
+            $('#displayname').val(@Html.Raw(Json.Encode(ViewBag.UserName)));
+            // Set initial focus to message input box.
+            $('#message').focus();
+            // Start the connection.
+            $.connection.hub.start().done(function () {
+                $('#sendmessage').click(function () {
+                    // Call the Send method on the hub.
+                    chat.server.send($('#displayname').val(), $('#message').val());
+                    // Clear text box and reset focus for next comment.
+                    $('#message').val('').focus();
+                });
+            });
+        });
+        // This optional function html-encodes messages for display in the page.
+        function htmlEncode(value) {
+            var encodedValue = $('<div />').text(value).html();
+            return encodedValue;
+        }
+                    </script>
+                }
+                
             </div>
             <div id="project-members" class="sidenav padding-for-container">
-                <h3>members</h3>
+                <h3>Members</h3>
+                <ul>
+                    <!--Show the list of members in a project if any-->
+                    @if (Model.Members != null)
+                    {
+                        foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
+                        {
+                            <li>@user.UserName</li>
+                        }
+                    }
+                </ul>
+                <div id="add-member"><input type="button" value="AddMember" /></div>
                 <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
             </div>
             <div id="project-goals" class="sidenav padding-for-container">
-                <h3>todo</h3>
-                <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat.</p>
+                <h3>Goals</h3>
+                <div>
+                    <dl>
+                        <dt>GOAL1</dt>
+                        <dd>objective</dd>
+                        <dt>GOAL2/dt>
+                        <dd>objective</dd>
+                    </dl>
+                </div>
             </div>
         <!--Pop-out nav ends -->
         <!--Action nav starts -->
@@ -182,6 +292,68 @@
             closeNav("project-members");
             closeNav("project-goals");
         }
+
+        $.fn.extend({
+            treed: function (o) {
+
+                var openedClass = 'glyphicon-minus-sign';
+                var closedClass = 'glyphicon-plus-sign';
+
+                if (typeof o != 'undefined') {
+                    if (typeof o.openedClass != 'undefined') {
+                        openedClass = o.openedClass;
+                    }
+                    if (typeof o.closedClass != 'undefined') {
+                        closedClass = o.closedClass;
+                    }
+                };
+
+                //initialize each of the top levels
+                var tree = $(this);
+                tree.addClass("tree");
+                tree.find('li').has("ul").each(function () {
+                    var branch = $(this); //li with children ul
+                    branch.prepend("<i class='indicator glyphicon " + closedClass + "'></i>");
+                    branch.addClass('branch');
+                    branch.on('click', function (e) {
+                        if (this == e.target) {
+                            var icon = $(this).children('i:first');
+                            icon.toggleClass(openedClass + " " + closedClass);
+                            $(this).children().children().toggle();
+                        }
+                    })
+                    branch.children().children().toggle();
+                });
+                //fire event from the dynamically added icon
+                tree.find('.branch .indicator').each(function () {
+                    $(this).on('click', function () {
+                        $(this).closest('li').click();
+                    });
+                });
+                //fire event to open branch if the li contains an anchor instead of text
+                //      tree.find('.branch>a').each(function() {
+                //    $(this).on('click', function(e) {
+                //     $(this).closest('li').click();
+                //        e.preventDefault();
+                //      });
+                //   });
+                //fire event to open branch if the li contains a button instead of text
+                //   tree.find('.branch>button').each(function() {
+                //$(this).on('click', function(e) {
+                //   $(this).closest('li').click();
+                //              e.preventDefault();
+                //         });
+                //       });
+            }
+        });
+
+        //Initialization of treeviews
+
+        $('#tree1').treed();
+
+        $('#tree2').treed({ openedClass: 'glyphicon-folder-open', closedClass: 'glyphicon-folder-close' });
+
+        $('#tree3').treed({ openedClass: 'glyphicon-chevron-right', closedClass: 'glyphicon-chevron-down' });
     </script>
 
    

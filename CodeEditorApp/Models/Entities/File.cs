@@ -19,19 +19,26 @@ namespace CodeEditorApp.Models
         /// The database generates unique ID of the File.
         /// </summary>
         public int ID { get; set; }
+        
         /// <summary>
         /// The name of the file, Example:CommentViewModel.cs
         /// </summary>
         [StringLength(255)]
         public string name { get; set; }
+        
         /// <summary>
         /// The ID of the Project that the File belongs to. 
         /// </summary>
         public int ProjectID { get; set; }
+
         [StringLength(100)]
+
         public string ContentType { get; set; }
+
         public byte[] Content { get; set; }
+
         public int HeadFolderID { get; set; }
+
         public virtual FileType FileType { get; set; }
      //   public virtual Project project { get; set; }
      //   public virtual Folder folder { get; set; }

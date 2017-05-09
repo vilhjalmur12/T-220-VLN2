@@ -68,11 +68,11 @@ namespace CodeEditorApp.Controllers
         {
             if (projectID.HasValue)
             {
-                ProjectViewModel model = UserHome.GetProjectByID(projectID.Value);
-
-                return RedirectToAction("Index", "Project", model);
+                TempData["projectModel"] = UserHome.GetProjectByID(projectID.Value);
+                return RedirectToAction("Index", "Project");
             }
-            return RedirectToAction("Index", "Project");
+
+            return RedirectToAction("Index", "UserHome");
         }
 
         public ActionResult OpenProjectByFile(int fileID)
@@ -85,6 +85,24 @@ namespace CodeEditorApp.Controllers
         public ActionResult CreateFolder()
         {
             //TODO
+            return null;
+        }
+
+        [HttpGet]
+        public ActionResult CreateFile()
+        {
+            FileViewModel model = new FileViewModel();
+            model.AvailableTypes = GetAvailableFileTypes();
+            
+            
+
+            return null;
+        }
+
+        [HttpPost]
+        public ActionResult CreateFile(FileViewModel model)
+        {
+
             return null;
         }
 
@@ -123,6 +141,11 @@ namespace CodeEditorApp.Controllers
         public List<SelectListItem> GetAvailableProjectTypes()
         {
             return UserHome.GetProjectTypes();
+        }
+
+        public List<SelectListItem> GetAvailableFileTypes()
+        {
+            return UserHome.GetFileTypes();
         }
         
     }

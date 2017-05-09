@@ -209,6 +209,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Hubs\MyHub1.cs" />
     <Compile Include="Migrations\201705041341196_projectTOfolder.cs" />
     <Compile Include="Migrations\201705041341196_projectTOfolder.Designer.cs">
@@ -249,6 +250,10 @@
     <Compile Include="Migrations\201705082058033_FileUpdate_2.cs" />
     <Compile Include="Migrations\201705082058033_FileUpdate_2.Designer.cs">
       <DependentUpon>201705082058033_FileUpdate_2.cs</DependentUpon>
+    </Compile>
+    <Compile Include="Migrations\201705090936465_FileTypes.cs" />
+    <Compile Include="Migrations\201705090936465_FileTypes.Designer.cs">
+      <DependentUpon>201705090936465_FileTypes.cs</DependentUpon>
     </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
@@ -748,6 +753,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705082058033_FileUpdate_2.resx">
       <DependentUpon>201705082058033_FileUpdate_2.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705090936465_FileTypes.resx">
+      <DependentUpon>201705090936465_FileTypes.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>

@@ -156,7 +156,6 @@ namespace CodeEditorApp.Repositories
         {
             Goal newGoal = new Goal()
             {
-                ID = goal.ID,
                 name = goal.name,
                 description = goal.description,
                 finished = goal.finished,
@@ -188,7 +187,6 @@ namespace CodeEditorApp.Repositories
         {
             Objective newObjective = new Objective()
             {
-                ID = objective.ID,
                 name = objective.name,
                 finished = objective.finished,
                 AspNetUserID = objective.AspNetUserID,
@@ -204,6 +202,20 @@ namespace CodeEditorApp.Repositories
             _db.Objectives.Remove(theObjective);
             _db.SaveChanges();
         }
+
+        public void AddNewComment(CommentViewModel comment)
+        {
+            Comment newComment = new Comment()
+            {
+                AspNetUserID = comment.AspNetUserID,
+                content = comment.Content,
+                ProjectID = comment.ProjectID
+            };
+
+            _db.Comments.Add(newComment);
+            _db.SaveChanges();
+        }
+
 
         public void AddUserToProject(string AspNetUserID, int projectID)
         {

@@ -1,13 +1,24 @@
 ﻿@import url('https://fonts.googleapis.com/css?family=Lato|Raleway');
 
 /*----------------------------------------------------------*\
-    CONTENTS
+    $CONTENTS
 \*----------------------------------------------------------*/
 /*
 RESETS              Overwriting some default settings.
-SHARED              Share anything we can across elements.
+FONTS
 MAIN-LAYOUT         HTML, BODY, HEADER-FOOTER
-       
+LAYOUT              WHAT'S IN THE LAYOUT VIEWS
+	HEADER-FOOTER
+	BODY
+HOME                HOMEVIEW, LOGIN PARTIAL....
+USERHOME            USERHOMEVIEW, PROJECTLIST, ADD PROJECT BUTTON....
+	þarf að bæta í hér $FOLDER-TREE
+PROJECT             PROJECT VIEW, EDITOR, PROJECT ACTIONS....
+    SIDE-NAV
+PROJECT-ACTIONS 
+    CHAT
+    MEMBERS
+    GOALS
 ...
 */
 
@@ -30,8 +41,13 @@ MAIN-LAYOUT         HTML, BODY, HEADER-FOOTER
     margin:0;
     max-width:none;
 }
+
+
+
+
+
 /*----------------------------------------------------------*\
-    $SHARED
+    $FONTS
 \*----------------------------------------------------------*/
 
 /*for the header*/
@@ -48,15 +64,15 @@ h2, h3, h4,
 
 .name, 
 .l-heading-home,
-.navbar a
+.navbar ul li>*,
+.text-user a,
+.text-home a
 {
     color:#FF5C00; /*orange*/
 }
 
 .name {
-     
      font-size: xx-large;
-
 }
 
 h2,
@@ -72,7 +88,6 @@ h3,
     font-size: large;
 }
 
-/*Used for textfields on Login site*/
 h4,
 s-heading-home,
 .text-home, 
@@ -80,10 +95,8 @@ s-heading-home,
     font-size: medium; 
 }
 
-/*For the smallest letters on Login site*/
 .sm-text-home,
 .hover-user{
-
     font-size: x-small;
 }
 
@@ -92,6 +105,7 @@ s-heading-home,
 \*----------------------------------------------------------*/
 
 body {
+    height: 95%;
     margin:0;
     font-family: 'Raleway', sans-serif;
     font-size:12px;
@@ -99,7 +113,7 @@ body {
 }
 
 body, html {
-    height: 100%;
+    height: 95%;
     width: 100%;
     margin: 0;
 }
@@ -110,10 +124,17 @@ body, html {
     margin:0px;
 }
 
-/*----- $HEADER-FOOTER -----*/
 
+
+
+
+
+/*----------------------------------------------------------*\
+    $LAYOUT
+\*----------------------------------------------------------*/
+
+/*----- HEADER-FOOTER -----*/
 /*for logo and name*/
-
 .header-flex-container{
     display:flex;
     flex-direction:row;
@@ -130,16 +151,21 @@ footer{
     height:7%;
 }
 
+
+
 /*----- $BODY -----*/
-.home-body-content, 
-.userhome-body-content
+
+.home-body-content{
+    height: 94%;
+} 
+
+.user-body-content
 {
-    height: 93%;
+    height: 100%;
 }
 
-.project-body{
-    height:100%;
-}
+
+
 .home-body-content 
 {
     background-position: center;
@@ -148,11 +174,22 @@ footer{
     background-image: url("../images/bakgrunnurtre.jpg");
 }
 
-.userhome-body-content {
+.user-body-content {
     background-color: #E0E0E0;
 }
 
-/*----- $HOME -----*/
+
+
+
+
+
+/*----------------------------------------------------------*\
+    $HOME
+\*----------------------------------------------------------*/
+
+.home-body{
+    margin-top:55px;
+}
 
 /*Text in home*/
 .info{
@@ -162,7 +199,18 @@ footer{
 .info a{
     border:1px groove #006072;
 }
-/*----- $USERHOME -----*/
+
+
+
+
+
+
+/*----------------------------------------------------------*\
+    $USERHOME
+\*----------------------------------------------------------*/
+.userhome-body{
+    margin-top:55px;
+}
 
 .document-list,
 .project-table,
@@ -170,7 +218,7 @@ footer{
     height:100%;
 }
 
-.document-list{ /*also used in project view*/
+.document-list{ /*also used in project*/
     width:15%;
     border: 1px solid red;
 }
@@ -183,7 +231,17 @@ footer{
     border: 1px solid green;
 }
 
-/*----- PROJECT VIEW -----*/
+
+
+
+
+
+/*----------------------------------------------------------*\
+    $PROJECT
+\*----------------------------------------------------------*/
+.project-body{
+    margin-top:55px;
+}
 .project-body,
 .project-editor,
 .project-actions,
@@ -211,7 +269,12 @@ footer{
     right: 0px;
 }
 
-/* The side navigation menu */
+
+
+
+
+
+/*----- $SIDE-NAV ------*/
 .sidenav {
     border-left: 1px solid #FF5C00;
     height: 100%; /* 100% Full-height */
@@ -263,9 +326,26 @@ footer{
     padding: 7px 0px;
 }
 
+
+
+
+
+/*----------------------------------------------------------*\
+    $PROJECT-ACTIONS
+\*----------------------------------------------------------*/
+/*----- $CHAT -----*/
+
+/*------ $MEMBERS -----*/
+.owner {
+    border: 1px groove #FF5C00;
+}
+
+/*----- $GOALS -----*/
+
+
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 /*Þarf að breyta?????????????????????????????????????????????*/
-#project-editor {
+#editor {
     transition: margin-right .2s;
     padding: 20px;
 }
@@ -316,9 +396,7 @@ textarea {
 
 /*     --START--     VILLI ER AÐ VINNA HÉR      --START--   */
 
-/*----------------------------------------------------------*\
-    $FOLDER-TREE
-\*----------------------------------------------------------*/
+/*------ $FOLDER-TREE ------*/
 .tree, .tree ul {
     margin:0;
     padding:0;

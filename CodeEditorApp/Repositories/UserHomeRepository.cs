@@ -72,23 +72,43 @@ namespace CodeEditorApp.Repositories
         /// </summary>
         /// <param name="ProjectID"></param>
         /// <returns></returns>
-        public ProjectViewModel GetProjectByID (int ProjectID)
+        public ProjectViewModel GetProjectByID(int ProjectID)
         {
-            ProjectViewModel ReturnProject = new ProjectViewModel();
-            Project tmp = _db.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
+            Project project = _db.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
 
-            ReturnProject.ID = tmp.ID;
-            ReturnProject.name = tmp.name;
-            ReturnProject.OwnerID = tmp.AspNetUserID;
-            ReturnProject.TypeID = tmp.ProjectTypeID;
-            ReturnProject.HeadFolderID = tmp.HeadFolderID;
-            ReturnProject.SolutionFolderID = tmp.SolutionFolderID;
-            ReturnProject.SolutionFolder = GetFolder(ReturnProject.SolutionFolderID);
-            ReturnProject.Comments = GetProjectComments(ReturnProject.ID);
-            ReturnProject.Members = GetProjectMembers(ReturnProject.ID);
-            ReturnProject.Goals = GetProjectGoals(ReturnProject.ID);
+            ProjectViewModel returnProject = new ProjectViewModel()
+            {
+                ID = project.ID,
+                name = project.name,
+                OwnerID = project.AspNetUserID,
+                TypeID = project.ProjectTypeID,
+                HeadFolderID = project.HeadFolderID,
+                SolutionFolderID = project.SolutionFolderID,
+                SolutionFolder = GetProjectSolutionFolder(project.SolutionFolderID),
+            };
 
-            return ReturnProject;
+            return returnProject;
+        }
+
+        public FolderViewModel GetProjectSolutionFolder(int solutionFolderID)
+        {
+            Folder solutionFolder = _db.Folders.Where(x => x.ID == solutionFolderID).SingleOrDefault();
+
+            FolderViewModel returnFolder = new FolderViewModel()
+            {
+                ID = solutionFolder.ID,
+                Name = solutionFolder.Name,
+                ProjectID = solutionFolder.ProjectID,
+                HeadFolderID = solutionFolder.HeadFolderID,
+                IsSolutionFolder = solutionFolder.IsSolutionFolder,
+                SubFolders = GetAllSubFolders(solutionFolder),
+                Files = GetFolderFiles(solutionFolder.ID)
+            };
+            Debug.WriteLine(solutionFolder.Name);
+            Debug.WriteLine("Fjöldi subfolders");
+            Debug.WriteLine(returnFolder.SubFolders.Count());
+
+            return returnFolder;
         }
 
 
@@ -398,6 +418,71 @@ namespace CodeEditorApp.Repositories
             TmpProject.SolutionFolderID = TmpFolder.ID;
 
             _db.SaveChanges();
+
+            GenerateProjectFiles(TmpProject);
+        }
+
+        private void GenerateProjectFiles (Project project)
+        {
+            if (project.ProjectTypeID == 4)
+            {
+                File CPP = new File();
+                CPP.name = "main";
+                CPP.ProjectID = project.ID;
+                CPP.HeadFolderID = project.SolutionFolderID;
+                // CPP.Content = eitthvað
+
+                _db.Files.Add(CPP);
+                _db.SaveChanges();
+            }
+            else if (project.ProjectTypeID == 10)
+            {
+                // TODO:    Búa til web project files
+                Folder styles = new Folder();
+                Folder script = new Folder();
+                File index = new File();
+                File CSS = new File();
+                File JS = new File();
+
+                styles.HeadFolderID = project.SolutionFolderID;
+                script.HeadFolderID = project.SolutionFolderID;
+                styles.Name = "styles";
+                script.Name = "script";
+
+                index.HeadFolderID = project.SolutionFolderID;
+                index.name = "Index";
+                index.ProjectID = project.ID;
+                index.FileType = _db.FileTypes.Where(x => x.ID == 1).SingleOrDefault();
+                // TODO:    Content
+
+                _db.Folders.Add(styles);
+                _db.Folders.Add(script);
+                _db.Files.Add(index);
+                _db.SaveChanges();
+
+                Folder TmpScript = _db.Folders.Where(x => x.HeadFolderID == project.SolutionFolderID && x.Name == script.Name).SingleOrDefault();
+                Folder TmpStyles = _db.Folders.Where(x => x.HeadFolderID == project.SolutionFolderID && x.Name == styles.Name).SingleOrDefault();
+
+                CSS.HeadFolderID = TmpStyles.ID;
+                JS.HeadFolderID = TmpScript.ID;
+                CSS.name = "styles";
+                JS.name = "scripts";
+                CSS.ProjectID = project.ID;
+                JS.ProjectID = project.ID;
+                CSS.FileType = _db.FileTypes.Where(x => x.ID == 2).SingleOrDefault();
+                JS.FileType = _db.FileTypes.Where(x => x.ID == 3).SingleOrDefault();
+                //  TODO:   Content
+
+                _db.Files.Add(CSS);
+                _db.Files.Add(JS);
+                _db.SaveChanges();
+            }
+        }
+
+        private void CreateCPPFile (Project project, Folder HeadFolder)
+        {
+            
+
         }
 
 
@@ -665,6 +750,23 @@ namespace CodeEditorApp.Repositories
                 ReturnList.Add(new SelectListItem() { Value = item.ID.ToString(), Text = item.name });
             }
 
+            return ReturnList;
+        }
+
+        public List<SelectListItem> GetFileTypes ()
+        {
+            List<SelectListItem> ReturnList = new List<SelectListItem>();
+
+            ReturnList.Add(new SelectListItem() { Value = "", Text = "- Select Project Type -" });
+
+            foreach(FileType item in _db.FileTypes.ToList())
+            {
+                ReturnList.Add(new SelectListItem()
+                {
+                    Value = item.ID.ToString(),
+                    Text = item.Name,
+                });
+            }
             return ReturnList;
         }
         
