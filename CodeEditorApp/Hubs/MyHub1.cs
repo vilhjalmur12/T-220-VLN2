@@ -22,5 +22,9 @@ namespace CodeEditorApp.Hubs
             // Call the addNewMessageToPage method to update clients.
             Clients.All.addNewMessageToPage(name, message);
         }
+        public void comment(string name, string message)
+        {
+            Clients.All.addNewMessageToPage(name, message);
+        }
     }
 }
