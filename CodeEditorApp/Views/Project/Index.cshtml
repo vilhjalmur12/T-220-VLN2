@@ -176,7 +176,13 @@
             <div id="project-members" class="sidenav padding-for-container">
                 <h3>Members</h3>
                 <ul>
-                    @if (Model.Members)
+                    @if (Model.Members != null)
+                    {
+                        foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
+                        {
+                            <li>@user.UserName</li>
+                        }
+                    }
                 </ul>
                 <div id="add-member"><input type="button" value="AddMember" /></div>
                 <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
