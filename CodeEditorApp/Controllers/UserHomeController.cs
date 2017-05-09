@@ -25,18 +25,15 @@ namespace CodeEditorApp.Controllers
         // GET: UserHome
         public ActionResult Index()
         {
-
             string userID = User.Identity.GetUserId();
 
             UserViewModel model = new UserViewModel()
             {
                 ID = userID,
                 UserName = User.Identity.GetUserName(),
-                Projects = UserHome.GetAllProjects(userID)
+                Projects = UserHome.GetAllProjects(userID),
+                RootFolder = GetFileTree(userID)
             };
-
-            ViewBag.Root = GetFileTree(userID);
-
 
             return View(model);
         }

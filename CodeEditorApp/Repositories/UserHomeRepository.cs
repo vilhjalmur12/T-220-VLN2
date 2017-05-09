@@ -203,7 +203,6 @@ namespace CodeEditorApp.Repositories
         /// <returns></returns>
         public RootFolderViewModel GetUserRootFolder (string UserID)
         {
-            Debug.WriteLine("GETUSERROOTFOLDER");
             RootFolder RootTmp = _db.RootFolders.Where(x => x.UserID == UserID).SingleOrDefault();
             RootFolderViewModel RootFolder = new RootFolderViewModel();
 
@@ -211,7 +210,7 @@ namespace CodeEditorApp.Repositories
             RootFolder.UserID = RootTmp.UserID;
 
            // RootFolder.Projects = GetAllProjects(UserID);
-            RootFolder.Projects = GetAllSubProjects(RootTmp);
+           // RootFolder.Projects = GetAllSubProjects(RootTmp);
             RootFolder.Folders = GetAllSubFolders(RootTmp);
 
             return RootFolder;
@@ -265,28 +264,25 @@ namespace CodeEditorApp.Repositories
         /// <returns></returns>
         public List<FileViewModel> GetFolderFiles (int FolderID)
         {
-            Folder tmp = _db.Folders.Where(x => x.ID == FolderID).SingleOrDefault();
-            List<File> DbFileList = _db.Files.Where(x => x.HeadFolderID == FolderID).ToList();
-            List<FileViewModel> NewList = new List<FileViewModel>();
+            List<File> fileList = _db.Files.Where(x => x.HeadFolderID == FolderID).ToList();
+            List<FileViewModel> returnList = new List<FileViewModel>();
 
-            if (DbFileList != null)
+            if (fileList != null)
             {
-                foreach (File item in DbFileList)
+                foreach (File fileItem in fileList)
                 {
-                    NewList.Add(new FileViewModel()
+                    returnList.Add (new FileViewModel()
                     {
-                        ID = item.ID,
-                        name = item.name,
-                        HeadFolderID = item.HeadFolderID,
-                        ProjectID = item.ProjectID
+                        ID = fileItem.ID,
+                        name = fileItem.name,
+                        HeadFolderID = fileItem.HeadFolderID,
+                        ProjectID = fileItem.ProjectID
                     });
                 }
-                return NewList;
+                return returnList;
             }
-            else
-            {
-                return null;
-            }
+
+            return null;
         }
 
 
@@ -298,31 +294,28 @@ namespace CodeEditorApp.Repositories
         /// <returns></returns>
         public List<FolderViewModel> GetAllSubFolders (Folder folder)
         {
-            Debug.WriteLine("GetAllSubFOlders");
-            List<Folder> TmpFolders = _db.Folders.Where(x => x.HeadFolderID == folder.ID).ToList();
-            List<FolderViewModel> NewList = new List<FolderViewModel>();
-            FolderViewModel TmpViewModel = new FolderViewModel();
+            List<Folder> tmpFolders = _db.Folders.Where(x => x.HeadFolderID == folder.ID).ToList();
+            List<FolderViewModel> returnList = new List<FolderViewModel>();
 
-            Debug.WriteLine("FoldersCount");
-            Debug.WriteLine(TmpFolders.Count());
-
-            if (TmpFolders == null)
+            if (tmpFolders != null)
             {
-                return null;
-            } else
-            {
-                foreach (Folder item in TmpFolders)
+                foreach (Folder folderItem in tmpFolders)
                 {
-                    TmpViewModel.ID = item.ID;
-                    TmpViewModel.Name = item.Name;
-                    TmpViewModel.ProjectID = item.ProjectID;
-                    TmpViewModel.HeadFolderID = item.HeadFolderID;
-                    TmpViewModel.Files = GetFolderFiles(item.ID);
-                    TmpViewModel.SubFolders = GetAllSubFolders(item);
-                    NewList.Add(TmpViewModel);
+                    returnList.Add(new FolderViewModel
+                    {
+                        ID = folderItem.ID,
+                        Name = folderItem.Name,
+                        ProjectID = folderItem.ProjectID,
+                        HeadFolderID = folderItem.HeadFolderID,
+                        IsSolutionFolder = folderItem.IsSolutionFolder,
+                        Files = GetFolderFiles(folderItem.ID),
+                        SubFolders = GetAllSubFolders(folderItem)
+                    });
                 }
-                return NewList;
+                return returnList;
             }
+
+            return null;
         }
 
 
@@ -335,29 +328,30 @@ namespace CodeEditorApp.Repositories
         /// <returns></returns>
         public List<FolderViewModel> GetAllSubFolders(RootFolder folder)
         {
-            List<Folder> TmpFolders = _db.Folders.Where(x => x.HeadFolderID == 0 && x.AspNetUserID == folder.UserID).ToList();
+            List<Folder> tmpFolders = _db.Folders.Where(x => x.HeadFolderID == 0 && x.AspNetUserID == folder.UserID).ToList();
 
-            List<FolderViewModel> NewList = new List<FolderViewModel>();
-            FolderViewModel TmpViewModel = new FolderViewModel();
+            List<FolderViewModel> returnList = new List<FolderViewModel>();
 
-            if (TmpFolders == null)
+            if (tmpFolders != null)
             {
-                return null;
-            }
-            else
-            {
-                foreach (Folder item in TmpFolders)
+                foreach (Folder folderItem in tmpFolders)
                 {
-                    TmpViewModel.ID = item.ID;
-                    TmpViewModel.Name = item.Name;
-                    TmpViewModel.ProjectID = item.ProjectID;
-                    TmpViewModel.HeadFolderID = item.HeadFolderID;
-                    TmpViewModel.Files = GetFolderFiles(item.ID);
-                    TmpViewModel.SubFolders = GetAllSubFolders(item);
-                    NewList.Add(TmpViewModel);
+                    returnList.Add(new FolderViewModel()
+                    {
+                        ID = folderItem.ID,
+                        Name = folderItem.Name,
+                        ProjectID = folderItem.ProjectID,
+                        HeadFolderID = folderItem.HeadFolderID,
+                        IsSolutionFolder = folderItem.IsSolutionFolder,
+                        Files = GetFolderFiles(folderItem.ID),
+                        SubFolders = GetAllSubFolders(folderItem)
+                    });
                 }
-                return NewList;
+
+                return returnList;
             }
+
+            return null;
         }
 
 
