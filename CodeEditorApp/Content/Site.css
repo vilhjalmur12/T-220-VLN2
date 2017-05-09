@@ -155,7 +155,10 @@ footer{
 
 /*----- $BODY -----*/
 
-.home-body-content, 
+.home-body-content{
+    height: 94%;
+} 
+
 .user-body-content
 {
     height: 100%;
@@ -183,6 +186,10 @@ footer{
 /*----------------------------------------------------------*\
     $HOME
 \*----------------------------------------------------------*/
+
+.home-body{
+    margin-top:55px;
+}
 
 /*Text in home*/
 .info{
@@ -318,6 +325,9 @@ footer{
 .project-actions ul li{
     padding: 7px 0px;
 }
+
+
+
 
 
 /*----------------------------------------------------------*\
