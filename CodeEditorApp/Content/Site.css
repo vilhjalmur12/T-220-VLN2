@@ -96,10 +96,14 @@ s-heading-home,
 }
 
 .sm-text-home,
+.hover-user,
+#discussion{
+    font-size: small;
+}
+
 .hover-user{
     font-size: x-small;
 }
-
 /*----------------------------------------------------------*\
     $MAIN-LAYOUT
 \*----------------------------------------------------------*/
@@ -326,7 +330,9 @@ footer{
     padding: 7px 0px;
 }
 
-
+.right-padding{
+    padding-right:58px;
+}
 
 
 
@@ -334,7 +340,56 @@ footer{
     $PROJECT-ACTIONS
 \*----------------------------------------------------------*/
 /*----- $CHAT -----*/
+#message-box{
+    height: 99%;
+    width: inherit;
+    margin: 2% 17% 2% 2%;
+    border:1px groove #006072;
+    background-color: white;
+}
 
+/*Input from user*/
+#message{
+    width:75%;
+    position:absolute;
+    bottom:2%;
+    height:2em;
+    max-width:none;
+}
+/*send button*/
+#sendmessage {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("../images/arrow.png");
+    background-position:  0px 0px;
+    background-repeat: no-repeat;
+    width: 7%;
+    height: 30px;
+    border: 1px groove #FF5C00;
+    background-color: none;
+    cursor: pointer;
+    outline: 0;
+    color:none;
+}
+#sendmessage:hover{ 
+  background-position:  0px 0px;
+  background-image: url("../images/arrow2.png");
+}
+
+#sendmessage:active{
+  background-position:  0px 0px;
+  background-image: url("../images/arrow2.png");
+}
+
+
+#displayname {
+
+}
+/*the chat itself*/
+#discussion {
+}
+                </div>
 /*------ $MEMBERS -----*/
 .owner {
     border: 1px groove #FF5C00;
