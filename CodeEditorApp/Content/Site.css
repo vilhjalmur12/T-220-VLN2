@@ -27,7 +27,8 @@ PROJECT-ACTIONS
 \*----------------------------------------------------------*/
 /*for the header*/
 .navbar {
-    background: #007755; /*green*/
+    //background: #007755; /*green*/
+    background: #ffffff;
     width:inherit;
     max-width:none;
     height:10%;
@@ -66,10 +67,12 @@ h2, h3, h4,
 .l-heading-home,
 .navbar ul li>*,
 .text-user a,
-.text-home a
+.text-home a,
+h2,h3,
+.info a
 {
-    //color: #FF5C00; /*orange*/
-    color: #884444; /*pink*/
+    color: #FF5C00; /*orange*/
+    //color: #884444; /*pink*/
 }
 
 .name {
@@ -84,7 +87,8 @@ heading-home,
 
 h3,
 .l-heading-home, 
-.l-text-user{
+.l-text-user,
+.info a{
 
     font-size: large;
 }
@@ -114,8 +118,11 @@ body {
     margin:0;
     font-family: 'Raleway', sans-serif;
     font-size:12px;
+    //color: white;
+    color: #006072; /*blue*/
+    background-color: white;
    // background-color: #006072; /*blue*/
-    background-color: #DBDBDB /*Light grey*/
+    //background-color: #DBDBDB /*Light grey*/
 }
 
 body, html {
@@ -141,6 +148,7 @@ body, html {
 
 /*----- HEADER-FOOTER -----*/
 /*for logo and name*/
+
 .header-flex-container{
     display:flex;
     flex-direction:row;
@@ -174,10 +182,11 @@ footer{
 
 .home-body-content 
 {
+    //background-color: #006072;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url("../images/bak1.PNG");
+    background-image: url("../images/blar.PNG");
 }
 
 .user-body-content {
@@ -203,13 +212,16 @@ footer{
 }
 
 .info a{
-    border:1px groove #006072;
+    border:1px solid #FF5C00;
+    
 }
 
 
+/*----- LOGIN ----*/
 
-
-
+.tab{
+    background:#006072;
+}
 
 /*----------------------------------------------------------*\
     $USERHOME
