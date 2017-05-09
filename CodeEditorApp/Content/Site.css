@@ -14,7 +14,11 @@ HOME                HOMEVIEW, LOGIN PARTIAL....
 USERHOME            USERHOMEVIEW, PROJECTLIST, ADD PROJECT BUTTON....
 	þarf að bæta í hér $FOLDER-TREE
 PROJECT             PROJECT VIEW, EDITOR, PROJECT ACTIONS....
-	SIDE-NAV
+    SIDE-NAV
+PROJECT-ACTIONS 
+    CHAT
+    MEMBERS
+    GOALS
 ...
 */
 
@@ -60,7 +64,9 @@ h2, h3, h4,
 
 .name, 
 .l-heading-home,
-.navbar a
+.navbar ul li>*,
+.text-user a,
+.text-home a
 {
     color:#FF5C00; /*orange*/
 }
@@ -149,8 +155,7 @@ footer{
 /*----- $BODY -----*/
 
 .home-body-content, 
-.userhome-body-content
-{
+.user-body-content{
     height: 93%;
 }
 
@@ -166,7 +171,7 @@ footer{
     background-image: url("../images/bakgrunnurtre.jpg");
 }
 
-.userhome-body-content {
+.user-body-content {
     background-color: #E0E0E0;
 }
 
@@ -197,11 +202,11 @@ footer{
     $USERHOME
 \*----------------------------------------------------------*/
 
-.document-list,
+/*.document-list,
 .project-table,
 .add-project{
     height:100%;
-}
+}*/
 
 .document-list{ /*also used in project*/
     width:15%;
@@ -251,6 +256,11 @@ footer{
     position: fixed; /* Stay in place */
     right: 0px;
 }
+
+
+
+
+
 
 /*----- $SIDE-NAV ------*/
 .sidenav {
@@ -305,9 +315,22 @@ footer{
 }
 
 
+/*----------------------------------------------------------*\
+    $PROJECT-ACTIONS
+\*----------------------------------------------------------*/
+/*----- $CHAT -----*/
+
+/*------ $MEMBERS -----*/
+.owner {
+    border: 1px groove #FF5C00;
+}
+
+/*----- $GOALS -----*/
+
+
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 /*Þarf að breyta?????????????????????????????????????????????*/
-#project-editor {
+#editor {
     transition: margin-right .2s;
     padding: 20px;
 }

@@ -40,7 +40,7 @@
             <div>@Html.ActionLink("Home", "Index", "UserHome", new { area = "" }, new {@class = "navbar-brand name" })</div>
         </div>
         <div class="collapse navbar-collapse navbar-right">
-            <ul class="nav navbar-nav">
+            <ul class="nav navbar-nav l-heading-home">
                 <!--vantar hér réttan link-->
                 <li>@Html.ActionLink("project", "Index", "Project")</li>
             </ul>
@@ -49,18 +49,16 @@
     </header>
 
     <!--the body of logged in page-->
-    <div class="userhome-body-content">
+    <div class="user-body-content">
         @RenderBody()
     </div>
     <!--End of body of logged in page-->
         
-    <!-- sleppa?
-        <footer class="navbar navbar-fixed-bottom padding-for-container">
-      @*  @Html.ActionLink("The Team", "Team", "Home")
-        @Html.ActionLink("Terms and conditions", "Terms", "Home")
-        @Html.ActionLink("FAQ", "About", "Home") *@
+   
+    <footer class="navbar-fixed-bottom padding-for-container text-user">
+        @Html.ActionLink("FAQ", "About", "Home")
     </footer>
-    -->
+    
     @Scripts.Render("~/bundles/jquery")
     @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
