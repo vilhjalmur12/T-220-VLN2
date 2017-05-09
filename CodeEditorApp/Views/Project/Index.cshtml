@@ -99,12 +99,12 @@
                         //$('#message').focus();
                         // Start the connection.
                         $.connection.hub.start().done(function () {
-                            $('#sendmessage').click(function () {
-                                // Call the Send method on the hub.
-                                myHub1.server.send($('#displayname').val(), $('#message').val());
-                                // Clear text box and reset focus for next comment.
-                                $('#message').val('').focus();
-                            });
+                            //$('#sendmessage').click(function () {
+                            //    // Call the Send method on the hub.
+                            //    myHub1.server.send($('#displayname').val(), $('#message').val());
+                            //    // Clear text box and reset focus for next comment.
+                            //    $('#message').val('').focus();
+                            //});
                         });
                     });
                     // This optional function html-encodes messages for display in the page.
@@ -119,13 +119,13 @@
                 @*<p class="l-text-user">Updates</p>*@
                 <input class="hover-user" type="hidden" id="displayname" />
                 <input class="hover-user" type="hidden" id="update" />
-                <ul class="hover-user" id="discussion"></ul>
+                <ul class="hover-user" id="discussioncomment"></ul>
             </div>
         </div>
         <!--File editor ends-->
         <!--Pop-out nav start-->
             <div id="project-chat" class="sidenav padding-for-container">
-                <h3>chat</h3>
+                <h2>Chat</h2>
                 <div class="container">
                     <input type="text" id="message" />
                     <input type="button" id="sendmessage" value="Send" />
@@ -151,7 +151,7 @@
                     + '</strong>: ' + htmlEncode(message) + '</li>');
             };
             // Get the user name and store it to prepend to messages.
-            $('#displayname').val(prompt('Enter your name:', ''));
+            $('#displayname').val(@Html.Raw(Json.Encode(ViewBag.UserName)));
             // Set initial focus to message input box.
             $('#message').focus();
             // Start the connection.
