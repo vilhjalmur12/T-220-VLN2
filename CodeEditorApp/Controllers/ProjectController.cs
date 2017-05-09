@@ -20,9 +20,10 @@ namespace CodeEditorApp.Controllers
 
         private ProjectViewModel projectModel = new ProjectViewModel();
 
-        public ActionResult Index(ProjectViewModel model)
+        [HttpGet]
+        public ActionResult Index()
         {
-            projectModel = model;
+            projectModel = (ProjectViewModel)TempData["projectModel"];
             updateComments();
             updateGoals();
             updateUsers();

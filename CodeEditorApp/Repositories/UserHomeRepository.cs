@@ -72,23 +72,43 @@ namespace CodeEditorApp.Repositories
         /// </summary>
         /// <param name="ProjectID"></param>
         /// <returns></returns>
-        public ProjectViewModel GetProjectByID (int ProjectID)
+        public ProjectViewModel GetProjectByID(int ProjectID)
         {
-            ProjectViewModel ReturnProject = new ProjectViewModel();
-            Project tmp = _db.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
+            Project project = _db.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
 
-            ReturnProject.ID = tmp.ID;
-            ReturnProject.name = tmp.name;
-            ReturnProject.OwnerID = tmp.AspNetUserID;
-            ReturnProject.TypeID = tmp.ProjectTypeID;
-            ReturnProject.HeadFolderID = tmp.HeadFolderID;
-            ReturnProject.SolutionFolderID = tmp.SolutionFolderID;
-            ReturnProject.SolutionFolder = GetFolder(ReturnProject.SolutionFolderID);
-            ReturnProject.Comments = GetProjectComments(ReturnProject.ID);
-            ReturnProject.Members = GetProjectMembers(ReturnProject.ID);
-            ReturnProject.Goals = GetProjectGoals(ReturnProject.ID);
+            ProjectViewModel returnProject = new ProjectViewModel()
+            {
+                ID = project.ID,
+                name = project.name,
+                OwnerID = project.AspNetUserID,
+                TypeID = project.ProjectTypeID,
+                HeadFolderID = project.HeadFolderID,
+                SolutionFolderID = project.SolutionFolderID,
+                SolutionFolder = GetProjectSolutionFolder(project.SolutionFolderID),
+            };
 
-            return ReturnProject;
+            return returnProject;
+        }
+
+        public FolderViewModel GetProjectSolutionFolder(int solutionFolderID)
+        {
+            Folder solutionFolder = _db.Folders.Where(x => x.ID == solutionFolderID).SingleOrDefault();
+
+            FolderViewModel returnFolder = new FolderViewModel()
+            {
+                ID = solutionFolder.ID,
+                Name = solutionFolder.Name,
+                ProjectID = solutionFolder.ProjectID,
+                HeadFolderID = solutionFolder.HeadFolderID,
+                IsSolutionFolder = solutionFolder.IsSolutionFolder,
+                SubFolders = GetAllSubFolders(solutionFolder),
+                Files = GetFolderFiles(solutionFolder.ID)
+            };
+            Debug.WriteLine(solutionFolder.Name);
+            Debug.WriteLine("Fjöldi subfolders");
+            Debug.WriteLine(returnFolder.SubFolders.Count());
+
+            return returnFolder;
         }
 
 
