@@ -176,6 +176,7 @@
             <div id="project-members" class="sidenav padding-for-container">
                 <h3>Members</h3>
                 <ul>
+                    <!--Show the list of members in a project if any-->
                     @if (Model.Members != null)
                     {
                         foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
