@@ -10,5 +10,6 @@ namespace CodeEditorApp.Models.ViewModels
         public string ID { get; set; }
         public string UserName { get; set; }
         public List<ProjectViewModel> Projects { get; set; }
+        public RootFolderViewModel RootFolder { get; set; }
     }
 }

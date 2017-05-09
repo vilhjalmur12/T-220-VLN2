@@ -13,6 +13,7 @@ namespace CodeEditorApp.Models.ViewModels
         public string Name { get; set; }
         public int ProjectID { get; set; }
         public int HeadFolderID { get; set; }
+        public bool IsSolutionFolder { get; set; }
         public List<FolderViewModel> SubFolders { get; set; }
         public List<FileViewModel> Files { get; set; }
     }

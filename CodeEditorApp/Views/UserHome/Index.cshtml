@@ -3,34 +3,31 @@
 @{
     Layout = "~/Views/UserHome/_Layout.cshtml";
     ViewBag.Title = "UserHomePage";
-    List<CodeEditorApp.Models.ViewModels.FolderViewModel> FolderList = ViewBag.Root.Folders;
     ViewBag.NewProject = new CodeEditorApp.Models.ViewModels.ProjectViewModel();
 }
-<h2>Index</h2>
-
 <body>
-    <div class="row">
+    <div class="row container">
         <div class="col-md-2 document-list">
-        @if (FolderList == null && Model.Projects == null)
+        @if (Model.RootFolder.Folders == null)
         {
             <p>Database is empty</p>
         }
         else
         {
             <ul id="tree2">
-                @foreach (CodeEditorApp.Models.ViewModels.ProjectViewModel ProjectItem in @Model.Projects)
-                {
 
-                    <li>
-                        <a href="#">@ProjectItem.name</a>
-                        @ShowSubItems(ProjectItem.SolutionFolder.SubFolders)
-                    </li>
-                }
 
-                @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in FolderList)
+                @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in Model.RootFolder.Folders)
                 {
                     <li>
-                        <a href="#">@item.Name</a>
+                        @if (item.IsSolutionFolder)
+                        {
+                            @Html.ActionLink(item.Name, "../UserHome/OpenProject", new { projectID = @item.ProjectID })
+                        }
+                        else
+                        {
+                            <a href="#">@item.Name</a>
+                        }
 
                         @ShowSubItems(item.SubFolders);
 
@@ -45,14 +42,25 @@
                         @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
                         {
                             <li>
-                                @item.Name
+                                @if (item.IsSolutionFolder)
+                                {
+                                    @Html.ActionLink(item.Name, "../UserHome/OpenProject", new { projectID = @item.ProjectID })
+                                }
+                                else
+                                {
+                                    @item.Name
+                                }
                                 @ShowSubItems(item.SubFolders)
-                                
+                                @if (item.Files != null)
+                                {
+                                    <ul>
+                                        @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
+                                        {
+                                            <li>@file.name</li>
+                                        }
+                                    </ul>
+                                }
                             </li>
-                            foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
-                            {
-                                <li>@file.name</li>
-                            }
                         }
                     </ul>
                 }
@@ -160,19 +168,19 @@
                                             });
                                         });
                                         //fire event to open branch if the li contains an anchor instead of text
-                                        tree.find('.branch>a').each(function() {
-                    $(this).on('click', function(e) {
-                        $(this).closest('li').click();
-                                                e.preventDefault();
-                                            });
-                                        });
+                                  //      tree.find('.branch>a').each(function() {
+                //    $(this).on('click', function(e) {
+                   //     $(this).closest('li').click();
+                                        //        e.preventDefault();
+                                      //      });
+                                     //   });
                                         //fire event to open branch if the li contains a button instead of text
-                                        tree.find('.branch>button').each(function() {
-                    $(this).on('click', function(e) {
-                        $(this).closest('li').click();
-                                                e.preventDefault();
-                                            });
-                                        });
+                                     //   tree.find('.branch>button').each(function() {
+                    //$(this).on('click', function(e) {
+                     //   $(this).closest('li').click();
+                                  //              e.preventDefault();
+                                   //         });
+                                 //       });
                                     }
                                 });
 
