@@ -94,7 +94,7 @@ else
             <div class="row">
                 <div class="col-md-8">
                     <section id="loginForm2">
-                        <p>Hér kemur contact us formið</p>
+                        @{  Html.RenderPartial("../Account/_Contact", (ContactViewModel)ViewBag.Contact);}
                     </section>
                 </div>
             </div>
