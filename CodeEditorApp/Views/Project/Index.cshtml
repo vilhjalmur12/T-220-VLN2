@@ -228,16 +228,17 @@
             </div>
             <div id="project-members" class="sidenav padding-for-container">
                 <script>
-                        var addmemb = '<li><input type="text" id="myinputmember" name="myinputmember" /></li>';
-                        $(document).ready(function(){
-                            $("#add-member").click(function(){
-                                $("#member-list").append(addmemb);
-                            });
+                    var addmemb = '<li><input type="text" id="myinputmember" name="myinputmember" /></li>';
+                    addmemb += '<button type="submit">Invite</button>';
+                    $(document).ready(function(){
+                        $("#add-member").click(function(){
+                            $("#member-list").append(addmemb);
                         });
+                    });
                 </script>
                 <h3>Members</h3>
                 <ul id="member-list">
-                    <!--Show the list of members in a project if any-->
+                    <!--Display the list of members in a project if any-->
                     @if (Model.Members != null)
                     {
                         foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
