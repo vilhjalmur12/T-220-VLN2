@@ -27,7 +27,7 @@ PROJECT-ACTIONS
 \*----------------------------------------------------------*/
 /*for the header*/
 .navbar {
-    background: #006072; 
+    background: #007755; /*green*/
     width:inherit;
     max-width:none;
     height:10%;
@@ -68,7 +68,8 @@ h2, h3, h4,
 .text-user a,
 .text-home a
 {
-    color:#FF5C00; /*orange*/
+    //color: #FF5C00; /*orange*/
+    color: #884444; /*pink*/
 }
 
 .name {
@@ -113,7 +114,8 @@ body {
     margin:0;
     font-family: 'Raleway', sans-serif;
     font-size:12px;
-    background-color: #006072;
+   // background-color: #006072; /*blue*/
+    background-color: #DBDBDB /*Light grey*/
 }
 
 body, html {
@@ -175,11 +177,11 @@ footer{
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url("../images/bakgrunnurtre.jpg");
+    background-image: url("../images/bak1.PNG");
 }
 
 .user-body-content {
-    background-color: #E0E0E0;
+    background-color: #DBDBDB;
 }
 
 
