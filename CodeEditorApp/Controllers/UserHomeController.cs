@@ -79,6 +79,8 @@ namespace CodeEditorApp.Controllers
             if (projectID.HasValue)
             {
                 TempData["projectModel"] = UserHome.GetProjectByID(projectID.Value);
+                Debug.WriteLine("FJÖLDI SKR'AA");
+                Debug.WriteLine(UserHome.GetProjectByID(projectID.Value).SolutionFolder.Files.Count());
                 return RedirectToAction("Index", "Project");
             }
 
