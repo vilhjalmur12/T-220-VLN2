@@ -32,12 +32,13 @@ namespace CodeEditorApp.Controllers
             {
                 try
                 {
-                    MailMessage msz = new MailMessage();
-                    //Email from user that is trying to contact us
-                    msz.From = new MailAddress("collabcodeinfo@gmail.com");
+                    MailMessage msg = new MailMessage();
+                    //Email from user that is trying to contact us, here we will know that the email is from our website
+                    msg.From = new MailAddress("collabcodeinfo@gmail.com");
                     //Our email
-                    msz.To.Add("collabcodeinfo@gmail.com");
-                    msz.Body = vm.Message;
+                    msg.To.Add("collabcodeinfo@gmail.com");
+                    msg.Subject = "Email sent from website, from: " + vm.Email;
+                    msg.Body = vm.Message;
 
                     SmtpClient smtp = new SmtpClient();
                     smtp.Host = "smtp.gmail.com";
@@ -48,7 +49,7 @@ namespace CodeEditorApp.Controllers
 
                     smtp.EnableSsl = true;
 
-                    smtp.Send(msz);
+                    smtp.Send(msg);
 
                     ModelState.Clear();
                     ViewBag.Message = "Thank you for Contacting us ";

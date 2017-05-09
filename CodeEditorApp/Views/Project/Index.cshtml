@@ -218,8 +218,16 @@
                 
             </div>
             <div id="project-members" class="sidenav padding-for-container">
+                <script>
+                    var addmemb = '<li><input type="text" id="myinputmember" name="myinputmember" /></li>';
+                    $(document).ready(function(){
+                        $("#add-member").click(function(){
+                            $("#member-list").append(addmemb);
+                        });
+                    });
+                </script>
                 <h3>Members</h3>
-                <ul>
+                <ul id="member-list">
                     <!--Show the list of members in a project if any-->
                     @if (Model.Members != null)
                     {
@@ -228,9 +236,11 @@
                             <li>@user.UserName</li>
                         }
                     }
-                </ul>
-                <div id="add-member"><input type="button" value="Add new member" /></div>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+               </ul>
+                <p id="add-member-input"></p>
+                <!--<div id="add-member"><button onclick="AddInputBox()" value="Add new member"></button></div>-->
+               <button id="add-member">Add new member</button>
+               <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
             </div>
             <div id="project-goals" class="sidenav padding-for-container">
                 <h3>Goals</h3>
