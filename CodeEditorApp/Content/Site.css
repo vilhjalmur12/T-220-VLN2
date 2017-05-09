@@ -331,7 +331,7 @@ footer{
 }
 
 .right-padding{
-    padding-right:58px;
+    padding-right:45px;
 }
 
 
@@ -342,20 +342,23 @@ footer{
 /*----- $CHAT -----*/
 #message-box{
     height: 99%;
-    width: inherit;
-    margin: 2% 17% 2% 2%;
+    width: 97%;
+    margin-right: 17%;
     border:1px groove #006072;
     background-color: white;
 }
 
+#message-box .row{
+    margin: 0px;
+}
+
 /*Input from user*/
 #message{
-    width:75%;
-    position:absolute;
-    bottom:2%;
-    height:2em;
+    width:90%;
+    height:30px;
     max-width:none;
 }
+
 /*send button*/
 #sendmessage {
     background-position: center;
@@ -364,10 +367,9 @@ footer{
     background-image: url("../images/arrow.png");
     background-position:  0px 0px;
     background-repeat: no-repeat;
-    width: 7%;
+    width: 30px;
     height: 30px;
-    border: 1px groove #FF5C00;
-    background-color: none;
+    background-color: white;
     cursor: pointer;
     outline: 0;
     color:none;
@@ -386,10 +388,15 @@ footer{
 #displayname {
 
 }
+
 /*the chat itself*/
-#discussion {
+#discussion li{ 
+    padding: 3px 0px;
+    list-style:none;
+    text-align: left;
+    color:#006072;
 }
-                </div>
+
 /*------ $MEMBERS -----*/
 .owner {
     border: 1px groove #FF5C00;
