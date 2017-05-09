@@ -13,7 +13,7 @@
     <div class="row container padding-for-container project-body">
         <!--Project folders and file tree starts-->
         <div class="col-md-2 document-list padding-for-container">
-            <div class="row container padding-for-container userhome-body">
+            <div class="row container padding-for-container">
                 <ul id="tree2">
                     <li>@Model.SolutionFolder.Name</li>
 
@@ -192,11 +192,13 @@
         </div>
         <!--File editor ends-->
         <!--Pop-out nav start-->
-            <div id="project-chat" class="sidenav padding-for-container">
-                <h2>Chat</h2>
-                <div class="container">
-                    <input type="text" id="message" />
-                    <input type="button" id="sendmessage" value="Send" />
+            <div id="project-chat" class="sidenav padding-for-container right-padding">
+                
+                <div id="message-box" class="container">
+                    <div class="row">
+                        <textarea class="col" id="message"></textarea>
+                        <input class="col" type="button" id="sendmessage" value="" />
+                    </div>
                     <input type="hidden" id="displayname" />
                     <ul class="hover-user" id="discussion"></ul>
                 </div>
@@ -242,9 +244,18 @@
                 
             </div>
             <div id="project-members" class="sidenav padding-for-container">
+                <script>
+                    var addmemb = '<li><input type="text" id="myinputmember" name="myinputmember" /></li>';
+                    addmemb += '<button type="submit">Invite</button>';
+                    $(document).ready(function(){
+                        $("#add-member").click(function(){
+                            $("#member-list").append(addmemb);
+                        });
+                    });
+                </script>
                 <h3>Members</h3>
-                <ul>
-                    <!--Show the list of members in a project if any-->
+                <ul id="member-list">
+                    <!--Display the list of members in a project if any-->
                     @if (Model.Members != null)
                     {
                         foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
@@ -253,37 +264,48 @@
                         }
                     }
                 </ul>
-                <div id="add-member"><input type="button" value="AddMember" /></div>
+                <button id="add-member">Add new member</button>
                 <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
             </div>
-            <div id="project-goals" class="sidenav padding-for-container">
+            <div id="project-goals" class="sidenav padding-for-container right-padding">
                 <h3>Goals</h3>
                 <div>
                     <dl>
-                        <dt>GOAL1</dt>
-                        <dd>objective</dd>
-                        <dt>GOAL2/dt>
-                        <dd>objective</dd>
+                        @if (Model.Goals != null)
+                        {
+                            foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
+                            {
+                                <dt><input type="checkbox" checked=@goal.finished />@goal.name : @goal.description</dt>
+                                if (goal.objectives != null)
+                                {
+                                    foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
+                                    {
+                                        <dd><input type="checkbox" checked=@objective.finished />@objective.name</dd>
+                                    }
+                                }
+                            }
+                        }
                     </dl>
                 </div>
             </div>
-        <!--Pop-out nav ends -->
-        <!--Action nav starts -->
-        <div class="col-md-1 project-actions">
-            <ul>
-                <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
-                <li><span onclick="openNav('project-chat');" class="clickable-icon"><i class="glyphicon glyphicon-comment fa-3x" aria-hidden="true"></i></span></li>
-                <li><span onclick="openNav('project-members');" class="clickable-icon"><i class="fa fa-users fa-3x" aria-hidden="true"></i></span></li>
-                <li><span onclick="openNav('project-goals')" class="clickable-icon"><i class="fa fa-check-square-o fa-3x" aria-hidden="true"></i></span></li>
-            </ul>
+            <!--Pop-out nav ends -->
+            <!--Action nav starts -->
+            <div class="col-md-1 project-actions">
+                <ul>
+                    <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
+                    <li><span onclick="openNav('project-chat');" class="clickable-icon"><i class="glyphicon glyphicon-comment fa-3x" aria-hidden="true"></i></span></li>
+                    <li><span onclick="openNav('project-members');" class="clickable-icon"><i class="fa fa-users fa-3x" aria-hidden="true"></i></span></li>
+                    <li><span onclick="openNav('project-goals')" class="clickable-icon"><i class="fa fa-check-square-o fa-3x" aria-hidden="true"></i></span></li>
+                </ul>
+            </div>
+            <!--Action nav ends -->
         </div>
-        <!--Action nav ends -->
-    </div>
+
     <!--Project body ends-->
     <script>
 /*þarf að færa*/
         function openNav(name) {
-            document.getElementById(name).style.width = "300px";/* Set the width of the side navigation to 250px */
+            document.getElementById(name).style.width = "500px";/* Set the width of the side navigation to 250px */
             if (name != "project-chat")
             {
                 closeNav("project-chat");
