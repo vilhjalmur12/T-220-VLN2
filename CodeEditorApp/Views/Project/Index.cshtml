@@ -37,24 +37,26 @@
             @section scripts
  {
                 <script src="~/3rdparty/src/ace.js" type="text/javascript" charset="utf-8"></script>
-
                 <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
                 <script src="~/signalr/hubs"></script>
 
                 <script>
+                //Get the DocumentID from the Controller class
                 var documentID = @ViewBag.DocumentID;
+                //Start the Ace editor
                 var editor = ace.edit("editor");
-                  editor.setTheme("ace/theme/monokai");
+                editor.setTheme("ace/theme/monokai");
+                //Set the Editor in Javascript mode
                 editor.getSession().setMode("ace/mode/javascript");
                 $("form").submit(function () {
                 $("#hidden_editor").val(editor.getSession().getValue());
-             });
-              
-
-                 var myHub1 = $.connection.myHub1;
+                });
+                var userName = @Html.Raw(Json.Encode(ViewBag.UserName));
+                //Start the SignalR Hub
+                var myHub1 = $.connection.myHub1;
+                //Bool so we don't get stuck in a loop
                 var silent = false;
-                var val = 0;
-
+                //What happens every time someone makes changes to a document with more than one user
                 myHub1.client.onChange = function (changeData) {
                 console.log(changeData);
                 silent = true;
@@ -62,54 +64,56 @@
                 myHub1.server.send($('#displayname').val(), $('#update').val());
                 silent = false;
     };
-
+                //What happens after client sends data
                 $.connection.hub.start().done(function () {
                 myHub1.server.joinDocument(documentID);
                 editor.on("change", function (obj) {
                     if(silent){
                     return;
-                }
+                    }
+                //Sends the Object from Ace Editor(Position of change, what changed)
                 console.log(obj);
                 myHub1.server.onChange(obj, documentID);
         });
     });
                 </script>
                 <script>
-    $(function () {
-            // Reference the auto-generated proxy for the hub.
-        var chat = $.connection.myHub1;
+                    $(function () {
+                        // Reference the auto-generated proxy for the hub.
+                        var chat = $.connection.myHub1;
 
-
-            // Create a function that the hub can call back to display messages.
-            chat.client.addNewMessageToPage = function (name, message) {
-                // Add the message to the page.
-                $('#discussion').replaceWith('<li><strong>' + htmlEncode(name)
-                    + '</strong>: ' + htmlEncode(message) +  '</li>');
-            };
-            $('#displayname').val('Stebbi');
-            $('#update').val('Made the last change');
+                        // Create a function that the hub can call back to display messages.
+                        chat.client.addNewMessageToPage = function (name, message) {
+                            // Add the message to the page.
+                            $('#discussion').replaceWith('<li><strong>' + htmlEncode(name)
+                                + '</strong>: ' + htmlEncode(message) +  '</li>');
+                        };
+                        //Set the name of the user
+                        $('#displayname').val(userName);
+                        //Set the message that displays on update
+                        $('#update').val('Made the last change');
                         // Set initial focus to message input box.
-            $('#message').focus();
-            // Start the connection.
-            $.connection.hub.start().done(function () {
-                $('#sendmessage').click(function () {
-                    // Call the Send method on the hub.
-                    myHub1.server.send($('#displayname').val(), $('#message').val());
-                    // Clear text box and reset focus for next comment.
-                    $('#message').val('').focus();
-                });
-            });
-        });
-        // This optional function html-encodes messages for display in the page.
-        function htmlEncode(value) {
-            var encodedValue = $('<div />').text(value).html();
-            return encodedValue;
-        }
+                        //$('#message').focus();
+                        // Start the connection.
+                        $.connection.hub.start().done(function () {
+                            $('#sendmessage').click(function () {
+                                // Call the Send method on the hub.
+                                myHub1.server.send($('#displayname').val(), $('#message').val());
+                                // Clear text box and reset focus for next comment.
+                                $('#message').val('').focus();
+                            });
+                        });
+                    });
+                    // This optional function html-encodes messages for display in the page.
+                    function htmlEncode(value) {
+                        var encodedValue = $('<div />').text(value).html();
+                        return encodedValue;
+                    }
                 </script>
 }
 
             <div class="project-update">
-                <p class="l-text-user">Updates</p>
+                @*<p class="l-text-user">Updates</p>*@
                 <input class="hover-user" type="hidden" id="displayname" />
                 <input class="hover-user" type="hidden" id="update" />
                 <ul class="hover-user" id="discussion"></ul>
