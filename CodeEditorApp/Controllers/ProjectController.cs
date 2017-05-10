@@ -17,7 +17,6 @@ namespace CodeEditorApp.Controllers
     {
 
         private ProjectRepository projectService = new ProjectRepository();
-        private UserHomeRepository userHomeService = new UserHomeRepository();
 
         private OpenProjectViewModel OpenProjectModel;
 
@@ -42,7 +41,7 @@ namespace CodeEditorApp.Controllers
             FileViewModel newFile = new FileViewModel()
             {
                 ProjectID = OpenProjectModel.ID,
-                AvailableTypes = userHomeService.GetFileTypes(),
+                AvailableTypes = projectService.GetFileTypes(),
                 HeadFolderID = OpenProjectModel.SolutionFolder.ID
             };
 
@@ -287,7 +286,7 @@ namespace CodeEditorApp.Controllers
         {
             projectService.RemoveFile(fileID);
             updateFiles();
-            return RedirectToAction("Index", "Project", new { model = OpenProjectModel });
+            return RedirectToAction("Index", "Project", new { id = OpenProjectModel.ID });
         }
 
         public ActionResult LeaveProject()
