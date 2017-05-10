@@ -311,14 +311,19 @@
                             var input = document.getElementById('myinputmember').value;
                             $.ajax({
                                 url: 'Project/AddMemberIfExists',
+                                redirectUrl: 'Project/ShowGroup',
                                 type: 'POST',
                                 contentType: 'application/json;',
                                 data: JSON.stringify({ email: input, projectID: @Model.ID}),
                                 success: function (valid)
                                 {
                                     if(valid) {
+                                        //vil redirecta?
+                                        window.location.href = value.redirectUrl;
                                         //show that id is valid
-                                    } else {
+                                    } 
+                                    else {
+                                        return "User doesn't exist. Make sure username is correct."
                                         //show that id is not valid
                                     }
                                 }

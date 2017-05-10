@@ -277,11 +277,14 @@ namespace CodeEditorApp.Controllers
         [HttpPost] // can be HttpGet
         public ActionResult AddMemberIfExists(string email, int projectID)
         {
+            //if true (breyti repo fallinu úr add)
+            //
             bool isValid = projectService.AddMemberIfExists(email, projectID); //.. check
             var obj = new
             {
                 valid = isValid
             };
+
             return Json(obj);
         }
 
