@@ -111,7 +111,7 @@ namespace CodeEditorApp.Repositories
             {
                 if (membership.ProjectID == projectID)
                 {
-                    userModels.Add(GetUser(membership.UserID));
+                    userModels.Add(GetUser(membership.AspNetUserID));
                 }
             });
 
@@ -248,7 +248,7 @@ namespace CodeEditorApp.Repositories
             Membership newMembership = new Membership()
             {
                 ProjectID = projectID,
-                UserID = AspNetUserID,
+                AspNetUserID = AspNetUserID,
             };
             _db.Memberships.Add(newMembership);
             _db.SaveChanges();
@@ -271,7 +271,7 @@ namespace CodeEditorApp.Repositories
         {
             _db.Memberships.ToList().ForEach(membership =>
             {
-                if ((membership.ProjectID == projectID) && (membership.UserID == AspNetUserID))
+                if ((membership.ProjectID == projectID) && (membership.AspNetUserID == AspNetUserID))
                 {
                     Membership deleteMembership = membership;
                     _db.Memberships.Remove(deleteMembership);

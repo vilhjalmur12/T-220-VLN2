@@ -141,7 +141,7 @@ namespace CodeEditorApp.Repositories
 
             foreach (Membership tableitem in _db.Memberships.Where(x => x.ProjectID == ProjectID))
             {
-                TmpUser = GetUser(tableitem.UserID);
+                TmpUser = GetUser(tableitem.AspNetUserID);
                 ReturnList.Add(TmpUser);
             }
 
