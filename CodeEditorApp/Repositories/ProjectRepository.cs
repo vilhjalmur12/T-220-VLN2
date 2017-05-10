@@ -42,6 +42,86 @@ namespace CodeEditorApp.Repositories
             _db.SaveChanges();
         }
 
+        public OpenProjectViewModel GetOpenProjectViewModel(int projectID)
+        {
+            Project project = _db.Projects.Find(projectID);
+            OpenProjectViewModel newOpenProjectModel = new OpenProjectViewModel()
+            {
+                ID = projectID,
+                name = project.name,
+                SolutionFolder = GetSolutionFolder(project.SolutionFolderID),
+                Comments = GetCommentsByProject(projectID),
+                Members = GetUsersByProject(projectID),
+                Goals = GetGoalsByProject(projectID)
+            };
+
+            return newOpenProjectModel;
+        }
+
+        public FolderViewModel GetSolutionFolder(int solutionFolderID)
+        {
+            Folder solutionFolder = _db.Folders.Find(solutionFolderID);
+
+            FolderViewModel newSolutionFolderViewModel = new FolderViewModel()
+            {
+                ID = solutionFolderID,
+                Name = solutionFolder.Name,
+                HeadFolderID = solutionFolder.HeadFolderID,
+                SubFolders = GetAllSubFolders(solutionFolderID),
+                Files = GetAllSubFiles(solutionFolderID)
+            };
+
+            return newSolutionFolderViewModel;
+        }
+
+        public List<FolderViewModel> GetAllSubFolders(int folderID)
+        {
+            List<Folder> tmpFolders = _db.Folders.Where(x => x.HeadFolderID == folderID).ToList();
+            List<FolderViewModel> returnList = new List<FolderViewModel>();
+
+            if (tmpFolders != null)
+            {
+                foreach (Folder folderItem in tmpFolders)
+                {
+                    returnList.Add(new FolderViewModel
+                    {
+                        ID = folderItem.ID,
+                        Name = folderItem.Name,
+                        ProjectID = folderItem.ProjectID,
+                        HeadFolderID = folderItem.HeadFolderID,
+                        IsSolutionFolder = folderItem.IsSolutionFolder,
+                        Files = GetAllSubFiles(folderItem.ID),
+                        SubFolders = GetAllSubFolders(folderItem.ID)
+                    });
+                }
+                return returnList;
+            }
+
+            return null;
+        }
+
+        public List<FileViewModel> GetAllSubFiles(int FolderID)
+        {
+            List<File> fileList = _db.Files.Where(x => x.HeadFolderID == FolderID).ToList();
+            List<FileViewModel> returnList = new List<FileViewModel>();
+
+            if (fileList != null)
+            {
+                foreach (File fileItem in fileList)
+                {
+                    returnList.Add(new FileViewModel()
+                    {
+                        ID = fileItem.ID,
+                        name = fileItem.name,
+                        HeadFolderID = fileItem.HeadFolderID,
+                        ProjectID = fileItem.ProjectID
+                    });
+                }
+                return returnList;
+            }
+            return null;
+        }
+
         public List<GoalViewModel> GetGoalsByProject(int projectID)
         {
             List<GoalViewModel> goalModels = new List<GoalViewModel>();
