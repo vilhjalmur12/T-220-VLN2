@@ -29,7 +29,7 @@
                                 <a href="#">@item.Name</a>
                             }
 
-                            @ShowSubItems(item.SubFolders);
+                            @ShowSubItems(item.SubFolders)
 
                         </li>
                     }
@@ -76,18 +76,16 @@
                 <table id="table" class="table table-hover table-responsive">
                     <thead>
                         <tr>
-                            <th>#</th>
                             <th>Name</th>
                             <th>Owner</th>
                         </tr>
                     </thead>
-                    <tbody>
+                    <tbody id="project-table-home">
                         @foreach (var item in Model.Projects)
                         {
-                            <tr>
-                                <td data-title="ID">1</td>
-                                <td data-title="name-of-project">@Html.ActionLink(@item.name, "Index", "Project", new { projectID = @item.ID }, null)</td>
-                                <td data-title="project-owner">@item.Owner</td>
+                            <tr alt="@item.ID">
+                                <td data-title="name-of-project">@Html.ActionLink(@item.name, "../UserHome/OpenProject", new { projectID = @item.ID })</td>
+                                <td data-title="project-owner">Jack Daniels</td>
                             </tr>
                         }                      
                     </tbody>

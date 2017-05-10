@@ -51,7 +51,18 @@
 
                 @if (Model.SolutionFolder != null)
                 {
-                    @ShowSubItems(solutionFileList);
+                <ul>
+
+
+                    @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in Model.SolutionFolder.SubFolders)
+                    {
+                    <li>
+                        <a href="#">@item.Name</a>
+                        @ShowSubItems(item.SubFolders)
+
+                    </li>
+                    }
+                </ul>
                 }
             </ul>
 
@@ -70,7 +81,9 @@
                     <ul>
                         @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
                         {
-                        <li>@file.name</li>
+                        <li id="file-item" alt="@item.ID">
+                            <a>@file.name</a>
+                        </li>
                         }
                     </ul>
                     }
@@ -380,12 +393,7 @@
             closeNav("project-members");
             closeNav("project-goals");
         }
-
-        function ChangeGoal(goalID)
-        {
-
-        }
-
+        /*
         $.fn.extend({
             treed: function (o) {
 
@@ -447,8 +455,10 @@
         $('#tree2').treed({ openedClass: 'glyphicon-folder-open', closedClass: 'glyphicon-folder-close' });
 
         $('#tree3').treed({ openedClass: 'glyphicon-chevron-right', closedClass: 'glyphicon-chevron-down' });
+        */
     </script>
 
    
    
 </body>
+@Scripts.Render("~/Scripts/js_modal.js")
