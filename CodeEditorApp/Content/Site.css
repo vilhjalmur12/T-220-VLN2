@@ -262,7 +262,7 @@ a{
 }
 
 
-
+ 
 
 
 
@@ -271,33 +271,38 @@ a{
 \*----------------------------------------------------------*/
 .project-body{
     margin-top:55px;
+    height:100%;
 }
 
-.project-body,
 .project-editor,
-.project-actions,
-.project-actions ul{
+#popout-nav,
+.sidenav,
+.project-actions{
     height: 100%;
+    margin-top:2%;
 }
 
 .project-editor{
     width:80%;
-    padding:0;
-    border: 1px groove blue;
+    padding:1px;
 }
 
 .project-updates{
     height:20px;
-    border-top:1px solid #FF5C00;
+}
+
+#popout-nav{
+     width:5%;
+     padding:0;
+     margin-left:0;
+     margin-right:0;
 }
 
 .project-actions{
-    width:5%;
-    border:1px solid yellow;
-
     z-index: 2; /* Stay on top */
     position: fixed; /* Stay in place */
     right: 0px;
+    width:5%;
 }
 
 
@@ -307,8 +312,6 @@ a{
 
 /*----- $SIDE-NAV ------*/
 .sidenav {
-    border-left: 1px solid #FF5C00;
-    height: 100%; /* 100% Full-height */
     width: 0; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
     z-index: 1; /* Stay on top */
@@ -343,20 +346,22 @@ a{
     cursor: pointer;
 }
 
-.project-actions ul{ /*nóg að setja klasann á ul og sleppa ul?*/
+.project-actions{ /*nóg að setja klasann á ul og sleppa ul?*/
     padding: 0px;
     list-style:none;
     text-align: right;
     list-style-position: inside;
-    position:center;
+    position:center; 
+    margin-top:0;
+   
 }
 
-.project-actions ul li{
-    padding: 7px 0px;
+.project-actions li{
+    padding: 7px 5px;
 }
 
 .right-padding{
-    padding-right:45px;
+    padding-right:46px;
 }
 
 
@@ -366,9 +371,8 @@ a{
 \*----------------------------------------------------------*/
 /*----- $CHAT -----*/
 #message-box{
-    height: 99%;
-    width: 97%;
-    margin-right: 17%;
+    height: 95%;
+    width: 96%;
 }
 
 #message-box .row{
@@ -416,12 +420,18 @@ a{
 }
 
 /*------ $MEMBERS -----*/
-.owner {
-    border: 1px groove #FF5C00;
+
+#members{
+    height:95%;
+    width:96%;
 }
 
 /*----- $GOALS -----*/
 
+#goals{
+    height:95%;
+    width:96%;
+}
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 /*Þarf að breyta?????????????????????????????????????????????*/
