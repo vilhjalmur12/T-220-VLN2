@@ -13,8 +13,8 @@
 <body>
     <!--Project body starts-->
     <div class="row container padding-for-container project-body">
-        <!--Project folders and file tree starts-->
-        <div class="row container padding-for-container">
+
+        <div class="col-md-2 document-list padding-for-container box-container">
             <!--FÆRA TAKKA EITTHVERT ANNAÐ OG BREYTA UM ÚTLIT-->
             <div class="col-md-1 add-project">
                 <!-- Hér er CreateFile aðgerð -->
@@ -44,60 +44,56 @@
                 </div>
             </div>
             <!--TAKKI ENDAR-->
-            <div class="col-md-2 document-list padding-for-container">
+            <!--Project folders and file tree starts-->
+            <ul id="tree2">
+                <li>@Model.SolutionFolder.Name</li>
 
-                <ul id="tree2">
-                    <li>@Model.SolutionFolder.Name</li>
-
-                    @if (Model.SolutionFolder.SubFolders != null)
-                    {
-                        <ul>
-
-
-                            @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in Model.SolutionFolder.SubFolders)
+                @if (Model.SolutionFolder.SubFolders != null)
                 {
-                                <li>
-                                    <a href="#">@item.Name</a>
-                                    @ShowSubItems(item.SubFolders);
+                <ul>
 
-                                </li>
-                            }
-                        </ul>
+
+                    @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in Model.SolutionFolder.SubFolders)
+                    {
+                    <li>
+                        <a href="#">@item.Name</a>
+                        @ShowSubItems(item.SubFolders);
+
+                    </li>
                     }
                 </ul>
-                @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
-                {
+                }
+            </ul>
+            @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
+            {
             <ul>
 
                 @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
                 {
-                    <li>
-                        @item.Name
-                        @ShowSubItems(item.SubFolders)
+                <li>
+                    @item.Name
+                    @ShowSubItems(item.SubFolders)
 
-                        @if (item.Files != null)
+                    @if (item.Files != null)
+                    {
+                    <ul>
+                        @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
                         {
-                            <ul>
-                                @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
-                                {
-                                    <li>@file.name</li>
-                                }
-                            </ul>
+                        <li>@file.name</li>
                         }
-                    </li>
+                    </ul>
+                    }
+                </li>
                 }
             </ul>
-}
+            }
 
-            </div>
         </div>
-
-
 
         <!--Project folders and file tree ends-->
         <!--File editor starts-->
-        <div class="col-md-9 project-editor ">
-         <!--ViewBag for storing the project code-->
+        <div class="col-md-9 project-editor box-container ">
+            <!--ViewBag for storing the project code-->
             <div id="editor">
                 @ViewBag.Code
             </div>
@@ -111,14 +107,14 @@
                 </select>
             </div>
 
-         
-            @section scripts
- {
-                <script src="~/3rdparty/src/ace.js" type="text/javascript" charset="utf-8"></script>
-                <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
-                <script src="~/signalr/hubs"></script>
 
-                <script>
+            @section scripts
+            {
+            <script src="~/3rdparty/src/ace.js" type="text/javascript" charset="utf-8"></script>
+            <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
+            <script src="~/signalr/hubs"></script>
+
+            <script>
                 //Get the DocumentID from the Controller class
                 var documentID = @ViewBag.DocumentID;
                 //Start the Ace editor
@@ -130,7 +126,7 @@
                     function ToggleColor() {
                         if (editor.getTheme() == "ace/theme/monokai") {
                             editor.setTheme("ace/theme/xcode");
-                        } else {                       
+                        } else {
                             editor.setTheme("ace/theme/monokai");
                         }
                     }
@@ -177,12 +173,12 @@
                 console.log(obj);
                 myHub1.server.onChange(obj, documentID);
 
- 
-               
+
+
         });
     });
-                </script>
-                <script>
+            </script>
+            <script>
                     $(function () {
                         // Reference the auto-generated proxy for the hub.
                         var chat = $.connection.myHub1;
@@ -214,8 +210,8 @@
                         var encodedValue = $('<div />').text(value).html();
                         return encodedValue;
                     }
-                </script>
-}
+            </script>
+            }
 
             <div class="project-update">
                 @*<p class="l-text-user">Updates</p>*@
@@ -226,17 +222,31 @@
         </div>
         <!--File editor ends-->
         <!--Pop-out nav start-->
-            <div id="project-chat" class="sidenav padding-for-container right-padding">
-                
-                <div id="message-box" class="container">
-                    <div class="row">
-                        <textarea class="col" id="message"></textarea>
-                        <input class="col" type="button" id="sendmessage" value="" />
+        <div id="popout-nav" class="col-md-1 row">
+            <!--Action nav starts -->
+            <div class="light-background">
+                <ul class="project-actions light-background">
+                    <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
+                    <li><span onclick="openNav('project-chat');" class="clickable-icon"><i class="glyphicon glyphicon-comment fa-3x" aria-hidden="true"></i></span></li>
+                    <li><span onclick="openNav('project-members');" class="clickable-icon"><i class="fa fa-users fa-3x" aria-hidden="true"></i></span></li>
+                    <li><span onclick="openNav('project-goals')" class="clickable-icon"><i class="fa fa-check-square-o fa-3x" aria-hidden="true"></i></span></li>
+                </ul>
+            </div>
+            <!--Action nav ends -->
+
+            <div class="sidenav padding-for-container right-padding">
+                <!--chat starts-->
+                <div id="project-chat" class="sidenav padding-for-container right-padding light-background">
+
+                    <div id="message-box" class="container box-container">
+                        <div class="row">
+                            <textarea class="col" id="message"></textarea>
+                            <input class="col" type="button" id="sendmessage" value="" />
+                        </div>
+                        <input type="hidden" id="displayname" />
+                        <ul class="hover-user" id="discussion"></ul>
                     </div>
-                    <input type="hidden" id="displayname" />
-                    <ul class="hover-user" id="discussion"></ul>
-                </div>
-                @section scriptsComment {
+                    @section scriptsComment {
                     <!--Script references. -->
                     <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
                     <!--Reference the SignalR library. -->
@@ -274,11 +284,13 @@
             return encodedValue;
         }
                     </script>
-                }
-                
-            </div>
-            <div id="project-members" class="sidenav padding-for-container">
-                <script>
+                    }
+
+                </div>
+                <!--chat ends-->
+                <!--members starts-->
+                <div id="project-members" class="sidenav padding-for-container light-background ">
+                    <script>
                     var addmemb = '<li><input type="text" id="myinputmember" name="myinputmember" placeholder="Member email"/></li>';
                     addmemb += '<button type="submit" id="search-member">Invite</button>';
                     $(document).ready(function(){
@@ -288,57 +300,56 @@
                     });
                     $(document).ready(function(){
                         $("#search-member").click(function(){
-                            
+
                         });
                     });
-                </script>
-                <h3>Members</h3>
-                <ul id="member-list">
-                    <!--Display the list of members in a project if any-->
-                    @if (Model.Members != null)
-                    {
-                        foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
-                        {
+                    </script>
+                    <div id="members" class="box-container">
+                        <h3>Members</h3>
+
+                        <ul id="member-list">
+                            <!--Display the list of members in a project if any-->
+                            @if (Model.Members != null)
+                            {
+                            foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
+                            {
                             <li>@user.UserName</li>
-                        }
-                    }
-                </ul>
-                <button id="add-member">Add new member</button>
-                <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-            </div>
-            <div id="project-goals" class="sidenav padding-for-container right-padding">
-                <h3>Goals</h3>
-                <div>
-                    <dl>
-                        @if (Model.Goals != null)
-                        {
+                            }
+                            }
+                        </ul>
+                        <button id="add-member">Add new member</button>
+                    </div>
+
+                </div>
+                <!--members end-->
+                <!--goals starts-->
+                <div id="project-goals" class="sidenav padding-for-container right-padding light-background">
+                    <div id="goals" class="box-container">
+                        <h3>Goals</h3>
+                        <dl>
+                            @if (Model.Goals != null)
+                            {
                             foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
                             {
-                                <dt><input type="checkbox" checked=@goal.finished />@goal.name : @goal.description</dt>
-                                if (goal.objectives != null)
-                                {
-                                    foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
-                                    {
-                                        <dd><input type="checkbox" checked=@objective.finished />@objective.name</dd>
-                                    }
-                                }
+                            <dt><input type="checkbox" checked=@goal.finished />@goal.name : @goal.description</dt>
+                            if (goal.objectives != null)
+                            {
+                            foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
+                            {
+                            <dd><input type="checkbox" checked=@objective.finished />@objective.name</dd>
                             }
-                        }
-                    </dl>
+                            }
+                            }
+                            }
+                        </dl>
                 </div>
             </div>
-            <!--Pop-out nav ends -->
-            <!--Action nav starts -->
-            <div class="col-md-1 project-actions">
-                <ul>
-                    <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
-                    <li><span onclick="openNav('project-chat');" class="clickable-icon"><i class="glyphicon glyphicon-comment fa-3x" aria-hidden="true"></i></span></li>
-                    <li><span onclick="openNav('project-members');" class="clickable-icon"><i class="fa fa-users fa-3x" aria-hidden="true"></i></span></li>
-                    <li><span onclick="openNav('project-goals')" class="clickable-icon"><i class="fa fa-check-square-o fa-3x" aria-hidden="true"></i></span></li>
-                </ul>
-            </div>
-            <!--Action nav ends -->
+            <!--goals ends-->
         </div>
+        <!--Pop-out nav ends -->
+
+    </div>
+            </div>
 
     <!--Project body ends-->
     <script>

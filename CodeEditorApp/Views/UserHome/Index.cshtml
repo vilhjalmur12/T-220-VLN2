@@ -8,8 +8,8 @@
 }
 <body>
     <!--UserHome body starts-->
-    <div class="row container padding-for-container userhome-body">
-        <div class="col-md-2 document-list">
+    <div class="row container padding-for-container userhome-body ">
+        <div class="col-md-2 document-list box-container">
             @if (Model.RootFolder.Folders == null)
             {
                 <p>Database is empty</p>
@@ -67,7 +67,7 @@
                 </ul>
             }
         </div>
-        <div class="col-md-9 project-table">
+        <div class="col-md-9 project-table box-container">
             <!-- Responsive table starts here -->
             <div class="table-responsive-vertical shadow-z-1">
                 <!-- Table starts here -->
@@ -92,7 +92,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-md-1 add-project">
+        <div class="col-md-1 add-project box-container">
             <!-- Hér er CreateProject aðgerð -->
             <!-- Trigger the modal with a button -->
             <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
