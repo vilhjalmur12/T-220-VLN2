@@ -67,7 +67,8 @@ namespace CodeEditorApp.Controllers
             UserHomeService.CreateProject(ref newProject);
             projectModel.ID = newProject.ID;
 
-            return OpenProject(newProject.ID);
+            // return OpenProject(newProject.ID);
+            return RedirectToAction("Index", "Project", new { projectID = projectModel.ID });
         }
 
         public ActionResult OpenProject(int? projectID)
