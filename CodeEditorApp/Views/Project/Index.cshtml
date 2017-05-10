@@ -1,8 +1,10 @@
-﻿@model CodeEditorApp.Models.ViewModels.ProjectViewModel
+﻿@using CodeEditorApp.Models.ViewModels
+@model CodeEditorApp.Models.ViewModels.ProjectViewModel
 
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/UserHome/_Layout.cshtml";
+    FileViewModel newFile = ViewBag.newFile;
 }
 <head>
 
@@ -12,8 +14,38 @@
     <!--Project body starts-->
     <div class="row container padding-for-container project-body">
         <!--Project folders and file tree starts-->
-        <div class="col-md-2 document-list padding-for-container">
-            <div class="row container padding-for-container">
+        <div class="row container padding-for-container">
+            <!--FÆRA TAKKA EITTHVERT ANNAÐ OG BREYTA UM ÚTLIT-->
+            <div class="col-md-1 add-project">
+                <!-- Hér er CreateFile aðgerð -->
+                <!-- Trigger the modal with a button -->
+                <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
+                    <i class="indicator glyphicon glyphicon-plus-sign"></i>
+                </button>
+
+                <!-- Modal -->
+                <div id="myModal" class="modal fade" role="dialog">
+                    <div class="modal-dialog">
+
+                        <!-- Modal content-->
+                        <div class="modal-content">
+                            <div class="modal-header">
+                                <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                <h4 class="modal-title">Modal Header</h4>
+                            </div>
+                            <div class="modal-body">
+                                @{Html.RenderPartial("CreateFile", newFile);}
+                            </div>
+                            <div class="modal-footer">
+                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <!--TAKKI ENDAR-->
+            <div class="col-md-2 document-list padding-for-container">
+
                 <ul id="tree2">
                     <li>@Model.SolutionFolder.Name</li>
 
@@ -33,32 +65,34 @@
                         </ul>
                     }
                 </ul>
-                    @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
-                    {
-                        <ul>
+                @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
+                {
+            <ul>
 
-                            @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
-                            {
-                                <li>
-                                    @item.Name
-                                    @ShowSubItems(item.SubFolders)
+                @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
+                {
+                    <li>
+                        @item.Name
+                        @ShowSubItems(item.SubFolders)
 
-                                    @if (item.Files != null)
-                                    {
-                                        <ul>
-                                            @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
-                                            {
-                                                <li>@file.name</li>
-                                            }
-                                        </ul>
-                                    }
-                                </li>
-                            }
-                        </ul>
-                    }
+                        @if (item.Files != null)
+                        {
+                            <ul>
+                                @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
+                                {
+                                    <li>@file.name</li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                }
+            </ul>
+}
 
             </div>
         </div>
+
+
 
         <!--Project folders and file tree ends-->
         <!--File editor starts-->
@@ -245,11 +279,16 @@
             </div>
             <div id="project-members" class="sidenav padding-for-container">
                 <script>
-                    var addmemb = '<li><input type="text" id="myinputmember" name="myinputmember" /></li>';
-                    addmemb += '<button type="submit">Invite</button>';
+                    var addmemb = '<li><input type="text" id="myinputmember" name="myinputmember" placeholder="Member email"/></li>';
+                    addmemb += '<button type="submit" id="search-member">Invite</button>';
                     $(document).ready(function(){
                         $("#add-member").click(function(){
                             $("#member-list").append(addmemb);
+                        });
+                    });
+                    $(document).ready(function(){
+                        $("#search-member").click(function(){
+                            
                         });
                     });
                 </script>

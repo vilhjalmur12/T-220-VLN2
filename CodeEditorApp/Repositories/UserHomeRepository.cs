@@ -78,8 +78,6 @@ namespace CodeEditorApp.Repositories
         /// <returns></returns>
         public ProjectViewModel GetProjectByID(int ProjectID)
         {
-            Debug.WriteLine("PROJECTID");
-            Debug.WriteLine(ProjectID);
             Project project = _db.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
 
             ProjectViewModel returnProject = new ProjectViewModel()
@@ -399,7 +397,7 @@ namespace CodeEditorApp.Repositories
             _db.Projects.Add(project);
             _db.SaveChanges();
 
-
+            _db.Folders.Find(project.SolutionFolderID).ProjectID = project.ID;
 
             Folder TmpFolder = _db.Folders.Where(x => x.Name == project.name + "Solutions" && x.IsSolutionFolder == true).SingleOrDefault();
             Project TmpProject = _db.Projects.Where(x => x.name == project.name + "Solutions" && x.SolutionFolderID == 0).SingleOrDefault();
