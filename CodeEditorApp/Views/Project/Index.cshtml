@@ -336,17 +336,17 @@
                         <dl>
                             @if (Model.Goals != null)
                             {
-                            foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
-                            {
-                            <dt><input type="checkbox" checked=@goal.finished />@goal.name : @goal.description</dt>
-                            if (goal.objectives != null)
-                            {
-                            foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
-                            {
-                            <dd><input type="checkbox" checked=@objective.finished />@objective.name</dd>
-                            }
-                            }
-                            }
+                                foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
+                                {
+                                    <dt><input type="checkbox" checked=@goal.finished onchange="ChangeGoal(@goal.ID)"/>@goal.name : @goal.description</dt>
+                                    if (goal.objectives != null)
+                                    {
+                                        foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
+                                        {
+                                            <dd><input type="checkbox" checked=@objective.finished />@objective.name</dd>
+                                        }
+                                    }
+                                }
                             }
                         </dl>
                 </div>
@@ -387,6 +387,11 @@
             closeNav("project-chat");
             closeNav("project-members");
             closeNav("project-goals");
+        }
+
+        function ChangeGoal(goalID)
+        {
+
         }
 
         $.fn.extend({
