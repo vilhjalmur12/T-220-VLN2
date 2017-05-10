@@ -18,6 +18,17 @@ namespace CodeEditorApp.Repositories
             _db = new ApplicationDbContext();
         }
 
+        public FileType GetFileTypeByID(int fileTypeID)
+        {
+            return _db.FileTypes.Find(fileTypeID);
+        }
+
+        public void CreateFile(ref File file)
+        {
+            _db.Files.Add(file);
+            _db.SaveChanges();
+        }
+
         public void ChangeGoal(int goalID)
         {
             if (_db.Goals.Find(goalID).finished)

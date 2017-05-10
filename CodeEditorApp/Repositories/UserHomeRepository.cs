@@ -42,16 +42,16 @@ namespace CodeEditorApp.Repositories
         public List<ProjectViewModel> GetAllProjects(string UserID)
         { 
             
-            List<ProjectViewModel> NewModel = new List<ProjectViewModel>();
+            List<ProjectViewModel> newModel = new List<ProjectViewModel>();
             _db.Projects.ToList().ForEach((x) =>
             {
                 if (x.AspNetUserID == UserID)
                 {
-                    NewModel.Add(GetProjectByID(x.ID));
+                    newModel.Add(GetProjectByID(x.ID));
                 }
             });
 
-            return NewModel;
+            return newModel;
         }
 
         public List<ProjectViewModel> GetAllSubProjects(RootFolder folder)
@@ -78,8 +78,6 @@ namespace CodeEditorApp.Repositories
         /// <returns></returns>
         public ProjectViewModel GetProjectByID(int ProjectID)
         {
-            Debug.WriteLine("PROJECTID");
-            Debug.WriteLine(ProjectID);
             Project project = _db.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
 
             ProjectViewModel returnProject = new ProjectViewModel()

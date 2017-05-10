@@ -81,64 +81,31 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "UserHome");
         }
 
-        public ActionResult OpenProjectByFile(int fileID)
-        {
-            FileViewModel file = UserHomeService.GetFile(fileID);
-            //TOD GetProject
-            return null;
-        }
-
         public ActionResult CreateFolder()
         {
             //TODO
             return null;
         }
 
-        [HttpGet]
-        public ActionResult CreateFile()
+        public ActionResult DeleteFolder(int folderID)
         {
-            FileViewModel model = new FileViewModel();
-            model.AvailableTypes = GetAvailableFileTypes();
-            
-            
-
+            UserHomeService.DeleteFolder(folderID);
             return null;
         }
 
-        [HttpPost]
-        public ActionResult CreateFile(FileViewModel model)
+        public ActionResult DeleteFile(int fileID)
         {
-
+            UserHomeService.DeleteFile(fileID);
             return null;
         }
 
-        public ActionResult DeleteType(ObjectType type, int ID)
+        public ActionResult DeleteProject(int projectID)
         {
-            //TODO
+            UserHomeService.DeleteProject(projectID);
             return null;
         }
 
-        public ActionResult MovePath(ObjectType type, string newPath)
-        {
-            //TODO
-            return null;
-        }
-
-
-
-        /// <summary>
-        /// Finds current users UserID, and looks for all information about that user.
-        /// ApplicationUser holds all user info.
-        /// </summary>
-        /// <returns>A single ApplicationUser</returns>
-        public UserViewModel GetUserInfo ()
-        {
-            string userID = User.Identity.GetUserId();
-            UserViewModel returnUser = UserHomeService.GetUser(userID);
-            return returnUser;
-        }
-
-        public RootFolderViewModel GetFileTree (string userID)
+        private RootFolderViewModel GetUserFileTree (string userID)
         {
             return UserHomeService.GetUserRootFolder(userID);
         }
@@ -170,7 +137,7 @@ namespace CodeEditorApp.Controllers
                 ID = userID,
                 UserName = User.Identity.GetUserName(),
                 Projects = UserHomeService.GetAllProjects(userID),
-                RootFolder = GetFileTree(userID)
+                RootFolder = GetUserFileTree(userID)
             };
 
             return user;
