@@ -722,6 +722,7 @@
     <Content Include="Views\Account\_Contact.cshtml" />
     <Content Include="Views\UserHome\CreateProject.cshtml" />
     <Content Include="Views\Account\Contact.cshtml" />
+    <Content Include="Views\Project\CreateFile.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

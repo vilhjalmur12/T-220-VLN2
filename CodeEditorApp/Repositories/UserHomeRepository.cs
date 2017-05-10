@@ -78,8 +78,6 @@ namespace CodeEditorApp.Repositories
         /// <returns></returns>
         public ProjectViewModel GetProjectByID(int ProjectID)
         {
-            Debug.WriteLine("PROJECTID");
-            Debug.WriteLine(ProjectID);
             Project project = _db.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
 
             ProjectViewModel returnProject = new ProjectViewModel()
