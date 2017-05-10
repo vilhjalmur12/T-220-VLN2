@@ -58,7 +58,9 @@
                                 <ul>
                                     @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
                                     {
-                                        <li>@file.name</li>
+                                        <li id="file-item" alt="@file.ID">
+                                            <a>@file.name</a>
+                                        </li>
                                     }
                                 </ul>
                             }
