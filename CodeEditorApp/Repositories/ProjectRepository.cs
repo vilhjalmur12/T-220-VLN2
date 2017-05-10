@@ -18,6 +18,17 @@ namespace CodeEditorApp.Repositories
             _db = new ApplicationDbContext();
         }
 
+        public FileType GetFileTypeByID(int fileTypeID)
+        {
+            return _db.FileTypes.Find(fileTypeID);
+        }
+
+        public void CreateFile(ref File file)
+        {
+            _db.Files.Add(file);
+            _db.SaveChanges();
+        }
+
         public void ChangeGoal(int goalID)
         {
             if (_db.Goals.Find(goalID).finished)
@@ -92,6 +103,7 @@ namespace CodeEditorApp.Repositories
             return commentModels;
         }
 
+        //Hér sækjum við lista af notendum eftir projectID
         public List<UserViewModel> GetUsersByProject(int projectID)
         {
             List<UserViewModel> userModels = new List<UserViewModel>();
@@ -99,7 +111,7 @@ namespace CodeEditorApp.Repositories
             {
                 if (membership.ProjectID == projectID)
                 {
-                    userModels.Add(GetUser(membership.UserID));
+                    userModels.Add(GetUser(membership.AspNetUserID));
                 }
             });
 
@@ -233,11 +245,10 @@ namespace CodeEditorApp.Repositories
 
         public void AddUserToProject(string AspNetUserID, int projectID)
         {
-            //TODO
             Membership newMembership = new Membership()
             {
                 ProjectID = projectID,
-                UserID = AspNetUserID,
+                AspNetUserID = AspNetUserID,
             };
             _db.Memberships.Add(newMembership);
             _db.SaveChanges();
@@ -260,7 +271,7 @@ namespace CodeEditorApp.Repositories
         {
             _db.Memberships.ToList().ForEach(membership =>
             {
-                if ((membership.ProjectID == projectID) && (membership.UserID == AspNetUserID))
+                if ((membership.ProjectID == projectID) && (membership.AspNetUserID == AspNetUserID))
                 {
                     Membership deleteMembership = membership;
                     _db.Memberships.Remove(deleteMembership);
@@ -318,6 +329,27 @@ namespace CodeEditorApp.Repositories
         public void ChangeFolderName(int folderID, string newName)
         {
             //TODO
+        }
+
+        /*public UserViewModel GetUserByEmail(string email)
+        {
+            ApplicationUser TmpUser = _db.Users.Where(x => x.UserName == email).SingleOrDefault();
+            UserViewModel ReturnUser = new UserViewModel();
+
+            ReturnUser.ID = TmpUser.Id;
+            ReturnUser.UserName = TmpUser.UserName;
+
+            return ReturnUser;
+        }*/
+
+        public bool AddMemberIfExists(string email, int projectID) {
+            foreach (ApplicationUser user in _db.Users) {
+                if (user.Email == email) {
+                    AddUserToProject(user.Id, projectID);
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

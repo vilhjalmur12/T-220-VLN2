@@ -17,6 +17,7 @@ namespace CodeEditorApp.Controllers
     {
 
         private ProjectRepository projectService = new ProjectRepository();
+        private UserHomeRepository userHomeService = new UserHomeRepository();
 
         private ProjectViewModel projectModel;
 
@@ -27,6 +28,7 @@ namespace CodeEditorApp.Controllers
             updateComments();
             updateGoals();
             updateUsers();
+            ViewBag.newFile = NewFile();
             //For the Editor
             ViewBag.Code = "alert('Hello World!');";
             ViewBag.DocumentID = 17;
@@ -35,6 +37,21 @@ namespace CodeEditorApp.Controllers
             //For the editor
 
             return View(projectModel);
+        }
+
+        public FileViewModel NewFile()
+        {
+
+            FileViewModel newFile = new FileViewModel()
+            {
+                ProjectID = projectModel.ID,
+                AvailableTypes = userHomeService.GetFileTypes(),
+                HeadFolderID = projectModel.SolutionFolderID
+            };
+
+            Debug.WriteLine(newFile.ProjectID);
+            Debug.WriteLine(projectModel.ID);
+            return newFile;
         }
 
         [HttpPost]
@@ -185,7 +202,36 @@ namespace CodeEditorApp.Controllers
             }
         }
 
+        [HttpGet]
         public ActionResult CreateFile()
+        {
+            FileViewModel newFile = NewFile();
+            return View(newFile);
+        }
+
+        [HttpPost]
+        public ActionResult CreateFile(FileViewModel fileModel)
+        {
+            Debug.WriteLine(fileModel.ProjectID);
+            File newFile = new File()
+            {
+                name = fileModel.name,
+                FileType = projectService.GetFileTypeByID(fileModel.FileTypeID),
+                ProjectID = fileModel.ProjectID,
+                HeadFolderID = fileModel.HeadFolderID
+            };
+
+            projectService.CreateFile(ref newFile);
+
+            fileModel.ID = newFile.ID;
+
+            //   return OpenFile(newFile.ID); eftir að útfæra
+
+            TempData["projectModel"] = userHomeService.GetProjectByID(fileModel.ProjectID);
+            return RedirectToAction("Index", "Project");
+        }
+
+        public ActionResult OpenFile(int? fileID)
         {
             //TODO
             return null;
@@ -227,6 +273,17 @@ namespace CodeEditorApp.Controllers
             //TODO
             return null;
         }
-        
+ 
+        [HttpPost] // can be HttpGet
+        public ActionResult AddMemberIfExists(string email, int projectID)
+        {
+            bool isValid = projectService.AddMemberIfExists(email, projectID); //.. check
+            var obj = new
+            {
+                valid = isValid
+            };
+            return Json(obj);
+        }
+
     }
 }

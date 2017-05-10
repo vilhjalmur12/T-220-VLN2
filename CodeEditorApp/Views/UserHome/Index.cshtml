@@ -8,22 +8,8 @@
 }
 <body>
     <!--UserHome body starts-->
-    <div class="row container padding-for-container userhome-body">
-        <div class="col-md-2 document-list">
-            <div id="document-list-tab">
-                <div class="document-tab-button">
-                    <i class="indicator glyphicon glyphicon-plus-sign"></i>
-                </div>
-                <div class="document-tab-button">
-                    <i class="indicator glyphicon glyphicon-plus-sign"></i>
-                </div>
-                <div class="document-tab-button">
-                    <i class="indicator glyphicon glyphicon-plus-sign"></i>
-                </div>
-                <div class="document-tab-button">
-                    <i class="indicator glyphicon glyphicon-plus-sign"></i>
-                </div>
-            </div>
+    <div class="row container padding-for-container userhome-body ">
+        <div class="col-md-2 document-list box-container">
             @if (Model.RootFolder.Folders == null)
             {
                 <p>Database is empty</p>
@@ -43,7 +29,7 @@
                                 <a href="#">@item.Name</a>
                             }
 
-                            @ShowSubItems(item.SubFolders)
+                            @ShowSubItems(item.SubFolders);
 
                         </li>
                     }
@@ -62,7 +48,7 @@
                             }
                             else
                             {
-                                <a href="#">@item.Name</a>
+                                @item.Name
                             }
 
                             @ShowSubItems(item.SubFolders)
@@ -72,10 +58,7 @@
                                 <ul>
                                     @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
                                     {
-                                        
-                                        <li id="file-item" alt="@file.ID">
-                                            <a>@file.name</a>
-                                        </li>
+                                        <li>@file.name</li>
                                     }
                                 </ul>
                             }
@@ -84,7 +67,7 @@
                 </ul>
             }
         </div>
-        <div class="col-md-9 project-table">
+        <div class="col-md-9 project-table box-container">
             <!-- Responsive table starts here -->
             <div class="table-responsive-vertical shadow-z-1">
                 <!-- Table starts here -->
@@ -109,7 +92,7 @@
                 </table>
             </div>
         </div>
-        <div class="col-md-1 add-project">
+        <div class="col-md-1 add-project box-container">
             <!-- Hér er CreateProject aðgerð -->
             <!-- Trigger the modal with a button -->
             <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
@@ -139,9 +122,8 @@
     </div>
     
     <!--UserHome body ends-->
-    @section Scripts {
-    @Scripts.Render("~/Scripts/js_modal.js")
-    }
 </body>
 
-
+@section Scripts {
+    @Scripts.Render("~/Scripts/js_modal.js")
+}

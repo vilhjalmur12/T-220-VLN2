@@ -9,6 +9,6 @@ namespace CodeEditorApp.Models.Entities
     {
         public int ID { get; set; }
         public int ProjectID { get; set; }
-        public string UserID { get; set; }
+        public string AspNetUserID { get; set; }
     }
 }
