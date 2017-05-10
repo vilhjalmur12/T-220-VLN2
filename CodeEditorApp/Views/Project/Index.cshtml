@@ -51,18 +51,7 @@
 
                 @if (Model.SolutionFolder != null)
                 {
-                <ul>
-
-
-                    @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in Model.SolutionFolder.SubFolders)
-                    {
-                    <li>
-                        <a href="#">@item.Name</a>
-                        @ShowSubItems(item.SubFolders)
-
-                    </li>
-                    }
-                </ul>
+                    @ShowSubItems(solutionFileList)
                 }
             </ul>
 

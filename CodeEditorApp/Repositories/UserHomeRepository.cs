@@ -21,28 +21,23 @@ namespace CodeEditorApp.Repositories
     {
         private ApplicationDbContext _db;
 
-
-
-        /// <summary>
-        /// The class initializer will create a NEW instance of ApplicationDbContext to 
-        /// connect to our database.
-        /// </summary>
         public UserHomeRepository()
         {
             _db = new ApplicationDbContext();
         }
-
-
+        
         /// <summary>
-        /// A method to call all projects owned by a specific user with specific UserID, takes all projects
-        /// and transforms the Projects to a ViewModel class ("ProjectViewModel") and returns that list.
+        /// Returns a list of ProjectViewModel
+        /// Represent all projects the user has access to
+        /// Uses GetProjectModelByProject() and GetProjectByID()
         /// </summary>
-        /// <param name="UserID"></param>
-        /// <returns>A list of ProjectViewModels owned or linked with user</returns>
+        /// <param name="userID"></param>
+        /// <returns></returns>
         public List<ProjectViewModel> GetAllProjects(string userID)
         { 
             List<ProjectViewModel> projectModelList = new List<ProjectViewModel>();
 
+            // Get users projects
             _db.Projects.ToList().ForEach(project =>
             {
                 if (project.AspNetUserID == userID)
@@ -51,6 +46,7 @@ namespace CodeEditorApp.Repositories
                 }
             });
 
+            // Get projects the user has been added to
             _db.Memberships.ToList().ForEach(membership =>
             {
                 if (membership.AspNetUserID == userID)
@@ -62,67 +58,71 @@ namespace CodeEditorApp.Repositories
             return projectModelList;
         }
 
+        /// <summary>
+        /// Returns a ProjectViewModel that represents the Project project
+        /// Uses GetFolderByID()
+        /// </summary>
+        /// <param name="project"></param>
+        /// <returns></returns>
         private ProjectViewModel GetProjectModelByProject(Project project)
         {
             ProjectViewModel returnProjectModel = new ProjectViewModel()
             {
                 ID = project.ID,
                 name = project.name,
-              //  OwnerID = project.AspNetUserID,
                 Owner = _db.Users.Find(project.AspNetUserID).UserName,
                 TypeID = project.ProjectTypeID,
                 HeadFolderID = project.HeadFolderID,
                 SolutionFolderID = project.SolutionFolderID,
-                SolutionFolder = GetProjectSolutionFolder(project.SolutionFolderID)
+                SolutionFolder = GetFolderByID(project.SolutionFolderID)
             };
 
             return returnProjectModel;
         }
 
-      /*  public List<ProjectViewModel> GetAllSubProjects(RootFolder folder)
-        {
-
-            List<ProjectViewModel> NewModel = new List<ProjectViewModel>();
-            _db.Projects.ToList().ForEach((x) =>
-            {
-                if (x.AspNetUserID == folder.UserID)
-                {
-                    NewModel.Add(GetProjectByID(x.ID));
-                }
-            });
-
-            return NewModel;
-        }*/
-
-
-
         /// <summary>
-        /// Searches project in database by ID, installs data in a new ViewModel and returns.
+        /// Returns a FolderViewModel that represents the Folder folder
         /// </summary>
-        /// <param name="ProjectID"></param>
+        /// <param name="folder"></param>
         /// <returns></returns>
-        public ProjectViewModel GetProjectByID(int ProjectID)
+        private FolderViewModel GetFolderViewModelByFolder(Folder folder)
         {
-            Project project = _db.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
-            return GetProjectModelByProject(project);
-        }
-
-        public FolderViewModel GetProjectSolutionFolder(int solutionFolderID)
-        {
-            Folder solutionFolder = _db.Folders.Where(x => x.ID == solutionFolderID).SingleOrDefault();
-
             FolderViewModel returnFolder = new FolderViewModel()
             {
-                ID = solutionFolder.ID,
-                Name = solutionFolder.Name,
-                ProjectID = solutionFolder.ProjectID,
-                HeadFolderID = solutionFolder.HeadFolderID,
-                IsSolutionFolder = solutionFolder.IsSolutionFolder,
-                SubFolders = GetAllSubFolders(solutionFolder.ID),
-                Files = GetAllSubFiles(solutionFolder.ID)
+                ID = folder.ID,
+                Name = folder.Name,
+                ProjectID = folder.ProjectID,
+                HeadFolderID = folder.HeadFolderID,
+                IsSolutionFolder = folder.IsSolutionFolder,
+                SubFolders = GetAllSubFolders(folder.ID),
+                Files = GetAllSubFiles(folder.ID)
             };
 
             return returnFolder;
+        }
+
+        /// <summary>
+        /// Searches project in database by ID, installs data in a new ViewModel and returns.
+        /// Uses GetProjectModelByProject()
+        /// </summary>
+        /// <param name="ProjectID"></param>
+        /// <returns></returns>
+        private ProjectViewModel GetProjectByID(int ProjectID)
+        {
+            Project project = _db.Projects.Where(p => p.ID == ProjectID).SingleOrDefault();
+            return GetProjectModelByProject(project);
+        }
+
+        /// <summary>
+        /// Searches folder in database by ID, installs the data in a new ViewModel and return.
+        /// Uses GetFolderViewModelByFolder
+        /// </summary>
+        /// <param name="solutionFolderID"></param>
+        /// <returns></returns>
+        private FolderViewModel GetFolderByID(int folderID)
+        {
+            Folder folder = _db.Folders.Where(f => f.ID == folderID).SingleOrDefault();
+            return GetFolderViewModelByFolder(folder);
         }
 
 
@@ -130,184 +130,57 @@ namespace CodeEditorApp.Repositories
         /// Collects all project types for the projects
         /// </summary>
         /// <returns>A list of ProjectType</returns>
-        public List<ProjectType> GetAllProjectTypes()
+        private List<ProjectType> GetAllProjectTypes()
         {
             return _db.ProjectTypes.ToList();
         }
 
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="project"></param>
-        /// <returns></returns>
-        public FolderViewModel GetProjectFileTree(Project project)
-        {
-            Folder tmp = _db.Folders.Where(x => x.ProjectID == project.ID && x.IsSolutionFolder == true).SingleOrDefault();
-            FolderViewModel folder = new FolderViewModel();
-
-            folder.ID = tmp.ID;
-            folder.Name = tmp.Name;
-            folder.ProjectID = tmp.ProjectID;
-            folder.HeadFolderID = tmp.HeadFolderID;
-            folder.SubFolders =  GetAllSubFolders(tmp.ID);
-            folder.Files = GetAllSubFiles(tmp.ID);
-
-            return null;
-        }
-
-
-
-
-        /// <summary>
         /// Gets users root folder which holds a project list and a file tree
+        /// Uses GetSubFoldersForRoot
         /// </summary>
         /// <param name="UserID"></param>
         /// <returns></returns>
         public RootFolderViewModel GetUserRootFolder (string UserID)
         {
-            RootFolder RootTmp = _db.RootFolders.Where(x => x.UserID == UserID).SingleOrDefault();
-            RootFolderViewModel RootFolder = new RootFolderViewModel();
+            RootFolder rootFolder = _db.RootFolders.Where(x => x.UserID == UserID).SingleOrDefault();
+            RootFolderViewModel returnRootFolder = new RootFolderViewModel()
+            {
+                ID = rootFolder.ID,
+                UserID = rootFolder.UserID,
+                Folders = GetSubFoldersForRoot(rootFolder)
+            };
 
-            RootFolder.ID = RootTmp.ID;
-            RootFolder.UserID = RootTmp.UserID;
-            RootFolder.Folders = GetSubFoldersForRoot(RootTmp);
-
-            return RootFolder;
+            return returnRootFolder;
         }
 
 
-
         /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="FolderID"></param>
-        /// <returns></returns>
-        public FolderViewModel GetFolder (int FolderID) {
-
-            try
-            {
-                Folder tmp = _db.Folders.Where(x => x.ID == FolderID).SingleOrDefault();
-                FolderViewModel folder = new FolderViewModel();
-
-                folder.ID = FolderID;
-                folder.Name = tmp.Name;
-                folder.ProjectID = tmp.ProjectID;
-                folder.HeadFolderID = tmp.HeadFolderID;
-                folder.SubFolders = GetAllSubFolders(tmp.ID);
-                folder.Files = GetAllSubFiles(tmp.ID);
-                return folder;
-            } catch (EmptyException) { }
-            return null;
-        }
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="FileID"></param>
-        /// <returns></returns>
-        public FileViewModel GetFile (int FileID)
-        {
-            File tmp = _db.Files.Where(x => x.ID == FileID).SingleOrDefault();
-            FileViewModel NewFile = new FileViewModel();
-
-            NewFile.ID = tmp.ID;
-            NewFile.name = tmp.name;
-            NewFile.HeadFolderID = tmp.HeadFolderID;
-            NewFile.ProjectID = tmp.ProjectID;
-            return NewFile;
-        }
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="FolderID"></param>
-        /// <returns></returns>
-       /* public List<FileViewModel> GetFolderFiles (int FolderID)
-        {
-            List<File> fileList = _db.Files.Where(x => x.HeadFolderID == FolderID).ToList();
-            List<FileViewModel> returnList = new List<FileViewModel>();
-
-            if (fileList != null)
-            {
-                foreach (File fileItem in fileList)
-                {
-                    returnList.Add (new FileViewModel()
-                    {
-                        ID = fileItem.ID,
-                        name = fileItem.name,
-                        HeadFolderID = fileItem.HeadFolderID,
-                        ProjectID = fileItem.ProjectID
-                    });
-                }
-                return returnList;
-            }
-            return null;
-        }*/
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="folder"></param>
-        /// <returns></returns>
-    /*    public List<FolderViewModel> GetAllSubFolders (Folder folder)
-        {
-            List<Folder> tmpFolders = _db.Folders.Where(x => x.HeadFolderID == folder.ID).ToList();
-            List<FolderViewModel> returnList = new List<FolderViewModel>();
-
-            if (tmpFolders != null)
-            {
-                foreach (Folder folderItem in tmpFolders)
-                {
-                    returnList.Add(new FolderViewModel
-                    {
-                        ID = folderItem.ID,
-                        Name = folderItem.Name,
-                        ProjectID = folderItem.ProjectID,
-                        HeadFolderID = folderItem.HeadFolderID,
-                        IsSolutionFolder = folderItem.IsSolutionFolder,
-                        Files = GetAllSubFiles(folderItem.ID),
-                        SubFolders = GetAllSubFolders(folderItem)
-                    });
-                }
-                return returnList;
-            }
-
-            return null;
-        }*/
-
-
-
-        /// <summary>
-        /// Overridded function on getting all folders within a folder specially
+        /// Gets all subFolders for RootFolder folder
+        /// Uses GetAllSubFiles() and GetAllSubFolders()
         /// for the users Root folder.
         /// </summary>
         /// <param name="folder"></param>
         /// <returns></returns>
-        public List<FolderViewModel> GetSubFoldersForRoot(RootFolder folder)
+        private List<FolderViewModel> GetSubFoldersForRoot(RootFolder rootFolder)
         {
-            List<Folder> tmpFolders = _db.Folders.Where(x => x.HeadFolderID == 0 && x.AspNetUserID == folder.UserID).ToList();
+            List<Folder> folders = _db.Folders.Where(f => f.HeadFolderID == 0 && f.AspNetUserID == rootFolder.UserID).ToList();
 
             List<FolderViewModel> returnList = new List<FolderViewModel>();
 
-            if (tmpFolders != null)
+            if (folders != null)
             {
-                foreach (Folder folderItem in tmpFolders)
+                foreach (Folder folder in folders)
                 {
                     returnList.Add(new FolderViewModel()
                     {
-                        ID = folderItem.ID,
-                        Name = folderItem.Name,
-                        ProjectID = folderItem.ProjectID,
-                        HeadFolderID = folderItem.HeadFolderID,
-                        IsSolutionFolder = folderItem.IsSolutionFolder,
-                        Files = GetAllSubFiles(folderItem.ID),
-                        SubFolders = GetAllSubFolders(folderItem.ID)
+                        ID = folder.ID,
+                        Name = folder.Name,
+                        ProjectID = folder.ProjectID,
+                        HeadFolderID = folder.HeadFolderID,
+                        IsSolutionFolder = folder.IsSolutionFolder,
+                        Files = GetAllSubFiles(folder.ID),
+                        SubFolders = GetAllSubFolders(folder.ID)
                     });
                 }
 
@@ -323,21 +196,19 @@ namespace CodeEditorApp.Repositories
         /// 
         /// </summary>
         /// <param name="project"></param>
-        public void CreateProject(Project project, Folder HeadFolder)
+        public void CreateProject(Project project, Folder headFolder)
         {
-            project.HeadFolderID = HeadFolder.ID;
+            project.HeadFolderID = headFolder.ID;
             CreateSolutionFolder(ref project);
-
             _db.Projects.Add(project);
             _db.SaveChanges();
-
             _db.Folders.Find(project.SolutionFolderID).ProjectID = project.ID;
 
-            Folder TmpFolder = _db.Folders.Where(x => x.Name == project.name + "Solutions" && x.IsSolutionFolder == true).SingleOrDefault();
-            Project TmpProject = _db.Projects.Where(x => x.name == project.name + "Solutions" && x.SolutionFolderID == 0).SingleOrDefault();
+            Folder tmpSolutionFolder = _db.Folders.Where(x => x.Name == project.name + "Solutions" && x.IsSolutionFolder == true).SingleOrDefault();
+            Project tmpProject = _db.Projects.Where(x => x.name == project.name + "Solutions" && x.SolutionFolderID == 0).SingleOrDefault();
 
-            TmpFolder.ProjectID = TmpProject.ID;
-            TmpProject.SolutionFolderID = TmpFolder.ID;
+          //  tmpSolutionFolder.ProjectID = tmpProject.ID;
+            tmpProject.SolutionFolderID = tmpSolutionFolder.ID;
         }
 
 
@@ -439,12 +310,13 @@ namespace CodeEditorApp.Repositories
         /// <returns></returns>
         public void CreateSolutionFolder(ref Project project)
         {
-            //TODO
-            Folder NewFolder = new Folder();
-            NewFolder.Name = project.name + "Solutions";
-            NewFolder.AspNetUserID = project.AspNetUserID;
-            NewFolder.ProjectID = 0;
-            NewFolder.IsSolutionFolder = true;
+            Folder NewFolder = new Folder()
+            {
+                Name = project.name + "Solutions",
+                AspNetUserID = project.AspNetUserID,
+                ProjectID = project.ID,
+                IsSolutionFolder = true
+            };
 
             _db.Folders.Add(NewFolder);
             _db.SaveChanges();
@@ -697,23 +569,6 @@ namespace CodeEditorApp.Repositories
                 ReturnList.Add(new SelectListItem() { Value = item.ID.ToString(), Text = item.name });
             }
 
-            return ReturnList;
-        }
-
-        public List<SelectListItem> GetFileTypes ()
-        {
-            List<SelectListItem> ReturnList = new List<SelectListItem>();
-
-            ReturnList.Add(new SelectListItem() { Value = "", Text = "- Select Project Type -" });
-
-            foreach(FileType item in _db.FileTypes.ToList())
-            {
-                ReturnList.Add(new SelectListItem()
-                {
-                    Value = item.ID.ToString(),
-                    Text = item.Name,
-                });
-            }
             return ReturnList;
         }
 

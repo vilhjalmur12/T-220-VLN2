@@ -41,8 +41,8 @@ namespace CodeEditorApp.Controllers
             ProjectViewModel newProject = new ProjectViewModel()
             {
                 OwnerID = User.Identity.GetUserId(),
-                AvailableProjects = GetAvailableProjectTypes()
-            };
+                AvailableProjects = UserHomeService.GetProjectTypes()
+        };
 
             return newProject;
         }
@@ -95,22 +95,7 @@ namespace CodeEditorApp.Controllers
             UserHomeService.DeleteProject(projectID);
             return null;
         }
-
-        private RootFolderViewModel GetUserFileTree (string userID)
-        {
-            return UserHomeService.GetUserRootFolder(userID);
-        }
-        
-        
-        public List<SelectListItem> GetAvailableProjectTypes()
-        {
-            return UserHomeService.GetProjectTypes();
-        }
-
-        public List<SelectListItem> GetAvailableFileTypes()
-        {
-            return UserHomeService.GetFileTypes();
-        }
+  
 
         public ActionResult ClearUserData()
         {
@@ -119,7 +104,7 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "UserHome");
         }
 
-        public UserViewModel GetUserData ()
+        private UserViewModel GetUserData()
         {
             string userID = User.Identity.GetUserId();
 
@@ -128,7 +113,7 @@ namespace CodeEditorApp.Controllers
                 ID = userID,
                 UserName = User.Identity.GetUserName(),
                 Projects = UserHomeService.GetAllProjects(userID),
-                RootFolder = GetUserFileTree(userID)
+                RootFolder = UserHomeService.GetUserRootFolder(userID)
             };
 
             return user;

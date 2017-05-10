@@ -15,7 +15,7 @@ namespace CodeEditorApp.Models.ViewModels
         public int ProjectID { get; set; }
         public int HeadFolderID { get; set; }
         public int FileTypeID { get; set; }
-        public FileType Type { get; set; }
+        public FileType FileType { get; set; }
         public List<SelectListItem> AvailableTypes { get; set; }
     }
 }
