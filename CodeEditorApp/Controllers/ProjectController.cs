@@ -287,5 +287,17 @@ namespace CodeEditorApp.Controllers
             return Json(obj);
         }
 
+        [HttpPost] // can be HttpGet
+        public ActionResult RemoveMemberIfInProject(string email, int projectID)
+        {
+            bool isValid = projectService.RemoveMemberIfInProject(email, projectID);
+            var obj = new
+            {
+                valid = isValid
+            };
+
+            return Json(obj);
+        }
+
     }
 }
