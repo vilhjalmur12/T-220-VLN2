@@ -6,6 +6,7 @@
     ViewBag.Title = "UserHomePage";
     ProjectViewModel NewProject = ViewBag.NewProject;
 }
+<script src="https://use.fontawesome.com/3e0cecfe87.js"></script>
 <body>
     <!--UserHome body starts-->
     <div class="row container padding-for-container userhome-body ">
@@ -94,11 +95,8 @@
         </div>
         <div class="col-md-1 add-project box-container">
             <!-- Hér er CreateProject aðgerð -->
-            <!-- Trigger the modal with a button -->
-            <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#myModal">
-                <i class="indicator glyphicon glyphicon-plus-sign"></i>
-            </button>
-
+            <!-- Trigger the modal with a button -->    
+                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-plus fa-3x" aria-hidden="true"></i></span>
             <!-- Modal -->
             <div id="myModal" class="modal fade" role="dialog">
                 <div class="modal-dialog">
