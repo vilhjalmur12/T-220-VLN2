@@ -362,16 +362,35 @@ namespace CodeEditorApp.Repositories
             return ReturnUser;
         }*/
 
+        // Adds user to project if user exists. Returns true if user was added to project, else returns false.
         public bool AddMemberIfExists(string email, int projectID)
         {
             List<ApplicationUser> users = _db.Users.ToList();
-            foreach (ApplicationUser user in users) {
-                if (user.Email == email) {
+            foreach (ApplicationUser user in users)
+            {
+                if (user.Email == email)
+                {
                     AddUserToProject(user.Id, projectID);
                     return true;
                 }
             }
             return false;
         }
+
+        public bool RemoveMemberIfInProject(string email, int projectID)
+        {
+            List<UserViewModel> userList = GetUsersByProject(projectID); //sæki lista af notendum sem eru í þessu projectID-i
+
+            foreach (UserViewModel user in userList)
+            {
+                if (user.UserName == email)
+                {
+                    RemoveUserFromProject(user.ID, projectID); //eyðum notanda úr verkefni - veit ekki hvort að ég megi nota þetta userid
+                }
+                return true;
+            }
+            return false;
+        }
+        
     }
 }
