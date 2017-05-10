@@ -196,7 +196,7 @@ namespace CodeEditorApp.Repositories
         /// 
         /// </summary>
         /// <param name="project"></param>
-        public void CreateProject(Project project, Folder headFolder)
+       /* public void CreateProject(Project project, Folder headFolder)
         {
             project.HeadFolderID = headFolder.ID;
             CreateSolutionFolder(ref project);
@@ -209,7 +209,7 @@ namespace CodeEditorApp.Repositories
 
           //  tmpSolutionFolder.ProjectID = tmpProject.ID;
             tmpProject.SolutionFolderID = tmpSolutionFolder.ID;
-        }
+        }*/
 
 
 
@@ -222,8 +222,6 @@ namespace CodeEditorApp.Repositories
         {
             CreateSolutionFolder(ref project);
             project.HeadFolderID = 0;
-
-          
 
             _db.Projects.Add(project);
             _db.SaveChanges();
@@ -341,25 +339,6 @@ namespace CodeEditorApp.Repositories
             _db.SaveChanges();
 
         }
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="file"></param>
-        public void CreateFile (FileViewModel file)
-        {
-            File NewFile = new Models.File();
-
-            NewFile.name = file.name;
-            NewFile.HeadFolderID = file.HeadFolderID;
-            NewFile.ProjectID = file.ProjectID;
-
-            _db.Files.Add(NewFile);
-            _db.SaveChanges();
-        }
-
 
 
         /// <summary>

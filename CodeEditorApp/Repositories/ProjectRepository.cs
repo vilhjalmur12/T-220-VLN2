@@ -144,7 +144,7 @@ namespace CodeEditorApp.Repositories
             {
                 if (membership.ProjectID == projectID)
                 {
-                    userModels.Add(GetUser(membership.AspNetUserID));
+                    userModels.Add(GetUserByID(membership.AspNetUserID));
                 }
             });
 
@@ -158,7 +158,7 @@ namespace CodeEditorApp.Repositories
         /// </summary>
         /// <param name="UserID"></param>
         /// <returns>Single ApplicationUser</returns>
-        public UserViewModel GetUser(string UserID)
+        public UserViewModel GetUserByID(string UserID)
         {
             ApplicationUser TmpUser = _db.Users.Where(x => x.Id == UserID).SingleOrDefault();
             UserViewModel ReturnUser = new UserViewModel();
