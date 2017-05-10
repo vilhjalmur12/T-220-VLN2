@@ -20,11 +20,11 @@ namespace CodeEditorApp.Controllers
     }
     public class UserHomeController : Controller
     {
-        private UserHomeRepository UserHome;
+        private UserHomeRepository UserHomeService;
 
-        public UserHomeController ()
+        public UserHomeController()
         {
-            UserHome = new UserHomeRepository();
+            UserHomeService = new UserHomeRepository();
         }
 
         // GET: UserHome
@@ -33,56 +33,48 @@ namespace CodeEditorApp.Controllers
 
             ViewBag.NewProject = NewProject();
 
-            return View(GetUserData());
+            return View (GetUserData());
         }
 
         public ProjectViewModel NewProject()
         {
-            ProjectViewModel NewModel = new ProjectViewModel();
+            ProjectViewModel newProject = new ProjectViewModel()
+            {
+                OwnerID = User.Identity.GetUserId(),
+                AvailableProjects = GetAvailableProjectTypes()
+            };
 
-            NewModel.OwnerID = User.Identity.GetUserId();
-            NewModel.AvailableProjects = GetAvailableProjectTypes();
-            return NewModel;
+            return newProject;
         }
-
-
 
        [HttpGet]
         public ActionResult CreateProject()
         {
-            ProjectViewModel NewModel = new ProjectViewModel();
-
-            NewModel.OwnerID = User.Identity.GetUserId();
-            NewModel.AvailableProjects = GetAvailableProjectTypes();
-
-            return View(NewModel);
+            ProjectViewModel newProject = NewProject();
+            return View(newProject);
         }
 
         [HttpPost]
-        public ActionResult CreateProject(ProjectViewModel model)
+        public ActionResult CreateProject(ProjectViewModel projectModel)
         {
-            Project NewProject = new Project();
-  
-            NewProject.name = model.name;
-            NewProject.AspNetUserID = User.Identity.GetUserId();
-            NewProject.ProjectTypeID = model.TypeID;
-            
-            UserHome.CreateProject(ref NewProject);
+            Project newProject = new Project()
+            {
+                name = projectModel.name,
+                AspNetUserID = User.Identity.GetUserId(),
+                ProjectTypeID = projectModel.TypeID
+            };
 
-            model.ID = NewProject.ID;
+            UserHomeService.CreateProject(ref newProject);
+            projectModel.ID = newProject.ID;
 
-            return OpenProject(NewProject.ID);
+            return OpenProject(newProject.ID);
         }
 
         public ActionResult OpenProject(int? projectID)
         {
             if (projectID.HasValue)
             {
-                Debug.WriteLine("Projecid");
-                Debug.WriteLine(projectID.Value);
-                TempData["projectModel"] = UserHome.GetProjectByID(projectID.Value);
-                Debug.WriteLine("FJÖLDI SKR'AA");
-                Debug.WriteLine(UserHome.GetProjectByID(projectID.Value).SolutionFolder.Files.Count());
+                TempData["projectModel"] = UserHomeService.GetProjectByID(projectID.Value);
                 return RedirectToAction("Index", "Project");
             }
 
@@ -91,7 +83,7 @@ namespace CodeEditorApp.Controllers
 
         public ActionResult OpenProjectByFile(int fileID)
         {
-            FileViewModel file = UserHome.GetFile(fileID);
+            FileViewModel file = UserHomeService.GetFile(fileID);
             //TOD GetProject
             return null;
         }
@@ -141,42 +133,45 @@ namespace CodeEditorApp.Controllers
         /// <returns>A single ApplicationUser</returns>
         public UserViewModel GetUserInfo ()
         {
-            string UserID = User.Identity.GetUserId();
-            UserViewModel ReturnUser = UserHome.GetUser(UserID);
-            return ReturnUser;
+            string userID = User.Identity.GetUserId();
+            UserViewModel returnUser = UserHomeService.GetUser(userID);
+            return returnUser;
         }
 
-        public RootFolderViewModel GetFileTree (string UserID)
+        public RootFolderViewModel GetFileTree (string userID)
         {
-            return UserHome.GetUserRootFolder(UserID);
+            return UserHomeService.GetUserRootFolder(userID);
         }
         
         
         public List<SelectListItem> GetAvailableProjectTypes()
         {
-            return UserHome.GetProjectTypes();
+            return UserHomeService.GetProjectTypes();
         }
 
         public List<SelectListItem> GetAvailableFileTypes()
         {
-            return UserHome.GetFileTypes();
+            return UserHomeService.GetFileTypes();
         }
 
         public ActionResult ClearUserData()
         {
-            UserHome.ClearUserData(User.Identity.GetUserId());
+            UserHomeService.ClearUserData(User.Identity.GetUserId());
 
             return RedirectToAction("Index", "UserHome");
         }
 
         public UserViewModel GetUserData ()
         {
-            UserViewModel user = new UserViewModel();
             string userID = User.Identity.GetUserId();
-            user.ID = userID;
-            user.UserName = User.Identity.GetUserName();
-            user.Projects = UserHome.GetAllProjects(userID);
-            user.RootFolder = GetFileTree(userID);
+
+            UserViewModel user = new UserViewModel()
+            {
+                ID = userID,
+                UserName = User.Identity.GetUserName(),
+                Projects = UserHomeService.GetAllProjects(userID),
+                RootFolder = GetFileTree(userID)
+            };
 
             return user;
         }
