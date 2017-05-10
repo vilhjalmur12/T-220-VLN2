@@ -273,6 +273,11 @@ namespace CodeEditorApp.Controllers
             //TODO
             return null;
         }
-        
+        private bool AddMemberIfExists(string email, int projectID)
+        {
+            //returnar true ef hann fann user í gagnagrunni sem hefur þetta email
+            return projectService.AddMemberIfExists(email, projectID);
+        }
+
     }
 }

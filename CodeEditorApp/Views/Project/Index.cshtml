@@ -277,11 +277,16 @@
             </div>
             <div id="project-members" class="sidenav padding-for-container">
                 <script>
-                    var addmemb = '<li><input type="text" id="myinputmember" name="myinputmember" /></li>';
-                    addmemb += '<button type="submit">Invite</button>';
+                    var addmemb = '<li><input type="text" id="myinputmember" name="myinputmember" placeholder="Member email"/></li>';
+                    addmemb += '<button type="submit" id="search-member">Invite</button>';
                     $(document).ready(function(){
                         $("#add-member").click(function(){
                             $("#member-list").append(addmemb);
+                        });
+                    });
+                    $(document).ready(function(){
+                        $("#search-member").click(function(){
+                            
                         });
                     });
                 </script>
