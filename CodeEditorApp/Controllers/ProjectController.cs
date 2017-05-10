@@ -24,8 +24,6 @@ namespace CodeEditorApp.Controllers
         [HttpGet]
         public ActionResult Index(int? projectID)
         {
-            //projectModel = (ProjectViewModel)TempData["projectModel"];
-            // projectModel = projectService.GetOpenProjectViewModel(projectID.Value);
             OpenProjectModel = projectService.GetOpenProjectViewModel(projectID.Value);
             ViewBag.newFile = NewFile();
             //For the Editor
@@ -45,7 +43,7 @@ namespace CodeEditorApp.Controllers
             {
                 ProjectID = OpenProjectModel.ID,
                 AvailableTypes = userHomeService.GetFileTypes(),
-                HeadFolderID = OpenProjectModel.SolutionFolderID
+                HeadFolderID = OpenProjectModel.SolutionFolder.ID
             };
 
             Debug.WriteLine(newFile.ProjectID);

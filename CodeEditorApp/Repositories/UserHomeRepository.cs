@@ -17,7 +17,7 @@ namespace CodeEditorApp.Repositories
 
 
     
-    public class UserHomeRepository
+    public class UserHomeRepository: TreeRepository
     {
         private ApplicationDbContext _db;
 
@@ -42,19 +42,19 @@ namespace CodeEditorApp.Repositories
         public List<ProjectViewModel> GetAllProjects(string UserID)
         { 
             
-            List<ProjectViewModel> newModel = new List<ProjectViewModel>();
-            _db.Projects.ToList().ForEach((x) =>
+            List<ProjectViewModel> projectModelList = new List<ProjectViewModel>();
+            _db.Memberships.ToList().ForEach(membership =>
             {
-                if (x.AspNetUserID == UserID)
+                if (membership.AspNetUserID == UserID)
                 {
-                    newModel.Add(GetProjectByID(x.ID));
+                    projectModelList.Add(GetProjectByID(membership.ProjectID));
                 }
             });
 
-            return newModel;
+            return projectModelList;
         }
 
-        public List<ProjectViewModel> GetAllSubProjects(RootFolder folder)
+      /*  public List<ProjectViewModel> GetAllSubProjects(RootFolder folder)
         {
 
             List<ProjectViewModel> NewModel = new List<ProjectViewModel>();
@@ -67,7 +67,7 @@ namespace CodeEditorApp.Repositories
             });
 
             return NewModel;
-        }
+        }*/
 
 
 
@@ -105,17 +105,12 @@ namespace CodeEditorApp.Repositories
                 ProjectID = solutionFolder.ProjectID,
                 HeadFolderID = solutionFolder.HeadFolderID,
                 IsSolutionFolder = solutionFolder.IsSolutionFolder,
-                SubFolders = GetAllSubFolders(solutionFolder),
-                Files = GetFolderFiles(solutionFolder.ID)
+                SubFolders = GetAllSubFolders(solutionFolder.ID),
+                Files = GetAllSubFiles(solutionFolder.ID)
             };
-            Debug.WriteLine(solutionFolder.Name);
-            Debug.WriteLine("Fjöldi subfolders");
-            Debug.WriteLine(returnFolder.SubFolders.Count());
 
             return returnFolder;
         }
-
-
 
 
         /// <summary>
@@ -126,77 +121,6 @@ namespace CodeEditorApp.Repositories
         {
             return _db.ProjectTypes.ToList();
         }
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ProjectID"></param>
-        /// <returns></returns>
-        public List<UserViewModel> GetProjectMembers (int ProjectID)
-        {
-            List<UserViewModel> ReturnList = new List<UserViewModel>();
-            UserViewModel TmpUser = new UserViewModel();
-
-            foreach (Membership tableitem in _db.Memberships.Where(x => x.ProjectID == ProjectID))
-            {
-                TmpUser = GetUser(tableitem.AspNetUserID);
-                ReturnList.Add(TmpUser);
-            }
-
-            return ReturnList;
-        }
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ProjectID"></param>
-        /// <returns></returns>
-        public List<GoalViewModel> GetProjectGoals (int ProjectID)
-        {
-            List<GoalViewModel> ReturnList = new List<GoalViewModel>();
-            GoalViewModel TmpGoal = new GoalViewModel();
-
-            foreach(Goal goalItem in _db.Goals.Where(x => x.ProjectID == ProjectID))
-            {
-                TmpGoal.ID = goalItem.ID;
-                TmpGoal.name = goalItem.name;
-                TmpGoal.description = goalItem.description;
-                TmpGoal.ProjectID = goalItem.ProjectID;
-                TmpGoal.AspNetUserID = goalItem.AspNetUserID;
-                TmpGoal.finished = goalItem.finished;
-                ReturnList.Add(TmpGoal);
-            }
-
-            return ReturnList;
-        }
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="ProjectID"></param>
-        /// <returns></returns>
-        public List<CommentViewModel> GetProjectComments (int ProjectID)
-        {
-            List<CommentViewModel> NewList = new List<CommentViewModel>();
-
-            foreach (Comment comment in _db.Comments.Where(x => x.ProjectID == ProjectID))
-            {
-                NewList.Add(new CommentViewModel()
-                {
-                    Content = comment.content,
-                    AspNetUserID = comment.AspNetUserID
-                });
-            }
-            return NewList;
-        }
-        
-
 
         /// <summary>
         /// 
@@ -212,8 +136,8 @@ namespace CodeEditorApp.Repositories
             folder.Name = tmp.Name;
             folder.ProjectID = tmp.ProjectID;
             folder.HeadFolderID = tmp.HeadFolderID;
-            folder.SubFolders =  GetAllSubFolders(tmp);
-            folder.Files = GetFolderFiles(tmp.ID);
+            folder.SubFolders =  GetAllSubFolders(tmp.ID);
+            folder.Files = GetAllSubFiles(tmp.ID);
 
             return null;
         }
@@ -233,10 +157,7 @@ namespace CodeEditorApp.Repositories
 
             RootFolder.ID = RootTmp.ID;
             RootFolder.UserID = RootTmp.UserID;
-
-            RootFolder.Projects = GetAllProjects(UserID);
-           // RootFolder.Projects = GetAllSubProjects(RootTmp);
-            RootFolder.Folders = GetAllSubFolders(RootTmp);
+            RootFolder.Folders = GetSubFoldersForRoot(RootTmp);
 
             return RootFolder;
         }
@@ -259,8 +180,8 @@ namespace CodeEditorApp.Repositories
                 folder.Name = tmp.Name;
                 folder.ProjectID = tmp.ProjectID;
                 folder.HeadFolderID = tmp.HeadFolderID;
-                folder.SubFolders = GetAllSubFolders(tmp);
-                folder.Files = GetFolderFiles(tmp.ID);
+                folder.SubFolders = GetAllSubFolders(tmp.ID);
+                folder.Files = GetAllSubFiles(tmp.ID);
                 return folder;
             } catch (EmptyException) { }
             return null;
@@ -292,7 +213,7 @@ namespace CodeEditorApp.Repositories
         /// </summary>
         /// <param name="FolderID"></param>
         /// <returns></returns>
-        public List<FileViewModel> GetFolderFiles (int FolderID)
+       /* public List<FileViewModel> GetFolderFiles (int FolderID)
         {
             List<File> fileList = _db.Files.Where(x => x.HeadFolderID == FolderID).ToList();
             List<FileViewModel> returnList = new List<FileViewModel>();
@@ -312,7 +233,7 @@ namespace CodeEditorApp.Repositories
                 return returnList;
             }
             return null;
-        }
+        }*/
 
 
 
@@ -321,7 +242,7 @@ namespace CodeEditorApp.Repositories
         /// </summary>
         /// <param name="folder"></param>
         /// <returns></returns>
-        public List<FolderViewModel> GetAllSubFolders (Folder folder)
+    /*    public List<FolderViewModel> GetAllSubFolders (Folder folder)
         {
             List<Folder> tmpFolders = _db.Folders.Where(x => x.HeadFolderID == folder.ID).ToList();
             List<FolderViewModel> returnList = new List<FolderViewModel>();
@@ -337,7 +258,7 @@ namespace CodeEditorApp.Repositories
                         ProjectID = folderItem.ProjectID,
                         HeadFolderID = folderItem.HeadFolderID,
                         IsSolutionFolder = folderItem.IsSolutionFolder,
-                        Files = GetFolderFiles(folderItem.ID),
+                        Files = GetAllSubFiles(folderItem.ID),
                         SubFolders = GetAllSubFolders(folderItem)
                     });
                 }
@@ -345,7 +266,7 @@ namespace CodeEditorApp.Repositories
             }
 
             return null;
-        }
+        }*/
 
 
 
@@ -355,7 +276,7 @@ namespace CodeEditorApp.Repositories
         /// </summary>
         /// <param name="folder"></param>
         /// <returns></returns>
-        public List<FolderViewModel> GetAllSubFolders(RootFolder folder)
+        public List<FolderViewModel> GetSubFoldersForRoot(RootFolder folder)
         {
             List<Folder> tmpFolders = _db.Folders.Where(x => x.HeadFolderID == 0 && x.AspNetUserID == folder.UserID).ToList();
 
@@ -372,8 +293,8 @@ namespace CodeEditorApp.Repositories
                         ProjectID = folderItem.ProjectID,
                         HeadFolderID = folderItem.HeadFolderID,
                         IsSolutionFolder = folderItem.IsSolutionFolder,
-                        Files = GetFolderFiles(folderItem.ID),
-                        SubFolders = GetAllSubFolders(folderItem)
+                        Files = GetAllSubFiles(folderItem.ID),
+                        SubFolders = GetAllSubFolders(folderItem.ID)
                     });
                 }
 
