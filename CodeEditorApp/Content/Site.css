@@ -238,20 +238,35 @@ footer{
 }
 
 .document-list{ /*also used in project*/
-    width:15%;
+    width:20%;
     height:100%;
     border: 1px solid red;
 }
 
 .project-table{
     background-color:white;
-    width:80%;
+    width:75%;
     height:100%;
 }
 
 .add-project{
     border: 1px solid green;
     width:5%;
+}
+
+#document-list-tab {
+    border: 0.5px solid black;
+    width: 100%;
+    height: 20px;
+}
+
+.document-tab-button {
+    width: 25%;
+    height: 100%;
+}
+
+.selectedItem {
+    font-weight: bold;
 }
 
 

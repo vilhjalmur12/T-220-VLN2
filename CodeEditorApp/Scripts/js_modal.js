@@ -29,16 +29,81 @@
             })
             branch.children().children().toggle();
         });
+
+        tree.find('#file-item').each(function () {
+            $(this).prepend("<i class='indicator glyphicon glyphicon-file'></i>");
+        });
+
+        tree.find('#file-item>a').each(function () {
+            $(this).on('click', function () {
+                $(this).css('color', 'white');
+            });
+        });
         //fire event from the dynamically added icon
         tree.find('.branch .indicator').each(function () {
             $(this).on('click', function () {
                 $(this).closest('li').click();
             });
         });
+
+        tree.find('.branch>a').each(function () {
+            $(this).on('click', function (e) {
+                $(this).toggleClass(selected - item);
+                var url = $(this).attr("href");
+
+                
+                    var vars = {};
+                    var hashes = url.split("?")[1];
+                    var hash = hashes.split("=");
+
+                    for (var i = 0; i < hash.length; i++) {
+                        params = hash[i].split("=");
+                        vars[params[0]] = params[1];
+                    }
+                    return vars;
+                
+                
+            });
+        });
     }
 });
+
+
 
 //Initialization of treeviews
 $('#tree1').treed();
 $('#tree2').treed({ openedClass: 'glyphicon-folder-open', closedClass: 'glyphicon-folder-close' });
 $('#tree3').treed({ openedClass: 'glyphicon-chevron-right', closedClass: 'glyphicon-chevron-down' });
+
+
+$(document).ready(function () {
+
+    $("#btn1").click(function () {
+        $("#test1").text("Hello world!");
+    });
+
+
+    $(function () {
+        $('form').on('submit', function () {        // form er class yfir formið "on submit"
+            var form = $(this);                     // búa til variable form undir "þessarri" fyrirspurn
+            $.ajax({
+                url: form.attr('action'),           // attr er í raun að draga gildi einhvers ákveðinns t.d. action í form
+                data: form.serialize(),             // serialize tekur öll gildi og nöfn innsláttar í formi í stað þess að harðkóða einhver gildi
+                method: 'POST',
+                success: function (returnData) {    // Þegar Protocol fær success indicator hendir hann út nýju falli með inntöku
+                    console.log(returnData);
+                }
+            });
+        });
+    });
+});
+
+$(document).ready(function () {
+    $("#AddFile").click(function () {
+        $("#AddedFiles").prepend(
+            "<p>New File Here!</p> ");
+    });
+    $("#AddFolder").click(function () {
+        $("AddedFolders").prepend("<p>Folder Added!  </p>");
+    });
+});

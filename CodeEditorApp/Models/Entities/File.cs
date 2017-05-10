@@ -32,7 +32,6 @@ namespace CodeEditorApp.Models
         public int ProjectID { get; set; }
 
         [StringLength(100)]
-
         public string ContentType { get; set; }
 
         public byte[] Content { get; set; }

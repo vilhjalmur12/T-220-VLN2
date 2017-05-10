@@ -10,6 +10,20 @@
     <!--UserHome body starts-->
     <div class="row container padding-for-container userhome-body">
         <div class="col-md-2 document-list">
+            <div id="document-list-tab">
+                <div class="document-tab-button">
+                    <i class="indicator glyphicon glyphicon-plus-sign"></i>
+                </div>
+                <div class="document-tab-button">
+                    <i class="indicator glyphicon glyphicon-plus-sign"></i>
+                </div>
+                <div class="document-tab-button">
+                    <i class="indicator glyphicon glyphicon-plus-sign"></i>
+                </div>
+                <div class="document-tab-button">
+                    <i class="indicator glyphicon glyphicon-plus-sign"></i>
+                </div>
+            </div>
             @if (Model.RootFolder.Folders == null)
             {
                 <p>Database is empty</p>
@@ -29,7 +43,7 @@
                                 <a href="#">@item.Name</a>
                             }
 
-                            @ShowSubItems(item.SubFolders);
+                            @ShowSubItems(item.SubFolders)
 
                         </li>
                     }
@@ -48,7 +62,7 @@
                             }
                             else
                             {
-                                @item.Name
+                                <a href="#">@item.Name</a>
                             }
 
                             @ShowSubItems(item.SubFolders)
@@ -58,7 +72,10 @@
                                 <ul>
                                     @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
                                     {
-                                        <li>@file.name</li>
+                                        
+                                        <li id="file-item" alt="@file.ID">
+                                            <a>@file.name</a>
+                                        </li>
                                     }
                                 </ul>
                             }
@@ -122,8 +139,9 @@
     </div>
     
     <!--UserHome body ends-->
+    @section Scripts {
+    @Scripts.Render("~/Scripts/js_modal.js")
+    }
 </body>
 
-@section Scripts {
-    @Scripts.Render("~/Scripts/js_modal.js")
-}
+
