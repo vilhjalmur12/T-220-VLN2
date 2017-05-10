@@ -207,25 +207,56 @@ namespace CodeEditorApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateFile(FileViewModel fileModel)
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateFile(FileViewModel fileModel, HttpPostedFileBase upload)
         {
-            Debug.WriteLine(fileModel.ProjectID);
-            File newFile = new File()
+            if (ModelState.IsValid)
             {
-                name = fileModel.name,
-                FileType = projectService.GetFileTypeByID(fileModel.FileTypeID),
-                ProjectID = fileModel.ProjectID,
-                HeadFolderID = fileModel.HeadFolderID
-            };
+                if (upload != null)
+                {
+                    var FileUpload = new File
+                    {
+                        name = System.IO.Path.GetFileName(upload.FileName),
+                        FileType = projectService.GetFileTypeByExtension(System.IO.Path.GetExtension(upload.FileName)),
+                        ProjectID = fileModel.ProjectID,
+                        HeadFolderID = fileModel.HeadFolderID
+                    };
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        FileUpload.Content = reader.ReadBytes(upload.ContentLength);
+                    }
+                    projectService.CreateFile(ref FileUpload);
 
-            projectService.CreateFile(ref newFile);
+                    fileModel.ID = FileUpload.ID;
 
-            fileModel.ID = newFile.ID;
+                    TempData["projectModel"] = userHomeService.GetProjectByID(fileModel.ProjectID);
+                    return RedirectToAction("Index", "Project");
+                } else
+                {
+                    File newFile = new File()
+                    {
+                        name = fileModel.name,
+                        FileType = projectService.GetFileTypeByID(fileModel.FileTypeID),
+                        ProjectID = fileModel.ProjectID,
+                        HeadFolderID = fileModel.HeadFolderID
+                    };
 
-            //   return OpenFile(newFile.ID); eftir að útfæra
+                    projectService.CreateFile(ref newFile);
 
-            TempData["projectModel"] = userHomeService.GetProjectByID(fileModel.ProjectID);
-            return RedirectToAction("Index", "Project");
+                    fileModel.ID = newFile.ID;
+
+                    //   return OpenFile(newFile.ID); eftir að útfæra
+
+                    TempData["projectModel"] = userHomeService.GetProjectByID(fileModel.ProjectID);
+                    return RedirectToAction("Index", "Project");
+                }
+                
+            } else
+            {
+                fileModel = NewFile();
+                return View(fileModel);
+            }
+            
         }
 
         public ActionResult OpenFile(int? fileID)
