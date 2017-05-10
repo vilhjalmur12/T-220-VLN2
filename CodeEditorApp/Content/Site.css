@@ -372,7 +372,7 @@ a{
 /*----- $CHAT -----*/
 #message-box{
     height: 95%;
-    width: 98%;
+    width: 96%;
 }
 
 #message-box .row{
@@ -423,14 +423,14 @@ a{
 
 #members{
     height:95%;
-    width:98%;
+    width:96%;
 }
 
 /*----- $GOALS -----*/
 
 #goals{
     height:95%;
-    width:98%;
+    width:96%;
 }
 
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
