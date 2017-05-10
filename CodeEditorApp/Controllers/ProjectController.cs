@@ -37,6 +37,11 @@ namespace CodeEditorApp.Controllers
             return View(projectModel);
         }
 
+        private bool AddMemberIfExists(string email) {
+            //returnar true ef hann fann user í gagnagrunni sem hefur þetta email
+            return projectService.AddMemberIfExists(email);
+        }
+
         private void updateGoals()
         {
             projectModel.Goals = projectService.GetGoalsByProject(projectModel.ID);
