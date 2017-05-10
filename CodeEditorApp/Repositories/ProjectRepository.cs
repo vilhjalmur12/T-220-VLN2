@@ -7,10 +7,11 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using CodeEditorApp.Models.Entities;
+using System.Diagnostics;
 
 namespace CodeEditorApp.Repositories
 {
-    public class ProjectRepository
+    public class ProjectRepository: TreeRepository
     {
         private ApplicationDbContext _db;
         public ProjectRepository()
@@ -72,54 +73,6 @@ namespace CodeEditorApp.Repositories
             };
 
             return newSolutionFolderViewModel;
-        }
-
-        public List<FolderViewModel> GetAllSubFolders(int folderID)
-        {
-            List<Folder> tmpFolders = _db.Folders.Where(x => x.HeadFolderID == folderID).ToList();
-            List<FolderViewModel> returnList = new List<FolderViewModel>();
-
-            if (tmpFolders != null)
-            {
-                foreach (Folder folderItem in tmpFolders)
-                {
-                    returnList.Add(new FolderViewModel
-                    {
-                        ID = folderItem.ID,
-                        Name = folderItem.Name,
-                        ProjectID = folderItem.ProjectID,
-                        HeadFolderID = folderItem.HeadFolderID,
-                        IsSolutionFolder = folderItem.IsSolutionFolder,
-                        Files = GetAllSubFiles(folderItem.ID),
-                        SubFolders = GetAllSubFolders(folderItem.ID)
-                    });
-                }
-                return returnList;
-            }
-
-            return null;
-        }
-
-        public List<FileViewModel> GetAllSubFiles(int FolderID)
-        {
-            List<File> fileList = _db.Files.Where(x => x.HeadFolderID == FolderID).ToList();
-            List<FileViewModel> returnList = new List<FileViewModel>();
-
-            if (fileList != null)
-            {
-                foreach (File fileItem in fileList)
-                {
-                    returnList.Add(new FileViewModel()
-                    {
-                        ID = fileItem.ID,
-                        name = fileItem.name,
-                        HeadFolderID = fileItem.HeadFolderID,
-                        ProjectID = fileItem.ProjectID
-                    });
-                }
-                return returnList;
-            }
-            return null;
         }
 
         public List<GoalViewModel> GetGoalsByProject(int projectID)
@@ -333,19 +286,6 @@ namespace CodeEditorApp.Repositories
             _db.Memberships.Add(newMembership);
             _db.SaveChanges();
         }
-
-       /* public void RemoveUserFromProject(ref ProjectViewModel project, string AspNetUserID) //Project View Model, þar er ég með projID og lista af öllum memberum
-        {
-            //TODO
-            //UserViewModel theUser = project.Members.Find(AspNetUserID);
-
-            List<UserViewModel> theUsers = GetUsersByProject(project.ID); //GetUsersByProject skilar lista af user-um sem eru í þessu projectID.
-            //ÓKLÁRAÐ
-            Membership theMembership = _db.Memberships.Find(AspNetUserID);
-            _db.Memberships.Remove(theMembership);
-            _db.SaveChanges();
-
-        }*/
 
         public void RemoveUserFromProject (string AspNetUserID, int projectID)
         {

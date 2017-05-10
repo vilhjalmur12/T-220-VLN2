@@ -71,16 +71,6 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "Project", new { projectID = projectModel.ID });
         }
 
-        public ActionResult OpenProject(int? projectID)
-        {
-            if (projectID.HasValue)
-            {
-                TempData["projectModel"] = UserHomeService.GetProjectByID(projectID.Value);
-                return RedirectToAction("Index", "Project");
-            }
-
-            return RedirectToAction("Index", "UserHome");
-        }
 
         public ActionResult CreateFolder()
         {

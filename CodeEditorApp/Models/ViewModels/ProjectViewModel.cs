@@ -17,6 +17,7 @@ namespace CodeEditorApp.Models.ViewModels
         public string name { get; set; }
 
         public string OwnerID { get; set; }
+        public string Owner { get; set; }
 
         [Required(ErrorMessage = "A type of project is required")]
         public int TypeID { get; set; }
@@ -24,9 +25,6 @@ namespace CodeEditorApp.Models.ViewModels
         public int HeadFolderID { get; set; }
         public int SolutionFolderID { get; set; }
         public FolderViewModel SolutionFolder { get; set; }
-        public List<CommentViewModel> Comments { get; set; }
-        public List<UserViewModel> Members { get; set; }
-        public List<GoalViewModel> Goals { get; set; }
         public List<SelectListItem> AvailableProjects { get; set; }
     }
 }

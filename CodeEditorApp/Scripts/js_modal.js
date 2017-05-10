@@ -1,4 +1,11 @@
-﻿$.fn.extend({
+﻿
+
+/* ========================================================================== *
+*                                                                             *
+*                   File and Folder Tree                                      *
+*                                                                             *
+*  ========================================================================== */
+$.fn.extend({
     treed: function (o) {
 
         var openedClass = 'glyphicon-minus-sign';
@@ -36,7 +43,10 @@
 
         tree.find('#file-item>a').each(function () {
             $(this).on('click', function () {
-                $(this).css('color', 'white');
+                tree.find('#file-item>a').each(function () {
+                    $(this).css("color", "#369");
+                });
+                $(this).css('color', 'black');
             });
         });
         //fire event from the dynamically added icon
@@ -47,8 +57,11 @@
         });
 
         tree.find('.branch>a').each(function () {
-            $(this).on('click', function (e) {
-                $(this).toggleClass(selected - item);
+            $(this).click(function (e) {
+                e.preventDefault();
+            });
+
+            /*
                 var url = $(this).attr("href");
 
                 
@@ -61,8 +74,10 @@
                         vars[params[0]] = params[1];
                     }
                     return vars;
-                
-                
+            */
+
+            $(this).dblclick(function (e) {
+                window.location.replace($(this).attr("href"));
             });
         });
     }
@@ -75,7 +90,17 @@ $('#tree1').treed();
 $('#tree2').treed({ openedClass: 'glyphicon-folder-open', closedClass: 'glyphicon-folder-close' });
 $('#tree3').treed({ openedClass: 'glyphicon-chevron-right', closedClass: 'glyphicon-chevron-down' });
 
+/***************************       File Tree END         ***************************/
 
+
+
+/* ========================================================================== *
+*                                                                             *
+*                   Document ON ready                                         *
+*                                                                             *
+*  ========================================================================== */
+
+// On document Ready commands
 $(document).ready(function () {
 
     $("#btn1").click(function () {
@@ -96,14 +121,17 @@ $(document).ready(function () {
             });
         });
     });
-});
 
-$(document).ready(function () {
+    // CreateProject-Form
     $("#AddFile").click(function () {
         $("#AddedFiles").prepend(
             "<p>New File Here!</p> ");
     });
+
+    // CreateProject-Form
     $("#AddFolder").click(function () {
         $("AddedFolders").prepend("<p>Folder Added!  </p>");
     });
 });
+
+/***************************       Document ON ready END         ***************************/
