@@ -39,19 +39,44 @@ namespace CodeEditorApp.Repositories
         /// </summary>
         /// <param name="UserID"></param>
         /// <returns>A list of ProjectViewModels owned or linked with user</returns>
-        public List<ProjectViewModel> GetAllProjects(string UserID)
+        public List<ProjectViewModel> GetAllProjects(string userID)
         { 
-            
             List<ProjectViewModel> projectModelList = new List<ProjectViewModel>();
+
+            _db.Projects.ToList().ForEach(project =>
+            {
+                if (project.AspNetUserID == userID)
+                {
+                    projectModelList.Add(GetProjectModelByProject(project));
+                }
+            });
+
             _db.Memberships.ToList().ForEach(membership =>
             {
-                if (membership.AspNetUserID == UserID)
+                if (membership.AspNetUserID == userID)
                 {
                     projectModelList.Add(GetProjectByID(membership.ProjectID));
                 }
             });
 
             return projectModelList;
+        }
+
+        private ProjectViewModel GetProjectModelByProject(Project project)
+        {
+            ProjectViewModel returnProjectModel = new ProjectViewModel()
+            {
+                ID = project.ID,
+                name = project.name,
+              //  OwnerID = project.AspNetUserID,
+                Owner = _db.Users.Find(project.AspNetUserID).UserName,
+                TypeID = project.ProjectTypeID,
+                HeadFolderID = project.HeadFolderID,
+                SolutionFolderID = project.SolutionFolderID,
+                SolutionFolder = GetProjectSolutionFolder(project.SolutionFolderID)
+            };
+
+            return returnProjectModel;
         }
 
       /*  public List<ProjectViewModel> GetAllSubProjects(RootFolder folder)
@@ -79,19 +104,7 @@ namespace CodeEditorApp.Repositories
         public ProjectViewModel GetProjectByID(int ProjectID)
         {
             Project project = _db.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
-
-            ProjectViewModel returnProject = new ProjectViewModel()
-            {
-                ID = project.ID,
-                name = project.name,
-                OwnerID = project.AspNetUserID,
-                TypeID = project.ProjectTypeID,
-                HeadFolderID = project.HeadFolderID,
-                SolutionFolderID = project.SolutionFolderID,
-                SolutionFolder = GetProjectSolutionFolder(project.SolutionFolderID),
-            };
-
-            return returnProject;
+            return GetProjectModelByProject(project);
         }
 
         public FolderViewModel GetProjectSolutionFolder(int solutionFolderID)
