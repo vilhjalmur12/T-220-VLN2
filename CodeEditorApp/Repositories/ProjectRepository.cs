@@ -342,8 +342,10 @@ namespace CodeEditorApp.Repositories
             return ReturnUser;
         }*/
 
-        public bool AddMemberIfExists(string email, int projectID) {
-            foreach (ApplicationUser user in _db.Users) {
+        public bool AddMemberIfExists(string email, int projectID)
+        {
+            List<ApplicationUser> users = _db.Users.ToList();
+            foreach (ApplicationUser user in users) {
                 if (user.Email == email) {
                     AddUserToProject(user.Id, projectID);
                     return true;
