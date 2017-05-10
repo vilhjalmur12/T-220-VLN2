@@ -18,7 +18,7 @@ namespace CodeEditorApp.Controllers
 
         private ProjectRepository projectService = new ProjectRepository();
 
-        private ProjectViewModel projectModel = new ProjectViewModel();
+        private ProjectViewModel projectModel;
 
         [HttpGet]
         public ActionResult Index()
@@ -37,9 +37,12 @@ namespace CodeEditorApp.Controllers
             return View(projectModel);
         }
 
-        private bool AddMemberIfExists(string email) {
-            //returnar true ef hann fann user í gagnagrunni sem hefur þetta email
-            return projectService.AddMemberIfExists(email);
+        [HttpPost]
+        public ActionResult ChangeGoal (int? goalID)
+        {
+            projectService.ChangeGoal(goalID.Value);
+            updateGoals();
+            return RedirectToAction("Index", "Project", projectModel);
         }
 
         private void updateGoals()

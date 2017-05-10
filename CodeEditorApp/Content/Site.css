@@ -27,7 +27,8 @@ PROJECT-ACTIONS
 \*----------------------------------------------------------*/
 /*for the header*/
 .navbar {
-    background: #006072; 
+    //background: #007755; /*green*/
+    background: #ffffff;
     width:inherit;
     max-width:none;
     height:10%;
@@ -66,9 +67,12 @@ h2, h3, h4,
 .l-heading-home,
 .navbar ul li>*,
 .text-user a,
-.text-home a
+.text-home a,
+h2,h3,
+.info a
 {
-    color:#FF5C00; /*orange*/
+    color: #FF5C00; /*orange*/
+    //color: #884444; /*pink*/
 }
 
 .name {
@@ -83,7 +87,8 @@ heading-home,
 
 h3,
 .l-heading-home, 
-.l-text-user{
+.l-text-user,
+.info a{
 
     font-size: large;
 }
@@ -113,7 +118,11 @@ body {
     margin:0;
     font-family: 'Raleway', sans-serif;
     font-size:12px;
-    background-color: #006072;
+    //color: white;
+    color: #006072; /*blue*/
+    background-color: white;
+   // background-color: #006072; /*blue*/
+    //background-color: #DBDBDB /*Light grey*/
 }
 
 body, html {
@@ -139,6 +148,7 @@ body, html {
 
 /*----- HEADER-FOOTER -----*/
 /*for logo and name*/
+
 .header-flex-container{
     display:flex;
     flex-direction:row;
@@ -172,14 +182,15 @@ footer{
 
 .home-body-content 
 {
+    //background-color: #006072;
     background-position: center;
     background-repeat: no-repeat;
     background-size: cover;
-    background-image: url("../images/bakgrunnurtre.jpg");
+    background-image: url("../images/blar.PNG");
 }
 
 .user-body-content {
-    background-color: #E0E0E0;
+        background-color:#006072; /*blue*/
 }
 
 
@@ -201,13 +212,16 @@ footer{
 }
 
 .info a{
-    border:1px groove #006072;
+    border:1px solid #FF5C00;
+    
 }
 
 
+/*----- LOGIN ----*/
 
-
-
+.tab{
+    background:#006072;
+}
 
 /*----------------------------------------------------------*\
     $USERHOME
@@ -216,23 +230,28 @@ footer{
     margin-top:55px;
 }
 
-.document-list,
+.userhome-body .document-list,
 .project-table,
 .add-project{
-    height:100%;
+    height:100%;    
+    margin-top:2%;
 }
 
 .document-list{ /*also used in project*/
     width:15%;
+    height:100%;
     border: 1px solid red;
 }
 
 .project-table{
-    border: 1px solid yellow;
+    background-color:white;
+    width:80%;
+    height:100%;
 }
 
 .add-project{
     border: 1px solid green;
+    width:5%;
 }
 
 
@@ -246,6 +265,7 @@ footer{
 .project-body{
     margin-top:55px;
 }
+
 .project-body,
 .project-editor,
 .project-actions,
@@ -374,6 +394,7 @@ footer{
     outline: 0;
     color:none;
 }
+
 #sendmessage:hover{ 
   background-position:  0px 0px;
   background-image: url("../images/arrow2.png");
@@ -382,11 +403,6 @@ footer{
 #sendmessage:active{
   background-position:  0px 0px;
   background-image: url("../images/arrow2.png");
-}
-
-
-#displayname {
-
 }
 
 /*the chat itself*/

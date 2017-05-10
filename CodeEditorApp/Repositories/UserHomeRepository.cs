@@ -12,6 +12,10 @@ using System.Diagnostics;
 
 namespace CodeEditorApp.Repositories
 {
+    // Execptions used
+    public class EmptyException : Exception { }
+
+
     
     public class UserHomeRepository
     {
@@ -74,6 +78,8 @@ namespace CodeEditorApp.Repositories
         /// <returns></returns>
         public ProjectViewModel GetProjectByID(int ProjectID)
         {
+            Debug.WriteLine("PROJECTID");
+            Debug.WriteLine(ProjectID);
             Project project = _db.Projects.Where(x => x.ID == ProjectID).SingleOrDefault();
 
             ProjectViewModel returnProject = new ProjectViewModel()
@@ -110,6 +116,7 @@ namespace CodeEditorApp.Repositories
 
             return returnFolder;
         }
+
 
 
 
@@ -229,7 +236,7 @@ namespace CodeEditorApp.Repositories
             RootFolder.ID = RootTmp.ID;
             RootFolder.UserID = RootTmp.UserID;
 
-           // RootFolder.Projects = GetAllProjects(UserID);
+            RootFolder.Projects = GetAllProjects(UserID);
            // RootFolder.Projects = GetAllSubProjects(RootTmp);
             RootFolder.Folders = GetAllSubFolders(RootTmp);
 
@@ -244,16 +251,21 @@ namespace CodeEditorApp.Repositories
         /// <param name="FolderID"></param>
         /// <returns></returns>
         public FolderViewModel GetFolder (int FolderID) {
-            Folder tmp = _db.Folders.Where(x => x.ID == FolderID).SingleOrDefault();
-            FolderViewModel folder = new FolderViewModel();
 
-            folder.ID = tmp.ID;
-            folder.Name = tmp.Name;
-            folder.ProjectID = tmp.ProjectID;
-            folder.HeadFolderID = tmp.HeadFolderID;
-            folder.SubFolders = GetAllSubFolders(tmp);
-            folder.Files = GetFolderFiles(tmp.ID);
-            return folder;
+            try
+            {
+                Folder tmp = _db.Folders.Where(x => x.ID == FolderID).SingleOrDefault();
+                FolderViewModel folder = new FolderViewModel();
+
+                folder.ID = FolderID;
+                folder.Name = tmp.Name;
+                folder.ProjectID = tmp.ProjectID;
+                folder.HeadFolderID = tmp.HeadFolderID;
+                folder.SubFolders = GetAllSubFolders(tmp);
+                folder.Files = GetFolderFiles(tmp.ID);
+                return folder;
+            } catch (EmptyException) { }
+            return null;
         }
 
 
@@ -301,7 +313,6 @@ namespace CodeEditorApp.Repositories
                 }
                 return returnList;
             }
-
             return null;
         }
 
@@ -383,10 +394,12 @@ namespace CodeEditorApp.Repositories
         public void CreateProject(Project project, Folder HeadFolder)
         {
             project.HeadFolderID = HeadFolder.ID;
-            CreateSolutionFolder(project);
+            CreateSolutionFolder(ref project);
 
             _db.Projects.Add(project);
             _db.SaveChanges();
+
+            _db.Folders.Find(project.SolutionFolderID).ProjectID = project.ID;
 
             Folder TmpFolder = _db.Folders.Where(x => x.Name == project.name + "Solutions" && x.IsSolutionFolder == true).SingleOrDefault();
             Project TmpProject = _db.Projects.Where(x => x.name == project.name + "Solutions" && x.SolutionFolderID == 0).SingleOrDefault();
@@ -402,29 +415,23 @@ namespace CodeEditorApp.Repositories
         /// under root folder.
         /// </summary>
         /// <param name="project"></param>
-        public void CreateProject(Project project)
+        public void CreateProject(ref Project project)
         {
-            CreateSolutionFolder(project);
+            CreateSolutionFolder(ref project);
             project.HeadFolderID = 0;
-            project.SolutionFolderID = 0;
+
+          
 
             _db.Projects.Add(project);
             _db.SaveChanges();
 
-            Folder TmpFolder = _db.Folders.Where(x => x.Name == project.name + "Solutions" && x.IsSolutionFolder == true).SingleOrDefault();
-            Project TmpProject = _db.Projects.Where(x => x.name == project.name + "Solutions" && x.SolutionFolderID == 0).SingleOrDefault();
-
-            TmpFolder.ProjectID = TmpProject.ID;
-            TmpProject.SolutionFolderID = TmpFolder.ID;
-
-            _db.SaveChanges();
-
-            GenerateProjectFiles(TmpProject);
+            _db.Folders.Find(project.SolutionFolderID).ProjectID = project.ID;
+            GenerateProjectFiles(project);
         }
 
         private void GenerateProjectFiles (Project project)
         {
-            if (project.ProjectTypeID == 4)
+            if (project.ProjectTypeID == 4) //console
             {
                 File CPP = new File();
                 CPP.name = "main";
@@ -435,44 +442,50 @@ namespace CodeEditorApp.Repositories
                 _db.Files.Add(CPP);
                 _db.SaveChanges();
             }
-            else if (project.ProjectTypeID == 10)
+            else if (project.ProjectTypeID == 10) // web
             {
-                // TODO:    Búa til web project files
-                Folder styles = new Folder();
-                Folder script = new Folder();
-                File index = new File();
-                File CSS = new File();
-                File JS = new File();
+                Folder styles = new Folder()
+                {
+                    HeadFolderID = project.SolutionFolderID,
+                    Name = "styles"
+                };
 
-                styles.HeadFolderID = project.SolutionFolderID;
-                script.HeadFolderID = project.SolutionFolderID;
-                styles.Name = "styles";
-                script.Name = "script";
+                Folder script = new Folder()
+                {
+                    HeadFolderID = project.SolutionFolderID,
+                    Name = "script"
+                };
 
-                index.HeadFolderID = project.SolutionFolderID;
-                index.name = "Index";
-                index.ProjectID = project.ID;
-                index.FileType = _db.FileTypes.Where(x => x.ID == 1).SingleOrDefault();
-                // TODO:    Content
+                File index = new File()
+                {
+                    HeadFolderID = project.SolutionFolderID,
+                    name = "Index",
+                    ProjectID = project.ID,
+                    FileType = _db.FileTypes.Where(x => x.ID == 1).SingleOrDefault()
+                };
 
                 _db.Folders.Add(styles);
                 _db.Folders.Add(script);
                 _db.Files.Add(index);
                 _db.SaveChanges();
 
-                Folder TmpScript = _db.Folders.Where(x => x.HeadFolderID == project.SolutionFolderID && x.Name == script.Name).SingleOrDefault();
-                Folder TmpStyles = _db.Folders.Where(x => x.HeadFolderID == project.SolutionFolderID && x.Name == styles.Name).SingleOrDefault();
+                File CSS = new File()
+                {
+                    HeadFolderID = styles.ID,
+                    name = "styles",
+                    ProjectID = project.ID,
+                    FileType = _db.FileTypes.Where(x => x.ID == 2).SingleOrDefault()
+                };
 
-                CSS.HeadFolderID = TmpStyles.ID;
-                JS.HeadFolderID = TmpScript.ID;
-                CSS.name = "styles";
-                JS.name = "scripts";
-                CSS.ProjectID = project.ID;
-                JS.ProjectID = project.ID;
-                CSS.FileType = _db.FileTypes.Where(x => x.ID == 2).SingleOrDefault();
-                JS.FileType = _db.FileTypes.Where(x => x.ID == 3).SingleOrDefault();
-                //  TODO:   Content
+                File JS = new File()
+                {
+                    HeadFolderID = script.ID,
+                    name = "scripts",
+                    ProjectID = project.ID,
+                    FileType = _db.FileTypes.Where(x => x.ID == 3).SingleOrDefault()
+                };
 
+                
                 _db.Files.Add(CSS);
                 _db.Files.Add(JS);
                 _db.SaveChanges();
@@ -492,7 +505,7 @@ namespace CodeEditorApp.Repositories
         /// </summary>
         /// <param name="project"></param>
         /// <returns></returns>
-        public void CreateSolutionFolder(Project project)
+        public void CreateSolutionFolder(ref Project project)
         {
             //TODO
             Folder NewFolder = new Folder();
@@ -503,6 +516,8 @@ namespace CodeEditorApp.Repositories
 
             _db.Folders.Add(NewFolder);
             _db.SaveChanges();
+
+            project.SolutionFolderID = NewFolder.ID;
         }
 
 
@@ -769,6 +784,60 @@ namespace CodeEditorApp.Repositories
             }
             return ReturnList;
         }
+
+        public void ClearUserData(string UserID)
+        {
+            foreach (Project item in _db.Projects.Where(x => x.AspNetUserID == UserID).ToList())
+            {
+                foreach (File FileItem in _db.Files.Where(x => x.ProjectID == item.ID).ToList())
+                {
+                    try
+                    {
+                        _db.Files.Remove(FileItem);
+                        _db.SaveChanges();
+                    }
+                    catch (EmptyException) { } 
+                }
+
+                foreach (Folder FolderItem in _db.Folders.Where(x => x.ProjectID == item.ID && x.IsSolutionFolder == true).ToList())
+                {
+                    try
+                    {
+                        DeleteRecursiveFolder(FolderItem.ID);
+                    } catch (EmptyException) { } 
+                }
+
+                foreach (Comment CommentItem in _db.Comments.Where(x => x.ProjectID == item.ID).ToList())
+                {
+                    try
+                    {
+                        _db.Comments.Remove(CommentItem);
+                        _db.SaveChanges();
+                    } catch (EmptyException) { }
+                    
+                }
+
+                foreach (Goal GoalItem in _db.Goals.Where(x => x.ProjectID == item.ID).ToList())
+                {
+                    try
+                    {
+                        _db.Goals.Remove(GoalItem);
+                        _db.SaveChanges();
+                    } catch (EmptyException) { }
+                }
+            }
+
+            foreach (Folder item in _db.Folders.Where(x => x.AspNetUserID == UserID).ToList())
+            {
+                try
+                {
+                    _db.Folders.Remove(item);
+                    _db.SaveChanges();
+                } catch (EmptyException) { }
+            }
+        }
+
+
         
     }
 }

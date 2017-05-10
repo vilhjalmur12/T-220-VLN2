@@ -643,9 +643,15 @@
     <Content Include="Global.asax" />
     <Content Include="Content\Site.css" />
     <Content Include="images\arrow2.png" />
+    <Content Include="images\bak.png" />
+    <Content Include="images\bak1.PNG" />
     <Content Include="images\bakgrunnurtre.jpg" />
+    <Content Include="images\blar.PNG" />
+    <Content Include="images\graenn.PNG" />
     <Content Include="images\logo.png" />
     <Content Include="images\arrow.png" />
+    <Content Include="images\logo2.PNG" />
+    <Content Include="images\logo3.PNG" />
     <Content Include="Scripts\bootstrap.js" />
     <Content Include="Scripts\bootstrap.min.js" />
     <Content Include="ApplicationInsights.config">
@@ -662,6 +668,7 @@
     <Content Include="Scripts\jquery.validate.min.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.js" />
     <Content Include="Scripts\jquery.validate.unobtrusive.min.js" />
+    <Content Include="Scripts\js_modal.js" />
     <Content Include="Scripts\modernizr-2.6.2.js" />
     <Content Include="Scripts\respond.js" />
     <Content Include="Scripts\respond.min.js" />

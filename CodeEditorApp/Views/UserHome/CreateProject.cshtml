@@ -1,7 +1,7 @@
 ﻿@model CodeEditorApp.Models.ViewModels.ProjectViewModel
 
 
-@using (Html.BeginForm()) 
+@using (Html.BeginForm("CreateProject", "UserHome",  FormMethod.Post, new { @class = "form-horizontal ", role = "form" }))
 {
     @Html.AntiForgeryToken()
     

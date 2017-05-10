@@ -18,6 +18,19 @@ namespace CodeEditorApp.Repositories
             _db = new ApplicationDbContext();
         }
 
+        public void ChangeGoal(int goalID)
+        {
+            if (_db.Goals.Find(goalID).finished)
+            {
+                _db.Goals.Find(goalID).finished = false;
+            }
+            else
+            {
+                _db.Goals.Find(goalID).finished = true;
+            }
+            _db.SaveChanges();
+        }
+
         public List<GoalViewModel> GetGoalsByProject(int projectID)
         {
             List<GoalViewModel> goalModels = new List<GoalViewModel>();
