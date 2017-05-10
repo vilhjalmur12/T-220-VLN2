@@ -244,20 +244,6 @@
                 
             </div>
             <div id="project-members" class="sidenav padding-for-container">
-                <script>
-                    var addmemb = '<li><input type="text" id="myinputmember" name="myinputmember" placeholder="Member email"/></li>';
-                    addmemb += '<button type="submit" id="search-member">Invite</button>';
-                    $(document).ready(function(){
-                        $("#add-member").click(function(){
-                            $("#member-list").append(addmemb);
-                        });
-                    });
-                    $(document).ready(function(){
-                        $("#search-member").click(function(){
-                            
-                        });
-                    });
-                </script>
                 <h3>Members</h3>
                 <ul id="member-list">
                     <!--Display the list of members in a project if any-->
@@ -266,10 +252,34 @@
                         foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
                         {
                             <li>@user.UserName</li>
+                            }
                         }
-                    }
                 </ul>
+
+                <input type="text" id="myinputmember" name="myinputmember" placeholder="Email address..." />
                 <button id="add-member">Add new member</button>
+
+                <script>
+                    $(document).ready(function(){
+                        $("#add-member").click(function(){
+                            var input = document.getElementById('myinputmember').value;
+                            $.ajax({
+                                url: 'Project/AddMemberIfExists',
+                                type: 'POST',
+                                contentType: 'application/json;',
+                                data: JSON.stringify({ email: input, projectID: @Model.ID}),
+                                success: function (valid)
+                                {
+                                    if(valid) {
+                                        //show that id is valid
+                                    } else {
+                                        //show that id is not valid
+                                    }
+                                }
+                            });
+                        });
+                    });
+                </script>
                 <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
             </div>
             <div id="project-goals" class="sidenav padding-for-container right-padding">
