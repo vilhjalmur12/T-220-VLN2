@@ -87,7 +87,9 @@
         <div class="col-md-9 project-editor box-container ">
             <!--ViewBag for storing the project code-->
             <div id="editor">
+                <!--
                 @ViewBag.Code
+                    -->
             </div>
             <div id="color"><input type="button" value="Change Color" onclick="ToggleColor()" class="btn btn-btndefault" /></div>
             <div id="syntax">
@@ -100,46 +102,75 @@
             </div>
 
 
-            @section scripts
+            @section scripts 
             {
-            <script src="~/3rdparty/src/ace.js" type="text/javascript" charset="utf-8"></script>
-            <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
-            <script src="~/signalr/hubs"></script>
+                    <script src="~/3rdparty/src/ace.js" type="text/javascript" charset="utf-8"></script>
+                    <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
+                    <script src="~/signalr/hubs"></script>
 
+                @{
+                    FileViewModel InitFile = new FileViewModel();
+                    if (@Model.SolutionFolder.Files.First().name == "Index")
+                    {
+                        InitFile = Model.SolutionFolder.Files.First();
+                    }
+                    else if (Model.SolutionFolder.Files.First().name == "Main")
+                    {
+                        InitFile = Model.SolutionFolder.Files.First();
+                    } else
+                    {
+                        InitFile.Type = new CodeEditorApp.Models.Entities.FileType();
+                        InitFile.Type.Name = "Html";
+
+                    }
+                }
+
+           
             <script>
+
                 //Get the DocumentID from the Controller class
-                var documentID = @ViewBag.DocumentID;
+                
+                
+                
+
+
+                
+
+
+
+
                 //Start the Ace editor
                 var editor = ace.edit("editor");
                 editor.setTheme("ace/theme/monokai");
                 //Set the Editor in Javascript mode
-                    editor.getSession().setMode("ace/mode/javascript");
+                Syntax(documentType);
+                //editor.getSession().setMode("ace/mode/javascript");
                 //Changes the style of the editor
-                    function ToggleColor() {
-                        if (editor.getTheme() == "ace/theme/monokai") {
-                            editor.setTheme("ace/theme/xcode");
-                        } else {
-                            editor.setTheme("ace/theme/monokai");
-                        }
+                function ToggleColor() {
+                    if (editor.getTheme() == "ace/theme/monokai") {
+                        editor.setTheme("ace/theme/xcode");
+                    } else {
+                        editor.setTheme("ace/theme/monokai");
                     }
+                }
                 //Changes the syntax of the editor
-                    function Syntax() {
-                        var e = document.getElementById("SyntaxSelector");
-                        var str = e.options[e.selectedIndex].text;
-                        //alert(str);
-                        if (str == "JavaScript") {
-                            editor.getSession().setMode("ace/mode/javascript");
-                        } else if (str == "Html") {
-                            editor.getSession().setMode("ace/mode/html");
-                        } else if (str == "C#") {
-                            editor.getSession().setMode("ace/mode/csharp");
-                        } else if (str == "Css") {
-                            editor.getSession().setMode("ace/mode/css");
-                        }
+                function Syntax(str) {
+                    // var e = document.getElementById("SyntaxSelector");
+                    // var str = e.options[e.selectedIndex].text;
+                    //alert(str);
+                    if (str == "Javascript") {
+                        editor.getSession().setMode("ace/mode/javascript");
+                    } else if (str == "Html") {
+                        editor.getSession().setMode("ace/mode/html");
+                    } else if (str == "C++") {
+                        editor.getSession().setMode("ace/mode/cplusplus");
+                    } else if (str == "Css") {
+                        editor.getSession().setMode("ace/mode/css");
                     }
+                }
 
                 $("form").submit(function () {
-                $("#hidden_editor").val(editor.getSession().getValue());
+                    $("#hidden_editor").val(editor.getSession().getValue());
                 });
                 var userName = @Html.Raw(Json.Encode(ViewBag.UserName));
                 //Start the SignalR Hub
@@ -148,27 +179,28 @@
                 var silent = false;
                 //What happens every time someone makes changes to a document with more than one user
                 myHub1.client.onChange = function (changeData) {
-                console.log(changeData);
-                silent = true;
-                editor.getSession().getDocument().applyDelta(changeData);
-                myHub1.server.send($('#displayname').val(), $('#update').val());
-                silent = false;
-    };
+                    console.log(changeData);
+                    silent = true;
+                    editor.getSession().getDocument().applyDelta(changeData);
+                    myHub1.server.send($('#displayname').val(), $('#update').val());
+                    silent = false;
+                };
                 //What happens after client sends data
                 $.connection.hub.start().done(function () {
-                myHub1.server.joinDocument(documentID);
-                editor.on("change", function (obj) {
-                    if(silent){
-                    return;
-                    }
-                //Sends the Object from Ace Editor(Position of change, what changed)
-                console.log(obj);
-                myHub1.server.onChange(obj, documentID);
+                    myHub1.server.joinDocument(documentID);
+                    editor.on("change", function (obj) {
+                        if(silent){
+                            return;
+                        }
+                        //Sends the Object from Ace Editor(Position of change, what changed)
+                        console.log(obj);
+                        myHub1.server.onChange(obj, documentID);
 
 
 
-        });
-    });
+                    });
+                });
+                
             </script>
             <script>
                     $(function () {
@@ -411,72 +443,16 @@
             closeNav("project-members");
             closeNav("project-goals");
         }
-        /*
-        $.fn.extend({
-            treed: function (o) {
-
-                var openedClass = 'glyphicon-minus-sign';
-                var closedClass = 'glyphicon-plus-sign';
-
-                if (typeof o != 'undefined') {
-                    if (typeof o.openedClass != 'undefined') {
-                        openedClass = o.openedClass;
-                    }
-                    if (typeof o.closedClass != 'undefined') {
-                        closedClass = o.closedClass;
-                    }
-                };
-
-                //initialize each of the top levels
-                var tree = $(this);
-                tree.addClass("tree");
-                tree.find('li').has("ul").each(function () {
-                    var branch = $(this); //li with children ul
-                    branch.prepend("<i class='indicator glyphicon " + closedClass + "'></i>");
-                    branch.addClass('branch');
-                    branch.on('click', function (e) {
-                        if (this == e.target) {
-                            var icon = $(this).children('i:first');
-                            icon.toggleClass(openedClass + " " + closedClass);
-                            $(this).children().children().toggle();
-                        }
-                    })
-                    branch.children().children().toggle();
-                });
-                //fire event from the dynamically added icon
-                tree.find('.branch .indicator').each(function () {
-                    $(this).on('click', function () {
-                        $(this).closest('li').click();
-                    });
-                });
-                //fire event to open branch if the li contains an anchor instead of text
-                //      tree.find('.branch>a').each(function() {
-                //    $(this).on('click', function(e) {
-                //     $(this).closest('li').click();
-                //        e.preventDefault();
-                //      });
-                //   });
-                //fire event to open branch if the li contains a button instead of text
-                //   tree.find('.branch>button').each(function() {
-                //$(this).on('click', function(e) {
-                //   $(this).closest('li').click();
-                //              e.preventDefault();
-                //         });
-                //       });
-            }
-        });
-
-        //Initialization of treeviews
-
-        $('#tree1').treed();
-
-        $('#tree2').treed({ openedClass: 'glyphicon-folder-open', closedClass: 'glyphicon-folder-close' });
-
-        $('#tree3').treed({ openedClass: 'glyphicon-chevron-right', closedClass: 'glyphicon-chevron-down' });
-        */
+        
+        // Setup for File-Code Editor
+        
+        
     </script>
 
    
    
 </body>
 @Scripts.Render("~/Scripts/js_modal.js")
+<script>
+    
+</script>

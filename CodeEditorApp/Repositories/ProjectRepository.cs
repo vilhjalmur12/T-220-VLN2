@@ -24,6 +24,13 @@ namespace CodeEditorApp.Repositories
             return _db.FileTypes.Find(fileTypeID);
         }
 
+        public FileType GetFileTypeByExtension(string Ext)
+        {
+
+
+            return _db.FileTypes.Where(x => x.Extension == Ext).SingleOrDefault();
+        }
+
         public void CreateFile(ref File file)
         {
             _db.Files.Add(file);
