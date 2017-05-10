@@ -277,8 +277,10 @@
     <Compile Include="Models\Entities\ProjectType.cs" />
     <Compile Include="Models\ViewModels\EditorViewModel.cs" />
     <Compile Include="Models\ViewModels\ObjectiveViewModel.cs" />
+    <Compile Include="Models\ViewModels\OpenProjectViewModel.cs" />
     <Compile Include="Models\ViewModels\RootFolderViewModel.cs" />
     <Compile Include="Models\ViewModels\UserViewModel.cs" />
+    <Compile Include="Repositories\TreeRepository.cs" />
     <Compile Include="Repositories\User.cs" />
     <Compile Include="Models\ViewModels\CommentViewModel.cs" />
     <Compile Include="Models\ViewModels\FileViewModel.cs" />

@@ -22,7 +22,7 @@
                         <li>
                             @if (item.IsSolutionFolder)
                             {
-                                @Html.ActionLink(item.Name, "OpenProject", new { projectID = @item.ProjectID })
+                                @Html.ActionLink(item.Name, "Index", "Project", new { projectID = @item.ProjectID }, null)
                             }
                             else
                             {
@@ -44,7 +44,7 @@
                         <li>
                             @if (item.IsSolutionFolder)
                             {
-                                @Html.ActionLink(item.Name, "../UserHome/OpenProject", new { projectID = @item.ProjectID })
+                                @Html.ActionLink(item.Name, "Index", "Project", new { projectID = @item.ProjectID }, null)
                             }
                             else
                             {

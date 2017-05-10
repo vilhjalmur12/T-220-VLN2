@@ -7,10 +7,11 @@ using System.Web;
 using System.Web.Mvc;
 using Microsoft.AspNet.Identity.Owin;
 using CodeEditorApp.Models.Entities;
+using System.Diagnostics;
 
 namespace CodeEditorApp.Repositories
 {
-    public class ProjectRepository
+    public class ProjectRepository: TreeRepository
     {
         private ApplicationDbContext _db;
         public ProjectRepository()
@@ -40,6 +41,38 @@ namespace CodeEditorApp.Repositories
                 _db.Goals.Find(goalID).finished = true;
             }
             _db.SaveChanges();
+        }
+
+        public OpenProjectViewModel GetOpenProjectViewModel(int projectID)
+        {
+            Project project = _db.Projects.Find(projectID);
+            OpenProjectViewModel newOpenProjectModel = new OpenProjectViewModel()
+            {
+                ID = projectID,
+                name = project.name,
+                SolutionFolder = GetSolutionFolder(project.SolutionFolderID),
+                Comments = GetCommentsByProject(projectID),
+                Members = GetUsersByProject(projectID),
+                Goals = GetGoalsByProject(projectID)
+            };
+
+            return newOpenProjectModel;
+        }
+
+        public FolderViewModel GetSolutionFolder(int solutionFolderID)
+        {
+            Folder solutionFolder = _db.Folders.Find(solutionFolderID);
+
+            FolderViewModel newSolutionFolderViewModel = new FolderViewModel()
+            {
+                ID = solutionFolderID,
+                Name = solutionFolder.Name,
+                HeadFolderID = solutionFolder.HeadFolderID,
+                SubFolders = GetAllSubFolders(solutionFolderID),
+                Files = GetAllSubFiles(solutionFolderID)
+            };
+
+            return newSolutionFolderViewModel;
         }
 
         public List<GoalViewModel> GetGoalsByProject(int projectID)
@@ -254,19 +287,6 @@ namespace CodeEditorApp.Repositories
             _db.SaveChanges();
         }
 
-       /* public void RemoveUserFromProject(ref ProjectViewModel project, string AspNetUserID) //Project View Model, þar er ég með projID og lista af öllum memberum
-        {
-            //TODO
-            //UserViewModel theUser = project.Members.Find(AspNetUserID);
-
-            List<UserViewModel> theUsers = GetUsersByProject(project.ID); //GetUsersByProject skilar lista af user-um sem eru í þessu projectID.
-            //ÓKLÁRAÐ
-            Membership theMembership = _db.Memberships.Find(AspNetUserID);
-            _db.Memberships.Remove(theMembership);
-            _db.SaveChanges();
-
-        }*/
-
         public void RemoveUserFromProject (string AspNetUserID, int projectID)
         {
             _db.Memberships.ToList().ForEach(membership =>
@@ -342,8 +362,10 @@ namespace CodeEditorApp.Repositories
             return ReturnUser;
         }*/
 
-        public bool AddMemberIfExists(string email, int projectID) {
-            foreach (ApplicationUser user in _db.Users) {
+        public bool AddMemberIfExists(string email, int projectID)
+        {
+            List<ApplicationUser> users = _db.Users.ToList();
+            foreach (ApplicationUser user in users) {
                 if (user.Email == email) {
                     AddUserToProject(user.Id, projectID);
                     return true;

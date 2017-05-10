@@ -153,6 +153,12 @@ body, html {
     border: 1px groove #E0E0E0; /*darker grey*/
 }
 
+.border-box {
+    border: 1px groove #E0E0E0; /*darker grey*/
+}
+
+
+
 /*----------------------------------------------------------*\
     $LAYOUT
 \*----------------------------------------------------------*/
@@ -192,14 +198,6 @@ footer{
  
 
 
-.home-body-content 
-{ 
- 
-}
-
-.user-body-content {
-   
-}
 
 
 
@@ -225,8 +223,48 @@ a{
 
 /*----- LOGIN ----*/
 
-.tab{
-    background:#006072;
+
+.login{
+    margin-top:50px;
+    padding-right:109px;
+}
+
+
+/* Style the tab */
+div.tab {
+    overflow: hidden;
+}
+
+/* Style the buttons inside the tab */
+div.tab button {
+    float: left;
+    border: none;
+    border: 1px groove #E0E0E0; /*darker grey*/
+    cursor: pointer;
+    padding: 14px 16px;
+    transition: 0.3s;
+    font-size: 17px;
+}
+
+/* Change background color of buttons on hover */
+div.tab button:hover {
+    background-color: #F5F5F5;
+    color: #005d56;
+}
+
+/* Create an active/current tablink class */
+div.tab button.active {
+    outline: none;
+    overflow: hidden;
+    background-color: #F5F5F5;
+    color: #005d56;
+}
+
+/* Style the tab content */
+.tabcontent {
+    display: none;
+    padding: 6px 12px;
+    border-top: none;
 }
 
 /*----------------------------------------------------------*\
@@ -363,6 +401,8 @@ a{
 .right-padding{
     padding-right:46px;
 }
+
+
 
 
 
