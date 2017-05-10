@@ -331,10 +331,11 @@ namespace CodeEditorApp.Repositories
             return ReturnUser;
         }*/
 
-        public bool AddMemberIfExists(string email) {
+        public bool AddMemberIfExists(string email, int projectID) {
             //Veit ekki hvort að ég má gera þetta?!
             foreach (ApplicationUser user in _db.Users) {
                 if (user.Email == email) {
+                    AddUserToProject(user.Id, projectID);
                     return true;
                 }
             }
