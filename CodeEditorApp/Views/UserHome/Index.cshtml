@@ -42,7 +42,7 @@
                 <ul>
                     @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
                     {
-                        <li>
+                        <li class="clickable-icon">
                             @if (item.IsSolutionFolder)
                             {
                                 @Html.ActionLink(item.Name, "Index", "Project", new { projectID = @item.ProjectID }, null)
@@ -59,7 +59,7 @@
                                 <ul>
                                     @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
                                     {
-                                        <li id="file-item" alt="@file.ID">
+                                        <li class="clickable-icon" id="file-item" alt="@file.ID">
                                             <a>@file.name@*@file.FileType.Extension</a>*@</a>
                                         </li>
                                     }
