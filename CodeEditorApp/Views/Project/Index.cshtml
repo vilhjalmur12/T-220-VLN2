@@ -413,31 +413,7 @@
                             @newMembership.AspNetUserID = userID;
                         }
                     </script>
- 
-                    <script>
-                        $(document).ready(function(){
-                            $("#remove-member").click(function(){
-                                var input = document.getElementById('membertoremove').value;
-                                $.ajax({
-                                    url: 'Project/RemoveMemberIfInProject',
-                                    type: 'POST',
-                                    contentType: 'application/json;',
-                                    data: JSON.stringify({ email: input, projectID: @Model.ID}),
-                                    success: function (valid)
-                                    {
-                                        if(valid) 
-                                        {
-                                            //show that id is valid
-                                        } 
-                                        else 
-                                        {
-                                            //show that id is not valid
-                                        }
-                                    }
-                                });
-                            });
-                        });
-                    </script>
+
                         <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
                     </div>
                 <!--members end-->
@@ -503,10 +479,24 @@
             closeNav("project-members");
             closeNav("project-goals");
         }
-        
+
         // Setup for File-Code Editor
-        
-        
+
+        function ChangeGoal(goalID)
+        {
+
+            $.ajax({
+                type: 'POST',
+                url: '/Project/ChangeGoal', //can I send data to multiple url with same ajax call.
+                data: {
+                    goalID : goalID,
+                },
+                success: function (data) {
+                    $(".error_msg").text(data);
+                }
+            });
+        }
+
     </script>
 
    
