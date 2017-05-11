@@ -201,20 +201,21 @@
                     // var e = document.getElementById("SyntaxSelector");
                     // var str = e.options[e.selectedIndex].text;
                     //alert(str);
-                    if (str == "Javascript") {
+                    if (str == ".js") {
                         editor.getSession().setMode("ace/mode/javascript");
                     } else if (str == ".html") {
                         editor.getSession().setMode("ace/mode/html");
                     } else if (str == ".cpp") {
                         editor.getSession().setMode("ace/mode/cplusplus");
-                    } else if (str == ".cpp") {
+                    } else if (str == ".css") {
                         editor.getSession().setMode("ace/mode/css");
                     }
                 }
 
 
                 function UpdateEditor (Content, syntax) {
-                    editor.EditSession(Content, syntax);
+                    editor.setValue(Content);
+                    Syntax(syntax);
                 }
                 //Changes the syntax of the editor
                 
@@ -451,20 +452,21 @@
                                     $(this).css("color", "#369");
                                 });
                                 $(this).css('color', 'black');
-                                var ID = parseInt($(this).parent().attr('alt'));
+                                var ID = $(this).parent().attr('alt');
                                 console.log(ID);
                                 $.ajax({
                                     url: "/Project/OpenFile",
                                     method: "POST",
                                     data: { fileID : ID },
-                                    dataType: "html",
+                                    dataType: "json",
                                     //contentType: "application/json; charset=utf-8",
                                     beforeSend:function () {
                                         
                                     },
                                     success: function (responseData) {
                                         console.log(responseData);
-                                        UpdateEditor(responseData[0].Content, responseData[0].FileType.Extension);
+                                        console.log(responseData.Content);
+                                        UpdateEditor(responseData.Content, responseData.FileType.Extension);
                                     },
                                     
                                 });

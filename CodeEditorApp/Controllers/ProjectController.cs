@@ -214,11 +214,14 @@ namespace CodeEditorApp.Controllers
         } 
 
         [HttpPost]
-        public ActionResult OpenFile(int fileID)
+        public ActionResult OpenFile(string fileID)
         {
-            Debug.WriteLine(fileID);
-            //TODO
-            FileViewModel NewDoc = projectService.GetFileByID(fileID);
+            int intFileID = Int32.Parse(fileID);
+           FileViewModel NewDoc = projectService.GetFileByID(intFileID);
+            string ext = NewDoc.FileType.Extension;
+            Debug.WriteLine("Id int: " + intFileID);
+            Debug.WriteLine("Document: " + NewDoc.name);
+            Debug.WriteLine("Extension: " + ext);
 
             return Json(NewDoc, JsonRequestBehavior.AllowGet);
         }
