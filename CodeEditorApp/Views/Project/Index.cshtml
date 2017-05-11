@@ -426,29 +426,40 @@
                         <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
                     </div>
                 <!--members end-->
+
                 <!--goals starts-->
                 <div id="project-goals" class="sidenav padding-for-container right-padding light-background">
                     <div id="goals" class="box-container">
                         <h3>Goals</h3>
                         <!-- Bæta við Goal -->
-                        <span id="add-goal" class="clickable-icon"><i id="go-to-project-list-text" data-toggle="modal" data-target="#myModal" class="fa fa-arrow-up fa-2x" aria-hidden="true"><span class="hover-text">Go to my projects</span></i></span>
-
-                        <dl>
+                        <!--Hér er vitlaust data-toggle og data-target-->
+                        <span id="add-goal" class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="fa fa-plus-circle fa-2x" aria-hidden="true"><span class="hover-text">Add Goal</span></i></span>
+                        <ul class="no-style-list">
                             @if (Model.Goals != null)
                             {
                                 foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
                                 {
-                                    <dt><input type="checkbox" checked=@goal.finished onchange="ChangeGoal(@goal.ID)"/>@goal.name : @goal.description</dt>
-                                    if (goal.objectives != null)
-                                    {
-                                        foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
+                                    <li>
+                                        <input type="checkbox" checked=@goal.finished onchange="ChangeGoal(@goal.ID)" />
+                                        <label class="goal">@goal.name : @goal.description</label>
+                                        @if (goal.objectives != null)
                                         {
-                                            <dd><input type="checkbox" checked=@objective.finished />@objective.name</dd>
+                                        <ul class="no-style-list">
+                                            @foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
+                                            {
+                                                <li>
+                                                    <input type="checkbox" checked=@objective.finished />
+                                                    <label class="objective">@objective.name</label>
+                                                </li>
+                                            }
+                                            <li class="add-object"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-plus clickable-icon" aria-hidden="true"></i>Add objective</li>
+                                        </ul>
                                         }
-                                    }
+                                    </li>
                                 }
                             }
-                        </dl>
+                        </ul>
+                        
                 </div>
             </div>
             <!--goals ends-->
