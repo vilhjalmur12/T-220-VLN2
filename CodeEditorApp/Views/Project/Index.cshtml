@@ -319,16 +319,19 @@
                                     var input = document.getElementById('myinputmember').value;
                                     $.ajax({
                                         url: 'Project/AddMemberIfExists',
+                                        redirectUrl: 'Project/ShowGroup',
                                         type: 'POST',
                                         contentType: 'application/json;',
                                         data: JSON.stringify({ email: input, projectID: @Model.ID}),
                                         success: function (valid)
                                         {
-                                            if(valid) 
+                                            if(valid)
                                             {
+                                                //window.location = '(hjá)Url.Action("ShowGroup", "Project", "Project?projectID=")'
+                                                window.location.href = 'Project/ShowGroup';
                                                 //show that id is valid
-                                            } 
-                                            else 
+                                            }
+                                            else
                                             {
                                                 //show that id is not valid
                                             }
