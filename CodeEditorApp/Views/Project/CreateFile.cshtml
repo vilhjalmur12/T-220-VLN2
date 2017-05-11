@@ -45,7 +45,8 @@
             <input type="file" id="uploadFile" name="upload" />
         </div>
     </div>
-
+    @Html.HiddenFor(model => model.ProjectID)
+    @Html.HiddenFor(model => model.HeadFolderID)
     <div class="form-group">
         <div class="col-md-offset-2 col-md-10">
             <input type="submit" value="Upload" class="btn btn-default" />
@@ -56,4 +57,6 @@
 @section Scripts {
     @Scripts.Render("~/bundles/jqueryval")
 }
+
+
 

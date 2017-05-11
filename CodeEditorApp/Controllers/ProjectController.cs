@@ -35,6 +35,8 @@ namespace CodeEditorApp.Controllers
                 ProjectID = OpenProjectModel.ID
             };
             //For the Editor
+            List<FileViewModel> AllSolutionFiles = projectService.GetFilesByProject(projectID.Value);
+            ViewBag.AllSolutionFiles = AllSolutionFiles;
             ViewBag.Code = "alert('Hello World!');";
             ViewBag.DocumentID = 17;
             //ViewBag.ProjectID = projectID;
@@ -61,12 +63,16 @@ namespace CodeEditorApp.Controllers
             return newFile;
         }
 
-        [HttpPost]
-        public ActionResult ChangeGoal (int? goalID)
+        public void ChangeGoal (int goalID)
         {
-            projectService.ChangeGoal(goalID.Value);
-            // LAGA
-            return RedirectToAction("Index", "Project", OpenProjectModel);
+            projectService.ChangeGoal(goalID);
+
+        }
+
+        public void ChangeObjective(int objectiveID)
+        {
+            projectService.ChangeObjective(objectiveID);
+
         }
 
 
@@ -205,7 +211,6 @@ namespace CodeEditorApp.Controllers
                 using (var reader = new System.IO.BinaryReader(upload.InputStream))
                 {
                     fileUpload.Content = reader.ReadString();
-                
                 }
             
             projectService.CreateFile(ref fileUpload);
@@ -214,10 +219,14 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "Project", new { projectID = fileUpload.ProjectID });
         } 
 
-        public ActionResult OpenFile(int? fileID)
+        [HttpPost]
+        public ActionResult OpenFile(int fileID)
         {
+            Debug.WriteLine(fileID);
             //TODO
-            return null;
+            FileViewModel NewDoc = projectService.GetFileByID(fileID);
+
+            return Json(NewDoc, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CreateFolder()
