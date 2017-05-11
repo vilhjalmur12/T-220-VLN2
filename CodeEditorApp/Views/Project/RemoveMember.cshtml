@@ -7,10 +7,14 @@
 
     <div class="form-horizontal">
         <h4>Are you sure you want to remove this member?</h4>
+        <p>@Model.AspNetUserID</p>
+        <p>Halló</p>
+        <p>@Model.ProjectID</p>
         <hr />
         @Html.ValidationSummary(true, "", new { @class = "text-danger" })
 
         @Html.HiddenFor(model => model.ProjectID)
+        @Html.HiddenFor(model => model.AspNetUserID)
 
         <div class="form-group">
             <div class="col-md-offset-2 col-md-10">

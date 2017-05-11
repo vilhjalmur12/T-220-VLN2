@@ -6,12 +6,19 @@
     Layout = "~/Views/UserHome/_Layout.cshtml";
     MembershipViewModel newMembership = ViewBag.newMembership;
     FileViewModel newFile = ViewBag.newFile;
+    List<string> userList = new List<string>();
+    List<string> contentList = new List<string>();
+    foreach (CommentViewModel comment in  @Model.Comments)
+    {
+        userList.Add(comment.User);
+        contentList.Add(comment.Content);
+    }
     List<FolderViewModel> solutionFileList = new List<FolderViewModel>();
     solutionFileList.Add(Model.SolutionFolder);
     List<FileViewModel> AllFiles = ViewBag.AllSolutionFiles;
 }
 
-@Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/Custom")
 @Scripts.Render("~/bundles/bootstrap")
 @Styles.Render("~/Content/css")
@@ -50,7 +57,7 @@
                     <h4 class="modal-title">Modal Header</h4>
                 </div>
                 <div class="modal-body">
-                    @{Html.RenderPartial("RemoveMember", newMembership);} 
+                    @{Html.RenderPartial("RemoveMember", newMembership);}
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
@@ -67,7 +74,6 @@
         <div class="col-md-2 document-list padding-for-container box-container">
             <div class="document-list-icons">
                 <!-- Hér er CreateFile aðgerð -->
-
                 <!-- Trigger the modal with a button -->
                 <span id="new-file" class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-file fa-2x" aria-hidden="true"><span class="hover-text">Create new file</span></i></span>
                 <!-- Modal -->
@@ -102,46 +108,45 @@
             </div>
             <!--TAKKI ENDAR-->
             <!--Project folders and file tree starts-->
-            
-                <ul id="tree2">
-                    <li >@Model.SolutionFolder.Name</li>
 
-                    @if (Model.SolutionFolder != null)
-                    {
-                        @ShowSubItems(solutionFileList)
-                    }
-                </ul>
+            <ul id="tree2">
+                <li>@Model.SolutionFolder.Name</li>
 
-                @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
+                @if (Model.SolutionFolder != null)
                 {
-                <ul>
-
-                    @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
-                    {
-                        <li class="clickable-icon">
-                            @item.Name
-                            @ShowSubItems(item.SubFolders)
-
-                            @if (item.Files != null)
-                            {
-                                <ul>
-                                    @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
-                                    {
-                                        <li class="clickable-icon" id="file-item" alt="@file.ID">
-                                            <a>@file.name</a>
-                                        </li>
-                                    }
-                                </ul>
-                            }
-                        </li>
-                    }
-                </ul>
+                    @ShowSubItems(solutionFileList)
                 }
+            </ul>
 
-            
+            @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
+            {
+            <ul>
+
+                @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
+                {
+                    <li class="clickable-icon">
+                        @item.Name
+                        @ShowSubItems(item.SubFolders)
+
+                        @if (item.Files != null)
+                        {
+                            <ul>
+                                @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
+                                {
+                                    <li class="clickable-icon" id="file-item" alt="@file.ID">
+                                        <a>@file.name</a>
+                                    </li>
+                                }
+                            </ul>
+                        }
+                    </li>
+                }
+            </ul>
+}
+
+
         </div>
         <!--Project folders and file tree ends-->
-
         <!--File editor starts-->
         <div class="col-md-9 project-editor box-container ">
             <!--ViewBag for storing the project code-->
@@ -154,7 +159,7 @@
                 <div class="col-sm-1">
                     <span class="clickable-icon padding"><i onclick="ToggleColor()" class="glyphicon glyphicon-adjust fa-2x" aria-hidden="true"><span class="hover-text">Change color of editor</span></i></span>
                 </div>
-                <div  class="col-sm-2" id="syntax">
+                <div class="col-sm-2" id="syntax">
                     <select class="btn border-box" id="SyntaxSelector" onchange="Syntax()">
                         <option value="JavaScript">JavaScript</option>
                         <option>Html</option>
@@ -164,22 +169,22 @@
                 </div>
             </div>
 
-            @section scripts 
+            @section scripts
             {
-                    <script src="~/3rdparty/src/ace.js" type="text/javascript" charset="utf-8"></script>
-                    <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
-                    <script src="~/signalr/hubs"></script>
+                <script src="~/3rdparty/src/ace.js" type="text/javascript" charset="utf-8"></script>
+                <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
+                <script src="~/signalr/hubs"></script>
 
                 @{
-                    
+
                 }
 
 
-            <script>
+                <script>
 
                 //Get the DocumentID from the Controller class
-                
-  
+
+
 
                 //Start the Ace editor
                 var editor = ace.edit("editor");
@@ -218,7 +223,7 @@
                     Syntax(syntax);
                 }
                 //Changes the syntax of the editor
-                
+
 
                 $("form").submit(function () {
                     $("#hidden_editor").val(editor.getSession().getValue());
@@ -252,9 +257,9 @@
 
                     });
                 });
-                
-            </script>
-            <script>
+
+                </script>
+                <script>
                     $(function () {
                         // Reference the auto-generated proxy for the hub.
                         var chat = $.connection.myHub1;
@@ -263,7 +268,7 @@
                         chat.client.addNewMessageToPage = function (name, message) {
                             // Add the message to the page.
                             $('#discussion1').replaceWith('<li><strong>' + htmlEncode(name)
-                                + '</strong>: ' + htmlEncode(message) +  '</li>');
+                                + '</strong>: ' + htmlEncode(message) + '</li>');
                         };
                         //Set the name of the user
                         $('#displayname').val(userName);
@@ -286,7 +291,7 @@
                         var encodedValue = $('<div />').text(value).html();
                         return encodedValue;
                     }
-            </script>
+                </script>
             }
 
             <div class="project-update">
@@ -297,7 +302,6 @@
             </div>
         </div>
         <!--File editor ends-->
-
         <!--Pop-out nav start-->
         <div id="popout-nav" class="col-md-1 row">
             <!--Action nav starts -->
@@ -326,14 +330,14 @@
                         </div>
                     </div>
                     @section scriptsComment {
-                    <!--Script references. -->
-                    <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
-                    <!--Reference the SignalR library. -->
-                    <script src="~/Scripts/jquery.signalR-2.1.0.min.js"></script>
-                    <!--Reference the autogenerated SignalR hub script. -->
-                    <script src="~/signalr/hubs"></script>
-                    <!--SignalR script to update the chat page and send messages.-->
-                    <script>
+                        <!--Script references. -->
+                        <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
+                        <!--Reference the SignalR library. -->
+                        <script src="~/Scripts/jquery.signalR-2.1.0.min.js"></script>
+                        <!--Reference the autogenerated SignalR hub script. -->
+                        <script src="~/signalr/hubs"></script>
+                        <!--SignalR script to update the chat page and send messages.-->
+                        <script>
         $(function () {
             // Reference the auto-generated proxy for the hub.
             var chat = $.connection.chatHub;
@@ -351,11 +355,15 @@
             $('#message').focus();
             // Start the connection.
             $.connection.hub.start().done(function () {
-
-                //if(!connected){
-                //    $.connection.chatHub.JoinRoom(projectID);
-                //    connected = true;
-                //}
+                if(!connected){
+                    
+                    int a = 0;
+                    for(i = 0; i < @Model.Comments.Count(); i++)
+                    {
+                        chat.server.send(@userList[a])
+                        
+                    }
+                }
                 $('#sendmessage').click(function () {
                     // Call the Send method on the hub.
                     var content = $("#message").val();;
@@ -363,7 +371,7 @@
                     @*//var NestIdProject = @Model.ID;*@
                     //var url = "/Project/SaveComment?projectID=" + NestIdProject +  "&message=" + content;
                     //window.location.href = url
-                   
+
 
                     $.ajax({
                         type: 'POST',
@@ -380,7 +388,7 @@
                     $('#message').val('').focus();
 
                     // Clear text box and reset focus for next comment.
-                    
+
                 });
              });
         });
@@ -389,7 +397,7 @@
             var encodedValue = $('<div />').text(value).html();
             return encodedValue;
         }
-                    </script>
+                        </script>
                     }
 
                 </div>
@@ -400,30 +408,38 @@
                         <h3>Members</h3>
                         <span id="new-member" class="clickable-icon"><i data-toggle="modal" data-target="#myModal2" class="glyphicon glyphicon-file" aria-hidden="true"><span class="hover-text">Create new file</span></i></span>
                         <!-- Modal -->
-                        
+
                         <ul id="member-list">
                             <!--Display the list of members in a project if any-->
                             @if (Model.Members != null)
                             {
-                                foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
+
+                                for (int i = 0; i < Model.Members.Count(); i++)
                                 {
-                                    <li><span id=@user.UserName onclick="SetMembershipID(@user.ID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-file" aria-hidden="true"><span class="hover-text">Create rr file</span></i></span>@user.UserName</li>
+                                    UserViewModel user = Model.Members[i];
+                                    var userID = user.ID;
+                                    <li><span onclick="javascript:setMembershipID(userID)" id=@user.UserName class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-file" aria-hidden="true"><span class="hover-text">Remove user</span></i></span>@user.UserName</li>
                                 }
+                                /* foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
+                                 {
+
+                                     string userID = user.UserName;
+                                     //SetMembershipID(userID, this)"
+
+                                 }*/
                             }
                         </ul>
-
-                        <input type="text" id="myinputmember" name="myinputmember" placeholder="Add user: Email address..." />
-                        <button id="add-member">Add new member</button>
-
-                        <input type="text" id="membertoremove" name="membertoremove" placeholder="Remove user: Email address..." />
-                        <button id="remove-member">Remove Member</button>
                     </div>
                     <script>
-                        function SetMembershipID(userID){
+                        function setMembershipID(userID){
+                            // var element = document.getElementById(userID).value;
                             @newMembership.AspNetUserID = userID;
-                        }
+                            /*var htmladd = '<i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-file" aria-hidden="true">';
+                            htmladd = '</i>';
+                            $('<li>').append(htmladd);*/
+                         }
                     </script>
- 
+
                     <script>
                         $(document).ready(function(){
                             $("#remove-member").click(function(){
@@ -435,11 +451,11 @@
                                     data: JSON.stringify({ email: input, projectID: @Model.ID}),
                                     success: function (valid)
                                     {
-                                        if(valid) 
+                                        if(valid)
                                         {
                                             //show that id is valid
-                                        } 
-                                        else 
+                                        }
+                                        else
                                         {
                                             //show that id is not valid
                                         }
@@ -461,22 +477,22 @@
                                     dataType: "json",
                                     //contentType: "application/json; charset=utf-8",
                                     beforeSend:function () {
-                                        
+
                                     },
                                     success: function (responseData) {
                                         console.log(responseData);
                                         console.log(responseData.Content);
                                         UpdateEditor(responseData.Content, responseData.FileType.Extension);
                                     },
-                                    
+
                                 });
                                 return false;
                             });
 
                         });
                     </script>
-                        <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
-                    </div>
+                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
+                </div>
                 <!--members end-->
                 <!--goals starts-->
                 <div id="project-goals" class="sidenav padding-for-container right-padding light-background">
@@ -490,41 +506,38 @@
                             {
                                 foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
                                 {
-                                    <dt><input type="checkbox" checked=@goal.finished onchange="ChangeGoal(@goal.ID)"/>@goal.name : @goal.description</dt>
+                                    <dt><input type="checkbox" checked=@goal.finished onchange="ChangeGoal(@goal.ID)" />@goal.name : @goal.description</dt>
                                     if (goal.objectives != null)
                                     {
                                         foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
                                         {
-                                            <dd><input type="checkbox" checked=@objective.finished />@objective.name</dd>
+                                            <dd><input type="checkbox" checked=@objective.finished onchange="ChangeGoal(@objective.ID)" />@objective.name</dd>
                                         }
                                     }
                                 }
                             }
                         </dl>
+                    </div>
                 </div>
+                <!--goals ends-->
             </div>
-            <!--goals ends-->
-        </div>
-        <!--Pop-out nav ends -->
+            <!--Pop-out nav ends -->
 
+        </div>
     </div>
-            </div>
 
     <!--Project body ends-->
     <script>
-/*þarf að færa*/
+        /*þarf að færa*/
         function openNav(name) {
             document.getElementById(name).style.width = "500px";/* Set the width of the side navigation to 250px */
-            if (name != "project-chat")
-            {
+            if (name != "project-chat") {
                 closeNav("project-chat");
             }
-            if (name != "project-members")
-            {
+            if (name != "project-members") {
                 closeNav("project-members");
             }
-            if (name != "project-goals")
-            {
+            if (name != "project-goals") {
                 closeNav("project-goals");
             }
         }
@@ -534,22 +547,47 @@
             document.getElementById(name).style.width = "0";
         }
 
-        function closeAllNavs()
-        {
+        function closeAllNavs() {
             closeNav("project-chat");
             closeNav("project-members");
             closeNav("project-goals");
         }
-        
-        // Setup for File-Code Editor
-        
-        
+
+        function ChangeGoal(goalID) {
+
+            $.ajax({
+                type: 'POST',
+                url: '/Project/ChangeGoal', //can I send data to multiple url with same ajax call.
+                data: {
+                    goalID: goalID,
+                },
+                success: function (data) {
+                    $(".error_msg").text(data);
+                }
+            });
+        }
+
+        function ChangeObjective(objectiveID) {
+
+            $.ajax({
+                type: 'POST',
+                url: '/Project/ChangeObjective', //can I send data to multiple url with same ajax call.
+                data: {
+                    objectvieID: objectiveID,
+                },
+                success: function (data) {
+                    $(".error_msg").text(data);
+                }
+            });
+        }
+
+
     </script>
 
-   
-   
+
+
 </body>
 @Scripts.Render("~/Scripts/js_modal.js")
 <script>
-    
+
 </script>

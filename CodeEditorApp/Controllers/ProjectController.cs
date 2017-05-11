@@ -63,9 +63,15 @@ namespace CodeEditorApp.Controllers
             return newFile;
         }
 
-        public void ChangeGoal (int? goalID)
+        public void ChangeGoal (int goalID)
         {
-            projectService.ChangeGoal(goalID.Value);
+            projectService.ChangeGoal(goalID);
+
+        }
+
+        public void ChangeObjective(int objectiveID)
+        {
+            projectService.ChangeObjective(objectiveID);
 
         }
 
