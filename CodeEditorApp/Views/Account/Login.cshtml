@@ -21,12 +21,12 @@ else
     <html>
     <body>
         <div class="tab dark-background light-textcolor border-box">
-            <button class="tablinks dark-background light-textcolor" onclick="openTab(event, 'Login')">Log In</button>
-            <button class="tablinks dark-background light-textcolor" onclick="openTab(event, 'Signup')">Sign Up</button>
-            <button class="tablinks dark-background light-textcolor" onclick="openTab(event, 'Contact')">Contact us</button>
+            <button class="tablinks dark-background color-textcolor" onclick="openTab(event, 'Login')">Log In</button>
+            <button class="tablinks dark-background color-textcolor" onclick="openTab(event, 'Signup')">Sign Up</button>
+            <button class="tablinks dark-background color-textcolor" onclick="openTab(event, 'Contact')">Contact us</button>
         </div>
 
-        <div id="Login" class="tabcontent border-box">
+        <div id="Login" class="tabcontent border-box dark-textcolor">
             <h3>Log In</h3>
             <div>
                 <section id="loginForm2">
@@ -35,7 +35,7 @@ else
             </div>
         </div>
 
-        <div id="Signup" class="tabcontent border-box">
+        <div id="Signup" class="tabcontent border-box dark-textcolor">
             <div>
                 <section id="loginForm2">
                     @{  Html.RenderPartial("../Account/_Register", (RegisterViewModel)ViewBag.Register);}
@@ -43,7 +43,7 @@ else
             </div>
         </div>
 
-        <div id="Contact" class="tabcontent border-box">
+        <div id="Contact" class="tabcontent border-box dark-textcolor">
             <div>
                 <section id="loginForm2">
                     @{  Html.RenderPartial("../Account/_Contact", (ContactViewModel)ViewBag.Contact);}
