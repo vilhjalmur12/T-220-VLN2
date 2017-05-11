@@ -206,82 +206,53 @@ namespace CodeEditorApp.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult CreateFile(FileViewModel fileModel, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
-                if (upload != null)
+                File newFile = new File()
                 {
-                    var fileUpload = new File
-                    {
-                        name = System.IO.Path.GetFileName(upload.FileName),
-                        FileType = projectService.GetFileTypeByExtension(System.IO.Path.GetExtension(upload.FileName)),
-                        ProjectID = fileModel.ProjectID,
-                        HeadFolderID = fileModel.HeadFolderID
-                    };
-                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                    {
-                        fileUpload.Content = reader.ReadBytes(upload.ContentLength);
-                    }
-                    projectService.CreateFile(ref fileUpload);
+                    name = fileModel.name,
+                    FileType = projectService.GetFileTypeByID(fileModel.FileTypeID),
+                    ProjectID = fileModel.ProjectID,
+                    HeadFolderID = fileModel.HeadFolderID
+                };
 
-                    return RedirectToAction("Index", "Project", new { projectID = fileUpload.ProjectID });
-                } else
-                {
-                    File newFile = new File()
-                    {
-                        name = fileModel.name,
-                        FileType = projectService.GetFileTypeByID(fileModel.FileTypeID),
-                        ProjectID = fileModel.ProjectID,
-                        HeadFolderID = fileModel.HeadFolderID
-                    };
+                projectService.CreateFile(ref newFile);
 
-                    projectService.CreateFile(ref newFile);
+                //   return OpenFile(newFile.ID); eftir að útfæra
 
-                    //   return OpenFile(newFile.ID); eftir að útfæra
-
-                    return RedirectToAction("Index", "Project", new { projectID = newFile.ProjectID });
-                }
+                return RedirectToAction("Index", "Project", new { projectID = newFile.ProjectID });
                 
             } else
             {
                 fileModel = NewFile();
                 return View(fileModel);
-            }
-            
+            }  
         }
 
+        [HttpPost]
+        [ValidateAntiForgeryToken]
         public ActionResult UploadFile(FileViewModel model, HttpPostedFileBase upload)
         {
+            File fileUpload = new File();
 
-            if (upload != null)
-            {
-                var FileUpload = new File
-                {
-                    name = System.IO.Path.GetFileName(upload.FileName),
-                    FileType = projectService.GetFileTypeByExtension(System.IO.Path.GetExtension(upload.FileName)),
-                    ProjectID = model.ProjectID,
-                    HeadFolderID = model.HeadFolderID
-                };
+            
+                fileUpload.name = System.IO.Path.GetFileName(upload.FileName);
+                fileUpload.FileType = projectService.GetFileTypeByExtension(System.IO.Path.GetExtension(upload.FileName));
+                fileUpload.ProjectID = model.ProjectID;
+                fileUpload.HeadFolderID = model.HeadFolderID;
+
                 using (var reader = new System.IO.BinaryReader(upload.InputStream))
                 {
-                    FileUpload.Content = reader.ReadBytes(upload.ContentLength);
+                    fileUpload.Content = reader.ReadBytes(upload.ContentLength);
                 }
-                projectService.CreateFile(ref FileUpload);
+            
+            projectService.CreateFile(ref fileUpload);
 
-                model.ID = FileUpload.ID;
-                UserHomeRepository User = new UserHomeRepository();
 
-                TempData["projectModel"] = User.GetProjectByID(model.ProjectID);
-                return RedirectToAction("Index", "Project");
-            } else
-            {
-                model = NewFile();
-                return View(model);
-            }
-
-        }
+            return RedirectToAction("Index", "Project", new { projectID = fileUpload.ProjectID });
+        } 
 
         public ActionResult OpenFile(int? fileID)
         {
