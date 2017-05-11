@@ -74,30 +74,7 @@
         </div>
     </div>
 
-    <div id="myModalLeave" class="modal fade" role="dialog">
-        <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modalLeave">&times;</button>
-                </div>
-                <div class="modal-body">
-                    @if (User.Identity.GetUserId() != Model.OwnerID)
-                    {
-                        { Html.RenderPartial("LeaveProject", newMembership); }
-                    }
-                    else
-                    {
-                        { Html.RenderPartial("NoAuthorization", newMembership); }
-                    }
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!--Project body starts-->
     <div class="row container padding-for-container project-body">
@@ -106,7 +83,7 @@
             <div class="document-list-icons">
                 <!-- Hér er CreateFile aðgerð -->
                 <!-- Trigger the modal with a button -->
-                <span id="new-file" class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-file fa-2x" aria-hidden="true"><span class="hover-text">Create new file</span></i></span>
+                <span id="new-file" class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="fa fa-file-code-o fa-2x" aria-hidden="true"><span class="hover-text">Create new file</span></i></span>
                 <!-- Modal -->
                 <div id="myModal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
@@ -127,7 +104,7 @@
                     </div>
                 </div>
                 <!-- Hér er Createfolder aðgerð -->
-                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-folder-close fa-2x" aria-hidden="true"><span class="hover-text">Create new folder</span></i></span>
+                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="fa fa-folder fa-2x" aria-hidden="true"><span class="hover-text">Create new folder</span></i></span>
                 <!-- Hér er Afrita aðgerð -->
                 <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-copy fa-2x" aria-hidden="true"><span class="hover-text">Copy</span></i></span>
                 <!-- Hér er Niðurhals aðgerð -->
@@ -135,7 +112,7 @@
                 <!-- Hér er Rusl aðgerð -->
                 <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-trash fa-2x" aria-hidden="true"><span class="hover-text">Delete</span></i></span>
                 <!-- Fara til baka í verkefna listann -->
-                <span id="go-to-project-list" class="clickable-icon"><i id="go-to-project-list-text" data-toggle="modal" data-target="#myModalLeave" class="fa fa-arrow-up fa-2x" aria-hidden="true"><span class="hover-text">Go to my projects</span></i></span>
+                <span id="go-to-project-list" class="clickable-icon"><i id="go-to-project-list-text" data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-log-out fa-2x" aria-hidden="true"><span class="hover-text">Quit project</span></i></span>
             </div>
             <!--TAKKI ENDAR-->
             <!--Project folders and file tree starts-->
@@ -429,7 +406,7 @@
                 <div id="project-members" class="sidenav padding-for-container light-background">
                     <div id="members" class="box-container">
                         <h3>Members</h3>
-                        <span id="new-member" class="clickable-icon"><i data-toggle="modal" data-target="#myModal2" class="fa fa-user fa-2x" aria-hidden="true"><span class="hover-text">Add member</span></i></span>
+                        <span id="new-member" class="clickable-icon"><i data-toggle="modal" data-target="#myModal2" class="fa fa-user-plus fa-2x" aria-hidden="true"><span class="hover-text">Add member</span></i></span>
                         <!-- Modal -->
 
                         <ul id="member-list">
