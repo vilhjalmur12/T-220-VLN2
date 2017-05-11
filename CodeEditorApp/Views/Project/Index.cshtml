@@ -8,6 +8,7 @@
     FileViewModel newFile = ViewBag.newFile;
     List<FolderViewModel> solutionFileList = new List<FolderViewModel>();
     solutionFileList.Add(Model.SolutionFolder);
+    List<FileViewModel> AllFiles = ViewBag.AllSolutionFiles;
 }
 
 @Scripts.Render("~/bundles/jquery")
@@ -126,7 +127,7 @@
                                 <ul>
                                     @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
                                     {
-                                        <li class="clickable-icon" id="file-item" alt="@item.ID">
+                                        <li class="clickable-icon" id="file-item" alt="@file.ID">
                                             <a>@file.name</a>
                                         </li>
                                     }
@@ -194,21 +195,29 @@
                         editor.setTheme("ace/theme/monokai");
                     }
                 }
-                //Changes the syntax of the editor
+
+
                 function Syntax(str) {
                     // var e = document.getElementById("SyntaxSelector");
                     // var str = e.options[e.selectedIndex].text;
                     //alert(str);
                     if (str == "Javascript") {
                         editor.getSession().setMode("ace/mode/javascript");
-                    } else if (str == "Html") {
+                    } else if (str == ".html") {
                         editor.getSession().setMode("ace/mode/html");
-                    } else if (str == "C++") {
+                    } else if (str == ".cpp") {
                         editor.getSession().setMode("ace/mode/cplusplus");
-                    } else if (str == "Css") {
+                    } else if (str == ".cpp") {
                         editor.getSession().setMode("ace/mode/css");
                     }
                 }
+
+
+                function UpdateEditor (Content, syntax) {
+                    editor.EditSession(Content, syntax);
+                }
+                //Changes the syntax of the editor
+                
 
                 $("form").submit(function () {
                     $("#hidden_editor").val(editor.getSession().getValue());
@@ -413,7 +422,57 @@
                             @newMembership.AspNetUserID = userID;
                         }
                     </script>
+ 
+                    <script>
+                        $(document).ready(function(){
+                            $("#remove-member").click(function(){
+                                var input = document.getElementById('membertoremove').value;
+                                $.ajax({
+                                    url: 'Project/RemoveMemberIfInProject',
+                                    type: 'POST',
+                                    contentType: 'application/json;',
+                                    data: JSON.stringify({ email: input, projectID: @Model.ID}),
+                                    success: function (valid)
+                                    {
+                                        if(valid) 
+                                        {
+                                            //show that id is valid
+                                        } 
+                                        else 
+                                        {
+                                            //show that id is not valid
+                                        }
+                                    }
+                                });
+                            });
 
+                            $('#file-item>a').on('click', function () {
+                                $('#file-item>a').each(function () {
+                                    $(this).css("color", "#369");
+                                });
+                                $(this).css('color', 'black');
+                                var ID = parseInt($(this).parent().attr('alt'));
+                                console.log(ID);
+                                $.ajax({
+                                    url: "/Project/OpenFile",
+                                    method: "POST",
+                                    data: { fileID : ID },
+                                    dataType: "html",
+                                    //contentType: "application/json; charset=utf-8",
+                                    beforeSend:function () {
+                                        
+                                    },
+                                    success: function (responseData) {
+                                        console.log(responseData);
+                                        UpdateEditor(responseData[0].Content, responseData[0].FileType.Extension);
+                                    },
+                                    
+                                });
+                                return false;
+                            });
+
+                        });
+                    </script>
                         <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
                     </div>
                 <!--members end-->
@@ -479,24 +538,10 @@
             closeNav("project-members");
             closeNav("project-goals");
         }
-
+        
         // Setup for File-Code Editor
-
-        function ChangeGoal(goalID)
-        {
-
-            $.ajax({
-                type: 'POST',
-                url: '/Project/ChangeGoal', //can I send data to multiple url with same ajax call.
-                data: {
-                    goalID : goalID,
-                },
-                success: function (data) {
-                    $(".error_msg").text(data);
-                }
-            });
-        }
-
+        
+        
     </script>
 
    
