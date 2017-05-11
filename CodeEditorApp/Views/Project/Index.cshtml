@@ -8,6 +8,12 @@
     List<FolderViewModel> solutionFileList = new List<FolderViewModel>();
     solutionFileList.Add(Model.SolutionFolder);
 }
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/Custom")
+@Scripts.Render("~/bundles/bootstrap")
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
 <head>
 
 </head>
@@ -119,25 +125,18 @@
                         InitFile = Model.SolutionFolder.Files.First();
                     } else
                     {
-                        InitFile.Type = new CodeEditorApp.Models.Entities.FileType();
-                        InitFile.Type.Name = "Html";
+                        InitFile.FileType = new CodeEditorApp.Models.Entities.FileType();
+                        InitFile.FileType.Name = "Html";
 
                     }
                 }
-
+                
            
             <script>
 
                 //Get the DocumentID from the Controller class
                 
-                
-                
-
-
-                
-
-
-
+  
 
                 //Start the Ace editor
                 var editor = ace.edit("editor");
