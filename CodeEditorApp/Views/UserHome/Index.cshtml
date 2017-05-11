@@ -109,8 +109,11 @@
                 </table>
             </div>
         </div>
+
+
+        <!-- Hér er CreateProject aðgerð -->
         <div class="col-md-1 add-project box-container">
-            <!-- Hér er CreateProject aðgerð -->
+            
             <!-- Trigger the modal with a button -->    
                 <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-plus fa-3x" aria-hidden="true"></i></span>
             <!-- Modal -->
@@ -119,9 +122,9 @@
 
                     <!-- Modal content-->
                     <div class="modal-content">
-                        <div class="modal-header">
+                        <div class="modal-header light-background">
                             <button type="button" class="close" data-dismiss="modal">&times;</button>
-                            <h4 class="modal-title">Modal Header</h4>
+                            <h4 class="modal-title color-textcolor">Create new project</h4>
                         </div>
                         <div class="modal-body">
                             @{Html.RenderPartial("CreateProject", NewProject);}

@@ -397,10 +397,24 @@ namespace CodeEditorApp.Repositories
             if (user != null)
             {
                 membership.AspNetUserID = user.Id;
-                AddUserToProject(membership);
-                //  return true;
+                if (!MembershipExists(membership))
+                {
+                    AddUserToProject(membership);
+                }
             }
-        //  return false;
+        }
+
+        private bool MembershipExists(MembershipViewModel testMembership)
+        {
+            foreach (Membership membership in _db.Memberships.ToList())
+            {
+                if (membership.AspNetUserID == testMembership.AspNetUserID && membership.ProjectID == testMembership.ProjectID)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private ApplicationUser FindUserByEmail(string email)
