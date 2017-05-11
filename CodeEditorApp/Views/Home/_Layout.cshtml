@@ -23,6 +23,9 @@
         }*/
     </style>
    
+    @using Microsoft.AspNet.Identity
+    @using CodeEditorApp.Models
+
 
 </head>
 <!--The layout of the website for a person that is not logged in-->
@@ -33,10 +36,35 @@
             <div>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "light-textcolor h1" })</div>
         </div>
         <div class="collapse navbar-collapse navbar-right">
-            <ul class="nav navbar-nav l-heading-home">
-                <li>@Html.ActionLink("About", "About", "Home", new { @class = "light-textcolor" })</li>
-                <li>@Html.ActionLink("Help", "Help", "Home", new { @class = "light-textcolor" }) </li>
-            </ul>    
+            <div class="collapse navbar-collapse navbar-right">
+
+                @if (Request.IsAuthenticated)
+                {
+                    using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
+                    {
+                        @Html.AntiForgeryToken()
+                        <ul class="nav navbar-nav l-heading-home">
+                            <!--vantar hér réttan link-->
+                            <li>@Html.ActionLink("About", "About", "Home", new { @class = "light-textcolor" })</li>
+                            <li>@Html.ActionLink("Help", "Help", "Home", new { @class = "light-textcolor" }) </li>
+                            <li>
+                                @Html.ActionLink("View your projects", "Index", "UserHome", routeValues: null, htmlAttributes: new { title = "Your Projects", @class = "light-textcolor" })
+                            </li>
+                            <li><a class="light-textcolor" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                        </ul>
+                    }
+                }
+                else
+                {
+                    <ul class="nav navbar-nav l-heading-home">
+                        <li>@Html.ActionLink("About", "About", "Home", new { @class = "light-textcolor" })</li>
+                        <li>@Html.ActionLink("Help", "Help", "Home", new { @class = "light-textcolor" }) </li>
+
+                    </ul>
+                }
+
+            </div>
+  
         </div>
     </header>
 
