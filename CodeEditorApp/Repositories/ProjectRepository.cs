@@ -197,6 +197,23 @@ namespace CodeEditorApp.Repositories
             return fileModels;
         }
 
+        public FileViewModel GetFileByID (int FileID)
+        {
+            File file = _db.Files.Where(x => x.ID == FileID).SingleOrDefault();
+
+            FileViewModel ReturnFile = new FileViewModel
+            {
+                ID = file.ID,
+                name = file.name,
+                ProjectID = file.ProjectID,
+                HeadFolderID = file.HeadFolderID,
+                FileType = file.FileType,
+                Content = file.Content
+            };
+
+            return ReturnFile;
+        }
+
         public List<FolderViewModel> GetFoldersByProject (int projectID)
         {
             //TODO
@@ -380,10 +397,24 @@ namespace CodeEditorApp.Repositories
             if (user != null)
             {
                 membership.AspNetUserID = user.Id;
-                AddUserToProject(membership);
-                //  return true;
+                if (!MembershipExists(membership))
+                {
+                    AddUserToProject(membership);
+                }
             }
-        //  return false;
+        }
+
+        private bool MembershipExists(MembershipViewModel testMembership)
+        {
+            foreach (Membership membership in _db.Memberships.ToList())
+            {
+                if (membership.AspNetUserID == testMembership.AspNetUserID && membership.ProjectID == testMembership.ProjectID)
+                {
+                    return true;
+                }
+            }
+
+            return false;
         }
 
         private ApplicationUser FindUserByEmail(string email)

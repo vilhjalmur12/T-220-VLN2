@@ -8,6 +8,7 @@
     FileViewModel newFile = ViewBag.newFile;
     List<FolderViewModel> solutionFileList = new List<FolderViewModel>();
     solutionFileList.Add(Model.SolutionFolder);
+    List<FileViewModel> AllFiles = ViewBag.AllSolutionFiles;
 }
 
 @Scripts.Render("~/bundles/jquery")
@@ -126,7 +127,7 @@
                                 <ul>
                                     @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
                                     {
-                                        <li class="clickable-icon" id="file-item" alt="@item.ID">
+                                        <li class="clickable-icon" id="file-item" alt="@file.ID">
                                             <a>@file.name</a>
                                         </li>
                                     }
@@ -140,6 +141,7 @@
             
         </div>
         <!--Project folders and file tree ends-->
+
         <!--File editor starts-->
         <div class="col-md-9 project-editor box-container ">
             <!--ViewBag for storing the project code-->
@@ -148,16 +150,19 @@
                 @ViewBag.Code
                     -->
             </div>
-            <div id="color"><input type="button" value="Change Color" onclick="ToggleColor()" class="btn btn-btndefault" /></div>
-            <div id="syntax">
-                <select id="SyntaxSelector" onchange="Syntax()">
-                    <option value="JavaScript">JavaScript</option>
-                    <option>Html</option>
-                    <option>C#</option>
-                    <option>Css</option>
-                </select>
+            <div class="row padding-for-container">
+                <div class="col-sm-1">
+                    <span class="clickable-icon padding"><i onclick="ToggleColor()" class="glyphicon glyphicon-adjust fa-2x" aria-hidden="true"><span class="hover-text">Change color of editor</span></i></span>
+                </div>
+                <div  class="col-sm-2" id="syntax">
+                    <select class="btn border-box" id="SyntaxSelector" onchange="Syntax()">
+                        <option value="JavaScript">JavaScript</option>
+                        <option>Html</option>
+                        <option>C#</option>
+                        <option>Css</option>
+                    </select>
+                </div>
             </div>
-
 
             @section scripts 
             {
@@ -190,21 +195,29 @@
                         editor.setTheme("ace/theme/monokai");
                     }
                 }
-                //Changes the syntax of the editor
+
+
                 function Syntax(str) {
                     // var e = document.getElementById("SyntaxSelector");
                     // var str = e.options[e.selectedIndex].text;
                     //alert(str);
                     if (str == "Javascript") {
                         editor.getSession().setMode("ace/mode/javascript");
-                    } else if (str == "Html") {
+                    } else if (str == ".html") {
                         editor.getSession().setMode("ace/mode/html");
-                    } else if (str == "C++") {
+                    } else if (str == ".cpp") {
                         editor.getSession().setMode("ace/mode/cplusplus");
-                    } else if (str == "Css") {
+                    } else if (str == ".cpp") {
                         editor.getSession().setMode("ace/mode/css");
                     }
                 }
+
+
+                function UpdateEditor (Content, syntax) {
+                    editor.EditSession(Content, syntax);
+                }
+                //Changes the syntax of the editor
+                
 
                 $("form").submit(function () {
                     $("#hidden_editor").val(editor.getSession().getValue());
@@ -283,6 +296,7 @@
             </div>
         </div>
         <!--File editor ends-->
+
         <!--Pop-out nav start-->
         <div id="popout-nav" class="col-md-1 row">
             <!--Action nav starts -->
@@ -342,15 +356,30 @@
                 //    connected = true;
                 //}
                 $('#sendmessage').click(function () {
-                    
                     // Call the Send method on the hub.
+                    var content = $("#message").val();;
                     chat.server.send($('#displayname').val(), $('#message').val());
-                    var NestId = @Model.ID;
-                    var url = "/Project/?SaveComment=" + NestId + "&message="+'#message';
-                    window.location.href = url;
+                    @*//var NestIdProject = @Model.ID;*@
+                    //var url = "/Project/SaveComment?projectID=" + NestIdProject +  "&message=" + content;
+                    //window.location.href = url
+                   
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Project/SaveComment', //can I send data to multiple url with same ajax call.
+                        data: {
+                            projectID : @Model.ID,
+                            message : content,
+                        },
+                        success: function (data) {
+                            $(".error_msg").text(data);
+                        }
+                    });
+
+                    $('#message').val('').focus();
 
                     // Clear text box and reset focus for next comment.
-                    $('#message').val('').focus();
+                    
                 });
              });
         });
@@ -422,6 +451,32 @@
                                     }
                                 });
                             });
+
+                            $('#file-item>a').on('click', function () {
+                                $('#file-item>a').each(function () {
+                                    $(this).css("color", "#369");
+                                });
+                                $(this).css('color', 'black');
+                                var ID = parseInt($(this).parent().attr('alt'));
+                                console.log(ID);
+                                $.ajax({
+                                    url: "/Project/OpenFile",
+                                    method: "POST",
+                                    data: { fileID : ID },
+                                    dataType: "html",
+                                    //contentType: "application/json; charset=utf-8",
+                                    beforeSend:function () {
+                                        
+                                    },
+                                    success: function (responseData) {
+                                        console.log(responseData);
+                                        UpdateEditor(responseData[0].Content, responseData[0].FileType.Extension);
+                                    },
+                                    
+                                });
+                                return false;
+                            });
+
                         });
                     </script>
                         <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
@@ -431,6 +486,9 @@
                 <div id="project-goals" class="sidenav padding-for-container right-padding light-background">
                     <div id="goals" class="box-container">
                         <h3>Goals</h3>
+                        <!-- Bæta við Goal -->
+                        <span id="add-goal" class="clickable-icon"><i id="go-to-project-list-text" data-toggle="modal" data-target="#myModal" class="fa fa-arrow-up fa-2x" aria-hidden="true"><span class="hover-text">Go to my projects</span></i></span>
+
                         <dl>
                             @if (Model.Goals != null)
                             {
