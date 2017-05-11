@@ -35,6 +35,8 @@ namespace CodeEditorApp.Controllers
                 ProjectID = OpenProjectModel.ID
             };
             //For the Editor
+            List<FileViewModel> AllSolutionFiles = projectService.GetFilesByProject(projectID.Value);
+            ViewBag.AllSolutionFiles = AllSolutionFiles;
             ViewBag.Code = "alert('Hello World!');";
             ViewBag.DocumentID = 17;
             //ViewBag.ProjectID = projectID;
@@ -213,10 +215,14 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "Project", new { projectID = fileUpload.ProjectID });
         } 
 
-        public ActionResult OpenFile(int? fileID)
+        [HttpPost]
+        public ActionResult OpenFile(int fileID)
         {
+            Debug.WriteLine(fileID);
             //TODO
-            return null;
+            FileViewModel NewDoc = projectService.GetFileByID(fileID);
+
+            return Json(NewDoc, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CreateFolder()

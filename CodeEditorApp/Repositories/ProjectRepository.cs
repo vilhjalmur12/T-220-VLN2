@@ -197,6 +197,23 @@ namespace CodeEditorApp.Repositories
             return fileModels;
         }
 
+        public FileViewModel GetFileByID (int FileID)
+        {
+            File file = _db.Files.Where(x => x.ID == FileID).SingleOrDefault();
+
+            FileViewModel ReturnFile = new FileViewModel
+            {
+                ID = file.ID,
+                name = file.name,
+                ProjectID = file.ProjectID,
+                HeadFolderID = file.HeadFolderID,
+                FileType = file.FileType,
+                Content = file.Content
+            };
+
+            return ReturnFile;
+        }
+
         public List<FolderViewModel> GetFoldersByProject (int projectID)
         {
             //TODO
