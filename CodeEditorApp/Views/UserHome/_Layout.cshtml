@@ -10,6 +10,7 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     -->
     @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/Custom")
     @Scripts.Render("~/bundles/bootstrap")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
@@ -18,7 +19,7 @@
             height: 600px;
             width: 20%;
             float: left;
-        }*/
+        }
 
         #editor {
             height: 90%;
@@ -31,7 +32,7 @@
         #syntax{
             width: 90%;            
         }
-
+            */
     </style>
 
 </head>
@@ -39,7 +40,7 @@
 <body class="container-fluid">
     <header class="navbar navbar-fixed-top container padding-for-container dark-background">
         <div class="header-flex-container navbar-left">
-            <div> <img class="logo" src="../images/logo3.PNG" alt="CC"></div>
+            <div> <img class="logo" src="../images/logo.png" alt="CC"></div>
             <!--vantar hér réttan link-->
             <div>@Html.ActionLink("Home", "Index", "UserHome", new { area = "" }, new {@class = "light-textcolor h1" })</div>
         </div>

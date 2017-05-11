@@ -321,6 +321,7 @@ div.tab button.active {
 .project-editor{
     width:80%;
     padding:1px;
+    height:90%;
 }
 
 .project-updates{
@@ -480,6 +481,7 @@ div.tab button.active {
 #editor {
     transition: margin-right .2s;
     padding: 20px;
+    height:90%;
 }
 
 

@@ -8,6 +8,12 @@
     List<FolderViewModel> solutionFileList = new List<FolderViewModel>();
     solutionFileList.Add(Model.SolutionFolder);
 }
+
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/Custom")
+@Scripts.Render("~/bundles/bootstrap")
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
 <head>
 
 </head>
@@ -124,20 +130,13 @@
 
                     }
                 }
-
+                
            
             <script>
 
                 //Get the DocumentID from the Controller class
                 
-                
-                
-
-
-                
-
-
-
+  
 
                 //Start the Ace editor
                 var editor = ace.edit("editor");
