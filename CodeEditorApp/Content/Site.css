@@ -151,14 +151,14 @@ body, html {
 }
 
 /*Colors*/
-.dark-textcolor >*{ 
+.dark-textcolor >*,
+.hover-text{ 
     //color: #005d56; /*dark cyan*/ 
     color: white;
 }
 
   
-.light-textcolor,
-.hover-text{
+.light-textcolor{
     //color:white;
     color: #006072;
 }
