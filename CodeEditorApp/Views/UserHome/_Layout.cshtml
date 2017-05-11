@@ -55,19 +55,12 @@
                         @Html.AntiForgeryToken()
                         <ul class="nav navbar-nav l-heading-home">
                             <!--vantar hér réttan link-->
-                            <li>@Html.ActionLink("Manage your account", "Index", "Manage", new { @class = "light-textcolor" })</li>
                             <li>
                                 @Html.ActionLink("View your projects", "Index", "UserHome", routeValues: null, htmlAttributes: new { title = "Your Projects", @class = "light-textcolor" })
                             </li>
                             <li><a class="light-textcolor" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                         </ul>
                     }
-                }
-                else
-                {
-                    <ul class="nav navbar-nav l-heading-home">
-                        <li>@Html.ActionLink("Manage your account", "Index", "Manage", new { @class = "light-textcolor" })</li>
-                    </ul>
                 }
 
         </div>

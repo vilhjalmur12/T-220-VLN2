@@ -14,7 +14,7 @@ namespace CodeEditorApp.Hubs
             // Call the addNewMessageToPage method to update clients.
             Clients.All.addNewMessageToPage(name, message);
         }
-        /*
+        
         public Task JoinRoom(string projectID)
         {
             return Groups.Add(Context.ConnectionId, projectID);
@@ -23,6 +23,6 @@ namespace CodeEditorApp.Hubs
         public Task LeaveRoom(string projectID)
         {
             return Groups.Remove(Context.ConnectionId, projectID);
-        }*/
+        }
     }
 }
