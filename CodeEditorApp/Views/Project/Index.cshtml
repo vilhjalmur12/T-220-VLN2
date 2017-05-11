@@ -345,12 +345,15 @@
                     
                     // Call the Send method on the hub.
                     chat.server.send($('#displayname').val(), $('#message').val());
+                        $('#message').val('').focus();
+                       
+            
                     var NestId = @Model.ID;
                     var url = "/Project/?SaveComment=" + NestId + "&message="+'#message';
                     window.location.href = url;
 
                     // Clear text box and reset focus for next comment.
-                    $('#message').val('').focus();
+                   
                 });
              });
         });
@@ -394,30 +397,7 @@
                         }
                     </script>
  
-                    <script>
-                        $(document).ready(function(){
-                            $("#remove-member").click(function(){
-                                var input = document.getElementById('membertoremove').value;
-                                $.ajax({
-                                    url: 'Project/RemoveMemberIfInProject',
-                                    type: 'POST',
-                                    contentType: 'application/json;',
-                                    data: JSON.stringify({ email: input, projectID: @Model.ID}),
-                                    success: function (valid)
-                                    {
-                                        if(valid) 
-                                        {
-                                            //show that id is valid
-                                        } 
-                                        else 
-                                        {
-                                            //show that id is not valid
-                                        }
-                                    }
-                                });
-                            });
-                        });
-                    </script>
+
                         <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
                     </div>
                 <!--members end-->

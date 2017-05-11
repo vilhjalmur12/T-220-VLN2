@@ -61,12 +61,10 @@ namespace CodeEditorApp.Controllers
             return newFile;
         }
 
-        [HttpPost]
-        public ActionResult ChangeGoal (int? goalID)
+        public void ChangeGoal (int? goalID)
         {
             projectService.ChangeGoal(goalID.Value);
-            // LAGA
-            return RedirectToAction("Index", "Project", OpenProjectModel);
+
         }
 
 
