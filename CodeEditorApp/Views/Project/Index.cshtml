@@ -342,15 +342,30 @@
                 //    connected = true;
                 //}
                 $('#sendmessage').click(function () {
-                    
                     // Call the Send method on the hub.
+                    var content = $("#message").val();;
                     chat.server.send($('#displayname').val(), $('#message').val());
-                    var NestId = @Model.ID;
-                    var url = "/Project/?SaveComment=" + NestId + "&message="+'#message';
-                    window.location.href = url;
+                    @*//var NestIdProject = @Model.ID;*@
+                    //var url = "/Project/SaveComment?projectID=" + NestIdProject +  "&message=" + content;
+                    //window.location.href = url
+                   
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Project/SaveComment', //can I send data to multiple url with same ajax call.
+                        data: {
+                            projectID : @Model.ID,
+                            message : content,
+                        },
+                        success: function (data) {
+                            $(".error_msg").text(data);
+                        }
+                    });
+
+                    $('#message').val('').focus();
 
                     // Clear text box and reset focus for next comment.
-                    $('#message').val('').focus();
+                    
                 });
              });
         });
