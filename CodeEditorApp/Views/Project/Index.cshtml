@@ -140,6 +140,7 @@
             
         </div>
         <!--Project folders and file tree ends-->
+
         <!--File editor starts-->
         <div class="col-md-9 project-editor box-container ">
             <!--ViewBag for storing the project code-->
@@ -286,6 +287,7 @@
             </div>
         </div>
         <!--File editor ends-->
+
         <!--Pop-out nav start-->
         <div id="popout-nav" class="col-md-1 row">
             <!--Action nav starts -->
@@ -428,6 +430,9 @@
                 <div id="project-goals" class="sidenav padding-for-container right-padding light-background">
                     <div id="goals" class="box-container">
                         <h3>Goals</h3>
+                        <!-- Bæta við Goal -->
+                        <span id="add-goal" class="clickable-icon"><i id="go-to-project-list-text" data-toggle="modal" data-target="#myModal" class="fa fa-arrow-up fa-2x" aria-hidden="true"><span class="hover-text">Go to my projects</span></i></span>
+
                         <dl>
                             @if (Model.Goals != null)
                             {

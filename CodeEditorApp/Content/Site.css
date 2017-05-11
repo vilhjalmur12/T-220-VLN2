@@ -297,9 +297,10 @@ footer{
 #about, #team, #terms, #help{
     padding:30px;
 }
+
+
+
 /*----- LOGIN ----*/
-
-
 .login{
     margin-top:50px;
     padding-right:109px;
@@ -343,6 +344,11 @@ div.tab button.active {
     border-top: none;
 }
 
+
+
+
+
+
 /*----------------------------------------------------------*\
     $USERHOME
 \*----------------------------------------------------------*/
@@ -385,6 +391,10 @@ div.tab button.active {
     width:5%;
 }
 
+.modal-header{
+    border-top-left-radius: 6px;
+    border-top-right-radius: 6px;
+}
 
 /*----------------------------------------------------------*\
     $PROJECT
