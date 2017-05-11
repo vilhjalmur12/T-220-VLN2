@@ -21,16 +21,26 @@ namespace CodeEditorApp.Controllers
         private OpenProjectViewModel OpenProjectModel;
 
         [HttpGet]
-        public ActionResult Index(int? projectID)
+        public ActionResult Index(int? projectID, string tabMake)
         {
+            if (tabMake == null)
+            {
+                tabMake = "";
+            }
+
             OpenProjectModel = projectService.GetOpenProjectViewModel(projectID.Value);
             ViewBag.newFile = NewFile();
+            ViewBag.newMembership = new MembershipViewModel()
+            {
+                ProjectID = OpenProjectModel.ID
+            };
             //For the Editor
             ViewBag.Code = "alert('Hello World!');";
             ViewBag.DocumentID = 17;
             ViewBag.UserName = User.Identity.GetUserName();
             ViewBag.UseID = User.Identity.GetUserId();
             //For the editor
+            ViewBag.tabMake = tabMake;
 
             return View(OpenProjectModel);
         }
@@ -54,67 +64,16 @@ namespace CodeEditorApp.Controllers
         public ActionResult ChangeGoal (int? goalID)
         {
             projectService.ChangeGoal(goalID.Value);
-            updateGoals();
+            // LAGA
             return RedirectToAction("Index", "Project", OpenProjectModel);
         }
 
-        private void updateGoals()
-        {
-            OpenProjectModel.Goals = projectService.GetGoalsByProject(OpenProjectModel.ID);
-        }
 
-        private void updateComments()
-        {
-            OpenProjectModel.Comments = projectService.GetCommentsByProject(OpenProjectModel.ID);
-        }
-
-        private void updateUsers()
-        {
-            OpenProjectModel.Members = projectService.GetUsersByProject(OpenProjectModel.ID);
-        }
-
-        private void updateFiles()
-        {
-          //  projectModel.Files = project.GetFilesByProject(projectModel.ID);
-        }
-
-        private void updateFolders()
-        {
-          //  projectModel.Folders = project.GetFoldersByProject(projectModel.ID);
-        }
-
-        public ActionResult ShowCodeEditor()
-        {
-            //TODO
-            return null;
-        }
-
-        public ActionResult ShowCommunication()
-        {
-            return View(OpenProjectModel.Comments);
-        }
-
-        public ActionResult ShowGroup()
-        {
-            return View(OpenProjectModel.Members);
-        }
-
-        public ActionResult ShowGoals()
-        {
-            return View(OpenProjectModel.Goals);
-        }
-
-        public ActionResult AddMember(string AspNetUserID)
-        {
-            projectService.AddUserToProject(AspNetUserID, OpenProjectModel.ID);
-            updateUsers();
-            return RedirectToAction("ShowGroup", "Project");
-        }
 
         public ActionResult RemoveMember(string AspNetUserID)
         {
             projectService.RemoveUserFromProject(AspNetUserID, OpenProjectModel.ID);
-            updateUsers();
+            //LAGA
             return RedirectToAction("ShowGroup", "Project");
         }
 
@@ -142,7 +101,7 @@ namespace CodeEditorApp.Controllers
             };
 
             projectService.AddNewGoal(newGoal);
-            updateGoals();
+            //LAGA
             return RedirectToAction("ShowGoals", "project");
         }
 
@@ -150,7 +109,7 @@ namespace CodeEditorApp.Controllers
         public ActionResult RemoveGoal(GoalViewModel goal)
         {
             projectService.RemoveGoal(goal);
-            updateGoals();
+            //LAGA
             return RedirectToAction("ShowGoals", "Project");
         }
 
@@ -172,14 +131,14 @@ namespace CodeEditorApp.Controllers
             };
 
             projectService.AddNewObjective(thisObjective);
-            updateGoals();
+            //LAGA
             return RedirectToAction("ShowGoals", "Project");
         }
 
         public ActionResult RemoveObjective(int objectiveID)
         {
             projectService.RemoveObjective(objectiveID);
-            updateGoals();
+            //LAGA
             return RedirectToAction("ShowGoals", "Project");
         }
 
@@ -279,7 +238,7 @@ namespace CodeEditorApp.Controllers
         public ActionResult DeleteFile(int fileID)
         {
             projectService.RemoveFile(fileID);
-            updateFiles();
+            //LAGA
             return RedirectToAction("Index", "Project", new { id = OpenProjectModel.ID });
         }
 
@@ -295,7 +254,7 @@ namespace CodeEditorApp.Controllers
             return null;
         }
  
-        [HttpPost] // can be HttpGet
+  /*      [HttpPost] // can be HttpGet
         public ActionResult AddMemberIfExists(string email, int projectID)
         {
             //if true (breyti repo fallinu úr add)
@@ -307,19 +266,23 @@ namespace CodeEditorApp.Controllers
             };
 
             return Json(obj);
-        }
+        }*/
 
         [HttpPost] // can be HttpGet
         public ActionResult RemoveMemberIfInProject(string email, int projectID)
         {
             bool isValid = projectService.RemoveMemberIfInProject(email, projectID);
-            var obj = new
-            {
-                valid = isValid
-            };
+            var obj = isValid;
 
-            return Json(obj);
+            return Json(new { valid = isValid });
         }
 
+        [HttpPost]
+        public ActionResult AddMember(MembershipViewModel membership)
+        {
+            projectService.AddMemberIfExists(membership);
+
+            return RedirectToAction("Index", "Project", new { projectID = membership.ProjectID, tabMake = "project-members" });
+        }
     }
 }

@@ -276,6 +276,7 @@
     <Compile Include="Models\Entities\Project.cs" />
     <Compile Include="Models\Entities\ProjectType.cs" />
     <Compile Include="Models\ViewModels\EditorViewModel.cs" />
+    <Compile Include="Models\ViewModels\MembershipViewModel.cs" />
     <Compile Include="Models\ViewModels\ObjectiveViewModel.cs" />
     <Compile Include="Models\ViewModels\OpenProjectViewModel.cs" />
     <Compile Include="Models\ViewModels\RootFolderViewModel.cs" />
@@ -729,6 +730,7 @@
     <Content Include="Views\UserHome\CreateProject.cshtml" />
     <Content Include="Views\Account\Contact.cshtml" />
     <Content Include="Views\Project\CreateFile.cshtml" />
+    <Content Include="Views\Project\AddMember.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

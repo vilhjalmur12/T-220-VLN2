@@ -283,12 +283,12 @@ namespace CodeEditorApp.Repositories
         }
 
 
-        public void AddUserToProject(string AspNetUserID, int projectID)
+        public void AddUserToProject(MembershipViewModel membership)
         {
             Membership newMembership = new Membership()
             {
-                ProjectID = projectID,
-                AspNetUserID = AspNetUserID,
+                ProjectID = membership.ProjectID,
+                AspNetUserID = membership.AspNetUserID,
             };
             _db.Memberships.Add(newMembership);
             _db.SaveChanges();
@@ -370,18 +370,19 @@ namespace CodeEditorApp.Repositories
         }*/
 
         // Adds user to project if user exists. Returns true if user was added to project, else returns false.
-        public bool AddMemberIfExists(string email, int projectID)
+        public void AddMemberIfExists(MembershipViewModel membership)
         {
             List<ApplicationUser> users = _db.Users.ToList();
             foreach (ApplicationUser user in users)
             {
-                if (user.Email == email)
+                if (user.Email == membership.Email)
                 {
-                    AddUserToProject(user.Id, projectID);
-                    return true;
+                    membership.AspNetUserID = user.Id;
+                    AddUserToProject(membership);
+                  //  return true;
                 }
             }
-            return false;
+          //  return false;
         }
 
         public bool RemoveMemberIfInProject(string email, int projectID)
