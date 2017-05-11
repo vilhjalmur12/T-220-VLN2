@@ -1,4 +1,5 @@
 ﻿@using CodeEditorApp.Models.ViewModels
+@using Microsoft.AspNet.Identity;
 @model OpenProjectViewModel
 
 @{
@@ -38,7 +39,14 @@
                     <h4 class="modal-title">Modal Header</h4>
                 </div>
                 <div class="modal-body">
-                    @{Html.RenderPartial("AddMember", newMembership);}
+                    @if (User.Identity.GetUserId() == Model.OwnerID)
+                    {
+                        {Html.RenderPartial("AddMember", newMembership);}
+                    }
+                    else
+                    {
+                        { Html.RenderPartial("NoAuthorization"); }
+                    }
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>

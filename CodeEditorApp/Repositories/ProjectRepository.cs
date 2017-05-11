@@ -70,6 +70,7 @@ namespace CodeEditorApp.Repositories
             {
                 ID = projectID,
                 name = project.name,
+                OwnerID = project.AspNetUserID,
                 SolutionFolder = GetSolutionFolder(project.SolutionFolderID),
                 Comments = GetCommentsByProject(projectID),
                 Members = GetUsersByProject(projectID),
@@ -406,15 +407,21 @@ namespace CodeEditorApp.Repositories
         public void AddMemberIfExists(MembershipViewModel membership)
         {
             ApplicationUser user = FindUserByEmail(membership.Email);
+            Project project = FindProjectByID(membership.ProjectID);
 
-            if (user != null)
+            if ((user != null) && (project != null))
             {
                 membership.AspNetUserID = user.Id;
-                if (!MembershipExists(membership))
+                if (!MembershipExists(membership) && (project.AspNetUserID != membership.AspNetUserID))
                 {
                     AddUserToProject(membership);
                 }
             }
+        }
+
+        private Project FindProjectByID(int projectID)
+        {
+            return _db.Projects.Find(projectID);
         }
 
         private bool MembershipExists(MembershipViewModel testMembership)

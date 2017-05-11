@@ -32,20 +32,23 @@ namespace CodeEditorApp.Controllers
         {
 
             ViewBag.NewProject = NewProject();
+            ViewBag.currFile = new FileViewModel();
+            ViewBag.currProject = new ProjectViewModel();
 
             return View (GetUserData());
         }
 
-        public ProjectViewModel NewProject()
+        private ProjectViewModel NewProject()
         {
             ProjectViewModel newProject = new ProjectViewModel()
             {
                 OwnerID = User.Identity.GetUserId(),
                 AvailableProjects = UserHomeService.GetProjectTypes()
-        };
+            };
 
             return newProject;
         }
+
 
        [HttpGet]
         public ActionResult CreateProject()
@@ -90,10 +93,10 @@ namespace CodeEditorApp.Controllers
             return null;
         }
 
-        public ActionResult DeleteProject(int projectID)
+        public ActionResult DeleteProject(int? projectID)
         {
-            UserHomeService.DeleteProject(projectID);
-            return null;
+            UserHomeService.DeleteProject(projectID.Value);
+            return RedirectToAction("Index", "Userhome");
         }
   
 
