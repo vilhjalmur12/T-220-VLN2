@@ -37,6 +37,7 @@ namespace CodeEditorApp.Controllers
             //For the Editor
             ViewBag.Code = "alert('Hello World!');";
             ViewBag.DocumentID = 17;
+            ViewBag.ProjectID = projectID;
             ViewBag.UserName = User.Identity.GetUserName();
             ViewBag.UseID = User.Identity.GetUserId();
             //For the editor

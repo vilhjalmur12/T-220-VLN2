@@ -6,29 +6,28 @@
     Layout = "~/Views/UserHome/_Layout.cshtml";
     FileViewModel newFile = ViewBag.newFile;
     List<FolderViewModel> solutionFileList = new List<FolderViewModel>();
-    MembershipViewModel newMembership = ViewBag.newMembership;
     solutionFileList.Add(Model.SolutionFolder);
 }
 
-@if (ViewBag.TabMake == null)
-{
-    ViewBag.TabMake = "";
-}
-
+@Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/Custom")
+@Scripts.Render("~/bundles/bootstrap")
+@Styles.Render("~/Content/css")
+@Scripts.Render("~/bundles/modernizr")
 <head>
-    Sys.WebForms.PageRequestManager.getInstance().add_endRequest(YourBindingMethodName);
+
 </head>
 <script src="https://use.fontawesome.com/3e0cecfe87.js"></script>
-<body onload="openNav('@ViewBag.tabMake')">
+<body>
     <!--Project body starts-->
     <div class="row container padding-for-container project-body">
 
         <div class="col-md-2 document-list padding-for-container box-container">
-            <div class="add-file">
+            <div class="document-list-icons">
                 <!-- Hér er CreateFile aðgerð -->
 
                 <!-- Trigger the modal with a button -->
-                <span id="new-file" class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-plus fa-2x" aria-hidden="true"></i></span>
+                <span id="new-file" class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-file fa-2x" aria-hidden="true"><span class="hover-text">Create new file</span></i></span>
                 <!-- Modal -->
                 <div id="myModal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
@@ -48,10 +47,20 @@
                         </div>
                     </div>
                 </div>
+                <!-- Hér er Createfolder aðgerð -->
+                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-folder-close fa-2x" aria-hidden="true"><span class="hover-text">Create new folder</span></i></span>
+                <!-- Hér er Afrita aðgerð -->
+                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-copy fa-2x" aria-hidden="true"><span class="hover-text">Copy</span></i></span>
+                <!-- Hér er Niðurhals aðgerð -->
+                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-download-alt fa-2x" aria-hidden="true"><span class="hover-text">Download????</span></i></span>
+                <!-- Hér er Rusl aðgerð -->
+                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-trash fa-2x" aria-hidden="true"><span class="hover-text">Delete</span></i></span>
+                <!-- Fara til baka í verkefna listann -->
+                <span id="go-to-project-list" class="clickable-icon"><i id="go-to-project-list-text" data-toggle="modal" data-target="#myModal" class="fa fa-arrow-up fa-2x" aria-hidden="true"><span class="hover-text">Go to my projects</span></i></span>
             </div>
             <!--TAKKI ENDAR-->
             <!--Project folders and file tree starts-->
-            <div>
+            
                 <ul id="tree2">
                     <li >@Model.SolutionFolder.Name</li>
 
@@ -87,7 +96,7 @@
                 </ul>
                 }
 
-            </div>
+            
         </div>
         <!--Project folders and file tree ends-->
         <!--File editor starts-->
@@ -116,39 +125,28 @@
                     <script src="~/signalr/hubs"></script>
 
                 @{
-                    if (Model.SolutionFolder.Files.Count() != 0)
+                    FileViewModel InitFile = new FileViewModel();
+                    if (@Model.SolutionFolder.Files.First().name == "Index")
                     {
-                        FileViewModel InitFile = new FileViewModel();
-                        if (@Model.SolutionFolder.Files.First().name == "Index")
-                        {
-                            InitFile = Model.SolutionFolder.Files.First();
-                        }
-                        else if (Model.SolutionFolder.Files.First().name == "Main")
-                        {
-                            InitFile = Model.SolutionFolder.Files.First();
-                        }
-                        else
-                        {
-                            InitFile.FileType = new CodeEditorApp.Models.Entities.FileType();
-                            InitFile.FileType.Name = "Html";
+                        InitFile = Model.SolutionFolder.Files.First();
+                    }
+                    else if (Model.SolutionFolder.Files.First().name == "Main")
+                    {
+                        InitFile = Model.SolutionFolder.Files.First();
+                    } else
+                    {
+                        InitFile.FileType = new CodeEditorApp.Models.Entities.FileType();
+                        InitFile.FileType.Name = "Html";
 
-                        }
                     }
                 }
-
-
+                
+           
             <script>
 
                 //Get the DocumentID from the Controller class
                 
-                
-                
-
-
-                
-
-
-
+  
 
                 //Start the Ace editor
                 var editor = ace.edit("editor");
@@ -183,6 +181,7 @@
                 $("form").submit(function () {
                     $("#hidden_editor").val(editor.getSession().getValue());
                 });
+                //Get the name of signed in user
                 var userName = @Html.Raw(Json.Encode(ViewBag.UserName));
                 //Start the SignalR Hub
                 var myHub1 = $.connection.myHub1;
@@ -279,7 +278,9 @@
                             <input class="col" type="button" id="sendmessage" value="" />
                         </div>
                         <input type="hidden" id="displayname" />
-                        <ul class="hover-user" id="discussion"></ul>
+                        <div style="width:100%;height:95%;overflow:auto;">
+                            <ul class="hover-user" id="discussion"></ul>
+                        </div>
                     </div>
                     @section scriptsComment {
                     <!--Script references. -->
@@ -293,6 +294,7 @@
         $(function () {
             // Reference the auto-generated proxy for the hub.
             var chat = $.connection.chatHub;
+            //var connected = false;
             // Create a function that the hub can call back to display messages.
             chat.client.addNewMessageToPage = function (name, message) {
                 // Add the message to the page.
@@ -305,13 +307,18 @@
             $('#message').focus();
             // Start the connection.
             $.connection.hub.start().done(function () {
-                $('#sendmessage').click(function () {
+                        
+                @*if(!connected){
+                    $.connection.hub.JoinRoom(@Html.Raw(Json.Encode(ViewBag.projectID)));
+                    connected = true;
+                }*@
+                 $('#sendmessage').click(function () {
                     // Call the Send method on the hub.
                     chat.server.send($('#displayname').val(), $('#message').val());
                     // Clear text box and reset focus for next comment.
                     $('#message').val('').focus();
                 });
-            });
+             });
         });
         // This optional function html-encodes messages for display in the page.
         function htmlEncode(value) {
@@ -327,30 +334,6 @@
                 <div id="project-members" class="sidenav padding-for-container light-background">
                     <div id="members" class="box-container">
                         <h3>Members</h3>
-                        <div class="add-member">
-                            <!-- Hér er CreateFile aðgerð -->
-                            <!-- Trigger the modal with a button -->
-                            <span id="new-member" class="clickable-icon"><i data-toggle="modal" data-target="#myModal2" class="glyphicon glyphicon-plus" aria-hidden="true"></i></span>
-                            <!-- Modal -->
-                            <div id="myModal2" class="modal fade" role="dialog">
-                                <div class="modal-dialog">
-
-                                    <!-- Modal content-->
-                                    <div class="modal-content">
-                                        <div class="modal-header">
-                                            <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                            <h4 class="modal-title">Modal Header</h4>
-                                        </div>
-                                        <div class="modal-body">
-                                            @{Html.RenderPartial("AddMember", newMembership);}
-                                        </div>
-                                        <div class="modal-footer">
-                                            <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
                         <ul id="member-list">
                             <!--Display the list of members in a project if any-->
                             @if (Model.Members != null)
@@ -364,34 +347,31 @@
 
                         <input type="text" id="myinputmember" name="myinputmember" placeholder="Add user: Email address..." />
                         <button id="add-member">Add new member</button>
-                        <p id="noMemberFound" style="display:none">No member found</p>
+
                         <input type="text" id="membertoremove" name="membertoremove" placeholder="Remove user: Email address..." />
                         <button id="remove-member">Remove Member</button>
                     </div>
                         <script>
-                            function showhide(id) {
-                                var e = document.getElementById(id);
-                                e.style.display = (e.style.display == 'block') ? 'none' : 'block';
-                            }
                             $(document).ready(function(){
                                 $("#add-member").click(function(){
                                     var input = document.getElementById('myinputmember').value;
                                     $.ajax({
                                         url: 'Project/AddMemberIfExists',
+                                        redirectUrl: 'Project/ShowGroup',
                                         type: 'POST',
                                         contentType: 'application/json;',
                                         data: JSON.stringify({ email: input, projectID: @Model.ID}),
                                         success: function (valid)
                                         {
-                                            if(valid) 
+                                            if(valid)
                                             {
-                                                var NestId = @Model.ID;
-                                                var url = "/Project/Index?projectID=" + NestId + "&tabMake=project-members";
-                                                window.location.href = url;
-                                            } 
-                                            else 
+                                                //window.location = '(hjá)Url.Action("ShowGroup", "Project", "Project?projectID=")'
+                                                window.location.href = 'Project/ShowGroup';
+                                                //show that id is valid
+                                            }
+                                            else
                                             {
-                                                showhide("noMemberFound");
+                                                //show that id is not valid
                                             }
                                         }
                                     });
@@ -399,23 +379,23 @@
                             });
                         </script>
                     <script>
-                            $(document).ready(function () {
-                                $("#remove-member").click(function () {
-                                    var input = document.getElementById('membertoremove').value;
-                                    $.ajax({
-                                        url: 'Project/RemoveMemberIfInProject',
-                                        type: 'POST',
-                                        contentType: 'application/json;',
-                                        data: JSON.stringify({ email: input, projectID: @Model.ID}),
+                        $(document).ready(function(){
+                            $("#remove-member").click(function(){
+                                var input = document.getElementById('membertoremove').value;
+                                $.ajax({
+                                    url: 'Project/RemoveMemberIfInProject',
+                                    type: 'POST',
+                                    contentType: 'application/json;',
+                                    data: JSON.stringify({ email: input, projectID: @Model.ID}),
                                     success: function (valid)
                                     {
-                                        if(valid)
+                                        if(valid) 
                                         {
-                                            //
-                                        }
-                                        else
+                                            //show that id is valid
+                                        } 
+                                        else 
                                         {
-                                           //
+                                            //show that id is not valid
                                         }
                                     }
                                 });
@@ -489,6 +469,9 @@
         
         
     </script>
+
+   
+   
 </body>
 @Scripts.Render("~/Scripts/js_modal.js")
 <script>
