@@ -70,6 +70,7 @@ namespace CodeEditorApp.Repositories
             {
                 ID = projectID,
                 name = project.name,
+                OwnerID = project.AspNetUserID,
                 SolutionFolder = GetSolutionFolder(project.SolutionFolderID),
                 Comments = GetCommentsByProject(projectID),
                 Members = GetUsersByProject(projectID),
