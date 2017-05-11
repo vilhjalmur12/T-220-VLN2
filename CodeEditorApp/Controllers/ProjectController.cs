@@ -35,7 +35,7 @@ namespace CodeEditorApp.Controllers
             return View(OpenProjectModel);
         }
 
-        public FileViewModel NewFile()
+        private FileViewModel NewFile()
         {
 
             FileViewModel newFile = new FileViewModel()
@@ -213,7 +213,7 @@ namespace CodeEditorApp.Controllers
             {
                 if (upload != null)
                 {
-                    var FileUpload = new File
+                    var fileUpload = new File
                     {
                         name = System.IO.Path.GetFileName(upload.FileName),
                         FileType = projectService.GetFileTypeByExtension(System.IO.Path.GetExtension(upload.FileName)),
@@ -222,14 +222,11 @@ namespace CodeEditorApp.Controllers
                     };
                     using (var reader = new System.IO.BinaryReader(upload.InputStream))
                     {
-                        FileUpload.Content = reader.ReadBytes(upload.ContentLength);
+                        fileUpload.Content = reader.ReadBytes(upload.ContentLength);
                     }
-                    projectService.CreateFile(ref FileUpload);
+                    projectService.CreateFile(ref fileUpload);
 
-                    fileModel.ID = FileUpload.ID;
-
-                    TempData["projectModel"] = userHomeService.GetProjectByID(fileModel.ProjectID);
-                    return RedirectToAction("Index", "Project");
+                    return RedirectToAction("Index", "Project", new { projectID = fileUpload.ProjectID });
                 } else
                 {
                     File newFile = new File()
@@ -242,12 +239,9 @@ namespace CodeEditorApp.Controllers
 
                     projectService.CreateFile(ref newFile);
 
-                    fileModel.ID = newFile.ID;
-
                     //   return OpenFile(newFile.ID); eftir að útfæra
 
-                    TempData["projectModel"] = userHomeService.GetProjectByID(fileModel.ProjectID);
-                    return RedirectToAction("Index", "Project");
+                    return RedirectToAction("Index", "Project", new { projectID = newFile.ProjectID });
                 }
                 
             } else
