@@ -205,7 +205,6 @@ namespace CodeEditorApp.Controllers
                 using (var reader = new System.IO.BinaryReader(upload.InputStream))
                 {
                     fileUpload.Content = reader.ReadString();
-                
                 }
             
             projectService.CreateFile(ref fileUpload);
