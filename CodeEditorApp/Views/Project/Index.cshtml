@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/UserHome/_Layout.cshtml";
+    MembershipViewModel newMembership = ViewBag.newMembership;
     FileViewModel newFile = ViewBag.newFile;
     List<FolderViewModel> solutionFileList = new List<FolderViewModel>();
     solutionFileList.Add(Model.SolutionFolder);
@@ -181,6 +182,7 @@
                 $("form").submit(function () {
                     $("#hidden_editor").val(editor.getSession().getValue());
                 });
+                //Get the name of signed in user
                 var userName = @Html.Raw(Json.Encode(ViewBag.UserName));
                 //Start the SignalR Hub
                 var myHub1 = $.connection.myHub1;
@@ -277,7 +279,9 @@
                             <input class="col" type="button" id="sendmessage" value="" />
                         </div>
                         <input type="hidden" id="displayname" />
-                        <ul class="hover-user" id="discussion"></ul>
+                        <div style="width:100%;height:95%;overflow:auto;">
+                            <ul class="hover-user" id="discussion"></ul>
+                        </div>
                     </div>
                     @section scriptsComment {
                     <!--Script references. -->
@@ -291,6 +295,7 @@
         $(function () {
             // Reference the auto-generated proxy for the hub.
             var chat = $.connection.chatHub;
+            //var connected = false;
             // Create a function that the hub can call back to display messages.
             chat.client.addNewMessageToPage = function (name, message) {
                 // Add the message to the page.
@@ -303,13 +308,18 @@
             $('#message').focus();
             // Start the connection.
             $.connection.hub.start().done(function () {
-                $('#sendmessage').click(function () {
+                        
+                @*if(!connected){
+                    $.connection.hub.JoinRoom(@Html.Raw(Json.Encode(ViewBag.projectID)));
+                    connected = true;
+                }*@
+                 $('#sendmessage').click(function () {
                     // Call the Send method on the hub.
                     chat.server.send($('#displayname').val(), $('#message').val());
                     // Clear text box and reset focus for next comment.
                     $('#message').val('').focus();
                 });
-            });
+             });
         });
         // This optional function html-encodes messages for display in the page.
         function htmlEncode(value) {
@@ -343,7 +353,7 @@
                         <button id="remove-member">Remove Member</button>
                     </div>
                         <script>
-                            $(document).ready(function(){
+                            document).ready(function(){
                                 $("#add-member").click(function(){
                                     var input = document.getElementById('myinputmember').value;
                                     $.ajax({
@@ -353,13 +363,15 @@
                                         data: JSON.stringify({ email: input, projectID: @Model.ID}),
                                         success: function (valid)
                                         {
-                                            if(valid) 
+                                            if(valid)
                                             {
-                                                //show that id is valid
-                                            } 
-                                            else 
+                                                var NestId = @Model.ID;
+                                                var url = "/Project/Index?projectID=" + NestId + "&tabMake=project-members";
+                                                window.location.href = url;
+                                            }
+                                            else
                                             {
-                                                //show that id is not valid
+                                                showhide("noMemberFound");
                                             }
                                         }
                                     });
