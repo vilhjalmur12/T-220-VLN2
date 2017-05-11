@@ -149,7 +149,7 @@ namespace CodeEditorApp.Repositories
                         Content = comment.content,
                         AspNetUserID = comment.AspNetUserID,
                         ProjectID = comment.ProjectID,
-                        User = GetUserByID(comment.AspNetUserID)
+                        User = GetUserByID(comment.AspNetUserID).UserName
                     });
                 }
             });

@@ -442,6 +442,11 @@ div.tab button.active {
     border-radius: 6px;
 }
 
+#editor{
+    height:90%;
+}
+
+
 
 
 
@@ -629,6 +634,10 @@ input[type='checkbox']:checked + label.objective{
     transition: margin-right .2s;
     padding: 20px;
     height:90%;
+}
+
+.ace-editor{
+
 }
 
 
