@@ -11,65 +11,83 @@
     <!--UserHome body starts-->
     <div class="row container padding-for-container userhome-body ">
         <div class="col-md-2 document-list box-container">
-            @if (Model.RootFolder.Folders == null)
+            <div class="document-list-icons">
+                <!-- Hér er Createfolder aðgerð -->
+                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-folder-close fa-2x" aria-hidden="true"><span class="hover-text">Create new folder</span></i></span>
+                <!-- Hér er Afrita aðgerð -->
+                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-copy fa-2x" aria-hidden="true"><span class="hover-text">Copy</span></i></span>
+                <!-- Hér er Niðurhals aðgerð -->
+                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-download-alt fa-2x" aria-hidden="true"><span class="hover-text">Download????</span></i></span>
+                <!-- Hér er Rusl aðgerð -->
+                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-trash fa-2x" aria-hidden="true"><span class="hover-text">Delete</span></i></span>
+                <!-- Fara til baka í verkefna listann -->
+                <span id="go-to-project-list" class="clickable-icon"><i id="go-to-project-list-text" data-toggle="modal" data-target="#myModal" class="fa fa-arrow-up fa-2x" aria-hidden="true"><span class="hover-text">Go to my projects</span></i></span>
+            </div>
+            <div id="tree1">
+                <!--Project folders and file tree starts-->
+                @if (Model.RootFolder.Folders == null)
             {
-                <p>Database is empty</p>
-            }
-            else
-            {
-                <ul id="tree2">
-                    @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in Model.RootFolder.Folders)
-                    {
-                        <li>
-                            @if (item.IsSolutionFolder)
-                            {
-                                @Html.ActionLink(item.Name, "Index", "Project", new { projectID = @item.ProjectID }, null)
-                            }
-                            else
-                            {
-                                <a href="#">@item.Name</a>
-                            }
+                    <p>Database is empty</p>
+                }
+                else
+                {
+                    <ul id="tree2">
+                        @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in Model.RootFolder.Folders)
+                        {
+                            <li>
+                                @if (item.IsSolutionFolder)
+                                {
+                                    @Html.ActionLink(item.Name, "Index", "Project", new { projectID = @item.ProjectID }, null)
+                                }
+                                else
+                                {
+                                    <a href="#">@item.Name</a>
+                                }
 
-                            @ShowSubItems(item.SubFolders)
+                                @ShowSubItems(item.SubFolders)
 
-                        </li>
-                    }
-                </ul>
-            }
+                            </li>
+                        }
+                    </ul>
+                }
 
-            @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
-            { 
+                @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
+                {
                 <ul>
                     @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
                     {
-                        <li class="clickable-icon">
-                            @if (item.IsSolutionFolder)
+                    <li class="clickable-icon">
+                        @if (item.IsSolutionFolder)
                             {
-                                @Html.ActionLink(item.Name, "Index", "Project", new { projectID = @item.ProjectID }, null)
+                            @Html.ActionLink(item.Name, "Index", "Project", new { projectID = @item.ProjectID }, null)
                             }
                             else
                             {
-                                @item.Name
+                            @item.Name
                             }
 
-                            @ShowSubItems(item.SubFolders)
+                        @ShowSubItems(item.SubFolders)
 
-                            @if (item.Files != null)
+                        @if (item.Files != null)
                             {
-                                <ul>
-                                    @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
+                            <ul>
+                                @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
                                     {
-                                        <li class="clickable-icon" id="file-item" alt="@file.ID">
-                                            <a>@file.name@*@file.FileType.Extension</a>*@</a>
-                                        </li>
+                                    <li class="clickable-icon" id="file-item" alt="@file.ID">
+                                        <a>@file.name@*@file.FileType.Extension</a>*@</a>
+                                    </li>
                                     }
-                                </ul>
+                            </ul>
                             }
-                        </li>
+                    </li>
                     }
                 </ul>
-            }
-        </div>
+}
+                <!--Project folders and file tree ends-->
+            </div>
+            </div>
+        
+
         <div class="col-md-9 project-table box-container">
             <!-- Responsive table starts here -->
             <div class="table-responsive-vertical shadow-z-1">
