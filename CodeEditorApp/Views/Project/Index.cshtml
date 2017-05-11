@@ -23,11 +23,11 @@
     <div class="row container padding-for-container project-body">
 
         <div class="col-md-2 document-list padding-for-container box-container">
-            <div class="add-file">
+            <div class="document-list-icons">
                 <!-- Hér er CreateFile aðgerð -->
 
                 <!-- Trigger the modal with a button -->
-                <span id="new-file" class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-plus fa-2x" aria-hidden="true"></i></span>
+                <span id="new-file" class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-file fa-2x" aria-hidden="true"><span class="hover-text">Create new file</span></i></span>
                 <!-- Modal -->
                 <div id="myModal" class="modal fade" role="dialog">
                     <div class="modal-dialog">
@@ -47,10 +47,20 @@
                         </div>
                     </div>
                 </div>
+                <!-- Hér er Createfolder aðgerð -->
+                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-folder-close fa-2x" aria-hidden="true"><span class="hover-text">Create new folder</span></i></span>
+                <!-- Hér er Afrita aðgerð -->
+                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-copy fa-2x" aria-hidden="true"><span class="hover-text">Copy</span></i></span>
+                <!-- Hér er Niðurhals aðgerð -->
+                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-download-alt fa-2x" aria-hidden="true"><span class="hover-text">Download????</span></i></span>
+                <!-- Hér er Rusl aðgerð -->
+                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-trash fa-2x" aria-hidden="true"><span class="hover-text">Delete</span></i></span>
+                <!-- Fara til baka í verkefna listann -->
+                <span id="go-to-project-list" class="clickable-icon"><i id="go-to-project-list-text" data-toggle="modal" data-target="#myModal" class="fa fa-arrow-up fa-2x" aria-hidden="true"><span class="hover-text">Go to my projects</span></i></span>
             </div>
             <!--TAKKI ENDAR-->
             <!--Project folders and file tree starts-->
-            <div>
+            
                 <ul id="tree2">
                     <li >@Model.SolutionFolder.Name</li>
 
@@ -86,7 +96,7 @@
                 </ul>
                 }
 
-            </div>
+            
         </div>
         <!--Project folders and file tree ends-->
         <!--File editor starts-->
@@ -347,16 +357,19 @@
                                     var input = document.getElementById('myinputmember').value;
                                     $.ajax({
                                         url: 'Project/AddMemberIfExists',
+                                        redirectUrl: 'Project/ShowGroup',
                                         type: 'POST',
                                         contentType: 'application/json;',
                                         data: JSON.stringify({ email: input, projectID: @Model.ID}),
                                         success: function (valid)
                                         {
-                                            if(valid) 
+                                            if(valid)
                                             {
+                                                //window.location = '(hjá)Url.Action("ShowGroup", "Project", "Project?projectID=")'
+                                                window.location.href = 'Project/ShowGroup';
                                                 //show that id is valid
-                                            } 
-                                            else 
+                                            }
+                                            else
                                             {
                                                 //show that id is not valid
                                             }
