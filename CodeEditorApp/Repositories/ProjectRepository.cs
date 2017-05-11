@@ -379,7 +379,6 @@ namespace CodeEditorApp.Repositories
                 {
                     membership.AspNetUserID = user.Id;
                     AddUserToProject(membership);
-                  //  return true;
                 }
             }
           //  return false;
