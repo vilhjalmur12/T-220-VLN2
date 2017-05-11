@@ -136,6 +136,7 @@ namespace CodeEditorApp.Repositories
                         Content = comment.content,
                         AspNetUserID = comment.AspNetUserID,
                         ProjectID = comment.ProjectID,
+                        User = GetUserByID(comment.AspNetUserID)
                     });
                 }
             });
@@ -398,6 +399,18 @@ namespace CodeEditorApp.Repositories
                 return true;
             }
             return false;
+        }
+
+        public void SaveComment(CommentViewModel comment)
+        {
+            Comment newComment = new Comment()
+            {
+                ProjectID = comment.ProjectID,
+                content = comment.Content,
+                AspNetUserID = comment.AspNetUserID
+            };
+            _db.Comments.Add(newComment);
+            _db.SaveChanges();
         }
         
     }

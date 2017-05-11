@@ -10,6 +10,7 @@ namespace CodeEditorApp.Models.ViewModels
         public int ID { get; set; }
         public string Content { get; set; }
         public string AspNetUserID { get; set; }
+        public UserViewModel User { get; set; }
         public int ProjectID { get; set; }
     }
 }
