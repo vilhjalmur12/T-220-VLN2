@@ -409,8 +409,7 @@
                                 {
                                     UserViewModel user = Model.Members[i];
                                     var userID = user.ID;
-                                    
-                                    <li><span id=@user.UserName onclick='javascript:setMembershipID(userID)' class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-file" aria-hidden="true"><span class="hover-text">Remove user</span></i></span>@user.UserName + @user.ID</li>
+                                    <li><span onclick="javascript:setMembershipID(userID)" id=@user.UserName class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-file" aria-hidden="true"><span class="hover-text">Remove user</span></i></span>@user.UserName</li>
                                 }
                                /* foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
                                 {
@@ -426,7 +425,10 @@
                         function setMembershipID(userID){
                             // var element = document.getElementById(userID).value;
                             @newMembership.AspNetUserID = userID;
-                        }
+                            /*var htmladd = '<i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-file" aria-hidden="true">';
+                            htmladd = '</i>';
+                            $('<li>').append(htmladd);*/
+                         }
                     </script>
  
                     <script>
