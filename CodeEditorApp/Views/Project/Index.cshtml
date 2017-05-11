@@ -355,15 +355,6 @@
             $('#message').focus();
             // Start the connection.
             $.connection.hub.start().done(function () {
-                if(!connected){
-                    
-                    int a = 0;
-                    for(i = 0; i < @Model.Comments.Count(); i++)
-                    {
-                        chat.server.send(@userList[a])
-                        
-                    }
-                }
                 $('#sendmessage').click(function () {
                     // Call the Send method on the hub.
                     var content = $("#message").val();;
