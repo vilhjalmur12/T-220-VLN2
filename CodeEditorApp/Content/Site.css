@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css?family=Lato|Raleway');
+﻿@import url('https://fonts.googleapis.com/css?family=Lato:400,400i|Raleway:400,700');
 
 /*----------------------------------------------------------*\
     $CONTENTS
@@ -167,7 +167,7 @@ body, html {
     color: #FF5C00; /*orange*/
 }
 
-.dark-background,
+.dark-background
 {
     //background-color:#005d56; /*dark cyan*/
     background-color: white;  
@@ -757,8 +757,13 @@ textarea {
 }
 
 .tree li a {
+    font-weight:400;
     text-decoration: none;
-    color:#369;
+    //color:#369;
+}
+
+.tree li a:focus{
+    font-weight: 700;
 }
 
 .tree li button, .tree li button:active, .tree li button:focus {
