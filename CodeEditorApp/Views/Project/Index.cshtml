@@ -317,7 +317,8 @@
         $(function () {
             // Reference the auto-generated proxy for the hub.
             var chat = $.connection.chatHub;
-            //var connected = false;
+            var connected = false;
+            var projectID = ToString(@Model.ID);
             // Create a function that the hub can call back to display messages.
             chat.client.addNewMessageToPage = function (name, message) {
                 // Add the message to the page.
@@ -331,13 +332,13 @@
             // Start the connection.
             $.connection.hub.start().done(function () {
                         
-                @*if(!connected){
-                    $.connection.hub.JoinRoom(@Html.Raw(Json.Encode(ViewBag.projectID)));
+                if(!connected){
+                    $.connection.chatHub.JoinRoom(projectID);
                     connected = true;
-                }*@
+                }
                  $('#sendmessage').click(function () {
                     // Call the Send method on the hub.
-                    chat.server.send($('#displayname').val(), $('#message').val());
+                     chat.server.send($('#displayname').val(), $('#message').val());
                     // Clear text box and reset focus for next comment.
                     $('#message').val('').focus();
                 });
@@ -377,32 +378,7 @@
                         <input type="text" id="membertoremove" name="membertoremove" placeholder="Remove user: Email address..." />
                         <button id="remove-member">Remove Member</button>
                     </div>
-                        <script>
-                            $(document).ready(function(){
-                                $("#add-member").click(function(){
-                                    var input = document.getElementById('myinputmember').value;
-                                    $.ajax({
-                                        url: 'Project/AddMemberIfExists',
-                                        type: 'POST',
-                                        contentType: 'application/json;',
-                                        data: JSON.stringify({ email: input, projectID: @Model.ID}),
-                                        success: function (valid)
-                                        {
-                                            if(valid)
-                                            {
-                                                var NestId = @Model.ID;
-                                                var url = "/Project/Index?projectID=" + NestId + "&tabMake=project-members";
-                                                window.location.href = url;
-                                            }
-                                            else
-                                            {
-                                                showhide("noMemberFound");
-                                            }
-                                        }
-                                    });
-                                });
-                            });
-                        </script>
+ 
                     <script>
                         $(document).ready(function(){
                             $("#remove-member").click(function(){

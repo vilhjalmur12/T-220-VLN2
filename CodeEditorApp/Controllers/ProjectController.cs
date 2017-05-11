@@ -166,51 +166,53 @@ namespace CodeEditorApp.Controllers
         }
 
         [HttpPost]
-        [ValidateAntiForgeryToken]
         public ActionResult CreateFile(FileViewModel fileModel, HttpPostedFileBase upload)
         {
             if (ModelState.IsValid)
             {
-                if (upload != null)
+                File newFile = new File()
                 {
-                    var fileUpload = new File
-                    {
-                        name = System.IO.Path.GetFileName(upload.FileName),
-                        FileType = projectService.GetFileTypeByExtension(System.IO.Path.GetExtension(upload.FileName)),
-                        ProjectID = fileModel.ProjectID,
-                        HeadFolderID = fileModel.HeadFolderID
-                    };
-                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                    {
-                        fileUpload.Content = reader.ReadBytes(upload.ContentLength);
-                    }
-                    projectService.CreateFile(ref fileUpload);
+                    name = fileModel.name,
+                    FileType = projectService.GetFileTypeByID(fileModel.FileTypeID),
+                    ProjectID = fileModel.ProjectID,
+                    HeadFolderID = fileModel.HeadFolderID
+                };
 
-                    return RedirectToAction("Index", "Project", new { projectID = fileUpload.ProjectID });
-                } else
-                {
-                    File newFile = new File()
-                    {
-                        name = fileModel.name,
-                        FileType = projectService.GetFileTypeByID(fileModel.FileTypeID),
-                        ProjectID = fileModel.ProjectID,
-                        HeadFolderID = fileModel.HeadFolderID
-                    };
+                projectService.CreateFile(ref newFile);
 
-                    projectService.CreateFile(ref newFile);
+                //   return OpenFile(newFile.ID); eftir að útfæra
 
-                    //   return OpenFile(newFile.ID); eftir að útfæra
-
-                    return RedirectToAction("Index", "Project", new { projectID = newFile.ProjectID });
-                }
+                return RedirectToAction("Index", "Project", new { projectID = newFile.ProjectID });
                 
             } else
             {
                 fileModel = NewFile();
                 return View(fileModel);
-            }
-            
+            }  
         }
+
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public ActionResult UploadFile(FileViewModel model, HttpPostedFileBase upload)
+        {
+            File fileUpload = new File();
+
+            
+                fileUpload.name = System.IO.Path.GetFileName(upload.FileName);
+                fileUpload.FileType = projectService.GetFileTypeByExtension(System.IO.Path.GetExtension(upload.FileName));
+                fileUpload.ProjectID = model.ProjectID;
+                fileUpload.HeadFolderID = model.HeadFolderID;
+
+                using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                {
+                    fileUpload.Content = reader.ReadBytes(upload.ContentLength);
+                }
+            
+            projectService.CreateFile(ref fileUpload);
+
+
+            return RedirectToAction("Index", "Project", new { projectID = fileUpload.ProjectID });
+        } 
 
         public ActionResult OpenFile(int? fileID)
         {
@@ -284,6 +286,18 @@ namespace CodeEditorApp.Controllers
             projectService.AddMemberIfExists(membership);
 
             return RedirectToAction("Index", "Project", new { projectID = membership.ProjectID, tabMake = "project-members" });
+        }
+
+        public ActionResult SaveComment(int projectID, string message)
+        {
+            CommentViewModel newComment = new CommentViewModel()
+            {
+                ProjectID = projectID,
+                Content = message,
+                AspNetUserID = User.Identity.GetUserId(),
+            };
+            projectService.SaveComment(newComment);
+            return RedirectToAction("Index", "Project", new { projectID = projectID, tabMake = "project-chat" });
         }
     }
 }
