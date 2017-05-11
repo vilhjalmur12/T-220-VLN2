@@ -427,7 +427,10 @@ div.tab button.active {
 }
 
 
-
+/*----- $EDITOR -----*/
+#SyntaxSelector{
+    border-radius: 6px;
+}
 
 
 
