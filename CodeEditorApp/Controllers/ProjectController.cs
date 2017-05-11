@@ -257,11 +257,15 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "Project", new { id = OpenProjectModel.ID });
         }
 
-       /* public ActionResult LeaveProject()
+        [HttpPost]
+        public ActionResult LeaveProject(MembershipViewModel membership)
         {
-            projectService.RemoveUserFromProject(User.Identity.GetUserId(), OpenProjectModel.ID);
+            membership.AspNetUserID = User.Identity.GetUserId();
+            projectService.RemoveUserFromProject(membership);
+
             return RedirectToAction("Index", "UserHome");
-        }*/
+        }
+
 
         public ActionResult ChangeEditorColor()
         {
