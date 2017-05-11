@@ -378,32 +378,7 @@
                         <input type="text" id="membertoremove" name="membertoremove" placeholder="Remove user: Email address..." />
                         <button id="remove-member">Remove Member</button>
                     </div>
-                        <script>
-                            document).ready(function(){
-                                $("#add-member").click(function(){
-                                    var input = document.getElementById('myinputmember').value;
-                                    $.ajax({
-                                        url: 'Project/AddMemberIfExists',
-                                        type: 'POST',
-                                        contentType: 'application/json;',
-                                        data: JSON.stringify({ email: input, projectID: @Model.ID}),
-                                        success: function (valid)
-                                        {
-                                            if(valid)
-                                            {
-                                                var NestId = @Model.ID;
-                                                var url = "/Project/Index?projectID=" + NestId + "&tabMake=project-members";
-                                                window.location.href = url;
-                                            }
-                                            else
-                                            {
-                                                showhide("noMemberFound");
-                                            }
-                                        }
-                                    });
-                                });
-                            });
-                        </script>
+ 
                     <script>
                         $(document).ready(function(){
                             $("#remove-member").click(function(){
