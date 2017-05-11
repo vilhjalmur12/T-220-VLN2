@@ -168,12 +168,13 @@ body, html {
 }
 
 .dark-background,
-.hover-text{
+{
     //background-color:#005d56; /*dark cyan*/
     background-color: white;  
 }
 
-.light-background{
+.light-background,
+.hover-text{
     background-color: #006072; /*dark blue*/
     //background-color: #F5F5F5; /*light grey*/ 
 }
@@ -442,6 +443,11 @@ div.tab button.active {
     border-radius: 6px;
 }
 
+#editor{
+    height:92%;
+}
+
+
 
 
 
@@ -562,6 +568,11 @@ div.tab button.active {
     width:96%;
 }
 
+#members span{
+    position:absolute;
+    right: 15%;
+    top: 80px;
+}
 /*----- $GOALS -----*/
 
 #goals{
@@ -570,7 +581,9 @@ div.tab button.active {
     
 }
 #goals span{
-    float:right;
+    position:absolute;
+    right: 15%;
+    top: 80px;
 }
 
 .no-style-list > * {
@@ -629,6 +642,10 @@ input[type='checkbox']:checked + label.objective{
     transition: margin-right .2s;
     padding: 20px;
     height:90%;
+}
+
+.ace-editor{
+
 }
 
 
