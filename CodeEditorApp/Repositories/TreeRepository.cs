@@ -5,6 +5,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Web;
+using System.Web.Mvc;
 
 namespace CodeEditorApp.Repositories
 {
@@ -57,12 +58,30 @@ namespace CodeEditorApp.Repositories
                         ID = fileItem.ID,
                         name = fileItem.name,
                         HeadFolderID = fileItem.HeadFolderID,
-                        ProjectID = fileItem.ProjectID
+                        ProjectID = fileItem.ProjectID,
+                        FileType = fileItem.FileType
                     });
                 }
                 return returnList;
             }
             return null;
+        }
+
+        public List<SelectListItem> GetFileTypes()
+        {
+            List<SelectListItem> ReturnList = new List<SelectListItem>();
+
+            ReturnList.Add(new SelectListItem() { Value = "", Text = "- Select Project Type -" });
+
+            foreach (FileType item in _db.FileTypes.ToList())
+            {
+                ReturnList.Add(new SelectListItem()
+                {
+                    Value = item.ID.ToString(),
+                    Text = item.Name,
+                });
+            }
+            return ReturnList;
         }
     }
 }

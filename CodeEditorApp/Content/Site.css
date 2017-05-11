@@ -11,6 +11,7 @@ LAYOUT              WHAT'S IN THE LAYOUT VIEWS
 	HEADER-FOOTER
 	BODY
 HOME                HOMEVIEW, LOGIN PARTIAL....
+    LOGIN
 USERHOME            USERHOMEVIEW, PROJECTLIST, ADD PROJECT BUTTON....
 	þarf að bæta í hér $FOLDER-TREE
 PROJECT             PROJECT VIEW, EDITOR, PROJECT ACTIONS....
@@ -103,9 +104,16 @@ s-heading-home,
     font-size: small;
 }
 
-.hover-user{
+.hover-text{
     font-size: x-small;
 }
+
+
+
+
+
+
+
 /*----------------------------------------------------------*\
     $MAIN-LAYOUT
 \*----------------------------------------------------------*/
@@ -157,6 +165,40 @@ body, html {
     border: 1px groove #E0E0E0; /*darker grey*/
 }
 
+/*----- $ICONS ----*/
+.clickable-icon{
+    cursor: pointer;
+}
+
+.hover-text{
+    visibility: hidden;
+    width: 80px;
+    background-color: black;
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px 0;
+    position: absolute;
+    z-index: 1;
+    top: 150%;
+    left: 0%;
+    margin-left: -27px;
+    opacity:0.7;
+}
+/* Show the hover-text when you mouse over the clickable-icon container */
+.clickable-icon:hover .hover-text {
+    visibility: visible;
+}
+
+
+/*For the arrow in project view*/
+#go-to-project-list-text .hover-text{
+    padding: 5px 0;
+    z-index: 1;
+    top: 0;
+    left: -200%;
+    margin-left: -35px;
+}
 
 
 /*----------------------------------------------------------*\
@@ -288,6 +330,16 @@ div.tab button.active {
 
 }
 
+.document-list-icons{
+    padding: 12px;
+    border-bottom: 1px groove #E0E0E0; /*darker grey*/
+}
+
+#go-to-project-list{
+    position: fixed;
+    right: 85%;
+    top: 85px;
+}
 .project-table{
 
     width:80%;
@@ -298,10 +350,6 @@ div.tab button.active {
     
     width:5%;
 }
-
-
- 
-
 
 
 /*----------------------------------------------------------*\
@@ -320,9 +368,11 @@ div.tab button.active {
     margin-top:2%;
 }
 
+
 .project-editor{
     width:80%;
     padding:1px;
+    height:90%;
 }
 
 .project-updates{
@@ -342,6 +392,8 @@ div.tab button.active {
     right: 0px;
     width:5%;
 }
+
+
 
 
 
@@ -380,9 +432,7 @@ div.tab button.active {
     margin-right: 50px;
 }
 
-.clickable-icon{
-    cursor: pointer;
-}
+
 
 .project-actions{ /*nóg að setja klasann á ul og sleppa ul?*/
     padding: 0px;
@@ -395,7 +445,7 @@ div.tab button.active {
 }
 
 .project-actions li{
-    padding: 7px 5px;
+    padding: 7px 7px;
 }
 
 .right-padding{
@@ -478,6 +528,7 @@ div.tab button.active {
 #editor {
     transition: margin-right .2s;
     padding: 20px;
+    height:90%;
 }
 
 
@@ -530,7 +581,10 @@ textarea {
 .tree, .tree ul {
     margin:0;
     padding:0;
-    list-style:none
+    list-style:none;
+}
+#tree2, #tree1{
+    padding-top: 12px;
 }
 
 .tree ul {

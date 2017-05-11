@@ -17,7 +17,6 @@ namespace CodeEditorApp.Controllers
     {
 
         private ProjectRepository projectService = new ProjectRepository();
-        private UserHomeRepository userHomeService = new UserHomeRepository();
 
         private OpenProjectViewModel OpenProjectModel;
 
@@ -36,13 +35,13 @@ namespace CodeEditorApp.Controllers
             return View(OpenProjectModel);
         }
 
-        public FileViewModel NewFile()
+        private FileViewModel NewFile()
         {
 
             FileViewModel newFile = new FileViewModel()
             {
                 ProjectID = OpenProjectModel.ID,
-                AvailableTypes = userHomeService.GetFileTypes(),
+                AvailableTypes = projectService.GetFileTypes(),
                 HeadFolderID = OpenProjectModel.SolutionFolder.ID
             };
 
@@ -207,25 +206,50 @@ namespace CodeEditorApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateFile(FileViewModel fileModel)
+        [ValidateAntiForgeryToken]
+        public ActionResult CreateFile(FileViewModel fileModel, HttpPostedFileBase upload)
         {
-            Debug.WriteLine(fileModel.ProjectID);
-            File newFile = new File()
+            if (ModelState.IsValid)
             {
-                name = fileModel.name,
-                FileType = projectService.GetFileTypeByID(fileModel.FileTypeID),
-                ProjectID = fileModel.ProjectID,
-                HeadFolderID = fileModel.HeadFolderID
-            };
+                if (upload != null)
+                {
+                    var fileUpload = new File
+                    {
+                        name = System.IO.Path.GetFileName(upload.FileName),
+                        FileType = projectService.GetFileTypeByExtension(System.IO.Path.GetExtension(upload.FileName)),
+                        ProjectID = fileModel.ProjectID,
+                        HeadFolderID = fileModel.HeadFolderID
+                    };
+                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                    {
+                        fileUpload.Content = reader.ReadBytes(upload.ContentLength);
+                    }
+                    projectService.CreateFile(ref fileUpload);
 
-            projectService.CreateFile(ref newFile);
+                    return RedirectToAction("Index", "Project", new { projectID = fileUpload.ProjectID });
+                } else
+                {
+                    File newFile = new File()
+                    {
+                        name = fileModel.name,
+                        FileType = projectService.GetFileTypeByID(fileModel.FileTypeID),
+                        ProjectID = fileModel.ProjectID,
+                        HeadFolderID = fileModel.HeadFolderID
+                    };
 
-            fileModel.ID = newFile.ID;
+                    projectService.CreateFile(ref newFile);
 
-            //   return OpenFile(newFile.ID); eftir að útfæra
+                    //   return OpenFile(newFile.ID); eftir að útfæra
 
-            TempData["projectModel"] = userHomeService.GetProjectByID(fileModel.ProjectID);
-            return RedirectToAction("Index", "Project");
+                    return RedirectToAction("Index", "Project", new { projectID = newFile.ProjectID });
+                }
+                
+            } else
+            {
+                fileModel = NewFile();
+                return View(fileModel);
+            }
+            
         }
 
         public ActionResult OpenFile(int? fileID)
@@ -256,7 +280,7 @@ namespace CodeEditorApp.Controllers
         {
             projectService.RemoveFile(fileID);
             updateFiles();
-            return RedirectToAction("Index", "Project", new { model = OpenProjectModel });
+            return RedirectToAction("Index", "Project", new { id = OpenProjectModel.ID });
         }
 
         public ActionResult LeaveProject()
