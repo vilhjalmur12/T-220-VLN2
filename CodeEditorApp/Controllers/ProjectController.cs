@@ -213,25 +213,6 @@ namespace CodeEditorApp.Controllers
             {
                 if (upload != null)
                 {
-                    var FileUpload = new File
-                    {
-                        name = System.IO.Path.GetFileName(upload.FileName),
-                        FileType = projectService.GetFileTypeByExtension(System.IO.Path.GetExtension(upload.FileName)),
-                        ProjectID = fileModel.ProjectID,
-                        HeadFolderID = fileModel.HeadFolderID
-                    };
-                    using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                    {
-                        FileUpload.Content = reader.ReadBytes(upload.ContentLength);
-                    }
-                    projectService.CreateFile(ref FileUpload);
-
-                    fileModel.ID = FileUpload.ID;
-
-                    TempData["projectModel"] = userHomeService.GetProjectByID(fileModel.ProjectID);
-                    return RedirectToAction("Index", "Project");
-                } else
-                {
                     File newFile = new File()
                     {
                         name = fileModel.name,
@@ -246,8 +227,12 @@ namespace CodeEditorApp.Controllers
 
                     //   return OpenFile(newFile.ID); eftir að útfæra
 
-                    TempData["projectModel"] = userHomeService.GetProjectByID(fileModel.ProjectID);
+                    //TempData["projectModel"] = userHomeService.GetProjectByID(fileModel.ProjectID);
                     return RedirectToAction("Index", "Project");
+                } else
+                {
+                    fileModel = NewFile();
+                    return View(fileModel);
                 }
                 
             } else
@@ -256,6 +241,37 @@ namespace CodeEditorApp.Controllers
                 return View(fileModel);
             }
             
+        }
+
+        public ActionResult UploadFile(FileViewModel model, HttpPostedFileBase upload)
+        {
+
+            if (upload != null)
+            {
+                var FileUpload = new File
+                {
+                    name = System.IO.Path.GetFileName(upload.FileName),
+                    FileType = projectService.GetFileTypeByExtension(System.IO.Path.GetExtension(upload.FileName)),
+                    ProjectID = model.ProjectID,
+                    HeadFolderID = model.HeadFolderID
+                };
+                using (var reader = new System.IO.BinaryReader(upload.InputStream))
+                {
+                    FileUpload.Content = reader.ReadBytes(upload.ContentLength);
+                }
+                projectService.CreateFile(ref FileUpload);
+
+                model.ID = FileUpload.ID;
+                UserHomeRepository User = new UserHomeRepository();
+
+                TempData["projectModel"] = User.GetProjectByID(model.ProjectID);
+                return RedirectToAction("Index", "Project");
+            } else
+            {
+                model = NewFile();
+                return View(model);
+            }
+
         }
 
         public ActionResult OpenFile(int? fileID)
