@@ -197,7 +197,6 @@ namespace CodeEditorApp.Controllers
         {
             File fileUpload = new File();
 
-            
                 fileUpload.name = System.IO.Path.GetFileName(upload.FileName);
                 fileUpload.FileType = projectService.GetFileTypeByExtension(System.IO.Path.GetExtension(upload.FileName));
                 fileUpload.ProjectID = model.ProjectID;
@@ -205,7 +204,8 @@ namespace CodeEditorApp.Controllers
 
                 using (var reader = new System.IO.BinaryReader(upload.InputStream))
                 {
-                    fileUpload.Content = reader.ReadBytes(upload.ContentLength);
+                    fileUpload.Content = reader.ReadString();
+                
                 }
             
             projectService.CreateFile(ref fileUpload);
@@ -288,7 +288,7 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "Project", new { projectID = membership.ProjectID, tabMake = "project-members" });
         }
 
-        public void SaveComment(int projectID, string message)
+        public ActionResult SaveComment(int projectID, string message)
         {
             CommentViewModel newComment = new CommentViewModel()
             {
@@ -297,6 +297,7 @@ namespace CodeEditorApp.Controllers
                 AspNetUserID = User.Identity.GetUserId(),
             };
             projectService.SaveComment(newComment);
+            return RedirectToAction("Index", "Project", new { projectID = projectID, tabMake = "project-chat" });
         }
     }
 }

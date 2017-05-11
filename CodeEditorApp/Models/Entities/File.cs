@@ -31,10 +31,7 @@ namespace CodeEditorApp.Models
         /// </summary>
         public int ProjectID { get; set; }
 
-        [StringLength(100)]
-        public string ContentType { get; set; }
-
-        public byte[] Content { get; set; }
+        public string Content { get; set; }
 
         public int HeadFolderID { get; set; }
 

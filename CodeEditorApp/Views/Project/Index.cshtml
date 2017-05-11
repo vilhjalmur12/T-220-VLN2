@@ -144,24 +144,7 @@
                     <script src="~/signalr/hubs"></script>
 
                 @{
-                    FileViewModel InitFile = new FileViewModel();
-                    if (Model.SolutionFolder.Files.Count() != 0)
-                    {
-                        if (@Model.SolutionFolder.Files.First().name == "Index")
-                        {
-                            InitFile = Model.SolutionFolder.Files.First();
-                        }
-                        else if (Model.SolutionFolder.Files.First().name == "Main")
-                        {
-                            InitFile = Model.SolutionFolder.Files.First();
-                        }
-                        else
-                        {
-                            InitFile.FileType = new CodeEditorApp.Models.Entities.FileType();
-                            InitFile.FileType.Name = "Html";
-
-                        }
-                    }
+                    
                 }
 
 
@@ -378,32 +361,7 @@
                         <input type="text" id="membertoremove" name="membertoremove" placeholder="Remove user: Email address..." />
                         <button id="remove-member">Remove Member</button>
                     </div>
-                        <script>
-                            document).ready(function(){
-                                $("#add-member").click(function(){
-                                    var input = document.getElementById('myinputmember').value;
-                                    $.ajax({
-                                        url: 'Project/AddMemberIfExists',
-                                        type: 'POST',
-                                        contentType: 'application/json;',
-                                        data: JSON.stringify({ email: input, projectID: @Model.ID}),
-                                        success: function (valid)
-                                        {
-                                            if(valid)
-                                            {
-                                                var NestId = @Model.ID;
-                                                var url = "/Project/Index?projectID=" + NestId + "&tabMake=project-members";
-                                                window.location.href = url;
-                                            }
-                                            else
-                                            {
-                                                showhide("noMemberFound");
-                                            }
-                                        }
-                                    });
-                                });
-                            });
-                        </script>
+ 
                     <script>
                         $(document).ready(function(){
                             $("#remove-member").click(function(){
