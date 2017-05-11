@@ -404,21 +404,27 @@
                             <!--Display the list of members in a project if any-->
                             @if (Model.Members != null)
                             {
-                                foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
+
+                                for (int i = 0; i < Model.Members.Count(); i++)
                                 {
-                                    <li><span id=@user.UserName onclick="SetMembershipID(@user.ID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-file" aria-hidden="true"><span class="hover-text">Create rr file</span></i></span>@user.UserName</li>
+                                    UserViewModel user = Model.Members[i];
+                                    var userID = user.ID;
+                                    
+                                    <li><span id=@user.UserName onclick='javascript:setMembershipID(userID)' class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-file" aria-hidden="true"><span class="hover-text">Remove user</span></i></span>@user.UserName + @user.ID</li>
                                 }
+                               /* foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
+                                {
+
+                                    string userID = user.UserName;
+                                    //SetMembershipID(userID, this)"
+
+                                }*/
                             }
                         </ul>
-
-                        <input type="text" id="myinputmember" name="myinputmember" placeholder="Add user: Email address..." />
-                        <button id="add-member">Add new member</button>
-
-                        <input type="text" id="membertoremove" name="membertoremove" placeholder="Remove user: Email address..." />
-                        <button id="remove-member">Remove Member</button>
                     </div>
                     <script>
-                        function SetMembershipID(userID){
+                        function setMembershipID(userID){
+                            // var element = document.getElementById(userID).value;
                             @newMembership.AspNetUserID = userID;
                         }
                     </script>
@@ -476,29 +482,40 @@
                         <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
                     </div>
                 <!--members end-->
+
                 <!--goals starts-->
                 <div id="project-goals" class="sidenav padding-for-container right-padding light-background">
                     <div id="goals" class="box-container">
                         <h3>Goals</h3>
                         <!-- Bæta við Goal -->
-                        <span id="add-goal" class="clickable-icon"><i id="go-to-project-list-text" data-toggle="modal" data-target="#myModal" class="fa fa-arrow-up fa-2x" aria-hidden="true"><span class="hover-text">Go to my projects</span></i></span>
-
-                        <dl>
+                        <!--Hér er vitlaust data-toggle og data-target-->
+                        <span id="add-goal" class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="fa fa-plus-circle fa-2x" aria-hidden="true"><span class="hover-text">Add Goal</span></i></span>
+                        <ul class="no-style-list">
                             @if (Model.Goals != null)
                             {
                                 foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
                                 {
-                                    <dt><input type="checkbox" checked=@goal.finished onchange="ChangeGoal(@goal.ID)"/>@goal.name : @goal.description</dt>
-                                    if (goal.objectives != null)
-                                    {
-                                        foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
+                                    <li>
+                                        <input type="checkbox" checked=@goal.finished onchange="ChangeGoal(@goal.ID)" />
+                                        <label class="goal">@goal.name : @goal.description</label>
+                                        @if (goal.objectives != null)
                                         {
-                                            <dd><input type="checkbox" checked=@objective.finished onchange="ChangeGoal(@objective.ID)" />@objective.name</dd>
+                                        <ul class="no-style-list">
+                                            @foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
+                                            {
+                                                <li>
+                                                    <input type="checkbox" checked=@objective.finished />
+                                                    <label class="objective">@objective.name</label>
+                                                </li>
+                                            }
+                                            <li class="add-object"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-plus clickable-icon" aria-hidden="true"></i>Add objective</li>
+                                        </ul>
                                         }
-                                    }
+                                    </li>
                                 }
                             }
-                        </dl>
+                        </ul>
+                        
                 </div>
             </div>
             <!--goals ends-->
@@ -539,34 +556,7 @@
             closeNav("project-goals");
         }
         
-        function ChangeGoal(goalID)
-        {
-
-            $.ajax({
-                type: 'POST',
-                url: '/Project/ChangeGoal', //can I send data to multiple url with same ajax call.
-                data: {
-                    goalID: goalID,
-                },
-                success: function (data) {
-                    $(".error_msg").text(data);
-                }
-            });
-        }
-
-        function ChangeObjective(objectiveID) {
-
-            $.ajax({
-                type: 'POST',
-                url: '/Project/ChangeObjective', //can I send data to multiple url with same ajax call.
-                data: {
-                    objectvieID:objectiveID,
-                },
-                success: function (data) {
-                    $(".error_msg").text(data);
-                }
-            });
-        }
+        // Setup for File-Code Editor
         
         
     </script>
