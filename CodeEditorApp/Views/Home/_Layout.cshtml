@@ -33,7 +33,7 @@
     <header class="navbar navbar-fixed-top container padding-for-container dark-background">
         <div class="header-flex-container navbar-left">
             <div> <img class="logo" src="../images/logo.png" alt="CC" "></div>
-            <div>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "light-textcolor h1" })</div>
+            <div>@Html.ActionLink("Home", "Index", "Home", new { area = "" }, new { @class = "color-textcolor h1" })</div>
         </div>
         <div class="collapse navbar-collapse navbar-right">
             <div class="collapse navbar-collapse navbar-right">
@@ -45,20 +45,20 @@
                         @Html.AntiForgeryToken()
                         <ul class="nav navbar-nav l-heading-home">
                             <!--vantar hér réttan link-->
-                            <li>@Html.ActionLink("About", "About", "Home", new { @class = "light-textcolor" })</li>
-                            <li>@Html.ActionLink("Help", "Help", "Home", new { @class = "light-textcolor" }) </li>
+                            <li>@Html.ActionLink("About", "About", "Home", new { @class = "color-textcolor" })</li>
+                            <li>@Html.ActionLink("Help", "Help", "Home", new { @class = "color-textcolor" }) </li>
                             <li>
-                                @Html.ActionLink("View your projects", "Index", "UserHome", routeValues: null, htmlAttributes: new { title = "Your Projects", @class = "light-textcolor" })
+                                @Html.ActionLink("View your projects", "Index", "UserHome", routeValues: null, htmlAttributes: new { @class = "color-textcolor" })
                             </li>
-                            <li><a class="light-textcolor" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
+                            <li><a class="color-textcolor" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                         </ul>
                     }
                 }
                 else
                 {
                     <ul class="nav navbar-nav l-heading-home">
-                        <li>@Html.ActionLink("About", "About", "Home", new { @class = "light-textcolor" })</li>
-                        <li>@Html.ActionLink("Help", "Help", "Home", new { @class = "light-textcolor" }) </li>
+                        <li>@Html.ActionLink("About", "About", "Home", new { @class = "color-textcolor" })</li>
+                        <li>@Html.ActionLink("Help", "Help", "Home", new { @class = "color-textcolor" }) </li>
 
                     </ul>
                 }
@@ -76,9 +76,9 @@
     <!--End of body of home page-->
 
     <footer class="navbar-fixed-bottom padding-for-container text-home dark-background">
-        @Html.ActionLink("The Team", "Team", "Home", new { @class = "light-textcolor" })
-        @Html.ActionLink("Terms and conditions", "Terms", "Home", new { @class = "light-textcolor" })
-        @Html.ActionLink("FAQ", "About", "Home", new { @class = "light-textcolor" })
+        @Html.ActionLink("The Team", "Team", "Home", new { @class = "color-textcolor" })
+        @Html.ActionLink("Terms and conditions", "Terms", "Home", new { @class = "color-textcolor" })
+        @Html.ActionLink("FAQ", "About", "Home", new { @class = "color-textcolor" })
     </footer>
 
     @Scripts.Render("~/bundles/jquery")
