@@ -4,6 +4,7 @@
 @{
     ViewBag.Title = "Index";
     Layout = "~/Views/UserHome/_Layout.cshtml";
+    MembershipViewModel newMembership = ViewBag.newMembership;
     FileViewModel newFile = ViewBag.newFile;
     List<FolderViewModel> solutionFileList = new List<FolderViewModel>();
     solutionFileList.Add(Model.SolutionFolder);
