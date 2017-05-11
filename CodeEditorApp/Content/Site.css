@@ -35,6 +35,10 @@ PROJECT-ACTIONS
     margin:0px;
 }
 
+.navbar-right ul li a:hover{ 
+    background:none;
+}
+
 /*Better control of padding*/
 .container{
     padding:0;
@@ -56,8 +60,8 @@ PROJECT-ACTIONS
 .l-heading-home,
 .navbar a,
 .heading-user,
-.info a 
-{
+.info a,
+footer{
     font-family: 'Lato', sans-serif;
     font-style:italic;
 }
@@ -123,8 +127,10 @@ body {
     margin:0;
     font-family: 'Raleway', sans-serif;
     font-size:12px;
-    color: #005d56; /*blugreen*/ 
-    background-color: #F5F5F5;
+    //color: #005d56; /*blugreen*/ 
+    color: #006072; /*blue*/
+    background-color: #006072; /*blue*/
+    //background-color: #F5F5F5;
 
 }
 
@@ -140,22 +146,32 @@ body, html {
     margin:0px;
 }
 
+/*Colors*/
 .dark-textcolor >*{ 
-    color: #005d56, /*dark cyan*/  
+    //color: #005d56; /*dark cyan*/ 
+    color: white;
+   
 }
   
 .light-textcolor,
 .hover-text{
-    color:white;
+    //color:white;
+    color: #006072;
+}
+
+.color-textcolor{
+    color: #FF5C00; /*orange*/
 }
 
 .dark-background,
 .hover-text{
-    background-color:#005d56; /*dark cyan*/
+    //background-color:#005d56; /*dark cyan*/
+    background-color: white;  
 }
 
 .light-background{
-    background-color: #F5F5F5; /*light grey*/ 
+    background-color: #006072; /*dark blue*/
+    //background-color: #F5F5F5; /*light grey*/ 
 }
 
 .box-container{
@@ -184,8 +200,8 @@ body, html {
     left: 0%;
     margin-left: -40%;
     opacity:0;
-    transition-delay: 2s;
     transition:opacity 0.7s;
+    transition-delay: 1s;
     
 }
 /* Show the hover-text when you mouse over the clickable-icon container */
@@ -228,6 +244,14 @@ footer{
     height:7%;
 }
 
+.navbar-fixed-bottom >*{
+    padding: 0 5px;
+}
+
+.navbar-fixed-bottom >*:hover{
+    text-decoration:none;
+}
+
 
 
 /*----- $BODY -----*/
@@ -262,9 +286,9 @@ footer{
     margin-top:50px;
 }
 
-a{
+/*a{
     color: #005d56;
-}
+}*/
 
 /*----- LOGIN ----*/
 
@@ -375,7 +399,6 @@ div.tab button.active {
 .project-editor{
     width:80%;
     padding:1px;
-    height:90%;
 }
 
 .project-updates{

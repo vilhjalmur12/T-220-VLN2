@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNet.Identity
 @using CodeEditorApp.Models
 
-@if (Request.IsAuthenticated)
+@*@if (Request.IsAuthenticated)
 {
     using (Html.BeginForm("LogOff", "Account", FormMethod.Post, new { id = "logoutForm", @class = "navbar-right" }))
     {
@@ -17,6 +17,7 @@
 }
 else
 {
+    *@
     <html>
     <body>
         <div class="tab dark-background light-textcolor border-box">
@@ -68,4 +69,4 @@ else
         </script>
     </body>
 </html>
-                        }
+                       <!-- }-->
