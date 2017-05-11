@@ -35,6 +35,8 @@ namespace CodeEditorApp.Controllers
                 ProjectID = OpenProjectModel.ID
             };
             //For the Editor
+            List<FileViewModel> AllSolutionFiles = projectService.GetFilesByProject(projectID.Value);
+            ViewBag.AllSolutionFiles = AllSolutionFiles;
             ViewBag.Code = "alert('Hello World!');";
             ViewBag.DocumentID = 17;
             //ViewBag.ProjectID = projectID;
@@ -61,12 +63,10 @@ namespace CodeEditorApp.Controllers
             return newFile;
         }
 
-        [HttpPost]
-        public ActionResult ChangeGoal (int? goalID)
+        public void ChangeGoal (int goalID)
         {
-            projectService.ChangeGoal(goalID.Value);
-            // LAGA
-            return RedirectToAction("Index", "Project", OpenProjectModel);
+            projectService.ChangeGoal(goalID);
+
         }
 
 
@@ -143,20 +143,20 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("ShowGoals", "Project");
         }
 
-        public void SaveComment(string content)
-        {
-            if (!String.IsNullOrEmpty(content))
-            {
-                CommentViewModel commentModel = new CommentViewModel()
-                {
-                    AspNetUserID = User.Identity.GetUserId(),
-                    Content = content,
-                    ProjectID = OpenProjectModel.ID
-                };
+        //public void SaveComment(string content)
+        //{
+        //    if (!String.IsNullOrEmpty(content))
+        //    {
+        //        CommentViewModel commentModel = new CommentViewModel()
+        //        {
+        //            AspNetUserID = User.Identity.GetUserId(),
+        //            Content = content,
+        //            ProjectID = OpenProjectModel.ID
+        //        };
 
-                projectService.AddNewComment(commentModel);
-            }
-        }
+        //        projectService.AddNewComment(commentModel);
+        //    }
+        //}
 
         [HttpGet]
         public ActionResult CreateFile()
@@ -205,7 +205,6 @@ namespace CodeEditorApp.Controllers
                 using (var reader = new System.IO.BinaryReader(upload.InputStream))
                 {
                     fileUpload.Content = reader.ReadString();
-                
                 }
             
             projectService.CreateFile(ref fileUpload);
@@ -214,10 +213,14 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "Project", new { projectID = fileUpload.ProjectID });
         } 
 
-        public ActionResult OpenFile(int? fileID)
+        [HttpPost]
+        public ActionResult OpenFile(int fileID)
         {
+            Debug.WriteLine(fileID);
             //TODO
-            return null;
+            FileViewModel NewDoc = projectService.GetFileByID(fileID);
+
+            return Json(NewDoc, JsonRequestBehavior.AllowGet);
         }
 
         public ActionResult CreateFolder()
@@ -288,7 +291,7 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "Project", new { projectID = membership.ProjectID, tabMake = "project-members" });
         }
 
-        public ActionResult SaveComment(int projectID, string message)
+        public void SaveComment(int projectID, string message)
         {
             CommentViewModel newComment = new CommentViewModel()
             {
@@ -297,7 +300,7 @@ namespace CodeEditorApp.Controllers
                 AspNetUserID = User.Identity.GetUserId(),
             };
             projectService.SaveComment(newComment);
-            return RedirectToAction("Index", "Project", new { projectID = projectID, tabMake = "project-chat" });
+            //return RedirectToAction("Index", "Project", new { projectID = projectID, tabMake = "project-chat" });
         }
     }
 }

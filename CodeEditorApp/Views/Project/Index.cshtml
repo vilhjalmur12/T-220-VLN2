@@ -8,6 +8,7 @@
     FileViewModel newFile = ViewBag.newFile;
     List<FolderViewModel> solutionFileList = new List<FolderViewModel>();
     solutionFileList.Add(Model.SolutionFolder);
+    List<FileViewModel> AllFiles = ViewBag.AllSolutionFiles;
 }
 
 @Scripts.Render("~/bundles/jquery")
@@ -126,7 +127,7 @@
                                 <ul>
                                     @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
                                     {
-                                        <li class="clickable-icon" id="file-item" alt="@item.ID">
+                                        <li class="clickable-icon" id="file-item" alt="@file.ID">
                                             <a>@file.name</a>
                                         </li>
                                     }
@@ -194,21 +195,29 @@
                         editor.setTheme("ace/theme/monokai");
                     }
                 }
-                //Changes the syntax of the editor
+
+
                 function Syntax(str) {
                     // var e = document.getElementById("SyntaxSelector");
                     // var str = e.options[e.selectedIndex].text;
                     //alert(str);
                     if (str == "Javascript") {
                         editor.getSession().setMode("ace/mode/javascript");
-                    } else if (str == "Html") {
+                    } else if (str == ".html") {
                         editor.getSession().setMode("ace/mode/html");
-                    } else if (str == "C++") {
+                    } else if (str == ".cpp") {
                         editor.getSession().setMode("ace/mode/cplusplus");
-                    } else if (str == "Css") {
+                    } else if (str == ".cpp") {
                         editor.getSession().setMode("ace/mode/css");
                     }
                 }
+
+
+                function UpdateEditor (Content, syntax) {
+                    editor.EditSession(Content, syntax);
+                }
+                //Changes the syntax of the editor
+                
 
                 $("form").submit(function () {
                     $("#hidden_editor").val(editor.getSession().getValue());
@@ -347,15 +356,30 @@
                 //    connected = true;
                 //}
                 $('#sendmessage').click(function () {
-                    
                     // Call the Send method on the hub.
+                    var content = $("#message").val();;
                     chat.server.send($('#displayname').val(), $('#message').val());
-                    var NestId = @Model.ID;
-                    var url = "/Project/?SaveComment=" + NestId + "&message="+'#message';
-                    window.location.href = url;
+                    @*//var NestIdProject = @Model.ID;*@
+                    //var url = "/Project/SaveComment?projectID=" + NestIdProject +  "&message=" + content;
+                    //window.location.href = url
+                   
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Project/SaveComment', //can I send data to multiple url with same ajax call.
+                        data: {
+                            projectID : @Model.ID,
+                            message : content,
+                        },
+                        success: function (data) {
+                            $(".error_msg").text(data);
+                        }
+                    });
+
+                    $('#message').val('').focus();
 
                     // Clear text box and reset focus for next comment.
-                    $('#message').val('').focus();
+                    
                 });
              });
         });
@@ -380,21 +404,27 @@
                             <!--Display the list of members in a project if any-->
                             @if (Model.Members != null)
                             {
-                                foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
+
+                                for (int i = 0; i < Model.Members.Count(); i++)
                                 {
-                                    <li><span id=@user.UserName onclick="SetMembershipID(@user.ID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-file" aria-hidden="true"><span class="hover-text">Create rr file</span></i></span>@user.UserName</li>
+                                    UserViewModel user = Model.Members[i];
+                                    var userID = user.ID;
+                                    
+                                    <li><span id=@user.UserName onclick='javascript:setMembershipID(userID)' class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-file" aria-hidden="true"><span class="hover-text">Remove user</span></i></span>@user.UserName + @user.ID</li>
                                 }
+                               /* foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
+                                {
+
+                                    string userID = user.UserName;
+                                    //SetMembershipID(userID, this)"
+
+                                }*/
                             }
                         </ul>
-
-                        <input type="text" id="myinputmember" name="myinputmember" placeholder="Add user: Email address..." />
-                        <button id="add-member">Add new member</button>
-
-                        <input type="text" id="membertoremove" name="membertoremove" placeholder="Remove user: Email address..." />
-                        <button id="remove-member">Remove Member</button>
                     </div>
                     <script>
-                        function SetMembershipID(userID){
+                        function setMembershipID(userID){
+                            // var element = document.getElementById(userID).value;
                             @newMembership.AspNetUserID = userID;
                         }
                     </script>
@@ -421,6 +451,32 @@
                                     }
                                 });
                             });
+
+                            $('#file-item>a').on('click', function () {
+                                $('#file-item>a').each(function () {
+                                    $(this).css("color", "#369");
+                                });
+                                $(this).css('color', 'black');
+                                var ID = parseInt($(this).parent().attr('alt'));
+                                console.log(ID);
+                                $.ajax({
+                                    url: "/Project/OpenFile",
+                                    method: "POST",
+                                    data: { fileID : ID },
+                                    dataType: "html",
+                                    //contentType: "application/json; charset=utf-8",
+                                    beforeSend:function () {
+                                        
+                                    },
+                                    success: function (responseData) {
+                                        console.log(responseData);
+                                        UpdateEditor(responseData[0].Content, responseData[0].FileType.Extension);
+                                    },
+                                    
+                                });
+                                return false;
+                            });
+
                         });
                     </script>
                         <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
