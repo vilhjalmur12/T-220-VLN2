@@ -37,7 +37,7 @@ namespace CodeEditorApp.Controllers
             //For the Editor
             ViewBag.Code = "alert('Hello World!');";
             ViewBag.DocumentID = 17;
-            ViewBag.ProjectID = projectID;
+            //ViewBag.ProjectID = projectID;
             ViewBag.UserName = User.Identity.GetUserName();
             ViewBag.UseID = User.Identity.GetUserId();
             //For the editor
@@ -71,11 +71,11 @@ namespace CodeEditorApp.Controllers
 
 
 
-        public ActionResult RemoveMember(string AspNetUserID)
+        public ActionResult RemoveMember(MembershipViewModel membership)
         {
-            projectService.RemoveUserFromProject(AspNetUserID, OpenProjectModel.ID);
+            projectService.RemoveUserFromProject(membership);
             //LAGA
-            return RedirectToAction("ShowGroup", "Project");
+            return RedirectToAction("Index", "Project", new { projectID = membership.ProjectID, tapMake = "project-members"});
         }
 
         public ActionResult AddGoal(FormCollection collection)
@@ -244,11 +244,11 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "Project", new { id = OpenProjectModel.ID });
         }
 
-        public ActionResult LeaveProject()
+       /* public ActionResult LeaveProject()
         {
             projectService.RemoveUserFromProject(User.Identity.GetUserId(), OpenProjectModel.ID);
             return RedirectToAction("Index", "UserHome");
-        }
+        }*/
 
         public ActionResult ChangeEditorColor()
         {
@@ -270,14 +270,14 @@ namespace CodeEditorApp.Controllers
             return Json(obj);
         }*/
 
-        [HttpPost] // can be HttpGet
+        /*[HttpPost] // can be HttpGet
         public ActionResult RemoveMemberIfInProject(string email, int projectID)
         {
             bool isValid = projectService.RemoveMemberIfInProject(email, projectID);
             var obj = isValid;
 
             return Json(new { valid = isValid });
-        }
+        }*/
 
         [HttpPost]
         public ActionResult AddMember(MembershipViewModel membership)

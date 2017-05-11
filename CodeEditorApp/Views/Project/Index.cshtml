@@ -19,7 +19,7 @@
 
 </head>
 <script src="https://use.fontawesome.com/3e0cecfe87.js"></script>
-<body>
+<body onload="openNav('@ViewBag.tabMake')">
     <div id="myModal2" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
@@ -38,6 +38,28 @@
             </div>
         </div>
     </div>
+
+    <div id="myModal3" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    @{Html.RenderPartial("RemoveMember", newMembership);} 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <!--Project body starts-->
     <div class="row container padding-for-container project-body">
 
@@ -265,7 +287,7 @@
         <div id="popout-nav" class="col-md-1 row">
             <!--Action nav starts -->
             <div class="light-background">
-                <ul class="project-actions light-background">
+                <ul class="project-actions light-background dark-textcolor">
                     <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
                     <li><span onclick="openNav('project-chat');" class="clickable-icon"><i class="glyphicon glyphicon-comment fa-3x" aria-hidden="true"></i></span></li>
                     <li><span onclick="openNav('project-members');" class="clickable-icon"><i class="fa fa-users fa-3x" aria-hidden="true"></i></span></li>
@@ -300,8 +322,8 @@
         $(function () {
             // Reference the auto-generated proxy for the hub.
             var chat = $.connection.chatHub;
-            var connected = false;
-            var projectID = ToString(@Model.ID);
+            //var connected = false;
+            @*var projectID = ToString(@Model.ID);*@
             // Create a function that the hub can call back to display messages.
             chat.client.addNewMessageToPage = function (name, message) {
                 // Add the message to the page.
@@ -314,14 +336,19 @@
             $('#message').focus();
             // Start the connection.
             $.connection.hub.start().done(function () {
-                        
-                if(!connected){
-                    $.connection.chatHub.JoinRoom(projectID);
-                    connected = true;
-                }
-                 $('#sendmessage').click(function () {
+
+                //if(!connected){
+                //    $.connection.chatHub.JoinRoom(projectID);
+                //    connected = true;
+                //}
+                $('#sendmessage').click(function () {
+                    
                     // Call the Send method on the hub.
-                     chat.server.send($('#displayname').val(), $('#message').val());
+                    chat.server.send($('#displayname').val(), $('#message').val());
+                    var NestId = @Model.ID;
+                    var url = "/Project/?SaveComment=" + NestId + "&message="+'#message';
+                    window.location.href = url;
+
                     // Clear text box and reset focus for next comment.
                     $('#message').val('').focus();
                 });
@@ -350,7 +377,7 @@
                             {
                                 foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
                                 {
-                                    <li>@user.UserName</li>
+                                    <li><span id=@user.UserName onclick="SetMembershipID(@user.ID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-file" aria-hidden="true"><span class="hover-text">Create rr file</span></i></span>@user.UserName</li>
                                 }
                             }
                         </ul>
@@ -361,6 +388,11 @@
                         <input type="text" id="membertoremove" name="membertoremove" placeholder="Remove user: Email address..." />
                         <button id="remove-member">Remove Member</button>
                     </div>
+                    <script>
+                        function SetMembershipID(userID){
+                            @newMembership.AspNetUserID = userID;
+                        }
+                    </script>
  
                     <script>
                         $(document).ready(function(){
