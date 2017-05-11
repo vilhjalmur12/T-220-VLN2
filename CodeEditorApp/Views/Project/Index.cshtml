@@ -166,24 +166,7 @@
                     <script src="~/signalr/hubs"></script>
 
                 @{
-                    FileViewModel InitFile = new FileViewModel();
-                    if (Model.SolutionFolder.Files.Count() != 0)
-                    {
-                        if (@Model.SolutionFolder.Files.First().name == "Index")
-                        {
-                            InitFile = Model.SolutionFolder.Files.First();
-                        }
-                        else if (Model.SolutionFolder.Files.First().name == "Main")
-                        {
-                            InitFile = Model.SolutionFolder.Files.First();
-                        }
-                        else
-                        {
-                            InitFile.FileType = new CodeEditorApp.Models.Entities.FileType();
-                            InitFile.FileType.Name = "Html";
-
-                        }
-                    }
+                    
                 }
 
 

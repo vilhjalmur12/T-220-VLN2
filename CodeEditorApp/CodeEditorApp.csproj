@@ -260,6 +260,10 @@
     <Compile Include="Migrations\201705101354458_user id í membership.Designer.cs">
       <DependentUpon>201705101354458_user id í membership.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705111337579_FileUpdate1.cs" />
+    <Compile Include="Migrations\201705111337579_FileUpdate1.Designer.cs">
+      <DependentUpon>201705111337579_FileUpdate1.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContactViewModel.cs" />
@@ -781,6 +785,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705101354458_user id í membership.resx">
       <DependentUpon>201705101354458_user id í membership.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705111337579_FileUpdate1.resx">
+      <DependentUpon>201705111337579_FileUpdate1.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
