@@ -493,7 +493,7 @@
                                     {
                                         foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
                                         {
-                                            <dd><input type="checkbox" checked=@objective.finished />@objective.name</dd>
+                                            <dd><input type="checkbox" checked=@objective.finished onchange="ChangeGoal(@objective.ID)" />@objective.name</dd>
                                         }
                                     }
                                 }
@@ -539,7 +539,34 @@
             closeNav("project-goals");
         }
         
-        // Setup for File-Code Editor
+        function ChangeGoal(goalID)
+        {
+
+            $.ajax({
+                type: 'POST',
+                url: '/Project/ChangeGoal', //can I send data to multiple url with same ajax call.
+                data: {
+                    goalID: goalID,
+                },
+                success: function (data) {
+                    $(".error_msg").text(data);
+                }
+            });
+        }
+
+        function ChangeObjective(objectiveID) {
+
+            $.ajax({
+                type: 'POST',
+                url: '/Project/ChangeObjective', //can I send data to multiple url with same ajax call.
+                data: {
+                    objectvieID:objectiveID,
+                },
+                success: function (data) {
+                    $(".error_msg").text(data);
+                }
+            });
+        }
         
         
     </script>

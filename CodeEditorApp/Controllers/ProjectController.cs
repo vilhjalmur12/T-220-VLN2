@@ -69,6 +69,12 @@ namespace CodeEditorApp.Controllers
 
         }
 
+        public void ChangeObjective(int objectiveID)
+        {
+            projectService.ChangeObjective(objectiveID);
+
+        }
+
 
 
         public ActionResult RemoveMember(MembershipViewModel membership)

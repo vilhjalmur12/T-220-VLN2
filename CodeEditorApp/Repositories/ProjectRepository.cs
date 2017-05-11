@@ -50,6 +50,19 @@ namespace CodeEditorApp.Repositories
             _db.SaveChanges();
         }
 
+        public void ChangeObjective(int objectiveID)
+        {
+            if (_db.Objectives.Find(objectiveID).finished)
+            {
+                _db.Objectives.Find(objectiveID).finished = false;
+            }
+            else
+            {
+                _db.Objectives.Find(objectiveID).finished = true;
+            }
+            _db.SaveChanges();
+        }
+
         public OpenProjectViewModel GetOpenProjectViewModel(int projectID)
         {
             Project project = _db.Projects.Find(projectID);
