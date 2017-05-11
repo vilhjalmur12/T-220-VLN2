@@ -392,7 +392,7 @@ namespace CodeEditorApp.Repositories
             return myUser;
         }
 
-        public bool RemoveMemberIfInProject(string email, int projectID)
+        /*public bool RemoveMemberIfInProject(string email, int projectID)
         {
             List<UserViewModel> userList = GetUsersByProject(projectID); //sæki lista af notendum sem eru í þessu projectID-i
 
@@ -405,7 +405,7 @@ namespace CodeEditorApp.Repositories
                 return true;
             }
             return false;
-        }
+        }*/
 
         public void SaveComment(CommentViewModel comment)
         {
