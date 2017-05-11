@@ -375,21 +375,27 @@
                             <!--Display the list of members in a project if any-->
                             @if (Model.Members != null)
                             {
-                                foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
+
+                                for (int i = 0; i < Model.Members.Count(); i++)
                                 {
-                                    <li><span id=@user.UserName onclick="SetMembershipID(@user.ID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-file" aria-hidden="true"><span class="hover-text">Create rr file</span></i></span>@user.UserName</li>
+                                    UserViewModel user = Model.Members[i];
+                                    var userID = user.ID;
+                                    
+                                    <li><span id=@user.UserName onclick='javascript:setMembershipID(userID)' class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-file" aria-hidden="true"><span class="hover-text">Remove user</span></i></span>@user.UserName + @user.ID</li>
                                 }
+                               /* foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
+                                {
+
+                                    string userID = user.UserName;
+                                    //SetMembershipID(userID, this)"
+
+                                }*/
                             }
                         </ul>
-
-                        <input type="text" id="myinputmember" name="myinputmember" placeholder="Add user: Email address..." />
-                        <button id="add-member">Add new member</button>
-
-                        <input type="text" id="membertoremove" name="membertoremove" placeholder="Remove user: Email address..." />
-                        <button id="remove-member">Remove Member</button>
                     </div>
                     <script>
-                        function SetMembershipID(userID){
+                        function setMembershipID(userID){
+                            // var element = document.getElementById(userID).value;
                             @newMembership.AspNetUserID = userID;
                         }
                     </script>
