@@ -140,6 +140,7 @@
             
         </div>
         <!--Project folders and file tree ends-->
+
         <!--File editor starts-->
         <div class="col-md-9 project-editor box-container ">
             <!--ViewBag for storing the project code-->
@@ -148,16 +149,19 @@
                 @ViewBag.Code
                     -->
             </div>
-            <div id="color"><input type="button" value="Change Color" onclick="ToggleColor()" class="btn btn-btndefault" /></div>
-            <div id="syntax">
-                <select id="SyntaxSelector" onchange="Syntax()">
-                    <option value="JavaScript">JavaScript</option>
-                    <option>Html</option>
-                    <option>C#</option>
-                    <option>Css</option>
-                </select>
+            <div class="row padding-for-container">
+                <div class="col-sm-1">
+                    <span class="clickable-icon padding"><i onclick="ToggleColor()" class="glyphicon glyphicon-adjust fa-2x" aria-hidden="true"><span class="hover-text">Change color of editor</span></i></span>
+                </div>
+                <div  class="col-sm-2" id="syntax">
+                    <select class="btn border-box" id="SyntaxSelector" onchange="Syntax()">
+                        <option value="JavaScript">JavaScript</option>
+                        <option>Html</option>
+                        <option>C#</option>
+                        <option>Css</option>
+                    </select>
+                </div>
             </div>
-
 
             @section scripts 
             {
@@ -283,6 +287,7 @@
             </div>
         </div>
         <!--File editor ends-->
+
         <!--Pop-out nav start-->
         <div id="popout-nav" class="col-md-1 row">
             <!--Action nav starts -->
@@ -342,18 +347,30 @@
                 //    connected = true;
                 //}
                 $('#sendmessage').click(function () {
-                    
                     // Call the Send method on the hub.
+                    var content = $("#message").val();;
                     chat.server.send($('#displayname').val(), $('#message').val());
-                        $('#message').val('').focus();
-                       
-            
-                    var NestId = @Model.ID;
-                    var url = "/Project/?SaveComment=" + NestId + "&message="+'#message';
-                    window.location.href = url;
+                    @*//var NestIdProject = @Model.ID;*@
+                    //var url = "/Project/SaveComment?projectID=" + NestIdProject +  "&message=" + content;
+                    //window.location.href = url
+                   
+
+                    $.ajax({
+                        type: 'POST',
+                        url: '/Project/SaveComment', //can I send data to multiple url with same ajax call.
+                        data: {
+                            projectID : @Model.ID,
+                            message : content,
+                        },
+                        success: function (data) {
+                            $(".error_msg").text(data);
+                        }
+                    });
+
+                    $('#message').val('').focus();
 
                     // Clear text box and reset focus for next comment.
-                   
+                    
                 });
              });
         });
@@ -397,7 +414,30 @@
                         }
                     </script>
  
-
+                    <script>
+                        $(document).ready(function(){
+                            $("#remove-member").click(function(){
+                                var input = document.getElementById('membertoremove').value;
+                                $.ajax({
+                                    url: 'Project/RemoveMemberIfInProject',
+                                    type: 'POST',
+                                    contentType: 'application/json;',
+                                    data: JSON.stringify({ email: input, projectID: @Model.ID}),
+                                    success: function (valid)
+                                    {
+                                        if(valid) 
+                                        {
+                                            //show that id is valid
+                                        } 
+                                        else 
+                                        {
+                                            //show that id is not valid
+                                        }
+                                    }
+                                });
+                            });
+                        });
+                    </script>
                         <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
                     </div>
                 <!--members end-->
@@ -405,6 +445,9 @@
                 <div id="project-goals" class="sidenav padding-for-container right-padding light-background">
                     <div id="goals" class="box-container">
                         <h3>Goals</h3>
+                        <!-- Bæta við Goal -->
+                        <span id="add-goal" class="clickable-icon"><i id="go-to-project-list-text" data-toggle="modal" data-target="#myModal" class="fa fa-arrow-up fa-2x" aria-hidden="true"><span class="hover-text">Go to my projects</span></i></span>
+
                         <dl>
                             @if (Model.Goals != null)
                             {

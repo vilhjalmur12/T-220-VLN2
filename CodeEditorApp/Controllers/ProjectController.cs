@@ -141,20 +141,20 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("ShowGoals", "Project");
         }
 
-        public void SaveComment(string content)
-        {
-            if (!String.IsNullOrEmpty(content))
-            {
-                CommentViewModel commentModel = new CommentViewModel()
-                {
-                    AspNetUserID = User.Identity.GetUserId(),
-                    Content = content,
-                    ProjectID = OpenProjectModel.ID
-                };
+        //public void SaveComment(string content)
+        //{
+        //    if (!String.IsNullOrEmpty(content))
+        //    {
+        //        CommentViewModel commentModel = new CommentViewModel()
+        //        {
+        //            AspNetUserID = User.Identity.GetUserId(),
+        //            Content = content,
+        //            ProjectID = OpenProjectModel.ID
+        //        };
 
-                projectService.AddNewComment(commentModel);
-            }
-        }
+        //        projectService.AddNewComment(commentModel);
+        //    }
+        //}
 
         [HttpGet]
         public ActionResult CreateFile()
@@ -286,7 +286,7 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "Project", new { projectID = membership.ProjectID, tabMake = "project-members" });
         }
 
-        public ActionResult SaveComment(int projectID, string message)
+        public void SaveComment(int projectID, string message)
         {
             CommentViewModel newComment = new CommentViewModel()
             {
@@ -295,7 +295,7 @@ namespace CodeEditorApp.Controllers
                 AspNetUserID = User.Identity.GetUserId(),
             };
             projectService.SaveComment(newComment);
-            return RedirectToAction("Index", "Project", new { projectID = projectID, tabMake = "project-chat" });
+            //return RedirectToAction("Index", "Project", new { projectID = projectID, tabMake = "project-chat" });
         }
     }
 }
