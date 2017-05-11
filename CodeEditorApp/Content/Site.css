@@ -294,6 +294,9 @@ footer{
     color: #005d56;
 }*/
 
+#about, #team, #terms, #help{
+    padding:30px;
+}
 /*----- LOGIN ----*/
 
 
