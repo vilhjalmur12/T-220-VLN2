@@ -288,7 +288,7 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "Project", new { projectID = membership.ProjectID, tabMake = "project-members" });
         }
 
-        public void SaveComment(int projectID, string message)
+        public ActionResult SaveComment(int projectID, string message)
         {
             CommentViewModel newComment = new CommentViewModel()
             {
@@ -297,6 +297,7 @@ namespace CodeEditorApp.Controllers
                 AspNetUserID = User.Identity.GetUserId(),
             };
             projectService.SaveComment(newComment);
+            return RedirectToAction("Index", "Project", new { projectID = projectID, tabMake = "project-chat" });
         }
     }
 }
