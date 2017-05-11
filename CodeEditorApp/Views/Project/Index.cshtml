@@ -38,6 +38,28 @@
             </div>
         </div>
     </div>
+
+    <div id="myModal3" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title">Modal Header</h4>
+                </div>
+                <div class="modal-body">
+                    @{Html.RenderPartial("RemoveMember", newMembership);} 
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
     <!--Project body starts-->
     <div class="row container padding-for-container project-body">
 
@@ -367,7 +389,7 @@
                             {
                                 foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
                                 {
-                                    <li>@user.UserName</li>
+                                    <li><span id=@user.UserName onclick="SetMembershipID(@user.ID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-file" aria-hidden="true"><span class="hover-text">Create rr file</span></i></span>@user.UserName</li>
                                 }
                             }
                         </ul>
@@ -378,6 +400,11 @@
                         <input type="text" id="membertoremove" name="membertoremove" placeholder="Remove user: Email address..." />
                         <button id="remove-member">Remove Member</button>
                     </div>
+                    <script>
+                        function SetMembershipID(userID){
+                            @newMembership.AspNetUserID = userID;
+                        }
+                    </script>
  
                     <script>
                         $(document).ready(function(){

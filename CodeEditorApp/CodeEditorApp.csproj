@@ -731,6 +731,7 @@
     <Content Include="Views\Account\Contact.cshtml" />
     <Content Include="Views\Project\CreateFile.cshtml" />
     <Content Include="Views\Project\AddMember.cshtml" />
+    <Content Include="Views\Project\RemoveMember.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

@@ -71,11 +71,11 @@ namespace CodeEditorApp.Controllers
 
 
 
-        public ActionResult RemoveMember(string AspNetUserID)
+        public ActionResult RemoveMember(MembershipViewModel membership)
         {
-            projectService.RemoveUserFromProject(AspNetUserID, OpenProjectModel.ID);
+            projectService.RemoveUserFromProject(membership);
             //LAGA
-            return RedirectToAction("ShowGroup", "Project");
+            return RedirectToAction("Index", "Project", new { projectID = membership.ProjectID, tapMake = "project-members"});
         }
 
         public ActionResult AddGoal(FormCollection collection)

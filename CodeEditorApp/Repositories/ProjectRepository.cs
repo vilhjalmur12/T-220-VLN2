@@ -295,17 +295,19 @@ namespace CodeEditorApp.Repositories
             _db.SaveChanges();
         }
 
-        public void RemoveUserFromProject (string AspNetUserID, int projectID)
+        //Removes user from project
+        public void RemoveUserFromProject (MembershipViewModel membership)
         {
-            _db.Memberships.ToList().ForEach(membership =>
+
+            List<Membership> membershipList = _db.Memberships.ToList();
+            foreach (Membership member in membershipList)
             {
-                if ((membership.ProjectID == projectID) && (membership.AspNetUserID == AspNetUserID))
+                if (member.AspNetUserID == membership.AspNetUserID && member.ProjectID == membership.ProjectID)
                 {
-                    Membership deleteMembership = membership;
-                    _db.Memberships.Remove(deleteMembership);
+                    _db.Memberships.Remove(member);
                     _db.SaveChanges();
                 }
-            });
+            }
         }
 
         public void RemoveFile(int fileID)
