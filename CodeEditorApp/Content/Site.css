@@ -144,11 +144,13 @@ body, html {
     color: #005d56, /*dark cyan*/  
 }
   
-.light-textcolor{
+.light-textcolor,
+.hover-text{
     color:white;
 }
 
-.dark-background{
+.dark-background,
+.hover-text{
     background-color:#005d56; /*dark cyan*/
 }
 
@@ -172,28 +174,29 @@ body, html {
 
 .hover-text{
     visibility: hidden;
-    width: 80px;
-    background-color: black;
-    color: #fff;
+    //width: 80px;
     text-align: center;
     border-radius: 6px;
-    padding: 5px 0;
+    padding: 5px 5px 10px 5px;
     position: absolute;
     z-index: 1;
-    top: 150%;
+    top: 130%;
     left: 0%;
-    margin-left: -27px;
-    opacity:0.7;
+    margin-left: -40%;
+    opacity:0;
+    transition-delay: 2s;
+    transition:opacity 0.7s;
+    
 }
 /* Show the hover-text when you mouse over the clickable-icon container */
 .clickable-icon:hover .hover-text {
     visibility: visible;
+    opacity:0.7;
 }
 
 
-/*For the arrow in project view*/
+/*For the arrow icon in project view*/
 #go-to-project-list-text .hover-text{
-    padding: 5px 0;
     z-index: 1;
     top: 0;
     left: -200%;
