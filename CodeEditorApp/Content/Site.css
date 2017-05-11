@@ -38,6 +38,10 @@ PROJECT-ACTIONS
 .navbar-right ul li a:hover{ 
     background:none;
 }
+.navbar-left div a:hover{ 
+    background:none;
+    text-decoration:none;
+}
 
 /*Better control of padding*/
 .container{
@@ -150,8 +154,8 @@ body, html {
 .dark-textcolor >*{ 
     //color: #005d56; /*dark cyan*/ 
     color: white;
-   
 }
+
   
 .light-textcolor,
 .hover-text{

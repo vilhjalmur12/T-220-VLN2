@@ -15,14 +15,14 @@ namespace CodeEditorApp.Hubs
             Clients.All.addNewMessageToPage(name, message);
         }
         
-        public Task JoinRoom(string projectID)
-        {
-            return Groups.Add(Context.ConnectionId, projectID);
-        }
+        //public Task JoinRoom(string projectID)
+        //{
+        //    return Groups.Add(Context.ConnectionId, projectID);
+        //}
 
-        public Task LeaveRoom(string projectID)
-        {
-            return Groups.Remove(Context.ConnectionId, projectID);
-        }
+        //public Task LeaveRoom(string projectID)
+        //{
+        //    return Groups.Remove(Context.ConnectionId, projectID);
+        //}
     }
 }
