@@ -90,7 +90,6 @@ namespace CodeEditorApp.Repositories
             return goalModels;
         }
 
-
         //Hér sækjum við lista af notendum eftir projectID
         public List<UserViewModel> GetUsersByProject(int projectID)
         {
