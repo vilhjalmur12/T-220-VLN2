@@ -300,7 +300,7 @@
                         data: { fileID : documentID, fileContent : content },
                         dataType: "json",
                         beforeeSend:function () {
-
+                            cosole.log("DocumentID: "+documentID);
                         },
                         success: function () {
                             console.log("fucking success man!")
@@ -500,6 +500,19 @@
                                         UpdateEditor(responseData.Content, responseData.FileType.Extension, responseData.ID);
                                     }
 
+                                });
+
+                                $.ajax({
+                                    url:"/Project/SaveFile",
+                                    method: "POST",
+                                    data: { fileID : documentID, fileContent : content },
+                                    dataType: "json",
+                                    beforeeSend:function () {
+                                        cosole.log("DocumentID: "+documentID);
+                                    },
+                                    success: function () {
+                                        console.log("fucking success man!")
+                                    }
                                 });
                                 //return false;
                             });
