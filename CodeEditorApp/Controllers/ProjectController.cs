@@ -26,10 +26,12 @@ namespace CodeEditorApp.Controllers
             }
 
             OpenProjectModel = projectService.GetOpenProjectViewModel(projectID.Value);
+            // For actions in view
             ViewBag.newFile = CreateNewFileModel();
             ViewBag.newMembership = CreateNewMembershipModel();
             ViewBag.newGoal = CreateNewGoalModel();
-            //For the Editor
+
+            //For the Editor ---> SKOÐA
             List<FileViewModel> AllSolutionFiles = projectService.GetFilesByProject(projectID.Value);
             ViewBag.AllSolutionFiles = AllSolutionFiles;
             ViewBag.Code = "alert('Hello World!');";

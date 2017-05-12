@@ -1,7 +1,5 @@
 ﻿using System;
-using System.Globalization;
 using System.Linq;
-using System.Security.Claims;
 using System.Threading.Tasks;
 using System.Web;
 using System.Web.Mvc;
@@ -12,7 +10,6 @@ using CodeEditorApp.Models;
 using CodeEditorApp.Models.Entities;
 using CodeEditorApp.Repositories;
 using CodeEditorApp.Models.ViewModels;
-using System.Diagnostics;
 
 namespace CodeEditorApp.Controllers
 {
@@ -26,12 +23,20 @@ namespace CodeEditorApp.Controllers
         {
         }
 
+        /// <summary>
+        /// AccountController
+        /// </summary>
+        /// <param name="userManager"></param>
+        /// <param name="signInManager"></param>
         public AccountController(ApplicationUserManager userManager, ApplicationSignInManager signInManager)
         {
             UserManager = userManager;
             SignInManager = signInManager;
         }
 
+        /// <summary>
+        /// SignInManager
+        /// </summary>
         public ApplicationSignInManager SignInManager
         {
             get
@@ -44,6 +49,9 @@ namespace CodeEditorApp.Controllers
             }
         }
 
+        /// <summary>
+        /// UserManager
+        /// </summary>
         public ApplicationUserManager UserManager
         {
             get
@@ -56,19 +64,28 @@ namespace CodeEditorApp.Controllers
             }
         }
 
-        //
-        // GET: /Account/Login
+
+        /// <summary>
+        /// Login returns the Login view
+        /// </summary>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         public ActionResult Login(string returnUrl)
         {
+            // Put ViewModels in ViewBag so the login and register partial view can be on the same page
             ViewBag.ReturnUrl = returnUrl;
             ViewBag.LogIn = new LoginViewModel();
             ViewBag.Register = new RegisterViewModel();
             return View();
         }
 
-        //
-        // POST: /Account/Login
+        /// <summary>
+        /// Login
+        /// </summary>
+        /// <param name="model"></param>
+        /// <param name="returnUrl"></param>
+        /// <returns></returns>
         [HttpPost]
         [AllowAnonymous]
         [ValidateAntiForgeryToken]
@@ -79,7 +96,6 @@ namespace CodeEditorApp.Controllers
 
             if (!ModelState.IsValid)
             {
-                //return View(model);
                 return View("../Home/Index");
             }
 
@@ -103,10 +119,8 @@ namespace CodeEditorApp.Controllers
                         };
                         return RedirectToAction("Index", "UserHome", userModel);
                     }
-                    //return RedirectToLocal(returnUrl);
                 case SignInStatus.LockedOut:
                     return View("../Home/Index");
-                    //return View("Lockout");
                 case SignInStatus.RequiresVerification:
                     return RedirectToAction("SendCode", new { ReturnUrl = returnUrl, RememberMe = model.RememberMe });
                 case SignInStatus.Failure:
@@ -117,8 +131,13 @@ namespace CodeEditorApp.Controllers
             }
         }
 
-        //
-        // GET: /Account/VerifyCode
+        /// <summary>
+        /// VerifyCode
+        /// </summary>
+        /// <param name="provider"></param>
+        /// <param name="returnUrl"></param>
+        /// <param name="rememberMe"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         public async Task<ActionResult> VerifyCode(string provider, string returnUrl, bool rememberMe)
         {
