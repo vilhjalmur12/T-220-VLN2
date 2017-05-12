@@ -1,4 +1,4 @@
-﻿@import url('https://fonts.googleapis.com/css?family=Lato|Raleway');
+﻿@import url('https://fonts.googleapis.com/css?family=Lato:400,400i|Raleway:400,700');
 
 /*----------------------------------------------------------*\
     $CONTENTS
@@ -151,14 +151,14 @@ body, html {
 }
 
 /*Colors*/
-.dark-textcolor >*{ 
+.dark-textcolor >*,
+.hover-text{ 
     //color: #005d56; /*dark cyan*/ 
     color: white;
 }
 
   
-.light-textcolor,
-.hover-text{
+.light-textcolor{
     //color:white;
     color: #006072;
 }
@@ -167,7 +167,7 @@ body, html {
     color: #FF5C00; /*orange*/
 }
 
-.dark-background,
+.dark-background
 {
     //background-color:#005d56; /*dark cyan*/
     background-color: white;  
@@ -224,7 +224,10 @@ body, html {
     margin-left: -35px;
 }
 
-
+div.scroll,
+table.scroll{
+        overflow: auto;
+}
 /*----------------------------------------------------------*\
     $LAYOUT
 \*----------------------------------------------------------*/
@@ -504,6 +507,9 @@ div.tab button.active {
     padding-right:46px;
 }
 
+.standard-width{
+    width:10%;
+}
 
 
 
@@ -568,11 +574,12 @@ div.tab button.active {
     width:96%;
 }
 
-#members span{
+#new-member {
     position:absolute;
     right: 15%;
     top: 80px;
 }
+
 /*----- $GOALS -----*/
 
 #goals{
@@ -580,10 +587,14 @@ div.tab button.active {
     width:96%;
     
 }
-#goals span{
+
+#add-goal{
     position:absolute;
     right: 15%;
     top: 80px;
+}
+.goal span{
+    padding-left:10px;
 }
 
 .no-style-list > * {
@@ -627,15 +638,16 @@ input[type='checkbox']:checked + label.objective{
     background-size: 15px;
 }
 
-.add-object i{
+.add-objective i{
     padding: 5px 20px 4px 0px;
 }
 
-.add-object {
+.add-objective {
     font-weight: bold;
     opacity: 0.7;
 }
-}
+
+
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 /*Þarf að breyta?????????????????????????????????????????????*/
 #editor {
@@ -643,11 +655,7 @@ input[type='checkbox']:checked + label.objective{
     padding: 20px;
     height:90%;
 }
-
-.ace-editor{
-
-}
-
+     
 
 /*========stuff we might not need*/
 
@@ -756,9 +764,14 @@ textarea {
     margin-right:5px;
 }
 
-.tree li a {
+.tree li a{
+    font-weight:400;
     text-decoration: none;
-    color:#369;
+    //color:#369;
+}
+
+.tree li a:focus {
+    font-weight: 700;
 }
 
 .tree li button, .tree li button:active, .tree li button:focus {

@@ -741,6 +741,10 @@
     <Content Include="Views\Project\CreateFile.cshtml" />
     <Content Include="Views\Project\AddMember.cshtml" />
     <Content Include="Views\Project\RemoveMember.cshtml" />
+    <Content Include="Views\UserHome\DeleteProject.cshtml" />
+    <Content Include="Views\Project\NoAuthorization.cshtml" />
+    <Content Include="Views\Project\LeaveProject.cshtml" />
+    <Content Include="Views\Project\NewGoal.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />
