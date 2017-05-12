@@ -238,7 +238,7 @@ namespace CodeEditorApp.Repositories
                 CPP.name = "main";
                 CPP.ProjectID = project.ID;
                 CPP.HeadFolderID = project.SolutionFolderID;
-                CPP.FileType = _db.FileTypes.Where(x => x.ID == project.ProjectTypeID).SingleOrDefault();
+                CPP.FileType = _db.FileTypes.Where(x => x.ID == 4).SingleOrDefault();
                 CPP.Content = "// CPP File";
 
                 _db.Files.Add(CPP);
@@ -295,7 +295,20 @@ namespace CodeEditorApp.Repositories
                 _db.Files.Add(CSS);
                 _db.Files.Add(JS);
                 _db.SaveChanges();
+            } else
+            {
+                File index = new Models.File
+                {
+                    HeadFolderID = project.HeadFolderID,
+                    name = "index",
+                    ProjectID = project.ID,
+                    FileType = _db.FileTypes.Where(x => x.ID == 6).SingleOrDefault()
+                };
+
+                _db.Files.Add(index);
+                _db.Files.SaveChanges();
             }
+
         }
 
 
