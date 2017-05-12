@@ -29,7 +29,6 @@
                         @Html.AntiForgeryToken()
                         <ul class="nav navbar-nav l-heading-home">
                             <li>@Html.ActionLink("About", "About", "Home", new { @class = "color-textcolor" })</li>
-                            <li>@Html.ActionLink("Help", "Help", "Home", new { @class = "color-textcolor" }) </li>
                             <li>@Html.ActionLink("Your Projects", "Index", "UserHome", routeValues: null, htmlAttributes: new { @class = "color-textcolor" })</li>
                             <li><a class="color-textcolor" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                         </ul>
@@ -39,8 +38,6 @@
                 {
                     <ul class="nav navbar-nav l-heading-home">
                         <li>@Html.ActionLink("About", "About", "Home", new { @class = "color-textcolor" })</li>
-                        <li>@Html.ActionLink("Help", "Help", "Home", new { @class = "color-textcolor" }) </li>
-
                     </ul>
                 }
 
@@ -57,7 +54,6 @@
     <!--End of body of home page-->
 
     <footer class="navbar-fixed-bottom padding-for-container text-home dark-background">
-        @Html.ActionLink("The Team", "Team", "Home", new { @class = "color-textcolor" })
         @Html.ActionLink("Terms and conditions", "Terms", "Home", new { @class = "color-textcolor" })
         @Html.ActionLink("FAQ", "About", "Home", new { @class = "color-textcolor" })
     </footer>

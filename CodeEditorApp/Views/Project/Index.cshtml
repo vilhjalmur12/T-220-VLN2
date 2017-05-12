@@ -197,7 +197,9 @@
                             <option>Css</option>
                         </select>
                     </div>
+                    <button onclick="SaveFileContent ();">Save</button>
                 </div>
+                
 
                 @section scripts
             {
@@ -236,16 +238,9 @@
                         editor.getSession().setMode("ace/mode/css");
                     }
                 }
-
-                editor.commands.addCommand({
-                    name: 'SaveFile',
-                    bindKey: {win: 'Enter',  mac: 'Enter'},
-                    exec: function() {
-                        SaveFileContent ();
-                        alert(documentID);
-                    },
-                    readOnly: false // false if this command should not apply in readOnly mode
-                });
+                
+                
+                    
 
                 //Changes the syntax of the editor
 
@@ -359,7 +354,6 @@
                 }
 
                 <div class="project-update">
-                    @*<p class="l-text-user">Updates</p>*@
                     <input class="hover-user" type="hidden" id="displayname" />
                     <input class="hover-user" type="hidden" id="update" />
                     <ul class="hover-user" id="discussion1"></ul>
@@ -452,7 +446,7 @@
                                     {
                                         UserViewModel user = Model.Members[i];
                                         var userID = user.ID;
-                                        <li class="list-inline" values=@user.UserName><input type="checkbox" />@user.UserName</li>
+                                        <li class="list-inline" values=@user.UserName>@user.UserName</li>
                                     <!--<li class="list-inline">(hjá)user.UserName<span id=(hjá)user.UserName onclick="javascript:setMembershipID(userID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-minus" aria-hidden="true"><span class="hover-text">Remove user</span></i></span></li>-->
                                     }
                                     /* foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
@@ -482,8 +476,7 @@
                 <div id="project-goals" class="sidenav padding-for-container right-padding light-background">
                     <div id="goals" class="box-container padding-for-container">
                         <h3>Goals</h3>
-                        <!-- Bæta við Goal -->
-                        <!--Hér er vitlaust data-toggle og data-target-->
+                        <!-- Add Goal -->
                         <span id="add-goal" class="clickable-icon"><i data-toggle="modal" data-target="#myModalAddGoal" class="fa fa-plus-circle fa-2x" aria-hidden="true"><span class="hover-text">Add Goal</span></i></span>
                         <ul class="no-style-list">
                             @if (Model.Goals.Count() != 0)
@@ -491,12 +484,12 @@
                                 var dis = "checkbox";
                                 if (Model.Goals[0].AspNetUserID != User.Identity.GetUserId())
                                 {
-                                    dis = "hidden";
+                                    dis = "return false";
                                 }
                                 foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
                                 {
                                     <li>
-                                        <input type=@dis checked=@goal.Finished onchange="ChangeGoal(@goal.ID)" />
+                                        <input type="checkbox" class="goal-box" onclick=@dis checked=@goal.Finished onchange="ChangeGoal(@goal.ID)" />
                                         <label class="goal">@goal.Name : @goal.Description</label>
                                     </li>
                                     }

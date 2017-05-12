@@ -37,11 +37,11 @@
 {
     @Html.AntiForgeryToken()
 
-    <h3>Or upload</h3>
+    <h3>Or Upload</h3>
     @Html.ValidationSummary(true, "", new { @class = "text-danger" })
     <div class="form-group">
-        @Html.Label("Upload", new { @class = "control-label col-md-2" })
-        <div class="col-md-10">
+        @Html.Label("Upload", new { @class = "control-label col-md-3" })
+        <div class="col-md-9">
             <input type="file" id="uploadFile" name="upload" />
         </div>
     </div>
