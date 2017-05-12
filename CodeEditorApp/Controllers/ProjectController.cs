@@ -254,6 +254,18 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "Project", new { id = fileModel.ProjectID });
         }
 
+        public void DeleteFileJSON (string fileID)
+        {
+            Debug.WriteLine("DelteFile: "+fileID);
+            int intFileID = Convert.ToInt32(fileID);
+
+            if ( intFileID != 0)
+            {
+                projectService.RemoveFile(intFileID);
+            }
+
+        }
+
         /// <summary>
         /// Deletes the membership between the current user and project in membershipModel
         /// </summary>
