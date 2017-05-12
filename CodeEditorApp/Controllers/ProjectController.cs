@@ -33,7 +33,7 @@ namespace CodeEditorApp.Controllers
             List<FileViewModel> AllSolutionFiles = projectService.GetFilesByProject(projectID.Value);
             ViewBag.AllSolutionFiles = AllSolutionFiles;
             ViewBag.Code = "alert('Hello World!');";
-            ViewBag.DocumentID = 17;
+            ViewBag.DocumentID = 0;
             //ViewBag.ProjectID = projectID;
             ViewBag.UserName = User.Identity.GetUserName();
             ViewBag.UseID = User.Identity.GetUserId();
