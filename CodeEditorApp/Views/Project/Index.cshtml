@@ -25,14 +25,15 @@
 </head>
 <script src="https://use.fontawesome.com/3e0cecfe87.js"></script>
 <body onload="openNav('@ViewBag.tabMake')">
+    <!--Add member modal-->
     <div id="myModal2" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header light-background">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
+                    <h4 class="modal-title color-textcolor">Add member to project</h4>
                 </div>
                 <div class="modal-body">
                     @if (User.Identity.GetUserId() == Model.OwnerID)
@@ -50,15 +51,15 @@
             </div>
         </div>
     </div>
-
+    <!--Remove member modal-->
     <div id="myModal3" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header light-background">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title">Modal Header</h4>
+                    <h4 class="modal-title color-textcolor">Remove member from project</h4>
                 </div>
                 <div class="modal-body">
                     @{Html.RenderPartial("RemoveMember", newMembership);}
@@ -69,13 +70,13 @@
             </div>
         </div>
     </div>
-
+    <!--Add new goal modal-->
     <div id="myModalAddGoal" class="modal fade" role="dialog">
         <div class="modal-dialog">
 
             <!-- Modal content-->
             <div class="modal-content">
-                <div class="modal-header">
+                <div class="modal-header light-background">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
                 </div>
                 <div class="modal-body">
@@ -98,58 +99,57 @@
 
 
     <!--Project body starts-->
-    <div class="row container padding-for-container project-body">
+    <div class="container padding-for-container project-body">
+        <div class="row">
+            <div class="col-md-2 document-list padding-for-container box-container">
+                <div class="document-list-icons">
+                    <!--=Modals with buttons START=-->
+                    <!-- Trigger the modal with a button -->
+                    <span id="new-file" class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="fa fa-file-code-o fa-2x" aria-hidden="true"><span class="hover-text">Create new file</span></i></span>
+                    <!-- Modal -->
+                    <div id="myModal" class="modal fade" role="dialog">
+                        <div class="modal-dialog">
 
-        <div class="col-md-2 document-list padding-for-container box-container">
-            <div class="document-list-icons scroll">
-                <!-- Hér er CreateFile aðgerð -->
-                <!-- Trigger the modal with a button -->
-                <span id="new-file" class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="fa fa-file-code-o fa-2x" aria-hidden="true"><span class="hover-text">Create new file</span></i></span>
-                <!-- Modal -->
-                <div id="myModal" class="modal fade" role="dialog">
-                    <div class="modal-dialog">
-
-                        <!-- Modal content-->
-                        <div class="modal-content">
-                            <div class="modal-header">
-                                <button type="button" class="close" data-dismiss="modal">&times;</button>
-                                <h4 class="modal-title">Modal Header</h4>
-                            </div>
-                            <div class="modal-body">
-                                @{Html.RenderPartial("CreateFile", newFile);}
-                            </div>
-                            <div class="modal-footer">
-                                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                            <!-- Modal content-->
+                            <div class="modal-content">
+                                <div class="modal-header light-background">
+                                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                                    <h4 class="modal-title color-textcolor">Create new file</h4>
+                                </div>
+                                <div class="modal-body">
+                                    @{Html.RenderPartial("CreateFile", newFile);}
+                                </div>
+                                <div class="modal-footer">
+                                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                                </div>
                             </div>
                         </div>
                     </div>
+                    <!--=Modals with buttons END=-->
+                    <!-- Createfolder -->
+                    <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="fa fa-folder fa-2x" aria-hidden="true"><span class="hover-text">Create new folder</span></i></span>
+                    <!-- Move folder -->
+                    <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-download-alt fa-2x" aria-hidden="true"><span class="hover-text">Move folder</span></i></span>
+                    <!-- Delete item -->
+                    <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-trash fa-2x" aria-hidden="true"><span class="hover-text">Delete</span></i></span>
+                    <!-- Quit project -->
+                    <span id="quit-project" class="clickable-icon"><i id="quit-project-list" data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-log-out fa-2x" aria-hidden="true"><span class="hover-text">Quit project</span></i></span>
                 </div>
-                <!-- Hér er Createfolder aðgerð -->
-                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="fa fa-folder fa-2x" aria-hidden="true"><span class="hover-text">Create new folder</span></i></span>
-                <!-- Hér er Afrita aðgerð -->
-                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-copy fa-2x" aria-hidden="true"><span class="hover-text">Copy</span></i></span>
-                <!-- Hér er Niðurhals aðgerð -->
-                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-download-alt fa-2x" aria-hidden="true"><span class="hover-text">Download????</span></i></span>
-                <!-- Hér er Rusl aðgerð -->
-                <span id="delete-file-button" class="clickable-icon"><i  class="glyphicon glyphicon-trash fa-2x" aria-hidden="true"><span class="hover-text">Delete</span></i></span>
-                <!-- Fara til baka í verkefna listann -->
-                <span id="go-to-project-list" class="clickable-icon"><i id="go-to-project-list-text" data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-log-out fa-2x" aria-hidden="true"><span class="hover-text">Quit project</span></i></span>
-            </div>
-            <!--TAKKI ENDAR-->
+                
 
-            <!--Project folders and file tree starts-->
-            <div>
-                <ul id="tree2">
-                    <li>@Model.SolutionFolder.Name</li>
+                <!--Project folders and file tree starts-->
+                <div class="scroll">
+                    <ul id="tree2">
+                        <li>@Model.SolutionFolder.Name</li>
 
-                    @if (Model.SolutionFolder != null)
+                        @if (Model.SolutionFolder != null)
+                        {
+                            @ShowSubItems(solutionFileList)
+                        }
+                    </ul>
+
+                    @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
                     {
-                        @ShowSubItems(solutionFileList)
-                    }
-                </ul>
-
-                @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
-                {
                 <ul>
 
                     @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
@@ -174,46 +174,46 @@
                 </ul>
 }
 
+                </div>
             </div>
-        </div>
-        <!--Project folders and file tree ends-->
-        <!--File editor starts-->
-        <div class="col-md-9 project-editor box-container ">
-            <!--ViewBag for storing the project code-->
-            <div class="ace-editor" id="editor">
-                <!--
+            <!--Project folders and file tree ends-->
+            <!--File editor starts-->
+            <div class="col-md-9 project-editor box-container ">
+                <!--ViewBag for storing the project code-->
+                <div class="ace-editor" id="editor">
+                    <!--
                 @ViewBag.Code
                     -->
-            </div>
-            <div class="row padding-for-container">
-                <div class="col-sm-1">
-                    <span class="clickable-icon padding"><i onclick="ToggleColor()" class="glyphicon glyphicon-adjust fa-2x" aria-hidden="true"><span class="hover-text">Change color of editor</span></i></span>
                 </div>
-                <div class="col-sm-2" id="syntax">
-                    <select class="btn border-box" id="SyntaxSelector" onchange="Syntax()">
-                        <option value="JavaScript">JavaScript</option>
-                        <option>Html</option>
-                        <option>C#</option>
-                        <option>Css</option>
-                    </select>
+                <div class="row padding-for-container">
+                    <div class="col-sm-1">
+                        <span class="clickable-icon padding"><i onclick="ToggleColor()" class="glyphicon glyphicon-adjust fa-2x" aria-hidden="true"><span class="hover-text">Change color of editor</span></i></span>
+                    </div>
+                    <div class="col-sm-2" id="syntax">
+                        <select class="btn border-box" id="SyntaxSelector" onchange="Syntax()">
+                            <option value="JavaScript">JavaScript</option>
+                            <option>Html</option>
+                            <option>C#</option>
+                            <option>Css</option>
+                        </select>
+                    </div>
                 </div>
-            </div>
 
-            @section scripts
+                @section scripts
             {
-                <script src="~/3rdparty/src/ace.js" type="text/javascript" charset="utf-8"></script>
-                <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
-                <script src="~/signalr/hubs"></script>
+                    <script src="~/3rdparty/src/ace.js" type="text/javascript" charset="utf-8"></script>
+                    <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
+                    <script src="~/signalr/hubs"></script>
 
 
-                <script>
+                    <script>
                     var documentID = 0;
                     var fileSelected = 0;
                 
                 //Start the Ace editor
                 var editor = ace.edit("editor");
                 editor.setTheme("ace/theme/monokai");
-               
+
                 //Changes the style of the editor
                 function ToggleColor() {
                     if (editor.getTheme() == "ace/theme/monokai") {
@@ -225,7 +225,7 @@
 
                     //For choosing the syntax
                 function Syntax(str) {
-                    
+
                     if (str == ".js") {
                         editor.getSession().setMode("ace/mode/javascript");
                     } else if (str == ".html") {
@@ -240,7 +240,7 @@
 
 
                 //Changes the syntax of the editor
-                
+
                 $("form").submit(function () {
                     $("#hidden_editor").val(editor.getSession().getValue());
                 });
@@ -260,10 +260,10 @@
                     silent = false;
                 };
                 //What happens after client sends data
-                $.connection.hub.start().done(function () 
+                $.connection.hub.start().done(function ()
                 {
                     myHub1.server.joinDocument(@Model.ID);
-                    editor.on("change", function (obj) 
+                    editor.on("change", function (obj)
                     {
                         if(silent){
                             return;
@@ -275,7 +275,7 @@
                 });
 
 
-                function UpdateEditor (Content, syntax, id) 
+                function UpdateEditor (Content, syntax, id)
                 {
                     editor.setValue(Content);
                     Syntax(syntax);
@@ -283,12 +283,12 @@
                     documentID = id;
                 }
 
-                function GetEditorSession () 
+                function GetEditorSession ()
                 {
                     return editor.session.getValue();
                 }
 
-                function SaveFileContent () 
+                function SaveFileContent ()
                 {
                     var content = GetEditorSession();
                     $.ajax({
@@ -333,10 +333,10 @@
                         $('#displayname').val(userName);
                         //Set the message that displays on update
                         $('#update').val('Made the last change');
-                        
+
                         // Start the connection.
                         $.connection.hub.start().done(function () {
-                            
+
                         });
                     });
                     // This optional function html-encodes messages for display in the page.
@@ -344,57 +344,58 @@
                         var encodedValue = $('<div />').text(value).html();
                         return encodedValue;
                     }
-                </script>
-            }
+                    </script>
+                }
 
-            <div class="project-update">
-                @*<p class="l-text-user">Updates</p>*@
-                <input class="hover-user" type="hidden" id="displayname" />
-                <input class="hover-user" type="hidden" id="update" />
-                <ul class="hover-user" id="discussion1"></ul>
+                <div class="project-update">
+                    @*<p class="l-text-user">Updates</p>*@
+                    <input class="hover-user" type="hidden" id="displayname" />
+                    <input class="hover-user" type="hidden" id="update" />
+                    <ul class="hover-user" id="discussion1"></ul>
+                </div>
             </div>
-        </div>
-        <!--File editor ends-->
-        <!--Pop-out nav start-->
-        <div id="popout-nav" class="col-md-1 row">
-            <!--Action nav starts -->
-            <div class="light-background">
-                <ul class="project-actions light-background dark-textcolor">
-                    <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
-                    <li><span onclick="openNav('project-chat');" class="clickable-icon"><i class="glyphicon glyphicon-comment fa-3x" aria-hidden="true"></i></span></li>
-                    <li><span onclick="openNav('project-members');" class="clickable-icon"><i class="fa fa-users fa-3x" aria-hidden="true"></i></span></li>
-                    <li><span onclick="openNav('project-goals')" class="clickable-icon"><i class="fa fa-check-square-o fa-3x" aria-hidden="true"></i></span></li>
-                </ul>
-            </div>
-            <!--Action nav ends -->
+            <!--File editor ends-->
 
-            <div class="sidenav padding-for-container right-padding">
-                <!--chat starts-->
-                <div id="project-chat" class="sidenav padding-for-container right-padding light-background">
+            <!--Pop-out nav start-->
+            <div id="popout-nav" class="col-md-1 light-background">
+                <!--Action nav starts -->
 
-                    <div id="message-box" class="container box-container scroll">
-                        <div class="row">
-                            <textarea class="col" id="message"></textarea>
-                            <input class="col" type="button" id="sendmessage" value="" />
-                        </div>
-                        <input type="hidden" id="displayname" />
+                    <ul class="project-actions light-background dark-textcolor">
+                        <li><span onclick="closeAllNavs()" class="clickable-icon"><i class="fa fa-code fa-3x" aria-hidden="true"></i></span></li>
+                        <li><span onclick="openNav('project-chat');" class="clickable-icon"><i class="glyphicon glyphicon-comment fa-3x" aria-hidden="true"></i></span></li>
+                        <li><span onclick="openNav('project-members');" class="clickable-icon"><i class="fa fa-users fa-3x" aria-hidden="true"></i></span></li>
+                        <li><span onclick="openNav('project-goals')" class="clickable-icon"><i class="fa fa-check-square-o fa-3x" aria-hidden="true"></i></span></li>
+                    </ul>
+
+                <!--Action nav ends -->
+
+                <div class="sidenav padding-for-container right-padding">
+                    <!--chat starts-->
+                    <div id="project-chat" class="sidenav padding-for-container right-padding light-background">
+
+                        <div id="message-box" class="container padding-for-container box-container scroll">
+                            <div class="row">
+                                <textarea class="col" id="message"></textarea>
+                                <input class="col" type="button" id="sendmessage" value="" />
+                            </div>
+                            <input type="hidden" id="displayname" />
                             <ul class="hover-user" id="discussion"></ul>
-                    </div>
-                    @section scriptsComment {
-                        <!--Script references. -->
-                        <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
-                        <!--Reference the SignalR library. -->
-                        <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
-                        <!--Reference the autogenerated SignalR hub script. -->
-                        <script src="~/signalr/hubs"></script>
-                        <!--SignalR script to update the chat page and send messages.-->
-                        <script>
+                        </div>
+                        @section scriptsComment {
+                            <!--Script references. -->
+                            <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
+                            <!--Reference the SignalR library. -->
+                            <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
+                            <!--Reference the autogenerated SignalR hub script. -->
+                            <script src="~/signalr/hubs"></script>
+                            <!--SignalR script to update the chat page and send messages.-->
+                            <script>
         $(function () {
             // Reference the auto-generated proxy for the hub.
             var chat = $.connection.chatHub;
-            
+
             // Create a function that the hub can call back to display messages.
-            chat.client.addNewMessageToPage = function (name, message) 
+            chat.client.addNewMessageToPage = function (name, message)
             {
                 $('#discussion').append('<li><strong>' + htmlEncode(name)
                     + '</strong>: ' + htmlEncode(message) + '</li>');
@@ -404,7 +405,7 @@
             // Set initial focus to message input box.
             $('#message').focus();
             // Start the connection.
-            $.connection.hub.start().done(function () 
+            $.connection.hub.start().done(function ()
             {
                     $('#sendmessage').click(function () {
                     // Call the Send method on the hub.
@@ -418,42 +419,42 @@
             var encodedValue = $('<div />').text(value).html();
             return encodedValue;
         }
-                        </script>
-                    }
+                            </script>
+                        }
 
-                </div>
-                <!--chat ends-->
-
-                <!--members starts-->
-                <div id="project-members" class="sidenav padding-for-container light-background">
-                    <div id="members" class="box-container">
-                        <h3>Members</h3>
-                        <span id="new-member" class="clickable-icon"><i data-toggle="modal" data-target="#myModal2" class="fa fa-user-plus fa-2x" aria-hidden="true"><span class="hover-text">Add member</span></i></span>
-                        <!-- Modal -->
-
-                        <ul class="no-style-list" id="member-list">
-                            <!--Display the list of members in a project if any-->
-                            @if (Model.Members != null)
-                            {
-
-                                for (int i = 0; i < Model.Members.Count(); i++)
-                                {
-                                    UserViewModel user = Model.Members[i];
-                                    var userID = user.ID;
-                                    <li class="list-inline" values=@user.UserName><input type="checkbox" />@user.UserName</li>
-                                    <!--<li class="list-inline">(hjá)user.UserName<span id=(hjá)user.UserName onclick="javascript:setMembershipID(userID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-minus" aria-hidden="true"><span class="hover-text">Remove user</span></i></span></li>-->
-                                }
-                                /* foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
-                                 {
-
-                                     string userID = user.UserName;
-                                     //SetMembershipID(userID, this)"
-
-                                 }*/
-                            }
-                        </ul>
                     </div>
-                    <script>
+                    <!--chat ends-->
+
+                    <!--members starts-->
+                    <div id="project-members" class="sidenav padding-for-container light-background">
+                        <div id="members" class="box-container scroll">
+                            <h3>Members</h3>
+                            <span id="new-member" class="clickable-icon"><i data-toggle="modal" data-target="#myModal2" class="fa fa-user-plus fa-2x" aria-hidden="true"><span class="hover-text">Add member</span></i></span>
+                            <!-- Modal -->
+
+                            <ul class="no-style-list" id="member-list">
+                                <!--Display the list of members in a project if any-->
+                                @if (Model.Members != null)
+                                {
+
+                                    for (int i = 0; i < Model.Members.Count(); i++)
+                                    {
+                                        UserViewModel user = Model.Members[i];
+                                        var userID = user.ID;
+                                        <li class="list-inline" values=@user.UserName><input type="checkbox" />@user.UserName</li>
+                                    <!--<li class="list-inline">(hjá)user.UserName<span id=(hjá)user.UserName onclick="javascript:setMembershipID(userID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-minus" aria-hidden="true"><span class="hover-text">Remove user</span></i></span></li>-->
+                                    }
+                                    /* foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
+                                     {
+
+                                         string userID = user.UserName;
+                                         //SetMembershipID(userID, this)"
+
+                                     }*/
+                                }
+                            </ul>
+                        </div>
+                        <script>
                         function setMembershipID(userID){
                             // var element = document.getElementById(userID).value;
                             @newMembership.AspNetUserID = userID;
@@ -461,7 +462,7 @@
                             htmladd = '</i>';
                             $('<li>').append(htmladd);*/
                          }
-                    </script>
+                        </script>
 
                 </div>
                 <!--members end-->
@@ -506,16 +507,17 @@
                                     </li>
                                     }
                                 }
-                        </ul>
+                            </ul>
 
+                        </div>
                     </div>
+                    <!--goals ends-->
                 </div>
-                <!--goals ends-->
-            </div>
-            <!--Pop-out nav ends -->
+                <!--Pop-out nav ends -->
 
+            </div>
         </div>
-    </div>
+        </div>
 
     <!--Project body ends-->
     <script>
