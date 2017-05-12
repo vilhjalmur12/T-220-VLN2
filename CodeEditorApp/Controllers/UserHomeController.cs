@@ -121,6 +121,18 @@ namespace CodeEditorApp.Controllers
 
             return user;
         }
-        
+
+        public void DeleteFileJSON(string fileID)
+        {
+            Debug.WriteLine("DelteFile: " + fileID);
+            int intFileID = Convert.ToInt32(fileID);
+
+            if (intFileID != 0)
+            {
+                UserHomeService.RemoveFile(intFileID);
+            }
+
+        }
+
     }
 }
