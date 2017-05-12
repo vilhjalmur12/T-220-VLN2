@@ -26,10 +26,12 @@ namespace CodeEditorApp.Controllers
             }
 
             OpenProjectModel = projectService.GetOpenProjectViewModel(projectID.Value);
+            // For actions in view
             ViewBag.newFile = CreateNewFileModel();
             ViewBag.newMembership = CreateNewMembershipModel();
             ViewBag.newGoal = CreateNewGoalModel();
-            //For the Editor
+
+            //For the Editor ---> SKOÐA
             List<FileViewModel> AllSolutionFiles = projectService.GetFilesByProject(projectID.Value);
             ViewBag.AllSolutionFiles = AllSolutionFiles;
             ViewBag.Code = "alert('Hello World!');";
@@ -109,17 +111,17 @@ namespace CodeEditorApp.Controllers
         [HttpPost]
         public ActionResult NewGoal(GoalViewModel goalModel)
         {
-            string goalName = goalModel.name;
+            string goalName = goalModel.Name;
             // Check if goal is empty
             if ((goalName != null) && (goalName.Length > 0) )
             {
                 GoalViewModel newGoalModel = new GoalViewModel()
                 {
                     AspNetUserID = User.Identity.GetUserId(),
-                    name = goalModel.name,
-                    description = goalModel.description,
+                    Name = goalModel.Name,
+                    Description = goalModel.Description,
                     ProjectID = goalModel.ProjectID,
-                    finished = false
+                    Finished = false
                 };
 
                 projectService.AddGoal(newGoalModel);
@@ -147,16 +149,16 @@ namespace CodeEditorApp.Controllers
         /// <returns> ActionResult </returns>
         public ActionResult NewObjective(ObjectiveViewModel objectiveModel)
         {
-            string objectiveName = objectiveModel.name;
+            string objectiveName = objectiveModel.Name;
             // Check if the name of the objective is empty
             if ((objectiveName != null) && (objectiveName.Length > 0))
             {
                 ObjectiveViewModel newObjective = new ObjectiveViewModel()
                 {
-                    name = objectiveModel.name,
+                    Name = objectiveModel.Name,
                     GoalID = objectiveModel.GoalID,
                     AspNetUserID = User.Identity.GetUserId(),
-                    finished = false
+                    Finished = false
                 };
 
                 projectService.AddNewObjective(newObjective);
@@ -186,13 +188,13 @@ namespace CodeEditorApp.Controllers
         [HttpPost]
         public ActionResult CreateFile(FileViewModel fileModel)
         {
-            if ((fileModel.name != null) && (fileModel.name.Length > 0))
+            if ((fileModel.Name != null) && (fileModel.Name.Length > 0))
             {
                 if (fileModel.FileType != null)
                 {
                     File newFile = new File()
                     {
-                        name = fileModel.name,
+                        name = fileModel.Name,
                         FileType = projectService.GetFileTypeByID(fileModel.FileTypeID),
                         ProjectID = fileModel.ProjectID,
                         HeadFolderID = fileModel.HeadFolderID
@@ -211,15 +213,15 @@ namespace CodeEditorApp.Controllers
         {
             File fileUpload = new File();
 
-                fileUpload.name = System.IO.Path.GetFileName(upload.FileName);
-                fileUpload.FileType = projectService.GetFileTypeByExtension(System.IO.Path.GetExtension(upload.FileName));
-                fileUpload.ProjectID = model.ProjectID;
-                fileUpload.HeadFolderID = model.HeadFolderID;
+            fileUpload.name = System.IO.Path.GetFileName(upload.FileName);
+            fileUpload.FileType = projectService.GetFileTypeByExtension(System.IO.Path.GetExtension(upload.FileName));
+            fileUpload.ProjectID = model.ProjectID;
+            fileUpload.HeadFolderID = model.HeadFolderID;
 
-                using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                {
-                    fileUpload.Content = reader.ReadString();
-                }
+            using (var reader = new System.IO.BinaryReader(upload.InputStream))
+            {
+                fileUpload.Content = reader.ReadString();
+            }
             
             projectService.CreateFile(ref fileUpload);
 
@@ -231,10 +233,10 @@ namespace CodeEditorApp.Controllers
         public ActionResult OpenFile(string fileID)
         {
             int intFileID = Int32.Parse(fileID);
-           FileViewModel NewDoc = projectService.GetFileByID(intFileID);
+            FileViewModel NewDoc = projectService.GetFileByID(intFileID);
             string ext = NewDoc.FileType.Extension;
             Debug.WriteLine("Id int: " + intFileID);
-            Debug.WriteLine("Document: " + NewDoc.name);
+            Debug.WriteLine("Document: " + NewDoc.Name);
             Debug.WriteLine("Extension: " + ext);
 
             return Json(NewDoc, JsonRequestBehavior.AllowGet);
@@ -281,6 +283,7 @@ namespace CodeEditorApp.Controllers
         [HttpPost]
         public void SaveFile (string documentID, string fileContent)
         {
+            Debug.WriteLine("SaveFile Controller: " + documentID + " " + fileContent);
             int intDocumentID = Convert.ToInt32(documentID);
             projectService.SaveFileContent(intDocumentID, fileContent);
         }

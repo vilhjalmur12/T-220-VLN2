@@ -43,7 +43,6 @@ namespace CodeEditorApp.Repositories
             OpenProjectViewModel newOpenProjectModel = new OpenProjectViewModel()
             {
                 ID = projectID,
-                name = project.name,
                 OwnerID = project.AspNetUserID,
                 SolutionFolder = GetSolutionFolder(project.SolutionFolderID),
                 Members = GetUsersByProject(projectID),
@@ -85,8 +84,8 @@ namespace CodeEditorApp.Repositories
                             objectiveModels.Add(new ObjectiveViewModel()
                             {
                                 ID = objective.ID,
-                                name = objective.name,
-                                finished = objective.finished,
+                                Name = objective.name,
+                                Finished = objective.finished,
                                 AspNetUserID = objective.AspNetUserID,
                                 GoalID = objective.GoalID
                             });
@@ -96,9 +95,9 @@ namespace CodeEditorApp.Repositories
                     goalModels.Add(new GoalViewModel()
                     {
                         ID = goal.ID,
-                        name = goal.name,
-                        description = goal.description,
-                        finished = goal.finished,
+                        Name = goal.name,
+                        Description = goal.description,
+                        Finished = goal.finished,
                         AspNetUserID = goal.AspNetUserID,
                         ProjectID = goal.ProjectID,
                         objectives = objectiveModels
@@ -154,7 +153,7 @@ namespace CodeEditorApp.Repositories
                     fileModels.Add(new FileViewModel()
                     {
                         ID = file.ID,
-                        name = file.name,
+                        Name = file.name,
                         ProjectID = file.ProjectID,
                         HeadFolderID = file.HeadFolderID,
                     });
@@ -170,7 +169,7 @@ namespace CodeEditorApp.Repositories
             FileViewModel ReturnFile = new FileViewModel
             {
                 ID = file.ID,
-                name = file.name,
+                Name = file.name,
                 ProjectID = file.ProjectID,
                 HeadFolderID = file.HeadFolderID,
                 FileType = file.FileType,
@@ -206,9 +205,9 @@ namespace CodeEditorApp.Repositories
         {
             Goal newGoal = new Goal()
             {
-                name = goalModel.name,
-                description = goalModel.description,
-                finished = goalModel.finished,
+                name = goalModel.Name,
+                description = goalModel.Description,
+                finished = goalModel.Finished,
                 AspNetUserID = goalModel.AspNetUserID,
                 ProjectID = goalModel.ProjectID
             };
@@ -240,8 +239,8 @@ namespace CodeEditorApp.Repositories
         {
             Objective newObjective = new Objective()
             {
-                name = objectiveModel.name,
-                finished = objectiveModel.finished,
+                name = objectiveModel.Name,
+                finished = objectiveModel.Finished,
                 GoalID = objectiveModel.GoalID,
                 AspNetUserID = objectiveModel.AspNetUserID
             };
@@ -379,9 +378,23 @@ namespace CodeEditorApp.Repositories
 
         public void SaveFileContent (int fileID, string content)
         {
-            File Tmp = _db.Files.Where(x => x.ID == fileID).SingleOrDefault();
-            Tmp.Content = content;
-            _db.SaveChanges(); 
+            if (content == null)
+            {
+                content = "";
+            }
+            if (fileID != 0)
+            {
+                
+                File Tmp = _db.Files.Where(x => x.ID == fileID).SingleOrDefault();
+                if (Tmp == null)
+                {
+                    return;
+                }
+                Debug.WriteLine("File Content Before: " + Tmp.Content);
+                Tmp.Content = content;
+                _db.SaveChanges();
+                Debug.WriteLine("File Content After: " + Tmp.Content);
+            } 
         }
         
     }
