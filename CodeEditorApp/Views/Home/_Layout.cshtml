@@ -28,19 +28,11 @@
                     {
                         @Html.AntiForgeryToken()
                         <ul class="nav navbar-nav l-heading-home">
-                            <li>@Html.ActionLink("About", "About", "Home", new { @class = "color-textcolor" })</li>
                             <li>@Html.ActionLink("Your Projects", "Index", "UserHome", routeValues: null, htmlAttributes: new { @class = "color-textcolor" })</li>
                             <li><a class="color-textcolor" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                         </ul>
                     }
                 }
-                else
-                {
-                    <ul class="nav navbar-nav l-heading-home">
-                        <li>@Html.ActionLink("About", "About", "Home", new { @class = "color-textcolor" })</li>
-                    </ul>
-                }
-
             </div>
   
         </div>

@@ -12,9 +12,7 @@ using System.Diagnostics;
 
 namespace CodeEditorApp.Repositories
 {
-    // Execptions used
     public class EmptyException : Exception { }
-
 
     
     public class UserHomeRepository: TreeRepository
@@ -189,29 +187,6 @@ namespace CodeEditorApp.Repositories
 
             return null;
         }
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="project"></param>
-       /* public void CreateProject(Project project, Folder headFolder)
-        {
-            project.HeadFolderID = headFolder.ID;
-            CreateSolutionFolder(ref project);
-            _db.Projects.Add(project);
-            _db.SaveChanges();
-            _db.Folders.Find(project.SolutionFolderID).ProjectID = project.ID;
-
-            Folder tmpSolutionFolder = _db.Folders.Where(x => x.Name == project.name + "Solutions" && x.IsSolutionFolder == true).SingleOrDefault();
-            Project tmpProject = _db.Projects.Where(x => x.name == project.name + "Solutions" && x.SolutionFolderID == 0).SingleOrDefault();
-
-          //  tmpSolutionFolder.ProjectID = tmpProject.ID;
-            tmpProject.SolutionFolderID = tmpSolutionFolder.ID;
-        }*/
-
-
 
         /// <summary>
         /// Overridded for input of only project, in case of creating a project
@@ -484,20 +459,6 @@ namespace CodeEditorApp.Repositories
             _db.Memberships.Remove(membership);
             _db.SaveChanges();
         }
-
-
-
-        public void SendConfirmEmail(string AspNetUserID)
-        {
-            //TODO
-        }
-
-        public bool EmailConfirmed(string AspNetUserID)
-        {
-            //TODO
-            return false;
-        }
-
 
 
         /// <summary>

@@ -151,21 +151,28 @@ namespace CodeEditorApp.Controllers
         [HttpPost]
         public ActionResult CreateFile(FileViewModel fileModel)
         {
-            if ((fileModel.Name != null) && (fileModel.Name.Length > 0))
+
+            if (fileModel.FileType != null)
             {
-                if (fileModel.FileType != null)
-                {
+                fileModel.FileType = projectService.GetFileTypeByID(6);
+
+            }
+            if (fileModel.Name == null)
+            {
+                fileModel.Name = "Untitled";
+            }
+
                     File newFile = new File()
                     {
                         name = fileModel.Name,
                         FileType = projectService.GetFileTypeByID(fileModel.FileTypeID),
                         ProjectID = fileModel.ProjectID,
-                        HeadFolderID = fileModel.HeadFolderID
+                        HeadFolderID = fileModel.HeadFolderID,
+                        Content = "This is a blank file"
                     };
 
                     projectService.CreateFile(ref newFile);
-                }
-            }
+                
 
             return RedirectToAction("Index", "Project", new { projectID = fileModel.ProjectID });
         }

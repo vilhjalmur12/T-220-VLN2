@@ -12,74 +12,69 @@
     <div class="row container padding-for-container userhome-body ">
         <div class="col-md-2 project-list box-container scroll">
             <div class="document-list-icons">
-                <!-- Create folder -->
-                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-folder-close fa-2x" aria-hidden="true"><span class="hover-text">Create new folder</span></i></span>
-                <!-- Move folder -->
-                <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="fa fa-arrows fa-2x" aria-hidden="true"><span class="hover-text">Move folder</span></i></span>
                 <!-- Trash -->
                 <span id="delete-item-button" class="clickable-icon"><i class="glyphicon glyphicon-trash fa-2x" aria-hidden="true"><span class="hover-text">Delete</span></i></span>
             </div>
-                <!--Project folders and file tree starts-->
-                @if (Model.RootFolder.Folders == null)
-                {
-                        <p>Database is empty</p>
-                }
-                else
-                {
-                    <ul id="tree2">
-                        @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel folder in Model.RootFolder.Folders)
-                        {
-                            <li>
-                                <!--If the folder represents a project, create link project-->
-                                @if (folder.IsSolutionFolder)
-                                {
-                                    @Html.ActionLink(folder.Name, "Index", "Project", new { projectID = @folder.ProjectID }, null)
-                                }
-                                else
-                                {
-                                    <a href="#">@folder.Name</a>
-                                }
+            <!--Project folders and file tree starts-->
+            @if (Model.RootFolder.Folders == null)
+            {
+                <p>Database is empty</p>
+            }
+            else
+            {
+                <ul id="tree2">
+                    @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel folder in Model.RootFolder.Folders)
+                    {
+                        <li>
+                            <!--If the folder represents a project, create link project-->
+                            @if (folder.IsSolutionFolder)
+                            {
+                                @Html.ActionLink(folder.Name, "Index", "Project", new { projectID = @folder.ProjectID }, null)
+                            }
+                            else
+                            {
+                                <a href="#">@folder.Name</a>
+                            }
 
-                                @ShowSubItems(folder.SubFolders)
+                            @ShowSubItems(folder.SubFolders)
+                        </li>
+                    }
+                </ul>
+            }
 
-                            </li>
-                        }
-                    </ul>
-                }
+            @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
+            {
+                <ul>
+                    @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel folder in folders)
+                    {
+                        <li class="clickable-icon">
+                            <!--If the folder represents a project, create link to project-->
+                            @if (folder.IsSolutionFolder)
+                            {
+                                @Html.ActionLink(folder.Name, "Index", "Project", new { projectID = @folder.ProjectID }, null)
+                            }
+                            else
+                            {
+                                @folder.Name
+                            }
 
-                @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
-                {
-                    <ul>
-                        @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel folder in folders)
-                        {
-                            <li class="clickable-icon">
-                                <!--If the folder represents a project, create link to project-->
-                                @if (folder.IsSolutionFolder)
-                                {
-                                    @Html.ActionLink(folder.Name, "Index", "Project", new { projectID = @folder.ProjectID }, null)
-                                }
-                                else
-                                {
-                                    @folder.Name
-                                }
+                            @ShowSubItems(folder.SubFolders)
 
-                                @ShowSubItems(folder.SubFolders)
-
-                                @if (folder.Files != null)
-                                {
-                                    <ul>
-                                        @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in folder.Files)
-                                        {
-                                            <li class="clickable-icon" id="file-item" alt="@file.ID">
-                                                <a>@file.Name@*@file.FileType.Extension</a>*@</a>
-                                            </li>
-                                        }
-                                    </ul>
-                                }
-                            </li>
-                        }
-                    </ul>
-                }
+                            @if (folder.Files != null)
+                            {
+                                <ul>
+                                    @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in folder.Files)
+                                    {
+                                        <li class="clickable-icon" id="file-item" alt="@file.ID">
+                                            <a>@file.Name@file.FileType.Extension</a>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </li>
+                    }
+                </ul>
+            }
                     <!--Project folders and file tree ends-->
         </div>
 
@@ -132,22 +127,26 @@
             </div>
         </div>
     </div>
+
     <script>
-        /*þarf að færa*/
         var documentID = 0;
         var folderID = 0;
 
         $.fn.extend({
-            treed: function (o) {
+            treed: function (o)
+            {
 
                 var openedClass = 'glyphicon-minus-sign';
                 var closedClass = 'glyphicon-plus-sign';
 
-                if (typeof o != 'undefined') {
-                    if (typeof o.openedClass != 'undefined') {
+                if (typeof o != 'undefined')
+                {
+                    if (typeof o.openedClass != 'undefined')
+                    {
                         openedClass = o.openedClass;
                     }
-                    if (typeof o.closedClass != 'undefined') {
+                    if (typeof o.closedClass != 'undefined')
+                    {
                         closedClass = o.closedClass;
                     }
                 };
@@ -155,12 +154,15 @@
                 //initialize each of the top levels
                 var tree = $(this);
                 tree.addClass("tree");
-                tree.find('li').has("ul").each(function () {
-                    var branch = $(this); //li with children ul
+                tree.find('li').has("ul").each(function ()
+                {
+                    var branch = $(this);
                     branch.prepend("<i class='indicator glyphicon " + closedClass + "'></i>");
                     branch.addClass('branch');
-                    branch.on('click', function (e) {
-                        if (this == e.target) {
+                    branch.on('click', function (e)
+                    {
+                        if (this == e.target)
+                        {
                             var icon = $(this).children('i:first');
                             icon.toggleClass(openedClass + " " + closedClass);
                             $(this).children().children().toggle();
@@ -169,21 +171,27 @@
                     branch.children().children().toggle();
                 });
                 //fire event from the dynamically added icon
-                tree.find('.branch .indicator').each(function () {
-                    $(this).on('click', function () {
+                tree.find('.branch .indicator').each(function ()
+                {
+                    $(this).on('click', function ()
+                    {
                         $(this).closest('li').click();
                     });
                 });
                 //fire event to open branch if the li contains an anchor instead of text
-                tree.find('.branch>a').each(function () {
-                    $(this).on('click', function (e) {
+                tree.find('.branch>a').each(function ()
+                {
+                    $(this).on('click', function (e)
+                    {
                         $(this).closest('li').click();
                         e.preventDefault();
                     });
                 });
                 //fire event to open branch if the li contains a button instead of text
-                tree.find('.branch>button').each(function () {
-                    $(this).on('click', function (e) {
+                tree.find('.branch>button').each(function ()
+                {
+                    $(this).on('click', function (e)
+                    {
                         $(this).closest('li').click();
                         e.preventDefault();
                     });
@@ -194,45 +202,51 @@
         //Initialization of treeviews
         $('#tree2').treed({ openedClass: 'glyphicon-folder-open', closedClass: 'glyphicon-folder-close' });
 
-
-
-        function DeleteFile () {
+        function DeleteFile()
+        {
             $.ajax({
                 url: "/UserHome/DeleteFileJSON",
                 method: "POST",
                 data: { fileID : documentID },
                 dataType: "json", 
-                success: function () {
-    
+                success: function ()
+                {
                 }
             })
         }
 
-        function openNav(name) {
+        function openNav(name)
+        {
             document.getElementById(name).style.width = "500px";/* Set the width of the side navigation to 250px */
-            if (name != "project-chat") {
+            if (name != "project-chat")
+            {
                 closeNav("project-chat");
             }
-            if (name != "project-members") {
+            if (name != "project-members")
+            {
                 closeNav("project-members");
             }
-            if (name != "project-goals") {
+            if (name != "project-goals")
+            {
                 closeNav("project-goals");
             }
         }
 
         /* Set the width of the side navigation to 0 */
-        function closeNav(name) {
+        function closeNav(name)
+        {
             document.getElementById(name).style.width = "0";
         }
 
-        function closeAllNavs() {
+        function closeAllNavs()
+        {
             closeNav("project-chat");
             closeNav("project-members");
             closeNav("project-goals");
         }
 
-        function ChangeGoal(goalID) {
+        function ChangeGoal(goalID)
+        {
 
             $.ajax({
                 type: 'POST',
@@ -240,23 +254,27 @@
                 data: {
                     goalID: goalID,
                 },
-                success: function (data) {
+                success: function (data)
+                {
                     $(".error_msg").text(data);
                 }
             });
         }
 
         $.fn.extend({
-            treed: function (o) {
+            treed: function (o)
+            {
 
                 var openedClass = 'glyphicon-minus-sign';
                 var closedClass = 'glyphicon-plus-sign';
 
                 if (typeof o != 'undefined') {
-                    if (typeof o.openedClass != 'undefined') {
+                    if (typeof o.openedClass != 'undefined')
+                    {
                         openedClass = o.openedClass;
                     }
-                    if (typeof o.closedClass != 'undefined') {
+                    if (typeof o.closedClass != 'undefined')
+                    {
                         closedClass = o.closedClass;
                     }
                 };
@@ -264,12 +282,15 @@
                 //initialize each of the top levels
                 var tree = $(this);
                 tree.addClass("tree");
-                tree.find('li').has("ul").each(function () {
+                tree.find('li').has("ul").each(function ()
+                {
                     var branch = $(this); //li with children ul
                     branch.prepend("<i class='indicator glyphicon " + closedClass + "'></i>");
                     branch.addClass('branch');
-                    branch.on('click', function (e) {
-                        if (this == e.target) {
+                    branch.on('click', function (e)
+                    {
+                        if (this == e.target)
+                        {
                             var icon = $(this).children('i:first');
                             icon.toggleClass(openedClass + " " + closedClass);
                             $(this).children().children().toggle();
@@ -278,21 +299,27 @@
                     branch.children().children().toggle();
                 });
                 //fire event from the dynamically added icon
-                tree.find('.branch .indicator').each(function () {
-                    $(this).on('click', function () {
+                tree.find('.branch .indicator').each(function ()
+                {
+                    $(this).on('click', function ()
+                    {
                         $(this).closest('li').click();
                     });
                 });
                 //fire event to open branch if the li contains an anchor instead of text
-                tree.find('.branch>a').each(function () {
-                    $(this).on('click', function (e) {
+                tree.find('.branch>a').each(function ()
+                {
+                    $(this).on('click', function (e)
+                    {
                         $(this).closest('li').click();
                         e.preventDefault();
                     });
                 });
                 //fire event to open branch if the li contains a button instead of text
-                tree.find('.branch>button').each(function () {
-                    $(this).on('click', function (e) {
+                tree.find('.branch>button').each(function ()
+                {
+                    $(this).on('click', function (e)
+                    {
                         $(this).closest('li').click();
                         e.preventDefault();
                     });
@@ -303,8 +330,10 @@
         //Initialization of treeviews
         $('#tree2').treed({ openedClass: 'glyphicon-folder-open', closedClass: 'glyphicon-folder-close' });
 
-        $(document).ready(function(){
-            $("#remove-member").click(function(){
+        $(document).ready(function ()
+        {
+            $("#remove-member").click(function ()
+            {
                 var input = document.getElementById('membertoremove').value;
                 $.ajax({
                     url: 'Project/RemoveMemberIfInProject',
@@ -325,20 +354,22 @@
                 });
             });
 
-            $('#delete-file-button').on('click', function() {
+            $('#delete-file-button').on('click', function ()
+            {
                 DeleteFile();
             });
 
-            $('#file-item>a').on('click', function () {
+            $('#file-item>a').on('click', function ()
+            {
 
-                $('#file-item>a').each(function () {
+                $('#file-item>a').each(function ()
+                {
                     $(this).css("color", "#369");
                 });
                 $(this).css('color', 'black');
                 var ID = $(this).parent().attr('alt');
                 documentID = ID;
 
-                //return false;
             });
 
         });
