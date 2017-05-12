@@ -466,7 +466,7 @@
                         <span id="new-member" class="clickable-icon"><i data-toggle="modal" data-target="#myModal2" class="fa fa-user-plus fa-2x" aria-hidden="true"><span class="hover-text">Add member</span></i></span>
                         <!-- Modal -->
 
-                        <ul id="member-list">
+                        <ul class="no-style-list" id="member-list">
                             <!--Display the list of members in a project if any-->
                             @if (Model.Members != null)
                             {
@@ -475,7 +475,7 @@
                                 {
                                     UserViewModel user = Model.Members[i];
                                     var userID = user.ID;
-                                    <li><span id=@user.UserName onclick="javascript:setMembershipID(userID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="" aria-hidden="true"><span class="hover-text">Remove user</span></i></span>@user.UserName</li>
+                                    <li class="list-inline">@user.UserName<span id=@user.UserName onclick="javascript:setMembershipID(userID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-minus" aria-hidden="true"><span class="hover-text">Remove user</span></i></span></li>
                                 }
                                 /* foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
                                  {

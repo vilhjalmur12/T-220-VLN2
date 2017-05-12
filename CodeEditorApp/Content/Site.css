@@ -507,6 +507,9 @@ div.tab button.active {
     padding-right:46px;
 }
 
+.standard-width{
+    width:10%;
+}
 
 
 
@@ -571,7 +574,7 @@ div.tab button.active {
     width:96%;
 }
 
-#members span:first-of-type{
+#new-member {
     position:absolute;
     right: 15%;
     top: 80px;
@@ -652,11 +655,7 @@ input[type='checkbox']:checked + label.objective{
     padding: 20px;
     height:90%;
 }
-
-.ace-editor{
-
-}
-
+     
 
 /*========stuff we might not need*/
 
