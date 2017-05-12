@@ -205,13 +205,9 @@
                 <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
                 <script src="~/signalr/hubs"></script>
 
-                @{
-
-                }
-
 
                 <script>
-
+                    var documentID = 0;
                 
                 //Start the Ace editor
                 var editor = ace.edit("editor");
@@ -282,7 +278,7 @@
                 {
                     editor.setValue(Content);
                     Syntax(syntax);
-                    myHub1.server.swapDocuments(documentID, id);
+                    //myHub1.server.swapDocuments(documentID, id);
                     documentID = id;
                 }
 
@@ -476,6 +472,8 @@
                                     }
                                 });
                             });
+
+                            $()
 
                             $('#file-item>a').on('click', function () {
                                 SaveFileContent();
