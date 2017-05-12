@@ -280,7 +280,6 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Entities\Project.cs" />
     <Compile Include="Models\Entities\ProjectType.cs" />
-    <Compile Include="Models\ViewModels\EditorViewModel.cs" />
     <Compile Include="Models\ViewModels\MembershipViewModel.cs" />
     <Compile Include="Models\ViewModels\ObjectiveViewModel.cs" />
     <Compile Include="Models\ViewModels\OpenProjectViewModel.cs" />
@@ -288,7 +287,6 @@
     <Compile Include="Models\ViewModels\UserViewModel.cs" />
     <Compile Include="Repositories\TreeRepository.cs" />
     <Compile Include="Repositories\User.cs" />
-    <Compile Include="Models\ViewModels\CommentViewModel.cs" />
     <Compile Include="Models\ViewModels\FileViewModel.cs" />
     <Compile Include="Models\ViewModels\FolderViewModel.cs" />
     <Compile Include="Models\ViewModels\GoalViewModel.cs" />
@@ -674,7 +672,6 @@
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </Content>
     <None Include="Scripts\jquery-1.10.2.intellisense.js" />
-    <Content Include="Scripts\Custom.js" />
     <Content Include="Scripts\jquery-1.10.2.js" />
     <Content Include="Scripts\jquery-1.10.2.min.js" />
     <None Include="Scripts\jquery.validate-vsdoc.js" />
@@ -733,7 +730,6 @@
     <Content Include="Views\UserHome\_Layout.cshtml" />
     <Content Include="Views\Account\_Login.cshtml" />
     <Content Include="Views\Account\_Register.cshtml" />
-    <Content Include="Views\Home\Editor.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Account\_Contact.cshtml" />
     <Content Include="Views\UserHome\CreateProject.cshtml" />

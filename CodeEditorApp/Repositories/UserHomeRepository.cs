@@ -69,7 +69,7 @@ namespace CodeEditorApp.Repositories
             ProjectViewModel returnProjectModel = new ProjectViewModel()
             {
                 ID = project.ID,
-                name = project.name,
+                Name = project.name,
                 Owner = _db.Users.Find(project.AspNetUserID).UserName,
                 TypeID = project.ProjectTypeID,
                 HeadFolderID = project.HeadFolderID,
