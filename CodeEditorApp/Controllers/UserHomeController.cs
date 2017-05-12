@@ -62,7 +62,7 @@ namespace CodeEditorApp.Controllers
         {
             Project newProject = new Project()
             {
-                name = projectModel.name,
+                name = projectModel.Name,
                 AspNetUserID = User.Identity.GetUserId(),
                 ProjectTypeID = projectModel.TypeID
             };

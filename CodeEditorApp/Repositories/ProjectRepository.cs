@@ -84,8 +84,8 @@ namespace CodeEditorApp.Repositories
                             objectiveModels.Add(new ObjectiveViewModel()
                             {
                                 ID = objective.ID,
-                                name = objective.name,
-                                finished = objective.finished,
+                                Name = objective.name,
+                                Finished = objective.finished,
                                 AspNetUserID = objective.AspNetUserID,
                                 GoalID = objective.GoalID
                             });
@@ -95,9 +95,9 @@ namespace CodeEditorApp.Repositories
                     goalModels.Add(new GoalViewModel()
                     {
                         ID = goal.ID,
-                        name = goal.name,
-                        description = goal.description,
-                        finished = goal.finished,
+                        Name = goal.name,
+                        Description = goal.description,
+                        Finished = goal.finished,
                         AspNetUserID = goal.AspNetUserID,
                         ProjectID = goal.ProjectID,
                         objectives = objectiveModels
@@ -205,9 +205,9 @@ namespace CodeEditorApp.Repositories
         {
             Goal newGoal = new Goal()
             {
-                name = goalModel.name,
-                description = goalModel.description,
-                finished = goalModel.finished,
+                name = goalModel.Name,
+                description = goalModel.Description,
+                finished = goalModel.Finished,
                 AspNetUserID = goalModel.AspNetUserID,
                 ProjectID = goalModel.ProjectID
             };
@@ -239,8 +239,8 @@ namespace CodeEditorApp.Repositories
         {
             Objective newObjective = new Objective()
             {
-                name = objectiveModel.name,
-                finished = objectiveModel.finished,
+                name = objectiveModel.Name,
+                finished = objectiveModel.Finished,
                 GoalID = objectiveModel.GoalID,
                 AspNetUserID = objectiveModel.AspNetUserID
             };

@@ -109,17 +109,17 @@ namespace CodeEditorApp.Controllers
         [HttpPost]
         public ActionResult NewGoal(GoalViewModel goalModel)
         {
-            string goalName = goalModel.name;
+            string goalName = goalModel.Name;
             // Check if goal is empty
             if ((goalName != null) && (goalName.Length > 0) )
             {
                 GoalViewModel newGoalModel = new GoalViewModel()
                 {
                     AspNetUserID = User.Identity.GetUserId(),
-                    name = goalModel.name,
-                    description = goalModel.description,
+                    Name = goalModel.Name,
+                    Description = goalModel.Description,
                     ProjectID = goalModel.ProjectID,
-                    finished = false
+                    Finished = false
                 };
 
                 projectService.AddGoal(newGoalModel);
@@ -147,16 +147,16 @@ namespace CodeEditorApp.Controllers
         /// <returns> ActionResult </returns>
         public ActionResult NewObjective(ObjectiveViewModel objectiveModel)
         {
-            string objectiveName = objectiveModel.name;
+            string objectiveName = objectiveModel.Name;
             // Check if the name of the objective is empty
             if ((objectiveName != null) && (objectiveName.Length > 0))
             {
                 ObjectiveViewModel newObjective = new ObjectiveViewModel()
                 {
-                    name = objectiveModel.name,
+                    Name = objectiveModel.Name,
                     GoalID = objectiveModel.GoalID,
                     AspNetUserID = User.Identity.GetUserId(),
-                    finished = false
+                    Finished = false
                 };
 
                 projectService.AddNewObjective(newObjective);
