@@ -33,6 +33,8 @@ namespace CodeEditorApp.Repositories
 
         public void CreateFile(ref File file)
         {
+            Debug.WriteLine(file.name);
+            Debug.WriteLine(file.Content);
             _db.Files.Add(file);
             _db.SaveChanges();
         }
