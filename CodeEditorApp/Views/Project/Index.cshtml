@@ -302,7 +302,23 @@
                 }
 
                 function GetEditorSession () {
-                    return cont = editor.getValue();
+                    return editor.getValue();
+                }
+
+                function SaveFileContent () {
+                    var content = GetEditorSession();
+                    $.ajax({
+                        url:"/Project/SaveFile",
+                        method: "POST",
+                        data: { fileID : documentID, fileContent : content },
+                        dataType: "json",
+                        beforeeSend:function () {
+
+                        },
+                        success: function () {
+                            consol.log("fucking success man!")
+                        }
+                    });
                 }
 
 
@@ -467,7 +483,7 @@
                         <!-- Modal -->
 
                         <ul id="member-list">
-                            <!--Display the list of members in a project if any--a>
+                            <!--Display the list of members in a project if any-->
                             @if (Model.Members != null)
                             {
 
@@ -521,6 +537,7 @@
                             });
 
                             $('#file-item>a').on('click', function () {
+                                SaveFileContent();
 
                                 $('#file-item>a').each(function () {
                                     $(this).css("color", "#369");

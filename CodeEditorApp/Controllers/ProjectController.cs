@@ -291,5 +291,12 @@ namespace CodeEditorApp.Controllers
             projectService.SaveComment(newComment);
             //return RedirectToAction("Index", "Project", new { projectID = projectID, tabMake = "project-chat" });
         }
+
+        [HttpPost]
+        public void SaveFile (string documentID, string content)
+        {
+            int intDocumentID = Convert.ToInt32(documentID);
+            projectService.SaveFileContent(intDocumentID, content);
+        }
     }
 }

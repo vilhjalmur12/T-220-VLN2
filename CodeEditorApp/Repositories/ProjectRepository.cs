@@ -469,6 +469,13 @@ namespace CodeEditorApp.Repositories
             _db.Comments.Add(newComment);
             _db.SaveChanges();
         }
+
+        public void SaveFileContent (int fileID, string content)
+        {
+            File Tmp = _db.Files.Where(x => x.ID == fileID).SingleOrDefault();
+            Tmp.Content = content;
+            _db.SaveChanges(); 
+        }
         
     }
 }
