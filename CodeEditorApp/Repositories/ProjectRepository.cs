@@ -37,32 +37,6 @@ namespace CodeEditorApp.Repositories
             _db.SaveChanges();
         }
 
-        public void ChangeGoal(int goalID)
-        {
-            if (_db.Goals.Find(goalID).finished)
-            {
-                _db.Goals.Find(goalID).finished = false;
-            }
-            else
-            {
-                _db.Goals.Find(goalID).finished = true;
-            }
-            _db.SaveChanges();
-        }
-
-        public void ChangeObjective(int objectiveID)
-        {
-            if (_db.Objectives.Find(objectiveID).finished)
-            {
-                _db.Objectives.Find(objectiveID).finished = false;
-            }
-            else
-            {
-                _db.Objectives.Find(objectiveID).finished = true;
-            }
-            _db.SaveChanges();
-        }
-
         public OpenProjectViewModel GetOpenProjectViewModel(int projectID)
         {
             Project project = _db.Projects.Find(projectID);
@@ -250,15 +224,15 @@ namespace CodeEditorApp.Repositories
             return folderModels;
         }
 
-        public void AddNewGoal(GoalViewModel goal)
+        public void AddGoal(GoalViewModel goalModel)
         {
             Goal newGoal = new Goal()
             {
-                name = goal.name,
-                description = goal.description,
-                finished = goal.finished,
-                AspNetUserID = goal.AspNetUserID,
-                ProjectID = goal.ProjectID
+                name = goalModel.name,
+                description = goalModel.description,
+                finished = goalModel.finished,
+                AspNetUserID = goalModel.AspNetUserID,
+                ProjectID = goalModel.ProjectID
             };
 
             _db.Goals.Add(newGoal);
@@ -327,7 +301,7 @@ namespace CodeEditorApp.Repositories
         }
 
         //Removes user from project
-        public void RemoveUserFromProject (MembershipViewModel membership)
+        public void RemoveMemberFromProject (MembershipViewModel membership)
         {
 
             List<Membership> membershipList = _db.Memberships.ToList();

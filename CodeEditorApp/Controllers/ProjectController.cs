@@ -2,13 +2,10 @@
 using CodeEditorApp.Models.ViewModels;
 using System;
 using System.Collections.Generic;
-using System.Linq;
 using System.Web;
 using System.Web.Mvc;
 using CodeEditorApp.Repositories;
 using Microsoft.AspNet.Identity;
-using CodeEditorApp.Models.Entities;
-using System.Data.Entity;
 using System.Diagnostics;
 
 namespace CodeEditorApp.Controllers
@@ -17,28 +14,21 @@ namespace CodeEditorApp.Controllers
     {
 
         private ProjectRepository projectService = new ProjectRepository();
-
         private OpenProjectViewModel OpenProjectModel;
 
         [HttpGet]
         public ActionResult Index(int? projectID, string tabMake)
         {
+            // If tabMake is null: display default
             if (tabMake == null)
             {
                 tabMake = "";
             }
 
             OpenProjectModel = projectService.GetOpenProjectViewModel(projectID.Value);
-            ViewBag.newFile = NewFile();
-            ViewBag.newMembership = new MembershipViewModel()
-            {
-                ProjectID = OpenProjectModel.ID
-            };
-            ViewBag.newGoal = new GoalViewModel()
-            {
-                ProjectID = OpenProjectModel.ID,
-                AspNetUserID = User.Identity.GetUserId()
-            };
+            ViewBag.newFile = CreateNewFileModel();
+            ViewBag.newMembership = CreateNewMembershipModel();
+            ViewBag.newGoal = CreateNewGoalModel();
             //For the Editor
             List<FileViewModel> AllSolutionFiles = projectService.GetFilesByProject(projectID.Value);
             ViewBag.AllSolutionFiles = AllSolutionFiles;
@@ -53,9 +43,13 @@ namespace CodeEditorApp.Controllers
             return View(OpenProjectModel);
         }
 
-        private FileViewModel NewFile()
+        /// <summary>
+        /// Creates a new FileViewModel with available fileTypes,
+        /// the ID and the headFolder ID of the open project,
+        /// </summary>
+        /// <returns> FileViewModel </returns>
+        private FileViewModel CreateNewFileModel()
         {
-
             FileViewModel newFile = new FileViewModel()
             {
                 ProjectID = OpenProjectModel.ID,
@@ -63,60 +57,100 @@ namespace CodeEditorApp.Controllers
                 HeadFolderID = OpenProjectModel.SolutionFolder.ID
             };
 
-            Debug.WriteLine(newFile.ProjectID);
-            Debug.WriteLine(OpenProjectModel.ID);
             return newFile;
         }
 
-        public void ChangeGoal (int goalID)
+        /// <summary>
+        /// Creates a new MembershipViewModel with te current Project ID
+        /// </summary>
+        /// <returns> MembershipViewModel </returns>
+        private MembershipViewModel CreateNewMembershipModel()
         {
-            projectService.ChangeGoal(goalID);
+            MembershipViewModel newMembershipModel = new MembershipViewModel()
+            {
+                ProjectID = OpenProjectModel.ID
+            };
 
+            return newMembershipModel;
         }
 
-        public ActionResult RemoveMember(MembershipViewModel membership)
+        /// <summary>
+        /// Creates a new GoalViewModel with the current projectID
+        /// and the logged in userID
+        /// </summary>
+        /// <returns></returns>
+        private GoalViewModel CreateNewGoalModel()
         {
-            projectService.RemoveUserFromProject(membership);
-            //LAGA
-            return RedirectToAction("Index", "Project", new { projectID = membership.ProjectID, tapMake = "project-members"});
+            GoalViewModel newGoalModel = new GoalViewModel()
+            {
+                ProjectID = OpenProjectModel.ID,
+                AspNetUserID = User.Identity.GetUserId()
+            };
+
+            return newGoalModel;
         }
 
+        /// <summary>
+        /// Removes membership from database
+        /// </summary>
+        /// <param name="membership"></param>
+        /// <returns> ActionResult </returns>
+        public ActionResult RemoveMember(MembershipViewModel membershipModel)
+        {
+            projectService.RemoveMemberFromProject(membershipModel);
+            return RedirectToAction("Index", "Project", new { projectID = membershipModel.ProjectID, tabMake = "project-members"});
+        }
+
+        /// <summary>
+        /// Creates a new Goal in database based on the GoalViewModel goal
+        /// </summary>
+        /// <param name="goal"></param>
+        /// <returns> Action Result </returns>
         [HttpPost]
-        public ActionResult NewGoal(GoalViewModel goal)
+        public ActionResult NewGoal(GoalViewModel goalModel)
         {
-            GoalViewModel newGoal = new GoalViewModel()
+            // Check if goal is empty
+            if ((goalModel.name != null) && (goalModel.name.Length > 0) )
             {
-                AspNetUserID = goal.AspNetUserID,
-                name = goal.name,
-                description = goal.description,
-                ProjectID = goal.ProjectID,
-                finished = false
-            };
+                GoalViewModel newGoalModel = new GoalViewModel()
+                {
+                    AspNetUserID = User.Identity.GetUserId(),
+                    name = goalModel.name,
+                    description = goalModel.description,
+                    ProjectID = goalModel.ProjectID,
+                    finished = false
+                };
 
-            projectService.AddNewGoal(newGoal);
-            return RedirectToAction("Index", "Project", new { projectID = goal.ProjectID, tabMake = "project-goals" });
+                projectService.AddGoal(newGoalModel);
+            }
+            
+            return RedirectToAction("Index", "Project", new { projectID = goalModel.ProjectID, tabMake = "project-goals" });
         }
 
-
-        public ActionResult RemoveGoal(GoalViewModel goal)
+        /// <summary>
+        /// Removes the goal represented by the GoalViewmodel goal
+        /// </summary>
+        /// <param name="goal"></param>
+        /// <returns> Action Result </returns>
+        public ActionResult RemoveGoal(GoalViewModel goalModel)
         {
-            projectService.RemoveGoal(goal);
-            return RedirectToAction("ShowGoals", "Project");
+            projectService.RemoveGoal(goalModel);
+            return RedirectToAction("Index", "Project", new { projectID = goalModel.ProjectID, tabMake = "project-goals"});
         }
 
-        public ActionResult NewObjective(int goalID, string name, int projectID)
-        {
-            ObjectiveViewModel newObjective = new ObjectiveViewModel()
-            {
-                name = name,
-                GoalID = goalID,
-                AspNetUserID = User.Identity.GetUserId(),
-                finished = false
-            };
+        //public ActionResult NewObjective(ObjectiveViewModel objectiveModel)
+        //{
+        //    ObjectiveViewModel newObjective = new ObjectiveViewModel()
+        //    {
+        //        name = name,
+        //        GoalID = goalID,
+        //        AspNetUserID = User.Identity.GetUserId(),
+        //        finished = false
+        //    };
 
-            projectService.AddNewObjective(newObjective);
-            return RedirectToAction("Index", "Project", new { projectID = projectID, tabMake = "project-goals" });
-        }
+        //    projectService.AddNewObjective(newObjective);
+        //    return RedirectToAction("Index", "Project", new { projectID = projectID, tabMake = "project-goals" });
+        //}
 
         public ActionResult RemoveObjective(int objectiveID)
         {
@@ -143,7 +177,7 @@ namespace CodeEditorApp.Controllers
         [HttpGet]
         public ActionResult CreateFile()
         {
-            FileViewModel newFile = NewFile();
+            FileViewModel newFile = CreateNewFileModel();
             return View(newFile);
         }
 
@@ -168,7 +202,7 @@ namespace CodeEditorApp.Controllers
                 
             } else
             {
-                fileModel = NewFile();
+                fileModel = CreateNewFileModel();
                 return View(fileModel);
             }  
         }
@@ -237,7 +271,7 @@ namespace CodeEditorApp.Controllers
         public ActionResult LeaveProject(MembershipViewModel membership)
         {
             membership.AspNetUserID = User.Identity.GetUserId();
-            projectService.RemoveUserFromProject(membership);
+            projectService.RemoveMemberFromProject(membership);
 
             return RedirectToAction("Index", "UserHome");
         }
@@ -249,29 +283,6 @@ namespace CodeEditorApp.Controllers
             return null;
         }
  
-  /*      [HttpPost] // can be HttpGet
-        public ActionResult AddMemberIfExists(string email, int projectID)
-        {
-            //if true (breyti repo fallinu úr add)
-            //
-            bool isValid = projectService.AddMemberIfExists(email, projectID); //.. check
-            var obj = new
-            {
-                valid = isValid
-            };
-
-            return Json(obj);
-        }*/
-
-        /*[HttpPost] // can be HttpGet
-        public ActionResult RemoveMemberIfInProject(string email, int projectID)
-        {
-            bool isValid = projectService.RemoveMemberIfInProject(email, projectID);
-            var obj = isValid;
-
-            return Json(new { valid = isValid });
-        }*/
-
         [HttpPost]
         public ActionResult AddMember(MembershipViewModel membership)
         {
