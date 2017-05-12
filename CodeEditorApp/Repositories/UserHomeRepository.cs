@@ -267,6 +267,7 @@ namespace CodeEditorApp.Repositories
                     HeadFolderID = project.SolutionFolderID,
                     name = "Index",
                     ProjectID = project.ID,
+                    Content = "<!-- This is Html -->",
                     FileType = _db.FileTypes.Where(x => x.ID == 1).SingleOrDefault()
                 };
 
@@ -280,6 +281,7 @@ namespace CodeEditorApp.Repositories
                     HeadFolderID = styles.ID,
                     name = "styles",
                     ProjectID = project.ID,
+                    Content = "/* This is Css */",
                     FileType = _db.FileTypes.Where(x => x.ID == 2).SingleOrDefault()
                 };
 
@@ -287,6 +289,7 @@ namespace CodeEditorApp.Repositories
                 {
                     HeadFolderID = script.ID,
                     name = "scripts",
+                    Content = "// This is Javascript",
                     ProjectID = project.ID,
                     FileType = _db.FileTypes.Where(x => x.ID == 3).SingleOrDefault()
                 };

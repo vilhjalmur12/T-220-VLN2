@@ -20,7 +20,7 @@ namespace CodeEditorApp.Hubs
             Clients.Group(documentID, Context.ConnectionId).OnChange(changeData);
             //Clients.All.OnChange(changeData);
         }
-        //Send message with info about who made the last changes
+        //Send message with info about who made the last changes         
         public void Send(string name, string message)
         {
             // Call the addNewMessageToPage method to update clients.

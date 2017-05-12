@@ -215,7 +215,7 @@ namespace CodeEditorApp.Controllers
         public ActionResult RemoveFile(FileViewModel fileModel)
         {
             projectService.RemoveFile(fileModel.ID);
-            return RedirectToAction("Index", "Project", new { id = fileModel.ProjectID });
+            return RedirectToAction("Index", "Project", new { projectID = fileModel.ProjectID });
         }
 
         public void DeleteFileJSON (string fileID)
