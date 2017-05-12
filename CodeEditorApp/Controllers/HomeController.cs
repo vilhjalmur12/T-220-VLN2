@@ -52,9 +52,5 @@ namespace CodeEditorApp.Controllers
             //ViewBag.DocumentID = 17;
             return View();
         }
-        public ActionResult SaveCode(EditorViewModel model)
-        {
-            return View("Home");
-        }
     }
 }

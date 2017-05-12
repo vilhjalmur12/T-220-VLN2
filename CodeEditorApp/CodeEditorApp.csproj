@@ -280,7 +280,6 @@
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Entities\Project.cs" />
     <Compile Include="Models\Entities\ProjectType.cs" />
-    <Compile Include="Models\ViewModels\EditorViewModel.cs" />
     <Compile Include="Models\ViewModels\MembershipViewModel.cs" />
     <Compile Include="Models\ViewModels\ObjectiveViewModel.cs" />
     <Compile Include="Models\ViewModels\OpenProjectViewModel.cs" />
@@ -732,7 +731,6 @@
     <Content Include="Views\UserHome\_Layout.cshtml" />
     <Content Include="Views\Account\_Login.cshtml" />
     <Content Include="Views\Account\_Register.cshtml" />
-    <Content Include="Views\Home\Editor.cshtml" />
     <Content Include="Views\Project\Index.cshtml" />
     <Content Include="Views\Account\_Contact.cshtml" />
     <Content Include="Views\UserHome\CreateProject.cshtml" />
