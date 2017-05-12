@@ -405,13 +405,13 @@ namespace CodeEditorApp.Repositories
         // Adds user to project if user exists. Returns true if user was added to project, else returns false.
         public void AddMemberIfExists(MembershipViewModel membership)
         {
-            ApplicationUser user = FindUserByEmail(membership.Email);
-
-            if (user != null)
+            if (!MembershipExists(membership))
             {
-                membership.AspNetUserID = user.Id;
-                if (!MembershipExists(membership))
+                ApplicationUser user = FindUserByEmail(membership.Email);
+
+                if (user != null)
                 {
+                    membership.AspNetUserID = user.Id;
                     AddUserToProject(membership);
                 }
             }

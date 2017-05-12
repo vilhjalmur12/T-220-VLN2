@@ -18,7 +18,7 @@
     List<FileViewModel> AllFiles = ViewBag.AllSolutionFiles;
 }
 
-    @Scripts.Render("~/bundles/jquery")
+@Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/Custom")
 @Scripts.Render("~/bundles/bootstrap")
 @Styles.Render("~/Content/css")
@@ -393,11 +393,11 @@
 
                 </div>
                 <!--chat ends-->
+
                 <!--members starts-->
                 <div id="project-members" class="sidenav padding-for-container light-background">
                     <div id="members" class="box-container">
                         <h3>Members</h3>
-                        <span id="new-member" class="clickable-icon"><i data-toggle="modal" data-target="#myModal2" class="glyphicon glyphicon-file" aria-hidden="true"><span class="hover-text">Create new file</span></i></span>
                         <!-- Modal -->
 
                         <ul id="member-list">
@@ -420,6 +420,7 @@
                                  }*/
                             }
                         </ul>
+                        <span id="new-member" class="clickable-icon"><i data-toggle="modal" data-target="#myModal2" class="glyphicon glyphicon-file" aria-hidden="true"><span class="hover-text">Add new member</span></i></span>
                     </div>
                     <script>
                         function setMembershipID(userID){
@@ -430,7 +431,7 @@
                             $('<li>').append(htmladd);*/
                          }
                     </script>
-
+                    
                     <script>
                         $(document).ready(function(){
                             $("#remove-member").click(function(){
