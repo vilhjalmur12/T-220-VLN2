@@ -571,11 +571,12 @@ div.tab button.active {
     width:96%;
 }
 
-#members span{
+#members span:first-of-type{
     position:absolute;
     right: 15%;
     top: 80px;
 }
+
 /*----- $GOALS -----*/
 
 #goals{
@@ -583,10 +584,14 @@ div.tab button.active {
     width:96%;
     
 }
-#goals span{
+
+#add-goal{
     position:absolute;
     right: 15%;
     top: 80px;
+}
+.goal span{
+    padding-left:10px;
 }
 
 .no-style-list > * {
@@ -630,15 +635,16 @@ input[type='checkbox']:checked + label.objective{
     background-size: 15px;
 }
 
-.add-object i{
+.add-objective i{
     padding: 5px 20px 4px 0px;
 }
 
-.add-object {
+.add-objective {
     font-weight: bold;
     opacity: 0.7;
 }
-}
+
+
 /* Style page content - use this if you want to push the page content to the right when you open the side navigation */
 /*Þarf að breyta?????????????????????????????????????????????*/
 #editor {

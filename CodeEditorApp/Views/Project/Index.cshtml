@@ -302,7 +302,23 @@
                 }
 
                 function GetEditorSession () {
-                    return cont = editor.getValue();
+                    return editor.getValue();
+                }
+
+                function SaveFileContent () {
+                    var content = GetEditorSession();
+                    $.ajax({
+                        url:"/Project/SaveFile",
+                        method: "POST",
+                        data: { fileID : documentID, fileContent : content },
+                        dataType: "json",
+                        beforeeSend:function () {
+
+                        },
+                        success: function () {
+                            consol.log("fucking success man!")
+                        }
+                    });
                 }
 
 
@@ -521,6 +537,7 @@
                             });
 
                             $('#file-item>a').on('click', function () {
+                                SaveFileContent();
 
                                 $('#file-item>a').each(function () {
                                     $(this).css("color", "#369");
@@ -573,6 +590,7 @@
                                     <li>
                                         <input type=@dis checked=@goal.finished onchange="ChangeGoal(@goal.ID)" />
                                         <label class="goal">@goal.name : @goal.description</label>
+                                        <span id="" onclick="" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="fa fa-minus-circle " aria-hidden="true"><span class="hover-text">Delete Objective</span></i></span>
                                         @if (goal.objectives != null)
                                     {
                                             <ul class="no-style-list">
@@ -581,10 +599,12 @@
                                                     <li>
                                                         <input type="checkbox" checked=@objective.finished />
                                                         <label class="objective">@objective.name</label>
+                                                        <span id="" onclick="" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-minus" aria-hidden="true"><span class="hover-text">Delete Objective</span></i></span>
                                                     </li>
                                                 }
-                                                <input type="text" id="newObj" />
-                                                <li class="add-object"><i  onclick="NewObjective(goal.ID, '#newObj', @Model.ID)" class="glyphicon glyphicon-plus clickable-icon" aria-hidden="true"></i>Add objective</li>
+                                                
+                                                <li><input type="text" id="newObj" /></li>
+                                                 <li class="add-objective"><i onclick="NewObjective(goal.ID, '#newObj', @Model.ID)" class="glyphicon glyphicon-plus clickable-icon" aria-hidden="true"></i>Add objective</li>
                                             </ul>
                                         }
                                     </li>
