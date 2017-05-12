@@ -183,14 +183,14 @@
                 <script>
 
                 //Get the DocumentID from the Controller class
-
+                    var documentID;
 
 
                 //Start the Ace editor
                 var editor = ace.edit("editor");
                 editor.setTheme("ace/theme/monokai");
                 //Set the Editor in Javascript mode
-                Syntax(documentType);
+                //Syntax(documentType);
                 //editor.getSession().setMode("ace/mode/javascript");
                 //Changes the style of the editor
                 function ToggleColor() {
@@ -218,10 +218,7 @@
                 }
 
 
-                function UpdateEditor (Content, syntax) {
-                    editor.setValue(Content);
-                    Syntax(syntax);
-                }
+
                 //Changes the syntax of the editor
 
 
@@ -244,19 +241,53 @@
                 };
                 //What happens after client sends data
                 $.connection.hub.start().done(function () {
-                    myHub1.server.joinDocument(documentID);
+                    myHub1.server.joinDocument(14/*documentID*/);
                     editor.on("change", function (obj) {
                         if(silent){
                             return;
                         }
                         //Sends the Object from Ace Editor(Position of change, what changed)
                         console.log(obj);
-                        myHub1.server.onChange(obj, documentID);
+                        myHub1.server.onChange(obj, 14/*documentID*/);
 
 
 
                     });
                 });
+
+
+                function UpdateEditor (Content, syntax, id) {
+
+                    editor.setValue(Content);
+                    Syntax(syntax);
+                    myHub1.server.swapDocuments(documentID, id);
+                    documentID = id;
+
+                }
+
+                function GetEditorSession () {
+                    return cont = editor.getValue();
+                }
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
                 </script>
                 <script>
@@ -455,11 +486,13 @@
                             });
 
                             $('#file-item>a').on('click', function () {
+
                                 $('#file-item>a').each(function () {
                                     $(this).css("color", "#369");
                                 });
                                 $(this).css('color', 'black');
                                 var ID = $(this).parent().attr('alt');
+                               
                                 console.log(ID);
                                 $.ajax({
                                     url: "/Project/OpenFile",
@@ -473,11 +506,11 @@
                                     success: function (responseData) {
                                         console.log(responseData);
                                         console.log(responseData.Content);
-                                        UpdateEditor(responseData.Content, responseData.FileType.Extension);
-                                    },
+                                        UpdateEditor(responseData.Content, responseData.FileType.Extension, responseData.ID);
+                                    }
 
                                 });
-                                return false;
+                                //return false;
                             });
 
                         });
@@ -571,6 +604,7 @@
                 }
             });
         }
+
 
 
     </script>
