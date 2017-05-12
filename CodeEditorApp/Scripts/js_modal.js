@@ -8,8 +8,8 @@
 $.fn.extend({
     treed: function (o) {
 
-        var openedClass = 'glyphicon-minus-sign';
-        var closedClass = 'glyphicon-plus-sign';
+        var openedClass = '';
+        var closedClass = '';
 
         if (typeof o != 'undefined') {
             if (typeof o.openedClass != 'undefined') {
