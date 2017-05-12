@@ -154,29 +154,29 @@
 
                     @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
                     {
-                <ul>
+                        <ul>
 
-                    @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
-                    {
-                        <li class="clickable-icon">
-                            @item.Name
-                            @ShowSubItems(item.SubFolders)
-
-                            @if (item.Files != null)
+                            @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
                             {
-                                <ul>
-                                    @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
+                                <li class="clickable-icon">
+                                    @item.Name
+                                    @ShowSubItems(item.SubFolders)
+
+                                    @if (item.Files != null)
                                     {
-                                        <li class="clickable-icon" id="file-item" alt="@file.ID">
-                                            <a>@file.Name</a>
-                                        </li>
+                                        <ul>
+                                            @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
+                                            {
+                                                <li class="clickable-icon" id="file-item" alt="@file.ID">
+                                                    <a>@file.Name</a>
+                                                </li>
+                                            }
+                                        </ul>
                                     }
-                                </ul>
+                                </li>
                             }
-                        </li>
-                    }
-                </ul>
-}
+                        </ul>
+                 }
 
                 </div>
             </div>
