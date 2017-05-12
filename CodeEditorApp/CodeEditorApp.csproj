@@ -287,7 +287,6 @@
     <Compile Include="Models\ViewModels\UserViewModel.cs" />
     <Compile Include="Repositories\TreeRepository.cs" />
     <Compile Include="Repositories\User.cs" />
-    <Compile Include="Models\ViewModels\CommentViewModel.cs" />
     <Compile Include="Models\ViewModels\FileViewModel.cs" />
     <Compile Include="Models\ViewModels\FolderViewModel.cs" />
     <Compile Include="Models\ViewModels\GoalViewModel.cs" />

@@ -246,59 +246,36 @@ namespace CodeEditorApp.Controllers
             return null;
         }
 
-        public ActionResult CopyFile(int fileID)
+        public ActionResult DeleteFile(FileViewModel fileModel)
         {
-            //TODO
-            return null;
+            projectService.RemoveFile(fileModel.ID);
+            return RedirectToAction("Index", "Project", new { id = fileModel.ProjectID });
         }
 
-        public ActionResult PasteFile(int fileID)
-        {
-            //TODO
-            return null;
-        }
-
-        public ActionResult DeleteFile(int fileID)
-        {
-            projectService.RemoveFile(fileID);
-            //LAGA
-            return RedirectToAction("Index", "Project", new { id = OpenProjectModel.ID });
-        }
-
+        /// <summary>
+        /// Deletes the membership between the current user and project in membershipModel
+        /// </summary>
+        /// <param name="membershipModel"></param>
+        /// <returns>ActionResult</returns>
         [HttpPost]
-        public ActionResult LeaveProject(MembershipViewModel membership)
+        public ActionResult LeaveProject(MembershipViewModel membershipModel)
         {
-            membership.AspNetUserID = User.Identity.GetUserId();
-            projectService.RemoveMemberFromProject(membership);
+            membershipModel.AspNetUserID = User.Identity.GetUserId();
+            projectService.RemoveMemberFromProject(membershipModel);
 
             return RedirectToAction("Index", "UserHome");
         }
-
-
-        public ActionResult ChangeEditorColor()
-        {
-            //TODO
-            return null;
-        }
  
+        /// <summary>
+        /// Adds the membership represented by mebershipModel to database
+        /// </summary>
+        /// <param name="membershipModel"></param>
+        /// <returns>ActionResult</returns>
         [HttpPost]
-        public ActionResult AddMember(MembershipViewModel membership)
+        public ActionResult AddMember(MembershipViewModel membershipModel)
         {
-            projectService.AddMemberIfExists(membership);
-
-            return RedirectToAction("Index", "Project", new { projectID = membership.ProjectID, tabMake = "project-members" });
-        }
-
-        public void SaveComment(int projectID, string message)
-        {
-            CommentViewModel newComment = new CommentViewModel()
-            {
-                ProjectID = projectID,
-                Content = message,
-                AspNetUserID = User.Identity.GetUserId(),
-            };
-            projectService.SaveComment(newComment);
-            //return RedirectToAction("Index", "Project", new { projectID = projectID, tabMake = "project-chat" });
+            projectService.AddMemberIfExists(membershipModel);
+            return RedirectToAction("Index", "Project", new { projectID = membershipModel.ProjectID, tabMake = "project-members" });
         }
 
         [HttpPost]

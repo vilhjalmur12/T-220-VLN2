@@ -46,7 +46,6 @@ namespace CodeEditorApp.Repositories
                 name = project.name,
                 OwnerID = project.AspNetUserID,
                 SolutionFolder = GetSolutionFolder(project.SolutionFolderID),
-                Comments = GetCommentsByProject(projectID),
                 Members = GetUsersByProject(projectID),
                 Goals = GetGoalsByProject(projectID)
             };
@@ -110,27 +109,6 @@ namespace CodeEditorApp.Repositories
             return goalModels;
         }
 
-
-        public List<CommentViewModel> GetCommentsByProject(int projectID)
-        {
-            List<CommentViewModel> commentModels = new List<CommentViewModel>();
-            _db.Comments.ToList().ForEach(comment =>
-            {
-                if (comment.ProjectID == projectID)
-                {
-                    commentModels.Add(new CommentViewModel()
-                    {
-                        ID = comment.ID,
-                        Content = comment.content,
-                        AspNetUserID = comment.AspNetUserID,
-                        ProjectID = comment.ProjectID,
-                        User = GetUserByID(comment.AspNetUserID).UserName
-                    });
-                }
-            });
-
-            return commentModels;
-        }
 
         //Hér sækjum við lista af notendum eftir projectID
         public List<UserViewModel> GetUsersByProject(int projectID)
@@ -282,26 +260,12 @@ namespace CodeEditorApp.Repositories
             }
         }
 
-        public void AddNewComment(CommentViewModel comment)
-        {
-            Comment newComment = new Comment()
-            {
-                AspNetUserID = comment.AspNetUserID,
-                content = comment.Content,
-                ProjectID = comment.ProjectID
-            };
-
-            _db.Comments.Add(newComment);
-            _db.SaveChanges();
-        }
-
-
-        public void AddUserToProject(MembershipViewModel membership)
+        public void AddUserToProject(MembershipViewModel membershipModel)
         {
             Membership newMembership = new Membership()
             {
-                ProjectID = membership.ProjectID,
-                AspNetUserID = membership.AspNetUserID,
+                ProjectID = membershipModel.ProjectID,
+                AspNetUserID = membershipModel.AspNetUserID,
             };
             _db.Memberships.Add(newMembership);
             _db.SaveChanges();
@@ -358,44 +322,19 @@ namespace CodeEditorApp.Repositories
             //TODO
         }
 
-        public void ChangeProjectName(int projectID, string newName)
-        {
-            Project project = _db.Projects.Find(projectID);
-        }
-
-        public void ChangeFileName(int fileID, string newName)
-        {
-            //TODO
-        }
-
-        public void ChangeFolderName(int folderID, string newName)
-        {
-            //TODO
-        }
-
-        /*public UserViewModel GetUserByEmail(string email)
-        {
-            ApplicationUser TmpUser = _db.Users.Where(x => x.UserName == email).SingleOrDefault();
-            UserViewModel ReturnUser = new UserViewModel();
-
-            ReturnUser.ID = TmpUser.Id;
-            ReturnUser.UserName = TmpUser.UserName;
-
-            return ReturnUser;
-        }*/
 
         // Adds user to project if user exists. Returns true if user was added to project, else returns false.
-        public void AddMemberIfExists(MembershipViewModel membership)
+        public void AddMemberIfExists(MembershipViewModel membershipModel)
         {
-            ApplicationUser user = FindUserByEmail(membership.Email);
-            Project project = FindProjectByID(membership.ProjectID);
+            ApplicationUser user = FindUserByEmail(membershipModel.Email);
+            Project project = FindProjectByID(membershipModel.ProjectID);
 
             if ((user != null) && (project != null))
             {
-                membership.AspNetUserID = user.Id;
-                if (!MembershipExists(membership) && (project.AspNetUserID != membership.AspNetUserID))
+                membershipModel.AspNetUserID = user.Id;
+                if ((!MembershipExists(membershipModel)) && (project.AspNetUserID != membershipModel.AspNetUserID))
                 {
-                    AddUserToProject(membership);
+                    AddUserToProject(membershipModel);
                 }
             }
         }
@@ -405,16 +344,15 @@ namespace CodeEditorApp.Repositories
             return _db.Projects.Find(projectID);
         }
 
-        private bool MembershipExists(MembershipViewModel testMembership)
+        private bool MembershipExists(MembershipViewModel membershipModel)
         {
             foreach (Membership membership in _db.Memberships.ToList())
             {
-                if (membership.AspNetUserID == testMembership.AspNetUserID && membership.ProjectID == testMembership.ProjectID)
+                if (membership.AspNetUserID == membershipModel.AspNetUserID && membership.ProjectID == membershipModel.ProjectID)
                 {
                     return true;
                 }
             }
-
             return false;
         }
 
@@ -438,18 +376,6 @@ namespace CodeEditorApp.Repositories
             }
             return false;
         }*/
-
-        public void SaveComment(CommentViewModel comment)
-        {
-            Comment newComment = new Comment()
-            {
-                ProjectID = comment.ProjectID,
-                content = comment.Content,
-                AspNetUserID = comment.AspNetUserID
-            };
-            _db.Comments.Add(newComment);
-            _db.SaveChanges();
-        }
 
         public void SaveFileContent (int fileID, string content)
         {

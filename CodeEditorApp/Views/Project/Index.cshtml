@@ -9,13 +9,7 @@
     FileViewModel newFile = ViewBag.newFile;
     GoalViewModel newGoal = ViewBag.newGoal;
     ObjectiveViewModel newObjective = new ObjectiveViewModel();
-    List<string> userList = new List<string>();
-    List<string> contentList = new List<string>();
-    foreach (CommentViewModel comment in  @Model.Comments)
-    {
-        userList.Add(comment.User);
-        contentList.Add(comment.Content);
-    }
+
     List<FolderViewModel> solutionFileList = new List<FolderViewModel>();
     solutionFileList.Add(Model.SolutionFolder);
     List<FileViewModel> AllFiles = ViewBag.AllSolutionFiles;
@@ -438,25 +432,7 @@
             $.connection.hub.start().done(function () {
                 $('#sendmessage').click(function () {
                     // Call the Send method on the hub.
-                    var content = $("#message").val();;
                     chat.server.send($('#displayname').val(), $('#message').val());
-                    @*//var NestIdProject = @Model.ID;*@
-                    //var url = "/Project/SaveComment?projectID=" + NestIdProject +  "&message=" + content;
-                    //window.location.href = url
-
-
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Project/SaveComment', //can I send data to multiple url with same ajax call.
-                        data: {
-                            projectID : @Model.ID,
-                            message : content,
-                        },
-                        success: function (data) {
-                            $(".error_msg").text(data);
-                        }
-                    });
-
                     $('#message').val('').focus();
 
                     // Clear text box and reset focus for next comment.
