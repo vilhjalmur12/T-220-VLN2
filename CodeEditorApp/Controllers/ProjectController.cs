@@ -248,10 +248,23 @@ namespace CodeEditorApp.Controllers
             return null;
         }
 
-        public ActionResult DeleteFile(FileViewModel fileModel)
+        [HttpPost]
+        public ActionResult RemoveFile(FileViewModel fileModel)
         {
             projectService.RemoveFile(fileModel.ID);
             return RedirectToAction("Index", "Project", new { id = fileModel.ProjectID });
+        }
+
+        public void DeleteFileJSON (string fileID)
+        {
+            Debug.WriteLine("DelteFile: "+fileID);
+            int intFileID = Convert.ToInt32(fileID);
+
+            if ( intFileID != 0)
+            {
+                projectService.RemoveFile(intFileID);
+            }
+
         }
 
         /// <summary>
