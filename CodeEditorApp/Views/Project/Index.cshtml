@@ -430,7 +430,8 @@
                                 {
                                     UserViewModel user = Model.Members[i];
                                     var userID = user.ID;
-                                    <li class="list-inline">@user.UserName<span id=@user.UserName onclick="javascript:setMembershipID(userID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-minus" aria-hidden="true"><span class="hover-text">Remove user</span></i></span></li>
+                                    <li class="list-inline" values=@user.UserName><input type="checkbox" />@user.UserName</li>
+                                    <!--<li class="list-inline">(hjá)user.UserName<span id=(hjá)user.UserName onclick="javascript:setMembershipID(userID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-minus" aria-hidden="true"><span class="hover-text">Remove user</span></i></span></li>-->
                                 }
                                 /* foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
                                  {
