@@ -50,25 +50,7 @@
             </div>
         </div>
     </div>
-    <!--Remove member modal-->
-    <div id="myModal3" class="modal fade" role="dialog">
-        <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header light-background">
-                    <button type="button" class="close" data-dismiss="modal">&times;</button>
-                    <h4 class="modal-title color-textcolor">Remove member from project</h4>
-                </div>
-                <div class="modal-body">
-                    @{Html.RenderPartial("RemoveMember", newMembership);}
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
     <!--Add new goal modal-->
     <div id="myModalAddGoal" class="modal fade" role="dialog">
         <div class="modal-dialog">
@@ -125,10 +107,6 @@
                         </div>
                     </div>
                     <!--=Modals with buttons END=-->
-                    <!-- Createfolder -->
-                    <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="fa fa-folder fa-2x" aria-hidden="true"><span class="hover-text">Create new folder</span></i></span>
-                    <!-- Move folder -->
-                    <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="fa fa-arrows fa-2x" aria-hidden="true"><span class="hover-text">Move folder</span></i></span>
                     <!-- Delete item -->
                     <span id="delete-file-button" class="clickable-icon"><i class="glyphicon glyphicon-trash fa-2x" aria-hidden="true"><span class="hover-text">Delete</span></i></span>
                     <!-- Quit project -->
@@ -447,28 +425,10 @@
                                         UserViewModel user = Model.Members[i];
                                         var userID = user.ID;
                                         <li class="list-inline" values=@user.UserName>@user.UserName</li>
-                                    <!--<li class="list-inline">(hjá)user.UserName<span id=(hjá)user.UserName onclick="javascript:setMembershipID(userID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-minus" aria-hidden="true"><span class="hover-text">Remove user</span></i></span></li>-->
                                     }
-                                    /* foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
-                                     {
-
-                                         string userID = user.UserName;
-                                         //SetMembershipID(userID, this)"
-
-                                     }*/
                                 }
                             </ul>
                         </div>
-                        <script>
-                        function setMembershipID(userID){
-                            // var element = document.getElementById(userID).value;
-                            @newMembership.AspNetUserID = userID;
-                            /*var htmladd = '<i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-file" aria-hidden="true">';
-                            htmladd = '</i>';
-                            $('<li>').append(htmladd);*/
-                         }
-                        </script>
-
                 </div>
                 <!--members end-->
                             
@@ -481,20 +441,15 @@
                         <ul class="no-style-list">
                             @if (Model.Goals.Count() != 0)
                             {
-                                var dis = "checkbox";
-                                if (Model.Goals[0].AspNetUserID != User.Identity.GetUserId())
-                                {
-                                    dis = "return false";
-                                }
                                 foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
                                 {
                                     <li>
-                                        <input type="checkbox" class="goal-box" onclick=@dis checked=@goal.Finished onchange="ChangeGoal(@goal.ID)" />
+                                        <input type="checkbox" class="goal-box" checked=@goal.Finished onchange="ChangeGoal(@goal.ID)" />
                                         <label class="goal">@goal.Name : @goal.Description</label>
                                     </li>
-                                    }
                                 }
-                            </ul>
+                            }
+                        </ul>
 
                         </div>
                     </div>
