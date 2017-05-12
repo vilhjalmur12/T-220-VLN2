@@ -304,10 +304,10 @@ namespace CodeEditorApp.Controllers
         }
 
         [HttpPost]
-        public void SaveFile (string documentID, string content)
+        public void SaveFile (string documentID, string fileContent)
         {
             int intDocumentID = Convert.ToInt32(documentID);
-            projectService.SaveFileContent(intDocumentID, content);
+            projectService.SaveFileContent(intDocumentID, fileContent);
         }
     }
 }
