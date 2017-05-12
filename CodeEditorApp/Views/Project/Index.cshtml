@@ -184,6 +184,7 @@
                     <!--
                 @ViewBag.Code
                     -->
+                    
                 </div>
                 <div class="row padding-for-container">
                     <div class="col-sm-1">
@@ -237,7 +238,14 @@
                     }
                 }
 
-
+                editor.commands.addCommand({
+                    name: 'SaveFile',
+                    bindKey: {win: 'Enter',  mac: 'Enter'},
+                    exec: function() {
+                        SaveFileContent ();
+                    },
+                    readOnly: false // false if this command should not apply in readOnly mode
+                });
 
                 //Changes the syntax of the editor
 
