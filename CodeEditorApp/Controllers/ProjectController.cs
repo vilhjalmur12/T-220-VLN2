@@ -186,13 +186,13 @@ namespace CodeEditorApp.Controllers
         [HttpPost]
         public ActionResult CreateFile(FileViewModel fileModel)
         {
-            if ((fileModel.name != null) && (fileModel.name.Length > 0))
+            if ((fileModel.Name != null) && (fileModel.Name.Length > 0))
             {
                 if (fileModel.FileType != null)
                 {
                     File newFile = new File()
                     {
-                        name = fileModel.name,
+                        name = fileModel.Name,
                         FileType = projectService.GetFileTypeByID(fileModel.FileTypeID),
                         ProjectID = fileModel.ProjectID,
                         HeadFolderID = fileModel.HeadFolderID
@@ -234,7 +234,7 @@ namespace CodeEditorApp.Controllers
            FileViewModel NewDoc = projectService.GetFileByID(intFileID);
             string ext = NewDoc.FileType.Extension;
             Debug.WriteLine("Id int: " + intFileID);
-            Debug.WriteLine("Document: " + NewDoc.name);
+            Debug.WriteLine("Document: " + NewDoc.Name);
             Debug.WriteLine("Extension: " + ext);
 
             return Json(NewDoc, JsonRequestBehavior.AllowGet);

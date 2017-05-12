@@ -43,7 +43,6 @@ namespace CodeEditorApp.Repositories
             OpenProjectViewModel newOpenProjectModel = new OpenProjectViewModel()
             {
                 ID = projectID,
-                name = project.name,
                 OwnerID = project.AspNetUserID,
                 SolutionFolder = GetSolutionFolder(project.SolutionFolderID),
                 Members = GetUsersByProject(projectID),
@@ -154,7 +153,7 @@ namespace CodeEditorApp.Repositories
                     fileModels.Add(new FileViewModel()
                     {
                         ID = file.ID,
-                        name = file.name,
+                        Name = file.name,
                         ProjectID = file.ProjectID,
                         HeadFolderID = file.HeadFolderID,
                     });
@@ -170,7 +169,7 @@ namespace CodeEditorApp.Repositories
             FileViewModel ReturnFile = new FileViewModel
             {
                 ID = file.ID,
-                name = file.name,
+                Name = file.name,
                 ProjectID = file.ProjectID,
                 HeadFolderID = file.HeadFolderID,
                 FileType = file.FileType,
