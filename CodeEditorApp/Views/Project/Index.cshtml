@@ -164,7 +164,7 @@
                                     @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
                                     {
                                         <li class="clickable-icon" id="file-item" alt="@file.ID">
-                                            <a>@file.name</a>
+                                            <a>@file.Name</a>
                                         </li>
                                     }
                                 </ul>
@@ -502,6 +502,8 @@
 
                                 });
 
+
+
                                 $.ajax({
                                     url:"/Project/SaveFile",
                                     method: "POST",
@@ -540,8 +542,8 @@
                                 foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
                                 {
                                     <li>
-                                        <input type=@dis checked=@goal.finished onchange="ChangeGoal(@goal.ID)" />
-                                        <label class="goal">@goal.name : @goal.description</label>
+                                        <input type=@dis checked=@goal.Finished onchange="ChangeGoal(@goal.ID)" />
+                                        <label class="goal">@goal.Name : @goal.Description</label>
                                         <span id="" onclick="" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="fa fa-minus-circle " aria-hidden="true"><span class="hover-text">Delete Objective</span></i></span>
                                         @if (goal.objectives != null)
                                     {
@@ -549,8 +551,8 @@
                                                 @foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
                                     {
                                                     <li>
-                                                        <input type="checkbox" checked=@objective.finished />
-                                                        <label class="objective">@objective.name</label>
+                                                        <input type="checkbox" checked=@objective.Finished />
+                                                        <label class="objective">@objective.Name</label>
                                                         <span id="" onclick="" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-minus" aria-hidden="true"><span class="hover-text">Delete Objective</span></i></span>
                                                     </li>
                                                 }
