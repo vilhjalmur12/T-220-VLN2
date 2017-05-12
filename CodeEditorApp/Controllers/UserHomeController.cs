@@ -12,33 +12,34 @@ using System.Diagnostics;
 
 namespace CodeEditorApp.Controllers
 {
-    public enum ObjectType
-    {
-        Folder,
-        Project,
-        File
-    }
     public class UserHomeController : Controller
     {
         private UserHomeRepository UserHomeService;
 
+        //---------Public Functions --------------
         public UserHomeController()
         {
             UserHomeService = new UserHomeRepository();
         }
 
-        // GET: UserHome
+        /// <summary>
+        /// Returns the main page for user
+        /// </summary>
+        /// <returns></returns>
         public ActionResult Index()
         {
-
-            ViewBag.NewProject = NewProject();
-            ViewBag.currFile = new FileViewModel();
-            ViewBag.currProject = new ProjectViewModel();
-
+            ViewBag.NewProject = NewProjectModel();
             return View (GetUserData());
         }
 
-        private ProjectViewModel NewProject()
+        //---------Public Functions --------------
+        /// <summary>
+        /// Creates and returns a new projectViewModel
+        /// Sets OwnerID to the current UserID 
+        /// Gets available projectTypes
+        /// </summary>
+        /// <returns>ProjectViewModel</returns>
+        private ProjectViewModel NewProjectModel()
         {
             ProjectViewModel newProject = new ProjectViewModel()
             {
@@ -53,7 +54,7 @@ namespace CodeEditorApp.Controllers
        [HttpGet]
         public ActionResult CreateProject()
         {
-            ProjectViewModel newProject = NewProject();
+            ProjectViewModel newProject = NewProjectModel();
             return View(newProject);
         }
 
