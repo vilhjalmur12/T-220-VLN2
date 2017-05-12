@@ -101,30 +101,21 @@ namespace CodeEditorApp.Controllers
         public ActionResult RemoveGoal(GoalViewModel goal)
         {
             projectService.RemoveGoal(goal);
-            //LAGA
             return RedirectToAction("ShowGoals", "Project");
         }
 
-        public ActionResult AddObjective(int goalID, FormCollection collection)
+        public ActionResult NewObjective(int goalID, string name, int projectID)
         {
-            string objectiveName = collection["objectiveName"];
-
-            if (String.IsNullOrEmpty(objectiveName))
+            ObjectiveViewModel newObjective = new ObjectiveViewModel()
             {
-                return View("Error");
-            }
-
-            ObjectiveViewModel thisObjective = new ObjectiveViewModel()
-            {
-                name = objectiveName,
+                name = name,
                 GoalID = goalID,
                 AspNetUserID = User.Identity.GetUserId(),
                 finished = false
             };
 
-            projectService.AddNewObjective(thisObjective);
-            //LAGA
-            return RedirectToAction("ShowGoals", "Project");
+            projectService.AddNewObjective(newObjective);
+            return RedirectToAction("Index", "Project", new { projectID = projectID, tabMake = "project-goals" });
         }
 
         public ActionResult RemoveObjective(int objectiveID)

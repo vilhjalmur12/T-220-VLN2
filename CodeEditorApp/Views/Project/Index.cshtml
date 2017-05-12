@@ -8,6 +8,7 @@
     MembershipViewModel newMembership = ViewBag.newMembership;
     FileViewModel newFile = ViewBag.newFile;
     GoalViewModel newGoal = ViewBag.newGoal;
+    ObjectiveViewModel newObjective = new ObjectiveViewModel();
     List<string> userList = new List<string>();
     List<string> contentList = new List<string>();
     foreach (CommentViewModel comment in  @Model.Comments)
@@ -99,6 +100,8 @@
             </div>
         </div>
     </div>
+
+
 
     <!--Project body starts-->
     <div class="row container padding-for-container project-body">
@@ -547,7 +550,8 @@
                                                         <label class="objective">@objective.name</label>
                                                     </li>
                                                 }
-                                                <li class="add-object"><i data-toggle="modal" data-target="#myModalAddObj" class="glyphicon glyphicon-plus clickable-icon" aria-hidden="true"></i>Add objective</li>
+                                                <input type="text" id="newObj" />
+                                                <li class="add-object"><i  onclick="NewObjective(goal.ID, '#newObj', @Model.ID)" class="glyphicon glyphicon-plus clickable-icon" aria-hidden="true"></i>Add objective</li>
                                             </ul>
                                         }
                                     </li>
@@ -612,6 +616,22 @@
                 url: '/Project/ChangeObjective', //can I send data to multiple url with same ajax call.
                 data: {
                     objectvieID: objectiveID,
+                },
+                success: function (data) {
+                    $(".error_msg").text(data);
+                }
+            });
+        }
+
+        function NewObjective(goalID, name, projectID) {
+
+            $.ajax({
+                type: 'POST',
+                url: '/Project/NewObjective', //can I send data to multiple url with same ajax call.
+                data: {
+                    goalID: ID,
+                    name: name,
+                    projectID: projectID
                 },
                 success: function (data) {
                     $(".error_msg").text(data);
