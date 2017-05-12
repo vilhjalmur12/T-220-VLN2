@@ -224,7 +224,10 @@ body, html {
     margin-left: -35px;
 }
 
-
+div.scroll,
+table.scroll{
+        overflow: auto;
+}
 /*----------------------------------------------------------*\
     $LAYOUT
 \*----------------------------------------------------------*/
@@ -756,13 +759,13 @@ textarea {
     margin-right:5px;
 }
 
-.tree li a {
+.tree li a{
     font-weight:400;
     text-decoration: none;
     //color:#369;
 }
 
-.tree li a:focus{
+.tree li a:focus {
     font-weight: 700;
 }
 

@@ -80,7 +80,7 @@
     <div class="row container padding-for-container project-body">
 
         <div class="col-md-2 document-list padding-for-container box-container">
-            <div class="document-list-icons">
+            <div class="document-list-icons scroll">
                 <!-- Hér er CreateFile aðgerð -->
                 <!-- Trigger the modal with a button -->
                 <span id="new-file" class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="fa fa-file-code-o fa-2x" aria-hidden="true"><span class="hover-text">Create new file</span></i></span>
@@ -115,44 +115,45 @@
                 <span id="go-to-project-list" class="clickable-icon"><i id="go-to-project-list-text" data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-log-out fa-2x" aria-hidden="true"><span class="hover-text">Quit project</span></i></span>
             </div>
             <!--TAKKI ENDAR-->
+
             <!--Project folders and file tree starts-->
+            <div>
+                <ul id="tree2">
+                    <li>@Model.SolutionFolder.Name</li>
 
-            <ul id="tree2">
-                <li>@Model.SolutionFolder.Name</li>
+                    @if (Model.SolutionFolder != null)
+                    {
+                        @ShowSubItems(solutionFileList)
+                    }
+                </ul>
 
-                @if (Model.SolutionFolder != null)
+                @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
                 {
-                    @ShowSubItems(solutionFileList)
-                }
-            </ul>
+                <ul>
 
-            @helper ShowSubItems(List<CodeEditorApp.Models.ViewModels.FolderViewModel> folders)
-            {
-            <ul>
+                    @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
+                    {
+                        <li class="clickable-icon">
+                            @item.Name
+                            @ShowSubItems(item.SubFolders)
 
-                @foreach (CodeEditorApp.Models.ViewModels.FolderViewModel item in folders)
-                {
-                    <li class="clickable-icon">
-                        @item.Name
-                        @ShowSubItems(item.SubFolders)
-
-                        @if (item.Files != null)
-                        {
-                            <ul>
-                                @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
-                                {
-                                    <li class="clickable-icon" id="file-item" alt="@file.ID">
-                                        <a>@file.name</a>
-                                    </li>
-                                }
-                            </ul>
-                        }
-                    </li>
-                }
-            </ul>
+                            @if (item.Files != null)
+                            {
+                                <ul>
+                                    @foreach (CodeEditorApp.Models.ViewModels.FileViewModel file in item.Files)
+                                    {
+                                        <li class="clickable-icon" id="file-item" alt="@file.ID">
+                                            <a>@file.name</a>
+                                        </li>
+                                    }
+                                </ul>
+                            }
+                        </li>
+                    }
+                </ul>
 }
 
-
+            </div>
         </div>
         <!--Project folders and file tree ends-->
         <!--File editor starts-->
@@ -327,15 +328,13 @@
                 <!--chat starts-->
                 <div id="project-chat" class="sidenav padding-for-container right-padding light-background">
 
-                    <div id="message-box" class="container box-container">
+                    <div id="message-box" class="container box-container scroll">
                         <div class="row">
                             <textarea class="col" id="message"></textarea>
                             <input class="col" type="button" id="sendmessage" value="" />
                         </div>
                         <input type="hidden" id="displayname" />
-                        <div style="width:100%;height:95%;overflow:auto;">
                             <ul class="hover-user" id="discussion"></ul>
-                        </div>
                     </div>
                     @section scriptsComment {
                         <!--Script references. -->
@@ -410,7 +409,7 @@
                         <!-- Modal -->
 
                         <ul id="member-list">
-                            <!--Display the list of members in a project if any-->
+                            <!--Display the list of members in a project if any--a>
                             @if (Model.Members != null)
                             {
 
@@ -418,7 +417,7 @@
                                 {
                                     UserViewModel user = Model.Members[i];
                                     var userID = user.ID;
-                                    <li><span id=@user.UserName onclick="javascript:setMembershipID(userID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-file" aria-hidden="true"><span class="hover-text">Remove user</span></i></span>@user.UserName</li>
+                                    <li><span id=@user.UserName onclick="javascript:setMembershipID(userID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="" aria-hidden="true"><span class="hover-text">Remove user</span></i></span>@user.UserName</li>
                                 }
                                 /* foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
                                  {
@@ -491,10 +490,9 @@
 
                         });
                     </script>
-                    <p>Sed ut perspiciatis unde omnis iste natus error sit voluptatem accusantium doloremque laudantium, totam rem aperiam.</p>
                 </div>
                 <!--members end-->
-
+                            
                 <!--goals starts-->
                 <div id="project-goals" class="sidenav padding-for-container right-padding light-background">
                     <div id="goals" class="box-container padding-for-container">
