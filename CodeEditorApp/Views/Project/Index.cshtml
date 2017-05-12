@@ -287,7 +287,10 @@
                 {
                     editor.setValue(Content);
                     Syntax(syntax);
+                    console.log("Content: "+Content);
+                    console.log("syntax: "+syntax);
                     //myHub1.server.swapDocuments(documentID, id);
+                    console.log("syntax: "+syntax);
                     documentID = id;
                 }
 
@@ -643,7 +646,6 @@
                 $(this).css('color', 'black');
                 var ID = $(this).parent().attr('alt');
                                
-                console.log(ID);
                 $.ajax({
                     url: "/Project/OpenFile",
                     method: "POST",
@@ -654,25 +656,9 @@
 
                     },
                     success: function (responseData) {
-                        console.log(responseData);
-                        console.log(responseData.Content);
                         UpdateEditor(responseData.Content, responseData.FileType.Extension, responseData.ID);
-                        alert("Response: " + responseData.ID);
                     }
 
-                });
-
-                $.ajax({
-                    url:"/Project/SaveFile",
-                    method: "POST",
-                    data: { fileID : documentID, fileContent : content },
-                    dataType: "json",
-                    beforeeSend:function () {
-                        cosole.log("DocumentID: "+documentID);
-                    },
-                    success: function () {
-                        console.log("fucking success man!")
-                    }
                 });
                 //return false;
             });
