@@ -308,26 +308,6 @@
                     });
                 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 </script>
                 <script>
                     $(function () {
@@ -417,7 +397,7 @@
             // Start the connection.
             $.connection.hub.start().done(function () 
             {
-                $('#sendmessage').click(function () {
+                    $('#sendmessage').click(function () {
                     // Call the Send method on the hub.
                     chat.server.send($('#displayname').val(), $('#message').val());
                     $('#message').val('').focus();
