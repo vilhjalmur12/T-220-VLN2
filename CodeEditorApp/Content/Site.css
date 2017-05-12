@@ -651,7 +651,7 @@ div.tab button.active {
 }
 
 /*Checkboxes*/
-input[type='checkbox'].goal-obj-box {
+input[type='checkbox'].goal-box {
     /* Hide the input, but have it still be clickable */
     opacity: 0;
     float: left;
@@ -661,8 +661,7 @@ input[type='checkbox'].goal-obj-box {
 }
 
 
-input[type='checkbox'].goal-obj-box + label.goal,
-input[type='checkbox'].goal-obj-box + label.objective{
+input[type='checkbox'].goal-box + label.goal{
     clear: none;
     padding: 5px 0 4px 30px;    /* makes room for image */
     margin-left: -20px;    /* put it over checkbox*/
@@ -672,25 +671,16 @@ input[type='checkbox'].goal-obj-box + label.objective{
     background-size: 25px;
 }
 
-input[type='checkbox'].goal-obj-box:checked + label.goal,
-input[type='checkbox'].goal-obj-box:checked + label.objective {
+input[type='checkbox'].goal-box:checked + label.goal{
     background-image: url(../images/Checked-Checkbox.png);
     background-size: 25px;
 }
 
-input[type='checkbox'].goal-obj-box + label.objective,
-input[type='checkbox'].goal-obj-box:checked + label.objective{
+input[type='checkbox'].goal-box + label.objective{
     background-size: 15px;
 }
 
-.add-objective i{
-    padding: 5px 20px 4px 0px;
-}
 
-.add-objective {
-    font-weight: bold;
-    opacity: 0.7;
-}
 
 
 

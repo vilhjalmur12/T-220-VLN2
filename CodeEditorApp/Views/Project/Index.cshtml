@@ -351,7 +351,6 @@
                 }
 
                 <div class="project-update">
-                    @*<p class="l-text-user">Updates</p>*@
                     <input class="hover-user" type="hidden" id="displayname" />
                     <input class="hover-user" type="hidden" id="update" />
                     <ul class="hover-user" id="discussion1"></ul>
@@ -444,7 +443,7 @@
                                     {
                                         UserViewModel user = Model.Members[i];
                                         var userID = user.ID;
-                                        <li class="list-inline" values=@user.UserName><input type="checkbox" />@user.UserName</li>
+                                        <li class="list-inline" values=@user.UserName>@user.UserName</li>
                                     <!--<li class="list-inline">(hjá)user.UserName<span id=(hjá)user.UserName onclick="javascript:setMembershipID(userID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-minus" aria-hidden="true"><span class="hover-text">Remove user</span></i></span></li>-->
                                     }
                                     /* foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
@@ -482,12 +481,12 @@
                                 var dis = "checkbox";
                                 if (Model.Goals[0].AspNetUserID != User.Identity.GetUserId())
                                 {
-                                    dis = "hidden";
+                                    dis = "return false";
                                 }
                                 foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
                                 {
                                     <li>
-                                        <input type=@dis checked=@goal.Finished onchange="ChangeGoal(@goal.ID)" />
+                                        <input type="checkbox" class="goal-box" onclick=@dis checked=@goal.Finished onchange="ChangeGoal(@goal.ID)" />
                                         <label class="goal">@goal.Name : @goal.Description</label>
                                     </li>
                                     }
