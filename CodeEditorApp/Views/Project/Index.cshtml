@@ -503,16 +503,21 @@
                         <ul class="no-style-list">
                             @if (Model.Goals != null)
                             {
+                                var dis = "checkbox";
+                                if (Model.Goals[0].AspNetUserID != User.Identity.GetUserId())
+                                {
+                                    dis = "hidden";
+                                }
                                 foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
                                 {
                                     <li>
-                                        <input type="checkbox" checked=@goal.finished onchange="ChangeGoal(@goal.ID)" />
+                                        <input type=@dis checked=@goal.finished onchange="ChangeGoal(@goal.ID)" />
                                         <label class="goal">@goal.name : @goal.description</label>
                                         @if (goal.objectives != null)
-                                        {
+                                    {
                                             <ul class="no-style-list">
                                                 @foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
-                                                {
+                                    {
                                                     <li>
                                                         <input type="checkbox" checked=@objective.finished />
                                                         <label class="objective">@objective.name</label>
@@ -522,8 +527,8 @@
                                             </ul>
                                         }
                                     </li>
+                                    }
                                 }
-                            }
                         </ul>
 
                     </div>
