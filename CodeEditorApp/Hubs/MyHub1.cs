@@ -12,9 +12,9 @@ namespace CodeEditorApp.Hubs
         {
             Groups.Add(Context.ConnectionId, Convert.ToString(documentID));
         }
-        public void OnChange(object changeData, int documentID)
+        public void OnChange(object changeData, string documentID)
         {
-            Clients.Group(Convert.ToString(documentID), Context.ConnectionId).OnChange(changeData);
+            Clients.Group(documentID, Context.ConnectionId).OnChange(changeData);
             //Clients.All.OnChange(changeData);
         }
         public void Send(string name, string message)
@@ -26,5 +26,17 @@ namespace CodeEditorApp.Hubs
         {
             Clients.All.addNewMessageToPage(name, message);
         }
+
+        public void LeaveDocument(int documentID)
+        {
+            Groups.Remove(Context.ConnectionId, Convert.ToString(documentID));
+        }
+
+        public void SwapDocuments(int OldID, int NewID)
+        {
+            Groups.Remove(Context.ConnectionId, Convert.ToString(OldID));
+            Groups.Add(Context.ConnectionId, Convert.ToString(NewID));
+        }
+
     }
 }

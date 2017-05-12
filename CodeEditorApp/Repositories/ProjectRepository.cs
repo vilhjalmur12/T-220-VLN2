@@ -37,32 +37,6 @@ namespace CodeEditorApp.Repositories
             _db.SaveChanges();
         }
 
-        public void ChangeGoal(int goalID)
-        {
-            if (_db.Goals.Find(goalID).finished)
-            {
-                _db.Goals.Find(goalID).finished = false;
-            }
-            else
-            {
-                _db.Goals.Find(goalID).finished = true;
-            }
-            _db.SaveChanges();
-        }
-
-        public void ChangeObjective(int objectiveID)
-        {
-            if (_db.Objectives.Find(objectiveID).finished)
-            {
-                _db.Objectives.Find(objectiveID).finished = false;
-            }
-            else
-            {
-                _db.Objectives.Find(objectiveID).finished = true;
-            }
-            _db.SaveChanges();
-        }
-
         public OpenProjectViewModel GetOpenProjectViewModel(int projectID)
         {
             Project project = _db.Projects.Find(projectID);
@@ -70,6 +44,7 @@ namespace CodeEditorApp.Repositories
             {
                 ID = projectID,
                 name = project.name,
+                OwnerID = project.AspNetUserID,
                 SolutionFolder = GetSolutionFolder(project.SolutionFolderID),
                 Comments = GetCommentsByProject(projectID),
                 Members = GetUsersByProject(projectID),
@@ -249,44 +224,48 @@ namespace CodeEditorApp.Repositories
             return folderModels;
         }
 
-        public void AddNewGoal(GoalViewModel goal)
+        public void AddGoal(GoalViewModel goalModel)
         {
             Goal newGoal = new Goal()
             {
-                name = goal.name,
-                description = goal.description,
-                finished = goal.finished,
-                AspNetUserID = goal.AspNetUserID,
-                ProjectID = goal.ProjectID
+                name = goalModel.name,
+                description = goalModel.description,
+                finished = goalModel.finished,
+                AspNetUserID = goalModel.AspNetUserID,
+                ProjectID = goalModel.ProjectID
             };
 
             _db.Goals.Add(newGoal);
             _db.SaveChanges();
         }
 
-        public void RemoveGoal(GoalViewModel goal)
+        public void RemoveGoal(GoalViewModel goalModel)
         {
-            Goal theGoal = _db.Goals.Find(goal.ID);
+            Goal theGoal = _db.Goals.Find(goalModel.ID);
 
-            if (goal.objectives.Count != 0)
+            if (theGoal != null)
             {
-                foreach (ObjectiveViewModel x in goal.objectives)
+                if (goalModel.objectives.Count != 0)
                 {
-                    RemoveObjective(x.ID);
+                    foreach (ObjectiveViewModel objectiveModel in goalModel.objectives)
+                    {
+                        RemoveObjective(objectiveModel.ID);
+                    }
                 }
-            }
 
-            _db.Goals.Remove(theGoal);
-            _db.SaveChanges();
+                _db.Goals.Remove(theGoal);
+                _db.SaveChanges();
+            }
         }
 
-        public void AddNewObjective(ObjectiveViewModel objective)
+        public void AddNewObjective(ObjectiveViewModel objectiveModel)
         {
             Objective newObjective = new Objective()
             {
-                name = objective.name,
-                finished = objective.finished,
-                AspNetUserID = objective.AspNetUserID,
+                name = objectiveModel.name,
+                finished = objectiveModel.finished,
+                GoalID = objectiveModel.GoalID,
+                AspNetUserID = objectiveModel.AspNetUserID
             };
 
             _db.Objectives.Add(newObjective);
@@ -295,9 +274,12 @@ namespace CodeEditorApp.Repositories
 
         public void RemoveObjective(int objectiveID)
         {
-            Objective theObjective = _db.Objectives.Find(objectiveID);
-            _db.Objectives.Remove(theObjective);
-            _db.SaveChanges();
+            Objective objective = _db.Objectives.Find(objectiveID);
+            if (objective != null)
+            {
+                _db.Objectives.Remove(objective);
+                _db.SaveChanges();
+            }
         }
 
         public void AddNewComment(CommentViewModel comment)
@@ -326,7 +308,7 @@ namespace CodeEditorApp.Repositories
         }
 
         //Removes user from project
-        public void RemoveUserFromProject (MembershipViewModel membership)
+        public void RemoveMemberFromProject (MembershipViewModel membership)
         {
 
             List<Membership> membershipList = _db.Memberships.ToList();
@@ -405,16 +387,22 @@ namespace CodeEditorApp.Repositories
         // Adds user to project if user exists. Returns true if user was added to project, else returns false.
         public void AddMemberIfExists(MembershipViewModel membership)
         {
-            if (!MembershipExists(membership))
-            {
-                ApplicationUser user = FindUserByEmail(membership.Email);
+            ApplicationUser user = FindUserByEmail(membership.Email);
+            Project project = FindProjectByID(membership.ProjectID);
 
-                if (user != null)
+            if ((user != null) && (project != null))
+            {
+                membership.AspNetUserID = user.Id;
+                if (!MembershipExists(membership) && (project.AspNetUserID != membership.AspNetUserID))
                 {
-                    membership.AspNetUserID = user.Id;
                     AddUserToProject(membership);
                 }
             }
+        }
+
+        private Project FindProjectByID(int projectID)
+        {
+            return _db.Projects.Find(projectID);
         }
 
         private bool MembershipExists(MembershipViewModel testMembership)
@@ -461,6 +449,13 @@ namespace CodeEditorApp.Repositories
             };
             _db.Comments.Add(newComment);
             _db.SaveChanges();
+        }
+
+        public void SaveFileContent (int fileID, string content)
+        {
+            File Tmp = _db.Files.Where(x => x.ID == fileID).SingleOrDefault();
+            Tmp.Content = content;
+            _db.SaveChanges(); 
         }
         
     }

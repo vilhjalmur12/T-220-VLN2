@@ -9,6 +9,7 @@ namespace CodeEditorApp.Models.ViewModels
     {
         public int ID { get; set; } 
         public string name { get; set; } 
+        public string OwnerID { get; set; }
         public FolderViewModel SolutionFolder { get; set; } 
         public List<CommentViewModel> Comments { get; set; } 
         public List<UserViewModel> Members { get; set; } 
