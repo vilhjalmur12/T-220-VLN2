@@ -14,7 +14,7 @@ namespace CodeEditorApp.Hubs
         }
         public void OnChange(object changeData, string documentID)
         {
-            Clients.Group(documentID, Context.ConnectionId).OnChange(changeData);
+             Clients.Group(documentID, Context.ConnectionId).OnChange(changeData);
             //Clients.All.OnChange(changeData);
         }
         public void Send(string name, string message)

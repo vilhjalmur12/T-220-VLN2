@@ -9,13 +9,7 @@
     FileViewModel newFile = ViewBag.newFile;
     GoalViewModel newGoal = ViewBag.newGoal;
     ObjectiveViewModel newObjective = new ObjectiveViewModel();
-    List<string> userList = new List<string>();
-    List<string> contentList = new List<string>();
-    foreach (CommentViewModel comment in  @Model.Comments)
-    {
-        userList.Add(comment.User);
-        contentList.Add(comment.Content);
-    }
+
     List<FolderViewModel> solutionFileList = new List<FolderViewModel>();
     solutionFileList.Add(Model.SolutionFolder);
     List<FileViewModel> AllFiles = ViewBag.AllSolutionFiles;
@@ -218,16 +212,11 @@
 
                 <script>
 
-                //Get the DocumentID from the Controller class
-                    var documentID;
-
-
+                
                 //Start the Ace editor
                 var editor = ace.edit("editor");
                 editor.setTheme("ace/theme/monokai");
-                //Set the Editor in Javascript mode
-                //Syntax(documentType);
-                //editor.getSession().setMode("ace/mode/javascript");
+               
                 //Changes the style of the editor
                 function ToggleColor() {
                     if (editor.getTheme() == "ace/theme/monokai") {
@@ -237,11 +226,9 @@
                     }
                 }
 
-
+                    //For choosing the syntax
                 function Syntax(str) {
-                    // var e = document.getElementById("SyntaxSelector");
-                    // var str = e.options[e.selectedIndex].text;
-                    //alert(str);
+                    
                     if (str == ".js") {
                         editor.getSession().setMode("ace/mode/javascript");
                     } else if (str == ".html") {
@@ -256,8 +243,7 @@
 
 
                 //Changes the syntax of the editor
-
-
+                
                 $("form").submit(function () {
                     $("#hidden_editor").val(editor.getSession().getValue());
                 });
@@ -268,7 +254,8 @@
                 //Bool so we don't get stuck in a loop
                 var silent = false;
                 //What happens every time someone makes changes to a document with more than one user
-                myHub1.client.onChange = function (changeData) {
+                myHub1.client.onChange = function (changeData)
+                {
                     console.log(changeData);
                     silent = true;
                     editor.getSession().getDocument().applyDelta(changeData);
@@ -276,36 +263,36 @@
                     silent = false;
                 };
                 //What happens after client sends data
-                $.connection.hub.start().done(function () {
-                    myHub1.server.joinDocument(141/*documentID*/);
-                    editor.on("change", function (obj) {
+                $.connection.hub.start().done(function () 
+                {
+                    myHub1.server.joinDocument(@Model.ID);
+                    editor.on("change", function (obj) 
+                    {
                         if(silent){
                             return;
-                        }
-                        //Sends the Object from Ace Editor(Position of change, what changed)
-                        console.log(obj);
-                        myHub1.server.onChange(obj, 141/*documentID*/);
+                    }
+                    //Sends the Object from Ace Editor(Position of change, what changed)
+                    console.log(obj);
+                    myHub1.server.onChange(obj, @Model.ID);
                     });
                 });
 
 
-                function UpdateEditor (Content, syntax, id) {
-
+                function UpdateEditor (Content, syntax, id) 
+                {
                     editor.setValue(Content);
                     Syntax(syntax);
                     myHub1.server.swapDocuments(documentID, id);
                     documentID = id;
-
                 }
 
-                function GetEditorSession () {
+                function GetEditorSession () 
+                {
                     return editor.getValue();
                 }
-    
-                function SaveFileContent () {
-                    if (documentID == 0) {
-                        return;
-                    }
+
+                function SaveFileContent () 
+                {
                     var content = GetEditorSession();
                     $.ajax({
                         url:"/Project/SaveFile",
@@ -357,16 +344,10 @@
                         $('#displayname').val(userName);
                         //Set the message that displays on update
                         $('#update').val('Made the last change');
-                        // Set initial focus to message input box.
-                        //$('#message').focus();
+                        
                         // Start the connection.
                         $.connection.hub.start().done(function () {
-                            //$('#sendmessage').click(function () {
-                            //    // Call the Send method on the hub.
-                            //    myHub1.server.send($('#displayname').val(), $('#message').val());
-                            //    // Clear text box and reset focus for next comment.
-                            //    $('#message').val('').focus();
-                            //});
+                            
                         });
                     });
                     // This optional function html-encodes messages for display in the page.
@@ -414,7 +395,7 @@
                         <!--Script references. -->
                         <!--The jQuery library is required and is referenced by default in _Layout.cshtml. -->
                         <!--Reference the SignalR library. -->
-                        <script src="~/Scripts/jquery.signalR-2.1.0.min.js"></script>
+                        <script src="~/Scripts/jquery.signalR-2.2.1.js"></script>
                         <!--Reference the autogenerated SignalR hub script. -->
                         <script src="~/signalr/hubs"></script>
                         <!--SignalR script to update the chat page and send messages.-->
@@ -422,11 +403,10 @@
         $(function () {
             // Reference the auto-generated proxy for the hub.
             var chat = $.connection.chatHub;
-            //var connected = false;
-            @*var projectID = ToString(@Model.ID);*@
+            
             // Create a function that the hub can call back to display messages.
-            chat.client.addNewMessageToPage = function (name, message) {
-                // Add the message to the page.
+            chat.client.addNewMessageToPage = function (name, message) 
+            {
                 $('#discussion').append('<li><strong>' + htmlEncode(name)
                     + '</strong>: ' + htmlEncode(message) + '</li>');
             };
@@ -435,32 +415,12 @@
             // Set initial focus to message input box.
             $('#message').focus();
             // Start the connection.
-            $.connection.hub.start().done(function () {
+            $.connection.hub.start().done(function () 
+            {
                 $('#sendmessage').click(function () {
                     // Call the Send method on the hub.
-                    var content = $("#message").val();;
                     chat.server.send($('#displayname').val(), $('#message').val());
-                    @*//var NestIdProject = @Model.ID;*@
-                    //var url = "/Project/SaveComment?projectID=" + NestIdProject +  "&message=" + content;
-                    //window.location.href = url
-
-
-                    $.ajax({
-                        type: 'POST',
-                        url: '/Project/SaveComment', //can I send data to multiple url with same ajax call.
-                        data: {
-                            projectID : @Model.ID,
-                            message : content,
-                        },
-                        success: function (data) {
-                            $(".error_msg").text(data);
-                        }
-                    });
-
                     $('#message').val('').focus();
-
-                    // Clear text box and reset focus for next comment.
-
                 });
              });
         });
@@ -482,7 +442,7 @@
                         <span id="new-member" class="clickable-icon"><i data-toggle="modal" data-target="#myModal2" class="fa fa-user-plus fa-2x" aria-hidden="true"><span class="hover-text">Add member</span></i></span>
                         <!-- Modal -->
 
-                        <ul id="member-list">
+                        <ul class="no-style-list" id="member-list">
                             <!--Display the list of members in a project if any-->
                             @if (Model.Members != null)
                             {
@@ -491,7 +451,7 @@
                                 {
                                     UserViewModel user = Model.Members[i];
                                     var userID = user.ID;
-                                    <li><span id=@user.UserName onclick="javascript:setMembershipID(userID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="" aria-hidden="true"><span class="hover-text">Remove user</span></i></span>@user.UserName</li>
+                                    <li class="list-inline">@user.UserName<span id=@user.UserName onclick="javascript:setMembershipID(userID)" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-minus" aria-hidden="true"><span class="hover-text">Remove user</span></i></span></li>
                                 }
                                 /* foreach (CodeEditorApp.Models.ViewModels.UserViewModel user in Model.Members)
                                  {
