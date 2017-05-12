@@ -8,26 +8,10 @@
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @Scripts.Render("~/Scripts/js_modal.js")
-
-
-
-    <style type="text/css" media="screen">
-    /*    #explorer{
-            height: 600px;
-            width: 20%;
-            float: left;
-        }
-        #editor {
-            height: 90%;
-            width: 80%;
-        }*/
-    </style>
-   
     @using Microsoft.AspNet.Identity
     @using CodeEditorApp.Models
-
-
 </head>
+
 <!--The layout of the website for a person that is not logged in-->
 <body class="container-fluid">
     <header class="navbar navbar-fixed-top container padding-for-container dark-background">
@@ -44,12 +28,9 @@
                     {
                         @Html.AntiForgeryToken()
                         <ul class="nav navbar-nav l-heading-home">
-                            <!--vantar hér réttan link-->
                             <li>@Html.ActionLink("About", "About", "Home", new { @class = "color-textcolor" })</li>
                             <li>@Html.ActionLink("Help", "Help", "Home", new { @class = "color-textcolor" }) </li>
-                            <li>
-                                @Html.ActionLink("View your projects", "Index", "UserHome", routeValues: null, htmlAttributes: new { @class = "color-textcolor" })
-                            </li>
+                            <li>@Html.ActionLink("Your Projects", "Index", "UserHome", routeValues: null, htmlAttributes: new { @class = "color-textcolor" })</li>
                             <li><a class="color-textcolor" href="javascript:document.getElementById('logoutForm').submit()">Log off</a></li>
                         </ul>
                     }
