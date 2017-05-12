@@ -199,6 +199,7 @@
                         </select>
                     </div>
                 </div>
+                <button onclick="SaveFileContent ();">Save</button>
 
                 @section scripts
             {
@@ -237,16 +238,9 @@
                         editor.getSession().setMode("ace/mode/css");
                     }
                 }
-
-                editor.commands.addCommand({
-                    name: 'SaveFile',
-                    bindKey: {win: 'Enter',  mac: 'Enter'},
-                    exec: function() {
-                        SaveFileContent ();
-                        alert(documentID);
-                    },
-                    readOnly: false // false if this command should not apply in readOnly mode
-                });
+                
+                
+                    
 
                 //Changes the syntax of the editor
 
@@ -705,7 +699,6 @@
                         console.log(responseData);
                         console.log(responseData.Content);
                         UpdateEditor(responseData.Content, responseData.FileType.Extension, responseData.ID);
-                        alert("Response: " + responseData.ID);
                     }
 
                 });
