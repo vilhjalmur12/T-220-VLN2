@@ -210,6 +210,7 @@
     <Compile Include="Global.asax.cs">
       <DependentUpon>Global.asax</DependentUpon>
     </Compile>
+    <Compile Include="Handlers\CustomHandleErrorAttribute.cs" />
     <Compile Include="Hubs\ChatHub.cs" />
     <Compile Include="Hubs\MyHub1.cs" />
     <Compile Include="Migrations\201705041341196_projectTOfolder.cs" />
@@ -295,6 +296,7 @@
     <Compile Include="Repositories\ProjectRepository.cs" />
     <Compile Include="Repositories\UserHomeRepository.cs" />
     <Compile Include="Startup.cs" />
+    <Compile Include="Utils\Logger.cs" />
   </ItemGroup>
   <ItemGroup>
     <Content Include="3rdparty\src\ace.js" />
