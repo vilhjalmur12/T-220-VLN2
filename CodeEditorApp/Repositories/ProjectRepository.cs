@@ -75,23 +75,6 @@ namespace CodeEditorApp.Repositories
             {
                 if (goal.ProjectID == projectID)
                 {
-                    // Get the objectives for the goal
-                    List<ObjectiveViewModel> objectiveModels = new List<ObjectiveViewModel>();
-                    _db.Objectives.ToList().ForEach(objective =>
-                    {
-                        if (objective.GoalID == goal.ID)
-                        {
-                            objectiveModels.Add(new ObjectiveViewModel()
-                            {
-                                ID = objective.ID,
-                                Name = objective.name,
-                                Finished = objective.finished,
-                                AspNetUserID = objective.AspNetUserID,
-                                GoalID = objective.GoalID
-                            });
-                        }
-                    });
-
                     goalModels.Add(new GoalViewModel()
                     {
                         ID = goal.ID,
@@ -99,8 +82,7 @@ namespace CodeEditorApp.Repositories
                         Description = goal.description,
                         Finished = goal.finished,
                         AspNetUserID = goal.AspNetUserID,
-                        ProjectID = goal.ProjectID,
-                        objectives = objectiveModels
+                        ProjectID = goal.ProjectID
                     });
                 }
             });
@@ -222,39 +204,7 @@ namespace CodeEditorApp.Repositories
 
             if (theGoal != null)
             {
-                if (goalModel.objectives.Count != 0)
-                {
-                    foreach (ObjectiveViewModel objectiveModel in goalModel.objectives)
-                    {
-                        RemoveObjective(objectiveModel.ID);
-                    }
-                }
-
                 _db.Goals.Remove(theGoal);
-                _db.SaveChanges();
-            }
-        }
-
-        public void AddNewObjective(ObjectiveViewModel objectiveModel)
-        {
-            Objective newObjective = new Objective()
-            {
-                name = objectiveModel.Name,
-                finished = objectiveModel.Finished,
-                GoalID = objectiveModel.GoalID,
-                AspNetUserID = objectiveModel.AspNetUserID
-            };
-
-            _db.Objectives.Add(newObjective);
-            _db.SaveChanges();
-        }
-
-        public void RemoveObjective(int objectiveID)
-        {
-            Objective objective = _db.Objectives.Find(objectiveID);
-            if (objective != null)
-            {
-                _db.Objectives.Remove(objective);
                 _db.SaveChanges();
             }
         }

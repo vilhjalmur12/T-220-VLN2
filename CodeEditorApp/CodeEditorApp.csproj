@@ -265,23 +265,24 @@
     <Compile Include="Migrations\201705111337579_FileUpdate1.Designer.cs">
       <DependentUpon>201705111337579_FileUpdate1.cs</DependentUpon>
     </Compile>
+    <Compile Include="Migrations\201705121619138_comments og objectives.cs" />
+    <Compile Include="Migrations\201705121619138_comments og objectives.Designer.cs">
+      <DependentUpon>201705121619138_comments og objectives.cs</DependentUpon>
+    </Compile>
     <Compile Include="Migrations\Configuration.cs" />
     <Compile Include="Models\AccountViewModels.cs" />
     <Compile Include="Models\ContactViewModel.cs" />
-    <Compile Include="Models\Entities\Comment.cs" />
     <Compile Include="Models\Entities\File.cs" />
     <Compile Include="Models\Entities\FileType.cs" />
     <Compile Include="Models\Entities\Folder.cs" />
     <Compile Include="Models\Entities\Goal.cs" />
     <Compile Include="Models\Entities\Membership.cs" />
-    <Compile Include="Models\Entities\Objective.cs" />
     <Compile Include="Models\Entities\RootFolder.cs" />
     <Compile Include="Models\IdentityModels.cs" />
     <Compile Include="Models\ManageViewModels.cs" />
     <Compile Include="Models\Entities\Project.cs" />
     <Compile Include="Models\Entities\ProjectType.cs" />
     <Compile Include="Models\ViewModels\MembershipViewModel.cs" />
-    <Compile Include="Models\ViewModels\ObjectiveViewModel.cs" />
     <Compile Include="Models\ViewModels\OpenProjectViewModel.cs" />
     <Compile Include="Models\ViewModels\RootFolderViewModel.cs" />
     <Compile Include="Models\ViewModels\UserViewModel.cs" />
@@ -789,6 +790,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="Migrations\201705111337579_FileUpdate1.resx">
       <DependentUpon>201705111337579_FileUpdate1.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="Migrations\201705121619138_comments og objectives.resx">
+      <DependentUpon>201705121619138_comments og objectives.cs</DependentUpon>
     </EmbeddedResource>
   </ItemGroup>
   <PropertyGroup>
