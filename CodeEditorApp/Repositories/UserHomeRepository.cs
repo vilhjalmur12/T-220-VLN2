@@ -306,7 +306,7 @@ namespace CodeEditorApp.Repositories
                 };
 
                 _db.Files.Add(index);
-                _db.Files.SaveChanges();
+                _db.SaveChanges();
             }
 
         }
