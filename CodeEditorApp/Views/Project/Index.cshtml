@@ -197,8 +197,9 @@
                             <option>Css</option>
                         </select>
                     </div>
+                    <button onclick="SaveFileContent ();">Save</button>
                 </div>
-                <button onclick="SaveFileContent ();">Save</button>
+                
 
                 @section scripts
             {
@@ -473,8 +474,7 @@
                 <div id="project-goals" class="sidenav padding-for-container right-padding light-background">
                     <div id="goals" class="box-container padding-for-container">
                         <h3>Goals</h3>
-                        <!-- Bæta við Goal -->
-                        <!--Hér er vitlaust data-toggle og data-target-->
+                        <!-- Add Goal -->
                         <span id="add-goal" class="clickable-icon"><i data-toggle="modal" data-target="#myModalAddGoal" class="fa fa-plus-circle fa-2x" aria-hidden="true"><span class="hover-text">Add Goal</span></i></span>
                         <ul class="no-style-list">
                             @if (Model.Goals.Count() != 0)
