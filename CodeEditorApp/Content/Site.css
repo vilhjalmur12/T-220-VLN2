@@ -59,7 +59,7 @@ PROJECT-ACTIONS
     $FONTS
 \*----------------------------------------------------------*/
 
-/*for the header*/ 
+
 .h1, h2, h3, h4,
 .l-heading-home a,  
 .l-heading-home,
@@ -69,16 +69,6 @@ PROJECT-ACTIONS
 footer{
     font-family: 'Lato', sans-serif;
     font-style:italic;
-}
-
-.name, 
-.l-heading-home,
-.navbar ul li>*,
-.text-user a{
-}
-
-.info a,
-.text-home a{
 }
 
 .h1 {
@@ -132,11 +122,8 @@ body {
     margin:0;
     font-family: 'Raleway', sans-serif;
     font-size:12px;
-    //color: #005d56; /*blugreen*/ 
     color: #006072; /*blue*/
     background-color: #006072; /*blue*/
-    //background-color: #F5F5F5;
-
 }
 
 body, html {
@@ -151,16 +138,20 @@ body, html {
     margin:0px;
 }
 
-/*Colors*/
-.dark-textcolor >*,
+/*Scroll on divs and tables*/
+div.scroll,
+table.scroll{
+        overflow: auto;
+}
+
+/*----- $COLORS -----*/
+.dark-textcolor >*,  /*not so dark anymore*/
 .hover-text{ 
-    //color: #005d56; /*dark cyan*/ 
     color: white;
 }
 
   
-.light-textcolor{
-    //color:white;
+.light-textcolor{ /*not so light anymore*/
     color: #006072;
 }
 
@@ -168,16 +159,14 @@ body, html {
     color: #FF5C00; /*orange*/
 }
 
-.dark-background
+.dark-background /*not so dark anymore*/
 {
-    //background-color:#005d56; /*dark cyan*/
     background-color: white;  
 }
 
-.light-background,
+.light-background,  /*not so light anymore*/
 .hover-text{
     background-color: #006072; /*dark blue*/
-    //background-color: #F5F5F5; /*light grey*/ 
 }
 
 .box-container{
@@ -196,20 +185,21 @@ body, html {
 
 .hover-text{
     visibility: hidden;
-    //width: 80px;
     text-align: center;
     border-radius: 6px;
     padding: 5px 5px 10px 5px;
     position: absolute;
     z-index: 1;
-    top: 130%;
-    left: 0%;
+    //top: 130%;
+    //left: 0%;
     margin-left: -40%;
     opacity:0;
     transition:opacity 0.7s;
     transition-delay: 1s;
-    
+    top: 9%;
+    left: 44%;
 }
+
 /* Show the hover-text when you mouse over the clickable-icon container */
 .clickable-icon:hover .hover-text {
     visibility: visible;
@@ -217,25 +207,20 @@ body, html {
 }
 
 
-/*For the arrow icon in project view*/
-#quit-project-text .hover-text{
-    z-index: 1;
-    top: 0;
-    left: -200%;
-    margin-left: -35px;
-}
 
-div.scroll,
-table.scroll{
-        overflow: auto;
-}
+
+
+
+
+
+
+
 /*----------------------------------------------------------*\
     $LAYOUT
 \*----------------------------------------------------------*/
 
 /*----- HEADER-FOOTER -----*/
 /*for logo and name*/
-
 .header-flex-container{
     display:flex;
     flex-direction:row;
@@ -295,9 +280,6 @@ footer{
     margin-top:50px;
 }
 
-/*a{
-    color: #005d56;
-}*/
 
 #about, #team, #terms, #help{
     padding:30px;
@@ -321,7 +303,7 @@ div.tab {
 div.tab button {
     float: left;
     border: none;
-    border: 1px groove #E0E0E0; /*darker grey*/
+    //border: 1px groove #E0E0E0; /*darker grey*/
     cursor: pointer;
     padding: 14px 16px;
     transition: 0.3s;
@@ -369,10 +351,9 @@ div.tab button.active {
     margin-top:2%;
 }
 
-.project-list{ /*also used in project*/
-    width:15%;
-    height:100%;
-
+.project-list { /*also used in project*/
+    width: 15%;
+    height: 100%;
 }
 
 .project-list-icons{
@@ -382,325 +363,19 @@ div.tab button.active {
 
 
 .project-table{
-
     width:80%;
     height:100%;
 }
 
 .add-project{
-    
     width:5%;
 }
 
-.modal-header{
+.modal-header{ /*also used in project*/
     border-top-left-radius: 6px;
     border-top-right-radius: 6px;
 }
 
-
-
-
-
-
-
-/*----------------------------------------------------------*\
-    $PROJECT
-\*----------------------------------------------------------*/
-.project-body{
-    margin-top:55px;
-    height:100%;
-}
-
-.project-body .row{
-    height:100%;
-    margin-top:2%;
-}
-
-.document-list,
-.project-editor,
-#popout-nav{
-    height: 100%;
-}
-
-
-
-
-
-
-
-/*----- $DOCUMENT-LIST -----*/
-.document-list{ 
-    width:15%;
-}
-
-.document-list-icons{
-    padding: 12px;
-    border-bottom: 1px groove #E0E0E0; /*darker grey*/
-}
-
-/*----- $EDITOR -----*/
-.project-editor{
-    width:80%;
-    padding:1px;
-}
-
-#SyntaxSelector{
-    border-radius: 6px;
-}
-
-.ace-editor{
-    height: 87%;
-}
-
-.project-updates{
-    height:20px;
-}
-
-
-
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-/*Þarf að breyta?????????????????????????????????????????????
-.project-editor {
-    transition: margin-right .2s;
-    margin-left:20%;
-}*/
-    
-/*----- $POPOUT-NAV -----*/
-#popout-nav{
-     width:5%;
-     padding:0;
-}
-
-.project-actions,
-.sidenav{
-    height:83%;
-}
-
-.right-padding{
-    //padding-right:37px;
-    padding-right:2%;
-}
-
-/* SIDEBAR */
-.project-actions{
-    padding-right:15px;
-    z-index: 3; /* Stay on top */
-    position: fixed; /* Stay in place */
-    margin:0;
-}
-
-.project-actions{
-    padding: 0px;
-    list-style:none;
-    list-style-position: inside;
-    position:center; 
-    margin-top:0;
-}
-
-.project-actions li{
-    padding: 7px 7px;
-}
-
-/* POPOUT */
-.sidenav {
-    width: 0; /* 0 width - change this with JavaScript */
-    position: fixed; /* Stay in place */
-    z-index: 2; /* Stay on top */
-    right:0px;
-    overflow-x: hidden; /* Disable horizontal scroll */
-    transition: 0.2s; /* 0.2 second transition effect to slide in the sidenav */
-    padding-top:0;
-}
-
-/* The navigation menu links */
-.sidenav a {
-    padding: 8px 8px 8px 32px;
-    text-decoration: none;
-    font-size: 25px;
-    display: block;
-    transition: 0.3s
-}
-   
-
-/*----- $PROJECT-ACTIONS -----*/
-
-#project-chat,
-#project-members,
-#project-goals{
-    height:83%;
-}
-
-#message-box,
-#members,
-#goals{
-    height: 99%;
-    width: 95%;
-}
-
-/* CHAT */
-#message-box .row{
-    margin: 0px;
-}
-
-/*Input from user*/
-#message{
-    width:90%;
-    height:30px;
-    max-width:none;
-}
-
-/*send button*/
-#sendmessage {
-    background-position: center;
-    background-repeat: no-repeat;
-    background-size: cover;
-    background-image: url("../images/arrow.png");
-    background-position:  0px 0px;
-    background-repeat: no-repeat;
-    width: 30px;
-    height: 30px;
-    background-color: white;
-    cursor: pointer;
-    outline: 0;
-    color:none;
-}
-
-#sendmessage:hover{ 
-  background-position:  0px 0px;
-  background-image: url("../images/arrow2.png");
-}
-
-#sendmessage:active{
-  background-position:  0px 0px;
-  background-image: url("../images/arrow2.png");
-}
-
-/*the chat itself*/
-#discussion li{ 
-    padding: 3px 0px;
-    list-style:none;
-    text-align: left;
-}
-
-/* MEMBERS */
-
-
-
-#new-member {
-    position:absolute;
-    right: 15%;
-    top: 80px;
-}
-
-
-/* GOALS */
-
-#add-goal{
-    position:absolute;
-    right: 15%;
-    top: 80px;
-}
-.goal span{
-    padding-left:10px;
-}
-
-.no-style-list > * {
-    list-style-type: none;
-}
-
-/*Checkboxes*/
-input[type='checkbox'].goal-obj-box {
-    /* Hide the input, but have it still be clickable */
-    opacity: 0;
-    float: left;
-    width: 18px;
-    z-index: 2;
-    cursor:pointer;
-}
-
-
-input[type='checkbox'].goal-obj-box + label.goal,
-input[type='checkbox'].goal-obj-box + label.objective{
-
-    clear: none;
-
-    /* makes room for image */
-    padding: 5px 0 4px 30px;
-    /* put it over checkbox*/
-    margin-left: -20px;
-    margin-top:-3px;
-    z-index: 1;
-    background: url(../images/Unchecked-Checkbox.png) left center no-repeat;
-    background-size: 25px;
-}
-
-input[type='checkbox'].goal-obj-box:checked + label.goal,
-input[type='checkbox'].goal-obj-box:checked + label.objective {
-    background-image: url(../images/Checked-Checkbox.png);
-    background-size: 25px;
-}
-
-input[type='checkbox'].goal-obj-box + label.objective,
-input[type='checkbox'].goal-obj-box:checked + label.objective{
-    background-size: 15px;
-}
-
-.add-objective i{
-    padding: 5px 20px 4px 0px;
-}
-
-.add-objective {
-    font-weight: bold;
-    opacity: 0.7;
-}
-
-
- 
-
-/*========stuff we might not need*/
-
-/* Set width on the form input elements since they're 100% wide by default */
-input,
-select,
-textarea {
-    max-width: 280px;
-}
-
-.navbar-inverse {
-    background: none;
-    border: none;
-}
-
-#info-front {
-  float:left;
-  margin-top: 50px;
-}
-
-.btn-x1 {
-    padding: 15px 45px;
-    font-size: 11px;
-}
-.btn {
-    border-radius: 300px;
-}
-
-.btn-outline {
-    color: #FFF;
-    border: 1px solid;
-}
-
-.btn, .navbar-default .nav>li>a {
-
-    text-transform: uppercase;
-    letter-spacing: 2px;
-}
-
-
-
-
-
-
-/*     --START--     VILLI ER AÐ VINNA HÉR      --START--   */
 
 /*------ $FOLDER-TREE ------*/
 .tree, .tree ul {
@@ -784,19 +459,284 @@ textarea {
     outline: 0;
 }
 
-  
-/*     --END--     VILLI ER AÐ VINNA HÉR      --END--   */
 
 
 
-
-/*     --START--     HILMA ER AÐ VINNA HÉR      --START--   */
-
-/* Override the default bootstrap behavior where horizontal description lists 
-   will truncate terms that are too long to fit in the left column 
-*/
-.dl-horizontal dt {
-    white-space: normal;
+/*----------------------------------------------------------*\
+    $PROJECT
+\*----------------------------------------------------------*/
+.project-body{
+    margin-top:55px;
+    height:100%;
 }
 
-/*     --END--     HILMA ER AÐ VINNA HÉR      --END--   */
+.project-body .row{
+    height:100%;
+    margin-top:2%;
+}
+
+.document-list,
+.project-editor,
+#popout-nav{
+    height: 100%;
+}
+
+
+/*----- $DOCUMENT-LIST -----*/
+.document-list{ 
+    width:15%;
+}
+
+.document-list-icons{
+    padding: 12px;
+    border-bottom: 1px groove #E0E0E0; /*darker grey*/
+}
+
+/*----- $EDITOR -----*/
+.project-editor{
+    width:80%;
+    padding:1px;
+}
+
+#SyntaxSelector{
+    border-radius: 6px;
+}
+
+.ace-editor{
+    height: 87%;
+}
+
+.project-updates{
+    height:20px;
+}
+    
+/*----- $POPOUT-NAV -----*/
+#popout-nav{
+     width:5%;
+     padding:0;
+}
+
+.project-actions,
+.sidenav{
+    height:83%;
+}
+
+.right-padding{
+    //padding-right:37px;
+    padding-right:2%;
+}
+
+/* SIDEBAR */
+.project-actions{
+    padding-right:15px;
+    z-index: 3; /* Stay on top */
+    position: fixed; /* Stay in place */
+    margin:0;
+}
+
+.project-actions{
+    padding: 0px;
+    list-style:none;
+    list-style-position: inside;
+    position:center; 
+    margin-top:0;
+}
+
+.project-actions li{
+    padding: 7px 7px;
+}
+
+/* POPOUT */
+.sidenav {
+    width: 0; /* 0 width - change this with JavaScript */
+    position: fixed; /* Stay in place */
+    z-index: 2; /* Stay on top */
+    right:0px;
+    overflow-x: hidden; /* Disable horizontal scroll */
+    transition: 0.2s; /* 0.2 second transition effect to slide in the sidenav */
+    padding-top:0;
+}
+
+/* The navigation menu links */
+.sidenav a {
+    padding: 8px 8px 8px 32px;
+    text-decoration: none;
+    font-size: 25px;
+    display: block;
+    transition: 0.3s
+}
+   
+
+/*----- $PROJECT-ACTIONS -----*/
+
+#project-chat,
+#project-members,
+#project-goals{
+    height:83%;
+}
+
+#message-box,
+#members,
+#goals{
+    height: 99%;
+    width: 95%;
+}
+
+
+/* CHAT */
+#message-box .row{
+    margin: 0px;
+}
+
+/*Input from user*/
+#message{
+    width:90%;
+    height:30px;
+    max-width:none;
+}
+
+/*send button*/
+#sendmessage {
+    background-position: center;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-image: url("../images/arrow.png");
+    background-position:  0px 0px;
+    background-repeat: no-repeat;
+    width: 30px;
+    height: 30px;
+    background-color: white;
+    cursor: pointer;
+    outline: 0;
+    color:none;
+}
+
+#sendmessage:hover{ 
+  background-position:  0px 0px;
+  background-image: url("../images/arrow2.png");
+}
+
+#sendmessage:active{
+  background-position:  0px 0px;
+  background-image: url("../images/arrow2.png");
+}
+
+/*the chat itself*/
+#discussion li{ 
+    padding: 3px 0px;
+    list-style:none;
+    text-align: left;
+}
+
+
+/* MEMBERS */
+
+#new-member {
+    position:absolute;
+    right: 15%;
+    top: 80px;
+}
+
+
+/* GOALS */
+
+#add-goal{
+    position:absolute;
+    right: 15%;
+    top: 80px;
+}
+.goal span{
+    padding-left:10px;
+}
+
+.no-style-list > * {
+    list-style-type: none;
+}
+
+/*Checkboxes*/
+input[type='checkbox'].goal-obj-box {
+    /* Hide the input, but have it still be clickable */
+    opacity: 0;
+    float: left;
+    width: 18px;
+    z-index: 2;
+    cursor:pointer;
+}
+
+
+input[type='checkbox'].goal-obj-box + label.goal,
+input[type='checkbox'].goal-obj-box + label.objective{
+    clear: none;
+    padding: 5px 0 4px 30px;    /* makes room for image */
+    margin-left: -20px;    /* put it over checkbox*/
+    margin-top:-3px;
+    z-index: 1;
+    background: url(../images/Unchecked-Checkbox.png) left center no-repeat;
+    background-size: 25px;
+}
+
+input[type='checkbox'].goal-obj-box:checked + label.goal,
+input[type='checkbox'].goal-obj-box:checked + label.objective {
+    background-image: url(../images/Checked-Checkbox.png);
+    background-size: 25px;
+}
+
+input[type='checkbox'].goal-obj-box + label.objective,
+input[type='checkbox'].goal-obj-box:checked + label.objective{
+    background-size: 15px;
+}
+
+.add-objective i{
+    padding: 5px 20px 4px 0px;
+}
+
+.add-objective {
+    font-weight: bold;
+    opacity: 0.7;
+}
+
+
+
+
+
+
+
+/*----------------------------------------------------------*\
+    STUFF THAT WAS IN VISUAL STUDIO
+\*----------------------------------------------------------*/
+
+/* Set width on the form input elements since they're 100% wide by default */
+input,
+select,
+textarea {
+    max-width: 280px;
+}
+
+.navbar-inverse {
+    background: none;
+    border: none;
+}
+
+#info-front {
+  float:left;
+  margin-top: 50px;
+}
+
+.btn-x1 {
+    padding: 15px 45px;
+    font-size: 11px;
+}
+.btn {
+    border-radius: 300px;
+}
+
+.btn-outline {
+    color: #FFF;
+    border: 1px solid;
+}
+
+.btn, .navbar-default .nav>li>a {
+
+    text-transform: uppercase;
+    letter-spacing: 2px;
+}
