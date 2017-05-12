@@ -15,11 +15,11 @@
     List<FileViewModel> AllFiles = ViewBag.AllSolutionFiles;
 }
 
-    @Scripts.Render("~/bundles/jquery")
-@Scripts.Render("~/bundles/Custom")
+@Scripts.Render("~/bundles/jquery")
 @Scripts.Render("~/bundles/bootstrap")
 @Styles.Render("~/Content/css")
 @Scripts.Render("~/bundles/modernizr")
+@Scripts.Render("~/Scripts/js_modal.js")
 <head>
 
 </head>
@@ -300,34 +300,13 @@
                         data: { fileID : documentID, fileContent : content },
                         dataType: "json",
                         beforeeSend:function () {
-
+                            cosole.log("DocumentID: "+documentID);
                         },
                         success: function () {
                             console.log("fucking success man!")
                         }
                     });
                 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
                 </script>
                 <script>
                     $(function () {
@@ -522,6 +501,19 @@
                                     }
 
                                 });
+
+                                $.ajax({
+                                    url:"/Project/SaveFile",
+                                    method: "POST",
+                                    data: { fileID : documentID, fileContent : content },
+                                    dataType: "json",
+                                    beforeeSend:function () {
+                                        cosole.log("DocumentID: "+documentID);
+                                    },
+                                    success: function () {
+                                        console.log("fucking success man!")
+                                    }
+                                });
                                 //return false;
                             });
 
@@ -659,7 +651,6 @@
 
 
 </body>
-@Scripts.Render("~/Scripts/js_modal.js")
 <script>
 
 </script>
