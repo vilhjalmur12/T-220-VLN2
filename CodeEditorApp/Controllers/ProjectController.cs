@@ -34,6 +34,11 @@ namespace CodeEditorApp.Controllers
             {
                 ProjectID = OpenProjectModel.ID
             };
+            ViewBag.newGoal = new GoalViewModel()
+            {
+                ProjectID = OpenProjectModel.ID,
+                AspNetUserID = User.Identity.GetUserId()
+            };
             //For the Editor
             List<FileViewModel> AllSolutionFiles = projectService.GetFilesByProject(projectID.Value);
             ViewBag.AllSolutionFiles = AllSolutionFiles;
@@ -69,14 +74,6 @@ namespace CodeEditorApp.Controllers
 
         }
 
-        public void ChangeObjective(int objectiveID)
-        {
-            projectService.ChangeObjective(objectiveID);
-
-        }
-
-
-
         public ActionResult RemoveMember(MembershipViewModel membership)
         {
             projectService.RemoveUserFromProject(membership);
@@ -84,32 +81,20 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "Project", new { projectID = membership.ProjectID, tapMake = "project-members"});
         }
 
-        public ActionResult AddGoal(FormCollection collection)
+        [HttpPost]
+        public ActionResult NewGoal(GoalViewModel goal)
         {
-            string goalName = collection["goalName"];
-            string goalDescription = collection["goalDescription"];
-
-            if (String.IsNullOrEmpty(goalName))
-            {
-                return View("Error");
-            }
-            if (String.IsNullOrEmpty(goalDescription))
-            {
-                return RedirectToAction("Index", "Project", new { id = OpenProjectModel.ID });
-            }
-
             GoalViewModel newGoal = new GoalViewModel()
             {
-                name = goalName,
-                description = goalDescription,
-                ProjectID = OpenProjectModel.ID,
-                AspNetUserID = User.Identity.GetUserId(),
+                AspNetUserID = goal.AspNetUserID,
+                name = goal.name,
+                description = goal.description,
+                ProjectID = goal.ProjectID,
                 finished = false
             };
 
             projectService.AddNewGoal(newGoal);
-            //LAGA
-            return RedirectToAction("ShowGoals", "project");
+            return RedirectToAction("Index", "Project", new { projectID = goal.ProjectID, tabMake = "project-goals" });
         }
 
 

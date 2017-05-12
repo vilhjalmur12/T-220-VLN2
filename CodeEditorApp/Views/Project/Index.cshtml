@@ -7,6 +7,7 @@
     Layout = "~/Views/UserHome/_Layout.cshtml";
     MembershipViewModel newMembership = ViewBag.newMembership;
     FileViewModel newFile = ViewBag.newFile;
+    GoalViewModel newGoal = ViewBag.newGoal;
     List<string> userList = new List<string>();
     List<string> contentList = new List<string>();
     foreach (CommentViewModel comment in  @Model.Comments)
@@ -74,7 +75,30 @@
         </div>
     </div>
 
+    <div id="myModalAddGoal" class="modal fade" role="dialog">
+        <div class="modal-dialog">
 
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                </div>
+                <div class="modal-body">
+                    @if (User.Identity.GetUserId() == Model.OwnerID)
+                    {
+                        { Html.RenderPartial("NewGoal", newGoal); }
+                    }
+                    else
+                    {
+                        { Html.RenderPartial("NoAuthorization"); }
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
     <!--Project body starts-->
     <div class="row container padding-for-container project-body">
@@ -501,9 +525,9 @@
                         <h3>Goals</h3>
                         <!-- Bæta við Goal -->
                         <!--Hér er vitlaust data-toggle og data-target-->
-                        <span id="add-goal" class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="fa fa-plus-circle fa-2x" aria-hidden="true"><span class="hover-text">Add Goal</span></i></span>
+                        <span id="add-goal" class="clickable-icon"><i data-toggle="modal" data-target="#myModalAddGoal" class="fa fa-plus-circle fa-2x" aria-hidden="true"><span class="hover-text">Add Goal</span></i></span>
                         <ul class="no-style-list">
-                            @if (Model.Goals != null)
+                            @if (Model.Goals.Count() != 0)
                             {
                                 var dis = "checkbox";
                                 if (Model.Goals[0].AspNetUserID != User.Identity.GetUserId())
@@ -525,7 +549,7 @@
                                                         <label class="objective">@objective.name</label>
                                                     </li>
                                                 }
-                                                <li class="add-object"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-plus clickable-icon" aria-hidden="true"></i>Add objective</li>
+                                                <li class="add-object"><i data-toggle="modal" data-target="#myModalAddObj" class="glyphicon glyphicon-plus clickable-icon" aria-hidden="true"></i>Add objective</li>
                                             </ul>
                                         }
                                     </li>
