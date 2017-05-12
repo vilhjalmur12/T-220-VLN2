@@ -243,6 +243,7 @@
                     bindKey: {win: 'Enter',  mac: 'Enter'},
                     exec: function() {
                         SaveFileContent ();
+                        alert(documentID);
                     },
                     readOnly: false // false if this command should not apply in readOnly mode
                 });
@@ -704,6 +705,7 @@
                         console.log(responseData);
                         console.log(responseData.Content);
                         UpdateEditor(responseData.Content, responseData.FileType.Extension, responseData.ID);
+                        alert("Response: " + responseData.ID);
                     }
 
                 });

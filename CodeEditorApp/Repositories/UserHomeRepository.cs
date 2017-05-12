@@ -614,7 +614,18 @@ namespace CodeEditorApp.Repositories
             }
         }
 
+        public void RemoveFile(int fileID)
+        {
+            //TODO
+            File RFile = _db.Files.Where(x => x.ID == fileID).SingleOrDefault();
+            if (RFile != null)
+            {
+                _db.Files.Remove(RFile);
+                _db.SaveChanges();
+            }
+        }
 
-        
+
+
     }
 }
