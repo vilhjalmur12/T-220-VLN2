@@ -182,10 +182,8 @@ namespace CodeEditorApp.Controllers
         }
 
         [HttpPost]
-        public ActionResult CreateFile(FileViewModel fileModel, HttpPostedFileBase upload)
+        public ActionResult CreateFile(FileViewModel fileModel)
         {
-            if (ModelState.IsValid)
-            {
                 File newFile = new File()
                 {
                     name = fileModel.name,
@@ -199,12 +197,7 @@ namespace CodeEditorApp.Controllers
                 //   return OpenFile(newFile.ID); eftir að útfæra
 
                 return RedirectToAction("Index", "Project", new { projectID = newFile.ProjectID });
-                
-            } else
-            {
-                fileModel = CreateNewFileModel();
-                return View(fileModel);
-            }  
+                 
         }
 
         [HttpPost]
@@ -213,15 +206,15 @@ namespace CodeEditorApp.Controllers
         {
             File fileUpload = new File();
 
-                fileUpload.name = System.IO.Path.GetFileName(upload.FileName);
-                fileUpload.FileType = projectService.GetFileTypeByExtension(System.IO.Path.GetExtension(upload.FileName));
-                fileUpload.ProjectID = model.ProjectID;
-                fileUpload.HeadFolderID = model.HeadFolderID;
+            fileUpload.name = System.IO.Path.GetFileName(upload.FileName);
+            fileUpload.FileType = projectService.GetFileTypeByExtension(System.IO.Path.GetExtension(upload.FileName));
+            fileUpload.ProjectID = model.ProjectID;
+            fileUpload.HeadFolderID = model.HeadFolderID;
 
-                using (var reader = new System.IO.BinaryReader(upload.InputStream))
-                {
-                    fileUpload.Content = reader.ReadString();
-                }
+            using (var reader = new System.IO.BinaryReader(upload.InputStream))
+            {
+                fileUpload.Content = reader.ReadString();
+            }
             
             projectService.CreateFile(ref fileUpload);
 
@@ -233,7 +226,7 @@ namespace CodeEditorApp.Controllers
         public ActionResult OpenFile(string fileID)
         {
             int intFileID = Int32.Parse(fileID);
-           FileViewModel NewDoc = projectService.GetFileByID(intFileID);
+            FileViewModel NewDoc = projectService.GetFileByID(intFileID);
             string ext = NewDoc.FileType.Extension;
             Debug.WriteLine("Id int: " + intFileID);
             Debug.WriteLine("Document: " + NewDoc.name);
@@ -306,6 +299,7 @@ namespace CodeEditorApp.Controllers
         [HttpPost]
         public void SaveFile (string documentID, string fileContent)
         {
+            Debug.WriteLine("SaveFile Controller: " + documentID + " " + fileContent);
             int intDocumentID = Convert.ToInt32(documentID);
             projectService.SaveFileContent(intDocumentID, fileContent);
         }

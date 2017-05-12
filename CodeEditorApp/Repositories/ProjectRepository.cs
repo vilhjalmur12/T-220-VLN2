@@ -446,9 +446,23 @@ namespace CodeEditorApp.Repositories
 
         public void SaveFileContent (int fileID, string content)
         {
-            File Tmp = _db.Files.Where(x => x.ID == fileID).SingleOrDefault();
-            Tmp.Content = content;
-            _db.SaveChanges(); 
+            if (content == null)
+            {
+                content = "";
+            }
+            if (fileID != 0)
+            {
+                
+                File Tmp = _db.Files.Where(x => x.ID == fileID).SingleOrDefault();
+                if (Tmp == null)
+                {
+                    return;
+                }
+                Debug.WriteLine("File Content Before: " + Tmp.Content);
+                Tmp.Content = content;
+                _db.SaveChanges();
+                Debug.WriteLine("File Content After: " + Tmp.Content);
+            } 
         }
         
     }
