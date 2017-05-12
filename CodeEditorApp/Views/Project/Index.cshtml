@@ -101,7 +101,7 @@
     <!--Project body starts-->
     <div class="container padding-for-container project-body">
         <div class="row">
-            <div class="col-md-2 document-list padding-for-container box-container">
+            <div class="col-md-2 document-list padding-for-container box-container scrol">
                 <div class="document-list-icons">
                     <!--=Modals with buttons START=-->
                     <!-- Trigger the modal with a button -->
@@ -129,16 +129,16 @@
                     <!-- Createfolder -->
                     <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="fa fa-folder fa-2x" aria-hidden="true"><span class="hover-text">Create new folder</span></i></span>
                     <!-- Move folder -->
-                    <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-download-alt fa-2x" aria-hidden="true"><span class="hover-text">Move folder</span></i></span>
+                    <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="fa fa-arrows fa-2x" aria-hidden="true"><span class="hover-text">Move folder</span></i></span>
                     <!-- Delete item -->
-                    <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-trash fa-2x" aria-hidden="true"><span class="hover-text">Delete</span></i></span>
+                    <span id="delete-file-button" class="clickable-icon"><i class="glyphicon glyphicon-trash fa-2x" aria-hidden="true"><span class="hover-text">Delete</span></i></span>
                     <!-- Quit project -->
                     <span id="quit-project" class="clickable-icon"><i id="quit-project-list" data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-log-out fa-2x" aria-hidden="true"><span class="hover-text">Quit project</span></i></span>
                 </div>
                 
 
                 <!--Project folders and file tree starts-->
-                <div class="scroll">
+                <div>
                     <ul id="tree2">
                         <li>@Model.SolutionFolder.Name</li>
 

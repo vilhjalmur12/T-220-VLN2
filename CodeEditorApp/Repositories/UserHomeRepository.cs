@@ -238,7 +238,8 @@ namespace CodeEditorApp.Repositories
                 CPP.name = "main";
                 CPP.ProjectID = project.ID;
                 CPP.HeadFolderID = project.SolutionFolderID;
-                //CPP.Content = "C PlusPlus";
+                CPP.FileType = _db.FileTypes.Where(x => x.ID == 4).SingleOrDefault();
+                CPP.Content = "// CPP File";
 
                 _db.Files.Add(CPP);
                 _db.SaveChanges();
@@ -248,13 +249,17 @@ namespace CodeEditorApp.Repositories
                 Folder styles = new Folder()
                 {
                     HeadFolderID = project.SolutionFolderID,
-                    Name = "styles"
+                    Name = "styles",
+                    AspNetUserID = project.AspNetUserID,
+                    ProjectID = project.ID
                 };
 
                 Folder script = new Folder()
                 {
                     HeadFolderID = project.SolutionFolderID,
-                    Name = "script"
+                    Name = "script",
+                    AspNetUserID = project.AspNetUserID,
+                    ProjectID = project.ID
                 };
 
                 File index = new File()
@@ -290,15 +295,21 @@ namespace CodeEditorApp.Repositories
                 _db.Files.Add(CSS);
                 _db.Files.Add(JS);
                 _db.SaveChanges();
+            } else
+            {
+                File index = new Models.File
+                {
+                    HeadFolderID = project.HeadFolderID,
+                    name = "index",
+                    ProjectID = project.ID,
+                    FileType = _db.FileTypes.Where(x => x.ID == 6).SingleOrDefault()
+                };
+
+                _db.Files.Add(index);
+                _db.SaveChanges();
             }
-        }
-
-        private void CreateCPPFile (Project project, Folder HeadFolder)
-        {
-            
 
         }
-
 
 
         /// <summary>
@@ -603,7 +614,18 @@ namespace CodeEditorApp.Repositories
             }
         }
 
+        public void RemoveFile(int fileID)
+        {
+            //TODO
+            File RFile = _db.Files.Where(x => x.ID == fileID).SingleOrDefault();
+            if (RFile != null)
+            {
+                _db.Files.Remove(RFile);
+                _db.SaveChanges();
+            }
+        }
 
-        
+
+
     }
 }
