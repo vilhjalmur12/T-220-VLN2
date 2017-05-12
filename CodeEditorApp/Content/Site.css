@@ -788,7 +788,10 @@ textarea {
 /*     --END--     VILLI ER AÐ VINNA HÉR      --END--   */
 
 
-
+.active-file
+{
+    color: pink;
+}
 
 /*     --START--     HILMA ER AÐ VINNA HÉR      --START--   */
 
