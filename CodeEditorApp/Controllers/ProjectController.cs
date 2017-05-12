@@ -141,43 +141,6 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "Project", new { projectID = goalModel.ProjectID, tabMake = "project-goals"});
         }
 
-
-        /// <summary>
-        /// Creates a new objective in database based on the ObjectiveViewModel objectiveModel
-        /// </summary>
-        /// <param name="objectiveModel"></param>
-        /// <returns> ActionResult </returns>
-        public ActionResult NewObjective(ObjectiveViewModel objectiveModel)
-        {
-            string objectiveName = objectiveModel.Name;
-            // Check if the name of the objective is empty
-            if ((objectiveName != null) && (objectiveName.Length > 0))
-            {
-                ObjectiveViewModel newObjective = new ObjectiveViewModel()
-                {
-                    Name = objectiveModel.Name,
-                    GoalID = objectiveModel.GoalID,
-                    AspNetUserID = User.Identity.GetUserId(),
-                    Finished = false
-                };
-
-                projectService.AddNewObjective(newObjective);
-            }
-            
-            return RedirectToAction("Index", "Project", new { projectID = objectiveModel.ProjectID, tabMake = "project-goals" });
-        }
-
-        /// <summary>
-        /// Removes the objective represented my objectiveModel from database
-        /// </summary>
-        /// <param name="objectiveModel"></param>
-        /// <returns> ActionResult </returns>
-        public ActionResult RemoveObjective(ObjectiveViewModel objectiveModel)
-        {
-            projectService.RemoveObjective(objectiveModel.ID);
-            return RedirectToAction("Index", "Project", new { projectID = objectiveModel.ProjectID, tabMake = "project-goals" });
-        }
-
         [HttpGet]
         public ActionResult CreateFile()
         {

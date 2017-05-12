@@ -51,11 +51,9 @@ namespace CodeEditorApp.Models
         public DbSet<ProjectType> ProjectTypes { get; set; }
         public DbSet<Goal> Goals { get; set; }
         public DbSet<File> Files { get; set; }
-        public DbSet<Comment> Comments { get; set; }
         public DbSet<Folder> Folders { get; set; }
         public DbSet<Entities.RootFolder> RootFolders { get; set; }
         public DbSet<Membership> Memberships { get; set; }
-        public DbSet<Objective> Objectives { get; set; }
         public DbSet<FileType> FileTypes { get; set; }
     }
 }   

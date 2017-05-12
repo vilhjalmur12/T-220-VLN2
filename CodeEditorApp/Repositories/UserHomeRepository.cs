@@ -408,31 +408,10 @@ namespace CodeEditorApp.Repositories
             }
 
             DeleteFolder(RmvFolder.ID);
-            DeleteProjectComments(projectID);
             DeleteProjectGoals(projectID);
 
             _db.Projects.Remove(RmvProject);
             _db.SaveChanges();
-        }
-
-
-
-        /// <summary>
-        /// 
-        /// </summary>
-        /// <param name="projectID"></param>
-        public void DeleteProjectComments (int projectID)
-        {
-            List<Comment> PrjComments = _db.Comments.Where(x => x.ProjectID == projectID).ToList();
-
-            if (PrjComments != null)
-            {
-                foreach (Comment item in PrjComments)
-                {
-                    _db.Comments.Remove(item);
-                    _db.SaveChanges();
-                }
-            }
         }
 
 
@@ -582,16 +561,6 @@ namespace CodeEditorApp.Repositories
                     {
                         DeleteRecursiveFolder(FolderItem.ID);
                     } catch (EmptyException) { } 
-                }
-
-                foreach (Comment CommentItem in _db.Comments.Where(x => x.ProjectID == item.ID).ToList())
-                {
-                    try
-                    {
-                        _db.Comments.Remove(CommentItem);
-                        _db.SaveChanges();
-                    } catch (EmptyException) { }
-                    
                 }
 
                 foreach (Goal GoalItem in _db.Goals.Where(x => x.ProjectID == item.ID).ToList())

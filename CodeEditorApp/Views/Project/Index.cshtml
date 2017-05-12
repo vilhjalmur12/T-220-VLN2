@@ -8,7 +8,6 @@
     MembershipViewModel newMembership = ViewBag.newMembership;
     FileViewModel newFile = ViewBag.newFile;
     GoalViewModel newGoal = ViewBag.newGoal;
-    ObjectiveViewModel newObjective = new ObjectiveViewModel();
 
     List<FolderViewModel> solutionFileList = new List<FolderViewModel>();
     solutionFileList.Add(Model.SolutionFolder);
@@ -490,23 +489,6 @@
                                     <li>
                                         <input type=@dis checked=@goal.Finished onchange="ChangeGoal(@goal.ID)" />
                                         <label class="goal">@goal.Name : @goal.Description</label>
-                                        <span id="" onclick="" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="fa fa-minus-circle " aria-hidden="true"><span class="hover-text">Delete Objective</span></i></span>
-                                        @if (goal.objectives != null)
-                                    {
-                                            <ul class="no-style-list">
-                                                @foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
-                                    {
-                                                    <li>
-                                                        <input type="checkbox" checked=@objective.Finished />
-                                                        <label class="objective">@objective.Name</label>
-                                                        <span id="" onclick="" class="clickable-icon"><i data-toggle="modal" data-target="#myModal3" class="glyphicon glyphicon-minus" aria-hidden="true"><span class="hover-text">Delete Objective</span></i></span>
-                                                    </li>
-                                                }
-                                                
-                                                <li><input type="text" id="newObj" /></li>
-                                                 <li class="add-objective"><i onclick="NewObjective(goal.ID, '#newObj', @Model.ID)" class="glyphicon glyphicon-plus clickable-icon" aria-hidden="true"></i>Add objective</li>
-                                            </ul>
-                                        }
                                     </li>
                                     }
                                 }
@@ -556,36 +538,6 @@
                 url: '/Project/ChangeGoal', //can I send data to multiple url with same ajax call.
                 data: {
                     goalID: goalID,
-                },
-                success: function (data) {
-                    $(".error_msg").text(data);
-                }
-            });
-        }
-
-        function ChangeObjective(objectiveID) {
-
-            $.ajax({
-                type: 'POST',
-                url: '/Project/ChangeObjective', //can I send data to multiple url with same ajax call.
-                data: {
-                    objectvieID: objectiveID,
-                },
-                success: function (data) {
-                    $(".error_msg").text(data);
-                }
-            });
-        }
-
-        function NewObjective(goalID, name, projectID) {
-
-            $.ajax({
-                type: 'POST',
-                url: '/Project/NewObjective', //can I send data to multiple url with same ajax call.
-                data: {
-                    goalID: ID,
-                    name: name,
-                    projectID: projectID
                 },
                 success: function (data) {
                     $(".error_msg").text(data);

@@ -10,6 +10,5 @@ namespace CodeEditorApp.Models.ViewModels
         public bool Finished { get; set; }
         public string AspNetUserID { get; set; }
         public int ProjectID { get; set; }
-        public List<ObjectiveViewModel> objectives;
     }
 }
