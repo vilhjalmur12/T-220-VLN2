@@ -582,6 +582,7 @@ div.tab button.active {
 /* CHAT */
 #message-box .row{
     margin: 0px;
+    height:9%;
 }
 
 /*Input from user*/
