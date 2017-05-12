@@ -74,30 +74,7 @@
         </div>
     </div>
 
-    <div id="myModalLeave" class="modal fade" role="dialog">
-        <div class="modal-dialog">
 
-            <!-- Modal content-->
-            <div class="modal-content">
-                <div class="modal-header">
-                    <button type="button" class="close" data-dismiss="modalLeave">&times;</button>
-                </div>
-                <div class="modal-body">
-                    @if (User.Identity.GetUserId() != Model.OwnerID)
-                    {
-                        { Html.RenderPartial("LeaveProject", newMembership); }
-                    }
-                    else
-                    {
-                        { Html.RenderPartial("NoAuthorization", newMembership); }
-                    }
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                </div>
-            </div>
-        </div>
-    </div>
 
     <!--Project body starts-->
     <div class="row container padding-for-container project-body">
@@ -134,8 +111,8 @@
                 <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-download-alt fa-2x" aria-hidden="true"><span class="hover-text">Download????</span></i></span>
                 <!-- Hér er Rusl aðgerð -->
                 <span class="clickable-icon"><i data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-trash fa-2x" aria-hidden="true"><span class="hover-text">Delete</span></i></span>
-                <!-- Hætta í verkefni -->
-                <span id="go-to-project-list" class="clickable-icon"><i id="go-to-project-list-text" data-toggle="modal" data-target="#myModalLeave" class="glyphicon glyphicon-log-out fa-2x" aria-hidden="true"><span class="hover-text">Quit project</span></i></span>
+                <!-- Fara til baka í verkefna listann -->
+                <span id="go-to-project-list" class="clickable-icon"><i id="go-to-project-list-text" data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-log-out fa-2x" aria-hidden="true"><span class="hover-text">Quit project</span></i></span>
             </div>
             <!--TAKKI ENDAR-->
             <!--Project folders and file tree starts-->
@@ -528,16 +505,21 @@
                         <ul class="no-style-list">
                             @if (Model.Goals != null)
                             {
+                                var dis = "checkbox";
+                                if (Model.Goals[0].AspNetUserID != User.Identity.GetUserId())
+                                {
+                                    dis = "hidden";
+                                }
                                 foreach (CodeEditorApp.Models.ViewModels.GoalViewModel goal in Model.Goals)
                                 {
                                     <li>
-                                        <input type="checkbox" checked=@goal.finished onchange="ChangeGoal(@goal.ID)" />
+                                        <input type=@dis checked=@goal.finished onchange="ChangeGoal(@goal.ID)" />
                                         <label class="goal">@goal.name : @goal.description</label>
                                         @if (goal.objectives != null)
-                                        {
+                                    {
                                             <ul class="no-style-list">
                                                 @foreach (CodeEditorApp.Models.ViewModels.ObjectiveViewModel objective in goal.objectives)
-                                                {
+                                    {
                                                     <li>
                                                         <input type="checkbox" checked=@objective.finished />
                                                         <label class="objective">@objective.name</label>
@@ -547,8 +529,8 @@
                                             </ul>
                                         }
                                     </li>
+                                    }
                                 }
-                            }
                         </ul>
 
                     </div>
