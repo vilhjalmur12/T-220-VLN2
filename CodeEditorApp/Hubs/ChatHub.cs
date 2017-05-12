@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace CodeEditorApp.Hubs
 {
+    //Hub that handles the chat
     public class ChatHub : Hub
     {
         public void Send(string name, string message)

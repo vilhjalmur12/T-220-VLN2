@@ -26,6 +26,7 @@ PROJECT-ACTIONS
 /*----------------------------------------------------------*\
     $RESETS
 \*----------------------------------------------------------*/
+
 /*for the header*/
 .navbar {
     width:inherit;
@@ -217,7 +218,7 @@ body, html {
 
 
 /*For the arrow icon in project view*/
-#go-to-project-list-text .hover-text{
+#quit-project-text .hover-text{
     z-index: 1;
     top: 0;
     left: -200%;
@@ -361,29 +362,25 @@ div.tab button.active {
     height:100%; 
 }
 
-.document-list,
+.project-list,
 .project-table,
 .add-project{
     height:100%;    
     margin-top:2%;
 }
 
-.document-list{ /*also used in project*/
+.project-list{ /*also used in project*/
     width:15%;
     height:100%;
 
 }
 
-.document-list-icons{
+.project-list-icons{
     padding: 12px;
     border-bottom: 1px groove #E0E0E0; /*darker grey*/
 }
 
-#go-to-project-list{
-    position: fixed;
-    right: 85%;
-    top: 85px;
-}
+
 .project-table{
 
     width:80%;
@@ -400,6 +397,12 @@ div.tab button.active {
     border-top-right-radius: 6px;
 }
 
+
+
+
+
+
+
 /*----------------------------------------------------------*\
     $PROJECT
 \*----------------------------------------------------------*/
@@ -408,63 +411,105 @@ div.tab button.active {
     height:100%;
 }
 
-.project-editor,
-#popout-nav,
-.sidenav,
-.project-actions{
-    height: 100%;
+.project-body .row{
+    height:100%;
     margin-top:2%;
 }
 
+.document-list,
+.project-editor,
+#popout-nav{
+    height: 100%;
+}
 
+
+
+
+
+
+
+/*----- $DOCUMENT-LIST -----*/
+.document-list{ 
+    width:15%;
+}
+
+.document-list-icons{
+    padding: 12px;
+    border-bottom: 1px groove #E0E0E0; /*darker grey*/
+}
+
+/*----- $EDITOR -----*/
 .project-editor{
     width:80%;
     padding:1px;
+}
+
+#SyntaxSelector{
+    border-radius: 6px;
+}
+
+.ace-editor{
+    height: 87%;
 }
 
 .project-updates{
     height:20px;
 }
 
+
+
+/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
+/*Þarf að breyta?????????????????????????????????????????????
+.project-editor {
+    transition: margin-right .2s;
+    margin-left:20%;
+}*/
+    
+/*----- $POPOUT-NAV -----*/
 #popout-nav{
      width:5%;
      padding:0;
-     margin-left:0;
-     margin-right:0;
+}
+
+.project-actions,
+.sidenav{
+    height:83%;
+}
+
+.right-padding{
+    //padding-right:37px;
+    padding-right:2%;
+}
+
+/* SIDEBAR */
+.project-actions{
+    padding-right:15px;
+    z-index: 3; /* Stay on top */
+    position: fixed; /* Stay in place */
+    margin:0;
 }
 
 .project-actions{
-    z-index: 3; /* Stay on top */
-    position: fixed; /* Stay in place */
-    right: 0px;
-    width:5%;
+    padding: 0px;
+    list-style:none;
+    list-style-position: inside;
+    position:center; 
+    margin-top:0;
 }
 
-
-/*----- $EDITOR -----*/
-#SyntaxSelector{
-    border-radius: 6px;
+.project-actions li{
+    padding: 7px 7px;
 }
 
-#editor{
-    height:92%;
-}
-
-
-
-
-
-
-/*----- $SIDE-NAV ------*/
+/* POPOUT */
 .sidenav {
     width: 0; /* 0 width - change this with JavaScript */
     position: fixed; /* Stay in place */
-    z-index: 1; /* Stay on top */
-    top: 0;
+    z-index: 2; /* Stay on top */
     right:0px;
     overflow-x: hidden; /* Disable horizontal scroll */
-    padding-top: 60px; /* Place content 60px from the top */
-    transition: 0.2s; /* 0.5 second transition effect to slide in the sidenav */
+    transition: 0.2s; /* 0.2 second transition effect to slide in the sidenav */
+    padding-top:0;
 }
 
 /* The navigation menu links */
@@ -475,54 +520,24 @@ div.tab button.active {
     display: block;
     transition: 0.3s
 }
-
-
-/* Position and style the close button (top right corner) */
-/*sleppa?*/
-.sidenav .closebtn {
-    position: absolute;
-    top: 0;
-    left: 25px;
-    font-size: 36px;
-    margin-right: 50px;
-}
-
-
-
-.project-actions{ /*nóg að setja klasann á ul og sleppa ul?*/
-    padding: 0px;
-    list-style:none;
-    text-align: right;
-    list-style-position: inside;
-    position:center; 
-    margin-top:0;
    
+
+/*----- $PROJECT-ACTIONS -----*/
+
+#project-chat,
+#project-members,
+#project-goals{
+    height:83%;
 }
 
-.project-actions li{
-    padding: 7px 7px;
+#message-box,
+#members,
+#goals{
+    height: 99%;
+    width: 95%;
 }
 
-.right-padding{
-    padding-right:46px;
-}
-
-.standard-width{
-    width:10%;
-}
-
-
-
-
-/*----------------------------------------------------------*\
-    $PROJECT-ACTIONS
-\*----------------------------------------------------------*/
-/*----- $CHAT -----*/
-#message-box{
-    height: 95%;
-    width: 96%;
-}
-
+/* CHAT */
 #message-box .row{
     margin: 0px;
 }
@@ -567,12 +582,9 @@ div.tab button.active {
     text-align: left;
 }
 
-/*------ $MEMBERS -----*/
+/* MEMBERS */
 
-#members{
-    height:95%;
-    width:96%;
-}
+
 
 #new-member {
     position:absolute;
@@ -580,13 +592,8 @@ div.tab button.active {
     top: 80px;
 }
 
-/*----- $GOALS -----*/
 
-#goals{
-    height:95%;
-    width:96%;
-    
-}
+/* GOALS */
 
 #add-goal{
     position:absolute;
@@ -602,7 +609,7 @@ div.tab button.active {
 }
 
 /*Checkboxes*/
-input[type='checkbox'] {
+input[type='checkbox'].goal-obj-box {
     /* Hide the input, but have it still be clickable */
     opacity: 0;
     float: left;
@@ -612,8 +619,8 @@ input[type='checkbox'] {
 }
 
 
-input[type='checkbox'] + label.goal,
-input[type='checkbox'] + label.objective{
+input[type='checkbox'].goal-obj-box + label.goal,
+input[type='checkbox'].goal-obj-box + label.objective{
 
     clear: none;
 
@@ -627,14 +634,14 @@ input[type='checkbox'] + label.objective{
     background-size: 25px;
 }
 
-input[type='checkbox']:checked + label.goal,
-input[type='checkbox']:checked + label.objective {
+input[type='checkbox'].goal-obj-box:checked + label.goal,
+input[type='checkbox'].goal-obj-box:checked + label.objective {
     background-image: url(../images/Checked-Checkbox.png);
     background-size: 25px;
 }
 
-input[type='checkbox'] + label.objective,
-input[type='checkbox']:checked + label.objective{
+input[type='checkbox'].goal-obj-box + label.objective,
+input[type='checkbox'].goal-obj-box:checked + label.objective{
     background-size: 15px;
 }
 
@@ -648,14 +655,7 @@ input[type='checkbox']:checked + label.objective{
 }
 
 
-/* Style page content - use this if you want to push the page content to the right when you open the side navigation */
-/*Þarf að breyta?????????????????????????????????????????????*/
-#editor {
-    transition: margin-right .2s;
-    padding: 20px;
-    height:90%;
-}
-     
+ 
 
 /*========stuff we might not need*/
 
