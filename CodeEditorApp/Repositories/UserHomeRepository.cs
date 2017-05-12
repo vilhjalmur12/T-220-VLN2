@@ -69,7 +69,7 @@ namespace CodeEditorApp.Repositories
             ProjectViewModel returnProjectModel = new ProjectViewModel()
             {
                 ID = project.ID,
-                name = project.name,
+                Name = project.name,
                 Owner = _db.Users.Find(project.AspNetUserID).UserName,
                 TypeID = project.ProjectTypeID,
                 HeadFolderID = project.HeadFolderID,
@@ -238,7 +238,7 @@ namespace CodeEditorApp.Repositories
                 CPP.name = "main";
                 CPP.ProjectID = project.ID;
                 CPP.HeadFolderID = project.SolutionFolderID;
-                // CPP.Content = eitthvað
+                //CPP.Content = "C PlusPlus";
 
                 _db.Files.Add(CPP);
                 _db.SaveChanges();

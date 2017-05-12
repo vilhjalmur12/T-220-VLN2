@@ -1,10 +1,5 @@
-﻿using CodeEditorApp.Models;
-using CodeEditorApp.Models.Entities;
-using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using System.Linq;
-using System.Web;
 using System.Web.Mvc;
 
 namespace CodeEditorApp.Models.ViewModels
@@ -14,7 +9,7 @@ namespace CodeEditorApp.Models.ViewModels
         public int ID { get; set; }
 
         [Required(ErrorMessage = "A name is required for your project")]
-        public string name { get; set; }
+        public string Name { get; set; }
 
         public string OwnerID { get; set; }
         public string Owner { get; set; }

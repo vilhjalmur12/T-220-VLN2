@@ -10,8 +10,8 @@
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
     -->
     @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/Custom")
     @Scripts.Render("~/bundles/bootstrap")
+    @Scripts.Render("~/Scripts/js_modal.js")
     @Styles.Render("~/Content/css")
     @Scripts.Render("~/bundles/modernizr")
     @using Microsoft.AspNet.Identity
@@ -72,9 +72,6 @@
     </div>
     <!--End of body of logged in page-->
         
-    
-    @Scripts.Render("~/bundles/jquery")
-    @Scripts.Render("~/bundles/bootstrap")
     @RenderSection("scripts", required: false)
     @RenderSection("scriptsComment", required: false)
 </body>

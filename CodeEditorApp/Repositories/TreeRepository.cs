@@ -56,7 +56,7 @@ namespace CodeEditorApp.Repositories
                     returnList.Add(new FileViewModel()
                     {
                         ID = fileItem.ID,
-                        name = fileItem.name,
+                        Name = fileItem.name,
                         HeadFolderID = fileItem.HeadFolderID,
                         ProjectID = fileItem.ProjectID,
                         FileType = fileItem.FileType

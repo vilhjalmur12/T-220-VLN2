@@ -28,7 +28,7 @@ namespace CodeEditorApp
                       ));
 
             bundles.Add(new ScriptBundle("~/bundles/custom").Include(
-          "~/Scripts/Custom.js"));
+                      "~/Scripts/js_modal.js"));
         }
     }
 }

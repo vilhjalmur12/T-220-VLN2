@@ -6,17 +6,21 @@ using Microsoft.AspNet.SignalR;
 
 namespace CodeEditorApp.Hubs
 {
+    //Hub that handles the update on the editor.
     public class MyHub1 : Hub
     {
+        //Group clients depending on documentID
         public void JoinDocument(int documentID)
         {
             Groups.Add(Context.ConnectionId, Convert.ToString(documentID));
         }
+        //Every time there's a change in editor.
         public void OnChange(object changeData, string documentID)
         {
             Clients.Group(documentID, Context.ConnectionId).OnChange(changeData);
             //Clients.All.OnChange(changeData);
         }
+        //Send message with info about who made the last changes
         public void Send(string name, string message)
         {
             // Call the addNewMessageToPage method to update clients.
