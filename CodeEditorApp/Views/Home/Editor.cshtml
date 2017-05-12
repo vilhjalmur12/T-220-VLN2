@@ -5,31 +5,8 @@
     ViewBag.Title = "Editor";
 }
 
-<div id="explorer">
-    <select>
-        <option value="volvo">Volvo</option>
-        <option value="saab">Saab</option>
-        <option value="mercedes">Mercedes</option>
-        <option value="audi">Audi</option>
-    </select>
-</div>
 
-<div id="editor">
-    @ViewBag.Code
-</div>
-<select id="SyntaxSelector" onchange="Syntax()">
-        <option value="JavaScript">JavaScript</option>
-        <option>Html</option>
-        <option>C#</option>
-        <option>Css</option>
-</select>
- 
-
-@*@using (Html.BeginForm("SaveCode", "Home", FormMethod.Post))
-{
-    @Html.HiddenFor(m => m.Content, new { @id = "hidden_editor"})
-    <input type="submit" value="Save code"/>*@
-}
+@*}
 @section scripts
  {
  <script src="~/3rdparty/src/ace.js" type="text/javascript" charset="utf-8"></script>
@@ -114,10 +91,10 @@
             var encodedValue = $('<div />').text(value).html();
             return encodedValue;
         }
-</script>
+</script>*@
     
              
-                      }
+                      
 <h2>Updates</h2>
 <div class="container">
     <input type="hidden" id="displayname" />

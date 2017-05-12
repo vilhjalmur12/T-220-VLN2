@@ -239,29 +239,33 @@ namespace CodeEditorApp.Repositories
             _db.SaveChanges();
         }
 
-        public void RemoveGoal(GoalViewModel goal)
+        public void RemoveGoal(GoalViewModel goalModel)
         {
-            Goal theGoal = _db.Goals.Find(goal.ID);
+            Goal theGoal = _db.Goals.Find(goalModel.ID);
 
-            if (goal.objectives.Count != 0)
+            if (theGoal != null)
             {
-                foreach (ObjectiveViewModel x in goal.objectives)
+                if (goalModel.objectives.Count != 0)
                 {
-                    RemoveObjective(x.ID);
+                    foreach (ObjectiveViewModel objectiveModel in goalModel.objectives)
+                    {
+                        RemoveObjective(objectiveModel.ID);
+                    }
                 }
-            }
 
-            _db.Goals.Remove(theGoal);
-            _db.SaveChanges();
+                _db.Goals.Remove(theGoal);
+                _db.SaveChanges();
+            }
         }
 
-        public void AddNewObjective(ObjectiveViewModel objective)
+        public void AddNewObjective(ObjectiveViewModel objectiveModel)
         {
             Objective newObjective = new Objective()
             {
-                name = objective.name,
-                finished = objective.finished,
-                AspNetUserID = objective.AspNetUserID,
+                name = objectiveModel.name,
+                finished = objectiveModel.finished,
+                GoalID = objectiveModel.GoalID,
+                AspNetUserID = objectiveModel.AspNetUserID
             };
 
             _db.Objectives.Add(newObjective);
@@ -270,9 +274,12 @@ namespace CodeEditorApp.Repositories
 
         public void RemoveObjective(int objectiveID)
         {
-            Objective theObjective = _db.Objectives.Find(objectiveID);
-            _db.Objectives.Remove(theObjective);
-            _db.SaveChanges();
+            Objective objective = _db.Objectives.Find(objectiveID);
+            if (objective != null)
+            {
+                _db.Objectives.Remove(objective);
+                _db.SaveChanges();
+            }
         }
 
         public void AddNewComment(CommentViewModel comment)
