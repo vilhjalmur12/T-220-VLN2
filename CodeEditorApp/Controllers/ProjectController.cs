@@ -34,6 +34,11 @@ namespace CodeEditorApp.Controllers
             {
                 ProjectID = OpenProjectModel.ID
             };
+            ViewBag.newGoal = new GoalViewModel()
+            {
+                ProjectID = OpenProjectModel.ID,
+                AspNetUserID = User.Identity.GetUserId()
+            };
             //For the Editor
             List<FileViewModel> AllSolutionFiles = projectService.GetFilesByProject(projectID.Value);
             ViewBag.AllSolutionFiles = AllSolutionFiles;
@@ -69,14 +74,6 @@ namespace CodeEditorApp.Controllers
 
         }
 
-        public void ChangeObjective(int objectiveID)
-        {
-            projectService.ChangeObjective(objectiveID);
-
-        }
-
-
-
         public ActionResult RemoveMember(MembershipViewModel membership)
         {
             projectService.RemoveUserFromProject(membership);
@@ -84,62 +81,41 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "Project", new { projectID = membership.ProjectID, tapMake = "project-members"});
         }
 
-        public ActionResult AddGoal(FormCollection collection)
+        [HttpPost]
+        public ActionResult NewGoal(GoalViewModel goal)
         {
-            string goalName = collection["goalName"];
-            string goalDescription = collection["goalDescription"];
-
-            if (String.IsNullOrEmpty(goalName))
-            {
-                return View("Error");
-            }
-            if (String.IsNullOrEmpty(goalDescription))
-            {
-                return RedirectToAction("Index", "Project", new { id = OpenProjectModel.ID });
-            }
-
             GoalViewModel newGoal = new GoalViewModel()
             {
-                name = goalName,
-                description = goalDescription,
-                ProjectID = OpenProjectModel.ID,
-                AspNetUserID = User.Identity.GetUserId(),
+                AspNetUserID = goal.AspNetUserID,
+                name = goal.name,
+                description = goal.description,
+                ProjectID = goal.ProjectID,
                 finished = false
             };
 
             projectService.AddNewGoal(newGoal);
-            //LAGA
-            return RedirectToAction("ShowGoals", "project");
+            return RedirectToAction("Index", "Project", new { projectID = goal.ProjectID, tabMake = "project-goals" });
         }
 
 
         public ActionResult RemoveGoal(GoalViewModel goal)
         {
             projectService.RemoveGoal(goal);
-            //LAGA
             return RedirectToAction("ShowGoals", "Project");
         }
 
-        public ActionResult AddObjective(int goalID, FormCollection collection)
+        public ActionResult NewObjective(int goalID, string name, int projectID)
         {
-            string objectiveName = collection["objectiveName"];
-
-            if (String.IsNullOrEmpty(objectiveName))
+            ObjectiveViewModel newObjective = new ObjectiveViewModel()
             {
-                return View("Error");
-            }
-
-            ObjectiveViewModel thisObjective = new ObjectiveViewModel()
-            {
-                name = objectiveName,
+                name = name,
                 GoalID = goalID,
                 AspNetUserID = User.Identity.GetUserId(),
                 finished = false
             };
 
-            projectService.AddNewObjective(thisObjective);
-            //LAGA
-            return RedirectToAction("ShowGoals", "Project");
+            projectService.AddNewObjective(newObjective);
+            return RedirectToAction("Index", "Project", new { projectID = projectID, tabMake = "project-goals" });
         }
 
         public ActionResult RemoveObjective(int objectiveID)
@@ -257,11 +233,15 @@ namespace CodeEditorApp.Controllers
             return RedirectToAction("Index", "Project", new { id = OpenProjectModel.ID });
         }
 
-       /* public ActionResult LeaveProject()
+        [HttpPost]
+        public ActionResult LeaveProject(MembershipViewModel membership)
         {
-            projectService.RemoveUserFromProject(User.Identity.GetUserId(), OpenProjectModel.ID);
+            membership.AspNetUserID = User.Identity.GetUserId();
+            projectService.RemoveUserFromProject(membership);
+
             return RedirectToAction("Index", "UserHome");
-        }*/
+        }
+
 
         public ActionResult ChangeEditorColor()
         {
