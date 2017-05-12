@@ -59,11 +59,38 @@
             <div class="modal-content">
                 <div class="modal-header light-background">
                     <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title color-textcolor">Create new goal</h4>
                 </div>
                 <div class="modal-body">
                     @if (User.Identity.GetUserId() == Model.OwnerID)
                     {
                         { Html.RenderPartial("NewGoal", newGoal); }
+                    }
+                    else
+                    {
+                        { Html.RenderPartial("NoAuthorization"); }
+                    }
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="myModalLeave" class="modal fade" role="dialog">
+        <div class="modal-dialog">
+
+            <!-- Modal content-->
+            <div class="modal-content">
+                <div class="modal-header light-background">
+                    <button type="button" class="close" data-dismiss="modal">&times;</button>
+                    <h4 class="modal-title color-textcolor">Leave project</h4>
+                </div>
+                <div class="modal-body">
+                    @if (User.Identity.GetUserId() != Model.OwnerID)
+                    {
+                        { Html.RenderPartial("LeaveProject", newMembership); }
                     }
                     else
                     {
@@ -110,7 +137,7 @@
                     <!-- Delete item -->
                     <span id="delete-file-button" class="clickable-icon"><i class="glyphicon glyphicon-trash fa-2x" aria-hidden="true"><span class="hover-text">Delete</span></i></span>
                     <!-- Quit project -->
-                    <span id="quit-project" class="clickable-icon"><i id="quit-project-list" data-toggle="modal" data-target="#myModal" class="glyphicon glyphicon-log-out fa-2x" aria-hidden="true"><span class="hover-text">Quit project</span></i></span>
+                    <span id="quit-project" class="clickable-icon"><i id="quit-project-list" data-toggle="modal" data-target="#myModalLeave" class="glyphicon glyphicon-log-out fa-2x" aria-hidden="true"><span class="hover-text">Quit project</span></i></span>
                 </div>
                 
 
