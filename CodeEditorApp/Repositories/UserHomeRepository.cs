@@ -238,7 +238,8 @@ namespace CodeEditorApp.Repositories
                 CPP.name = "main";
                 CPP.ProjectID = project.ID;
                 CPP.HeadFolderID = project.SolutionFolderID;
-                //CPP.Content = "C PlusPlus";
+                CPP.FileType = _db.FileTypes.Where(x => x.ID == project.ProjectTypeID).SingleOrDefault();
+                CPP.Content = "// CPP File";
 
                 _db.Files.Add(CPP);
                 _db.SaveChanges();
@@ -248,13 +249,17 @@ namespace CodeEditorApp.Repositories
                 Folder styles = new Folder()
                 {
                     HeadFolderID = project.SolutionFolderID,
-                    Name = "styles"
+                    Name = "styles",
+                    AspNetUserID = project.AspNetUserID,
+                    ProjectID = project.ID
                 };
 
                 Folder script = new Folder()
                 {
                     HeadFolderID = project.SolutionFolderID,
-                    Name = "script"
+                    Name = "script",
+                    AspNetUserID = project.AspNetUserID,
+                    ProjectID = project.ID
                 };
 
                 File index = new File()
@@ -292,13 +297,6 @@ namespace CodeEditorApp.Repositories
                 _db.SaveChanges();
             }
         }
-
-        private void CreateCPPFile (Project project, Folder HeadFolder)
-        {
-            
-
-        }
-
 
 
         /// <summary>
