@@ -238,7 +238,7 @@ namespace CodeEditorApp.Repositories
                 CPP.name = "main";
                 CPP.ProjectID = project.ID;
                 CPP.HeadFolderID = project.SolutionFolderID;
-                // CPP.Content = eitthvað
+                //CPP.Content = "C PlusPlus";
 
                 _db.Files.Add(CPP);
                 _db.SaveChanges();
