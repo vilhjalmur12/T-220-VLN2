@@ -6,6 +6,7 @@ using System.Web;
 using System.Web.Mvc;
 
 using CodeEditorApp.Models.ViewModels;
+using CodeEditorApp.Utils;
 
 namespace CodeEditorApp.Controllers
 {
@@ -44,8 +45,11 @@ namespace CodeEditorApp.Controllers
         }
         public ActionResult Editor()
         {
-            ViewBag.Code = "alert('Hello World!');";
-            ViewBag.DocumentID = 17;
+            int a = 0;
+            int b = 10 / a;
+
+            //ViewBag.Code = "alert('Hello World!');";
+            //ViewBag.DocumentID = 17;
             return View();
         }
         public ActionResult SaveCode(EditorViewModel model)
