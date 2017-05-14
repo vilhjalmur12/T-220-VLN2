@@ -9,13 +9,18 @@ namespace CodeEditorApp.Migrations
     {
         public Configuration()
         {
-            AutomaticMigrationsEnabled = true;
+            // Ef notaður er remote database eins og RU database þá = true
+            // Ef notaður er local database þá = false
+            AutomaticMigrationsEnabled = false;
+
            // AutomaticMigrationDataLossAllowed = true;
 
         }
 
         protected override void Seed(CodeEditorApp.Models.ApplicationDbContext context)
         {
+            
+
             //  This method will be called after migrating to the latest version.
 
             //  You can use the DbSet<T>.AddOrUpdate() helper extension method 

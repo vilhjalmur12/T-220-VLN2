@@ -56,6 +56,8 @@ namespace CodeEditorApp.Models
         public DbSet<Membership> Memberships { get; set; }
         public DbSet<FileType> FileTypes { get; set; }
     }
+
+    
 }   
     
 
